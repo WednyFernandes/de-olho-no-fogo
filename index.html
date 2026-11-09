@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>De Olho no Fogo</title>
+<meta name="description" content="25 anos de fogo em Minas Gerais, vistos por dois satélites da NASA, numa régua só. Projeto Space Uai, NASA Space Apps Challenge 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--soft:#F3F5F7;--card:#FFFFFF;
+  --brand:#E5004B;--brand-ink:#B80040;--brand-tint:#FFE8EF;--fire-lo:#FFC02E;--fire-md:#F7801E;--fire-hi:#C8102E;
+  --modis:#6B4FA0;--viirs:#00727F;--ease:cubic-bezier(.16,1,.3,1);--pad:clamp(20px,4.4vw,64px)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-color:#C9CFD4 var(--soft)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;font-family:Figtree,system-ui,sans-serif;color:var(--ink);background:var(--card);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
+::selection{background:var(--brand-tint);color:var(--brand-ink)}
+a{color:var(--brand-ink);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:8px}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1440px;margin:0 auto;padding:0 var(--pad)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);border-bottom:1px solid transparent;transition:border-color .2s}
+.nav.s{border-color:var(--line2)}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:72px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--ink);text-decoration:none}
+.logo svg{flex:none}
+.nav nav{display:flex;gap:26px;margin-left:auto;font-weight:600;font-size:16px}
+.nav nav a{color:var(--ink2);text-decoration:none}
+.nav nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:15px 26px;font:700 18px/1 Figtree,sans-serif;text-decoration:none;border:0;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .2s}
+.btn.p{background:var(--brand);color:#fff;box-shadow:0 2px 4px rgba(184,0,64,.18),0 8px 22px rgba(229,0,75,.22)}
+.btn.p:hover{background:var(--brand-ink);transform:translateY(-1px)}
+.btn.g{background:var(--soft);color:var(--ink)}
+.btn.g:hover{background:var(--line2)}
+.btn.sm{padding:11px 20px;font-size:15px}
+.btn svg{flex:none}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,4vw,56px);padding-top:clamp(28px,5vh,56px);padding-bottom:72px;align-items:center}
+.hero h1{font-size:clamp(52px,6.6vw,96px);line-height:.95;font-weight:900;letter-spacing:-.035em}
+.hero .lead{font-size:clamp(19px,1.6vw,22px);line-height:1.45;color:var(--ink2);margin-top:26px;max-width:30ch}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero .meta{margin-top:30px;font-size:15px;color:var(--ink3)}
+.panel{background:var(--soft);border-radius:28px;padding:clamp(18px,2.4vw,32px)}
+.phead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.seg{display:inline-flex;gap:4px;background:var(--card);border-radius:999px;padding:5px;box-shadow:0 1px 2px rgba(31,26,23,.06)}
+.seg button{font:700 16px/1 Figtree,sans-serif;border:0;background:none;color:var(--ink2);padding:12px 18px;border-radius:999px;cursor:pointer;transition:background .25s var(--ease),color .25s}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button:not([aria-pressed="true"]):hover{background:var(--soft);color:var(--ink)}
+.answer{font-weight:900;font-size:clamp(26px,2.6vw,36px);letter-spacing:-.02em;line-height:1}
+.answer b{color:var(--brand)}
+.answer.raw b{color:var(--ink3)}
+#hero-chart{display:block;width:100%;height:auto;margin-top:14px;overflow:visible}
+#hero-chart text{font-family:Figtree,sans-serif}
+.read{font-size:16px;color:var(--ink2);margin-top:10px;min-height:3em;max-width:62ch}
+.key{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-size:14px;color:var(--ink2)}
+.key span{display:inline-flex;align-items:center;gap:8px}
+
+/* sections */
+section.s{padding:clamp(72px,10vw,128px) 0}
+section.tint{background:var(--soft)}
+.sh{max-width:22ch;font-size:clamp(36px,4.2vw,60px);line-height:1.02;font-weight:900;letter-spacing:-.03em}
+.sp{font-size:clamp(18px,1.4vw,21px);color:var(--ink2);margin-top:20px;max-width:58ch}
+.two.w{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,80px);align-items:start;margin-top:56px}
+.fig{background:var(--card);border-radius:24px;padding:clamp(18px,2.2vw,30px);box-shadow:0 1px 2px rgba(31,26,23,.06),0 10px 30px rgba(31,26,23,.07)}
+section.tint .fig{box-shadow:none}
+.fig h3{font-size:20px;font-weight:800}
+.fig .cap{font-size:15px;color:var(--ink3);margin-top:12px}
+.fig svg{display:block;width:100%;height:auto}
+.fig svg text{font-family:Figtree,sans-serif}
+
+/* comparação */
+table{border-collapse:collapse;width:100%;font-size:17px;margin-top:8px}
+th,td{text-align:left;padding:16px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:14px;font-weight:700;color:var(--ink3);text-transform:none}
+td.v{font-weight:800;font-size:22px;white-space:nowrap}
+td.v.bad{color:var(--ink3);font-weight:700}
+td.v.good{color:var(--brand-ink)}
+tr:last-child td{border-bottom:0}
+.note{font-size:15px;color:var(--ink3);margin-top:18px;max-width:70ch}
+
+/* gestores */
+.uses{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,4vw,56px);margin-top:56px;align-items:start}
+.shot{border-radius:20px;overflow:hidden;box-shadow:0 2px 6px rgba(31,26,23,.08),0 18px 48px rgba(31,26,23,.14);background:#E4E9EC}
+.shot img{display:block;width:100%;height:auto}
+.shot+.shot{margin-top:28px}
+.list{list-style:none;margin:0;padding:0}
+.list li{padding:22px 0;border-top:1px solid var(--line)}
+.list li:first-child{border-top:0;padding-top:4px}
+.list b{display:block;font-size:21px;font-weight:800;line-height:1.25}
+.list span{display:block;color:var(--ink2);margin-top:6px;font-size:17px}
+
+/* dados */
+.src{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:48px;border-top:1px solid var(--line)}
+.src div{padding:24px 24px 24px 0}
+.src b{display:block;font-size:19px}
+.src span{display:block;color:var(--ink2);font-size:16px;margin-top:6px}
+.bridge{background:var(--ink);color:#fff;padding:clamp(56px,7vw,88px) 0}
+.bridge h2{font-size:clamp(30px,3.4vw,48px);font-weight:900;letter-spacing:-.025em;line-height:1.05;max-width:24ch}
+.bridge p{color:#C9CFD4;font-size:clamp(18px,1.4vw,21px);margin-top:16px;max-width:60ch}
+.close{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px;margin-top:72px;padding-top:48px;border-top:1px solid var(--line)}
+.close h2{font-size:clamp(30px,3.2vw,44px);font-weight:900;letter-spacing:-.025em;line-height:1.05;max-width:20ch}
+footer{padding:36px 0 48px;color:var(--ink3);font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+
+/* leigos */
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.city{display:flex;gap:10px;margin-top:32px;max-width:560px}
+.city input{flex:1;min-width:0;font:600 20px Figtree,sans-serif;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:999px;padding:14px 22px;caret-color:var(--brand)}
+.city input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-tint)}
+.city input::placeholder{color:#7A8288}
+.geo{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:none;border:0;padding:6px 2px;font:700 16px Figtree,sans-serif;color:var(--brand-ink);cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.geo:hover{color:var(--brand)}
+.geo[disabled]{color:var(--ink3);cursor:progress}
+.share{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin-top:28px}
+.share .hint{font-size:15px;color:var(--ink3)}
+.cres{margin-top:32px;min-height:120px}
+.cres .say{font-size:clamp(22px,2.2vw,30px);font-weight:800;line-height:1.3;letter-spacing:-.01em;max-width:36ch}
+.cres .say em{font-style:normal;color:var(--brand-ink)}
+.cres .grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,4vw,56px);margin-top:32px}
+.cres .fig h3{margin-bottom:14px}
+.cres .miss{font-size:19px;color:var(--ink2);max-width:60ch}
+.steps{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3vw,48px)}
+.steps li{position:relative}
+.steps li+li::before{content:"";position:absolute;left:calc(-1 * clamp(24px,3vw,48px) + 6px);top:45px;width:calc(clamp(24px,3vw,48px) - 12px);border-top:2px dashed var(--line)}
+.steps svg{width:120px;height:90px;display:block}
+.steps b{display:block;font-size:22px;font-weight:800;margin-top:18px}
+.steps span{display:block;color:var(--ink2);margin-top:8px;max-width:34ch}
+.h3{font-size:clamp(22px,1.8vw,26px);font-weight:800;letter-spacing:-.01em}
+.months{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;margin-top:40px;height:240px}
+.months div{display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.months i{display:block;border-radius:8px 8px 3px 3px;min-height:4px}
+.months b{display:block;font-size:15px;font-weight:700;margin-top:10px;text-align:center}
+.months small{display:block;font-size:14px;color:var(--ink3);text-align:center;font-variant-numeric:tabular-nums;margin-bottom:6px}
+section.s:not(.tint) .phones{background:var(--soft)}
+.phones{background:var(--card);border-radius:24px;padding:clamp(20px,2.4vw,32px)}
+.phones>a{display:flex;align-items:baseline;gap:18px;padding:16px 0;border-top:1px solid var(--line2);text-decoration:none;color:var(--ink)}
+.phones h3+a{border-top:0;margin-top:8px}
+.phones>a b{font-size:clamp(34px,3vw,44px);font-weight:900;color:var(--brand-ink);letter-spacing:-.02em;min-width:2.6em;font-variant-numeric:tabular-nums}
+.phones>a span{color:var(--ink2);font-size:17px}
+.phones>a:hover b{color:var(--brand)}
+@media (max-width:860px){.steps{grid-template-columns:1fr}.steps li+li::before{display:none}.cres .grid{grid-template-columns:1fr}}
+@media (max-width:560px){#city-r svg text{font-size:26px}.months{gap:3px;height:200px}.months b{font-size:13px}.months small{font-size:10px}.city input{font-size:18px}}
+@media (max-width:1100px){.nav nav{display:none}.nav .btn{margin-left:auto}.hero .wrap{grid-template-columns:1fr}.hero .lead{max-width:40ch}.src{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:860px){.two,.two.w,.uses{grid-template-columns:1fr}}
+@media (max-width:560px){#hero-chart text,#sc text,#kf text{font-size:24px}#px text{font-size:20px}body{font-size:17px}.seg button{padding:11px 13px;font-size:15px}.src{grid-template-columns:1fr}.src div{padding:18px 0;border-bottom:1px solid var(--line2)}th,td{padding:12px 8px}td.v{font-size:19px}.hero .cta .btn{flex:1 1 auto;justify-content:center}thead{display:none}tbody tr{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}tbody tr:last-child{border-bottom:0}td{border:0}td:first-child{grid-column:1/-1;padding-bottom:2px}td.v::before{content:attr(data-l);display:block;font-size:13px;font-weight:600;color:var(--ink3)}}
+</style>
+</head>
+<body>
+<header class="nav" id="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="De Olho no Fogo, início">
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#E5004B"/><path d="M5 16c3-5 6.6-7.5 11-7.5S24 11 27 16c-3 5-6.6 7.5-11 7.5S8 21 5 16z" fill="#fff"/><circle cx="16" cy="16" r="4.4" fill="#E5004B"/><path d="M16 13.2c1.2 1.1 1.7 2 1.7 2.9a1.7 1.7 0 0 1-3.4 0c0-.9.5-1.8 1.7-2.9z" fill="#FFC02E"/></svg>
+      De Olho no Fogo
+    </a>
+    <nav aria-label="Seções">
+      <a href="#cidade">Sua cidade</a><a href="#epoca">Viu fogo?</a><a href="#foco">O que é foco</a><a href="#gestores">Para gestores</a><a href="#metodo">O método</a><a href="#dados">Dados</a>
+    </nav>
+    <a class="btn p sm" href="mock-olho-do-fogo-cientifico.html">Abrir o globo</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" aria-labelledby="h1">
+  <div class="wrap">
+    <div>
+      <h1 id="h1">O fogo em Minas aumentou?</h1>
+      <p class="lead">Sem ajuste, os satélites da NASA dizem que sim: em 2012 a contagem de focos salta 4,4 vezes. Só que quem mudou foi o satélite, não o fogo.</p>
+      <div class="cta">
+        <a class="btn p" href="mock-olho-do-fogo-cientifico.html">Abrir o globo
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn g" href="#cidade">Ver a minha cidade</a>
+      </div>
+      <p class="meta">Minas Gerais, 2001 a 2025 · focos MODIS e VIIRS do NASA FIRMS · Space Uai, NASA Space Apps Challenge 2026</p>
+    </div>
+    <div class="panel">
+      <div class="phead">
+        <div class="seg" role="group" aria-label="Escolha a série">
+          <button type="button" data-m="harm" aria-pressed="true">Harmonizado</button>
+          <button type="button" data-m="raw" aria-pressed="false">Sem ajuste</button>
+        </div>
+        <p class="answer" id="answer" aria-live="polite"><b>Não.</b> Tende a cair.</p>
+      </div>
+      <svg id="hero-chart" viewBox="0 0 760 400" role="img" aria-label="Focos por ano em Minas Gerais, 2003 a 2025"></svg>
+      <p class="read" id="read"></p>
+      <div class="key" aria-hidden="true">
+        <span><svg width="26" height="8"><line id="k-sw" x1="0" x2="26" y1="4" y2="4" stroke="#E5004B" stroke-width="4"/></svg><span id="k-main">Nossa série harmonizada</span></span>
+        <span><svg width="26" height="8"><line x1="0" x2="26" y1="4" y2="4" stroke="#575F66" stroke-width="2" stroke-dasharray="6 6" stroke-opacity=".7"/></svg><span id="k-ghost">Sem ajuste</span></span>
+        <span><svg width="26" height="8"><line x1="0" x2="26" y1="4" y2="4" stroke="#22262A" stroke-width="1.6"/></svg>INPE, um satélite só, na escala da nossa série (compare a forma)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s tint" id="cidade" aria-labelledby="h-c">
+  <div class="wrap">
+    <h2 class="sh" id="h-c">E na sua cidade?</h2>
+    <p class="sp">Escreva o nome de um município de Minas para ver quanto ele queimou em cada ano, de 2003 a 2025, e em que meses o fogo costuma aparecer por lá.</p>
+    <form class="city" id="city-f" role="search" autocomplete="off">
+      <label for="city-q" class="vh">Município de Minas Gerais</label>
+      <input id="city-q" list="city-l" placeholder="Ex.: Ouro Preto" spellcheck="false">
+      <datalist id="city-l"></datalist>
+      <button class="btn p" type="submit">Ver</button>
+    </form>
+    <button class="geo" id="city-geo" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>Usar minha localização</button>
+    <div class="cres" id="city-r" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="s" id="epoca" aria-labelledby="h-e">
+  <div class="wrap">
+    <h2 class="sh" id="h-e">A época do fogo em Minas</h2>
+    <p class="sp" id="ep-lead">O fogo em Minas tem estação. As barras mostram quanto de cada ano costuma queimar em cada mês.</p>
+    <div class="months" id="months" role="img"></div>
+    <div class="two w" style="margin-top:64px">
+      <div>
+        <h3 class="h3">Nessa época, o que cada um pode fazer</h3>
+        <ul class="list" style="margin-top:12px">
+          <li><b>Não use fogo para limpar terreno, pasto ou lixo</b><span>É a principal orientação do Corpo de Bombeiros de Minas. Queima controlada, só com autorização do IEF.</span></li>
+          <li><b>Não solte balão nem jogue bituca na beira da estrada</b><span>Com o mato seco, uma faísca basta para começar um incêndio.</span></li>
+          <li><b>Proteja a casa e o sítio com aceiro</b><span>Aceiro é uma faixa de terra sem vegetação em volta da área, que o fogo não atravessa.</span></li>
+          <li><b>Com ar seco e fumaça, cuide da saúde</b><span>Beba água e evite esforço ao ar livre nas horas mais quentes, sobretudo crianças e idosos.</span></li>
+        </ul>
+      </div>
+      <div class="phones">
+        <h3 class="h3">Viu fogo?</h3>
+        <a href="tel:193"><b>193</b><span>Corpo de Bombeiros: incêndio em vegetação</span></a>
+        <a href="tel:190"><b>190</b><span>Polícia Militar: alguém pondo fogo</span></a>
+        <a href="tel:181"><b>181</b><span>Disque Denúncia, sem se identificar</span></a>
+        <a href="tel:199"><b>199</b><span>Defesa Civil</span></a>
+        <p class="note">Orientações do <a href="https://www.agenciaminas.mg.gov.br/noticia/campanha-do-corpo-de-bombeiros-busca-conscientizar-a-populacao-sobre-os-riscos-das-queimadas-em-minas">Corpo de Bombeiros de Minas</a> e da <a href="https://www.mg.gov.br/defesacivil">Defesa Civil de MG</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s tint" id="foco" aria-labelledby="h-f">
+  <div class="wrap">
+    <h2 class="sh" id="h-f">O que é um foco de calor?</h2>
+    <p class="sp">É um ponto da Terra que um satélite viu mais quente que o entorno, no momento em que passou por cima. Quase sempre é fogo na vegetação, mas nem todo foco é um incêndio.</p>
+    <ol class="steps">
+      <li><svg viewBox="0 0 120 90" aria-hidden="true"><rect x="44" y="10" width="32" height="20" rx="4" fill="#22262A"/><rect x="14" y="14" width="26" height="12" rx="2" fill="#00727F"/><rect x="80" y="14" width="26" height="12" rx="2" fill="#00727F"/><path d="M60 32 38 84h44z" fill="#F7801E" fill-opacity=".18"/></svg><b>O satélite passa</b><span>Os satélites da NASA cruzam Minas algumas vezes por dia, sempre perto dos mesmos horários.</span></li>
+      <li><svg viewBox="0 0 120 90" aria-hidden="true"><rect x="10" y="20" width="100" height="60" rx="8" fill="#E4E9EC"/><g fill="#C9CFD4"><rect x="20" y="30" width="18" height="18" rx="3"/><rect x="42" y="30" width="18" height="18" rx="3"/><rect x="86" y="30" width="18" height="18" rx="3"/><rect x="20" y="52" width="18" height="18" rx="3"/><rect x="42" y="52" width="18" height="18" rx="3"/><rect x="64" y="52" width="18" height="18" rx="3"/><rect x="86" y="52" width="18" height="18" rx="3"/></g><rect x="64" y="30" width="18" height="18" rx="3" fill="#C8102E"/></svg><b>Um ponto está quente demais</b><span>O sensor mede o calor de cada quadradinho do chão. Um quadrado bem mais quente que os vizinhos vira suspeita.</span></li>
+      <li><svg viewBox="0 0 120 90" aria-hidden="true"><path d="M60 12c-13 0-23 10-23 23 0 17 23 43 23 43s23-26 23-43c0-13-10-23-23-23z" fill="#E5004B"/><circle cx="60" cy="35" r="9" fill="#fff"/></svg><b>Vira um foco no mapa</b><span>O ponto ganha data, hora e posição, e entra no arquivo público do NASA FIRMS, que este site usa.</span></li>
+    </ol>
+    <div class="two w" style="margin-top:64px">
+      <div>
+        <h3 class="h3">Por que comparar dois satélites dá trabalho</h3>
+        <p class="sp" style="margin-top:12px">Pense em fotos do mesmo céu tiradas com um celular antigo e com um novo. O novo mostra mais estrelas, mas o céu não mudou. O VIIRS é o celular novo: vê focos menores. O De Olho no Fogo converte as fotos antigas para a mesma régua das novas, para que dê para comparar os anos.</p>
+      </div>
+      <ul class="list">
+        <li><b>Foco não é incêndio confirmado</b><span>Pode ser queimada em roça ou pasto, fogo em lixo, ou até uma superfície muito quente.</span></li>
+        <li><b>Nenhum foco não quer dizer nenhum fogo</b><span>Nuvem, fumaça grossa e o horário da passagem escondem fogos que existiram.</span></li>
+        <li><b>Contar focos não é medir área queimada</b><span>Um incêndio grande gera muitos focos, mas o número não diz quantos hectares queimaram.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="gestores" aria-labelledby="h-g">
+  <div class="wrap">
+    <h2 class="sh" id="h-g">Para quem cuida do território.</h2>
+    <p class="sp">Defesa civil, brigadas, gestores de unidades de conservação e pesquisadores precisam saber se este mês está fora do normal, e onde. O globo e o calendário respondem isso para qualquer área de Minas.</p>
+    <div class="uses">
+      <div>
+        <div class="shot"><img src="assets/globo.png" width="2880" height="1800" loading="lazy" alt="Globo do De Olho no Fogo em setembro de 2024: Minas Gerais coberta de células de focos, painel de leitura dizendo que o mês ficou acima do normal, com 28.502 focos, e a lista de municípios e eventos de fogo"></div>
+        <div class="shot"><img src="assets/calendario.png" width="2464" height="1056" loading="lazy" alt="Calendário do fogo de Minas Gerais: uma linha por ano de 2001 a 2025 e uma coluna por dia, com a faixa de agosto a outubro mais quente todos os anos"></div>
+      </div>
+      <ul class="list">
+        <li><b>Este mês está acima do normal?</b><span>Cada mês é comparado com o mesmo mês dos outros 24 anos. Setembro de 2024, por exemplo, ficou 1,4 vez acima da mediana dos setembros.</span></li>
+        <li><b>Onde queimou mais?</b><span>Ranking de municípios do mês e focos vizinhos agrupados em eventos de fogo, com o maior evento destacado no mapa.</span></li>
+        <li><b>Quando começa a época crítica?</b><span>O calendário mostra, ano a ano, quando a temporada começa, chega ao pico e termina, para planejar brigadas e aceiros.</span></li>
+        <li><b>Posso levar os dados?</b><span>Sim: a série diária harmonizada sai em CSV e os focos do mapa em GeoJSON, prontos para o QGIS.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="bridge" id="metodo" aria-labelledby="h-m">
+  <div class="wrap">
+    <h2 id="h-m">Como sabemos que esses números são justos</h2>
+    <p>Daqui para baixo, o método: por que os satélites contam diferente, como corrigimos e como conferimos com uma fonte independente.</p>
+  </div>
+</section>
+
+<section class="s tint" id="por-que" aria-labelledby="h-pq">
+  <div class="wrap">
+    <h2 class="sh" id="h-pq">Primeiro: dois satélites enxergam o mesmo fogo de jeitos diferentes.</h2>
+    <p class="sp">O MODIS observa o Brasil desde 2000 com pixels de cerca de 1 km. O VIIRS, desde 2012, usa pixels de 375 m e pega focos pequenos que o MODIS não vê. Juntar os dois sem ajuste cria um aumento de fogo que nunca aconteceu.</p>
+    <div class="two">
+      <figure class="fig" style="margin:0">
+        <h3>Um pixel do MODIS cabe cerca de sete do VIIRS</h3>
+        <svg id="px" viewBox="0 0 520 300" role="img" aria-label="Quadrado de 1 km do MODIS dividido na grade de 375 m do VIIRS, com um foco pequeno detectado só pelo VIIRS">
+          <rect x="30" y="30" width="240" height="240" fill="#6B4FA0" fill-opacity=".1" stroke="#6B4FA0" stroke-width="3" rx="4"/>
+          <g stroke="#00727F" stroke-width="1.4" stroke-opacity=".7"><line x1="120" x2="120" y1="30" y2="270"/><line x1="210" x2="210" y1="30" y2="270"/><line x1="30" x2="270" y1="120" y2="120"/><line x1="30" x2="270" y1="210" y2="210"/></g>
+          <rect x="120" y="120" width="90" height="90" fill="#00727F" fill-opacity=".14"/>
+          <circle cx="160" cy="158" r="9" fill="#F7801E"/><circle cx="160" cy="158" r="17" fill="#F7801E" fill-opacity=".25"/>
+          <text x="300" y="72" font-size="20" font-weight="800" fill="#6B4FA0">MODIS · ~1 km</text>
+          <text x="300" y="98" font-size="17" fill="#4F575E">o foco pequeno</text>
+          <text x="300" y="120" font-size="17" fill="#4F575E">some no pixel</text>
+          <text x="300" y="176" font-size="20" font-weight="800" fill="#00727F">VIIRS · 375 m</text>
+          <text x="300" y="202" font-size="17" fill="#4F575E">o mesmo foco</text>
+          <text x="300" y="224" font-size="17" fill="#4F575E">aparece</text>
+        </svg>
+        <p class="cap">Esquema fora de escala exata. Por isso o VIIRS conta, em média, de 3 a 5 vezes mais focos que o MODIS na mesma área.</p>
+      </figure>
+      <figure class="fig" style="margin:0">
+        <h3>Quantos focos do VIIRS valem um do MODIS, mês a mês</h3>
+        <svg id="kf" viewBox="0 0 520 300" role="img" aria-label="Fator VIIRS sobre MODIS por mês do ano, medido de 2012 a 2025"></svg>
+        <p class="cap" id="kf-cap">Medido nos 14 anos em que os dois satélites voam juntos (2012 a 2025). Antes de 2012, cada mês do MODIS é multiplicado pelo fator daquele mês.</p>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="validacao" aria-labelledby="h-val">
+  <div class="wrap">
+    <h2 class="sh" id="h-val">Conferimos com uma régua que não trocou de satélite.</h2>
+    <p class="sp">O Programa Queimadas do INPE publica a série de Minas pelo satélite de referência, o Aqua, com o algoritmo do próprio INPE, de 2003 a 2025. Sem troca de sensor, ela não tem o salto de 2012. Se a nossa série estiver certa, as duas têm que andar juntas.</p>
+    <div class="two w">
+      <div class="fig">
+        <table>
+          <thead><tr><th scope="col">Teste</th><th scope="col">MODIS e depois VIIRS, sem ajuste</th><th scope="col">Nossa série harmonizada</th></tr></thead>
+          <tbody class="num" id="val-rows"></tbody>
+        </table>
+      </div>
+      <div>
+        <p style="font-size:clamp(22px,2vw,28px);font-weight:800;line-height:1.25;letter-spacing:-.01em">Sem harmonizar, a troca de satélite inventa um aumento de fogo em Minas. Com a harmonização, a série conta a mesma história que o INPE.</p>
+        <p class="note">Limite: o satélite do INPE também carrega um sensor MODIS. A conferência é independente no processamento e no satélite, não no tipo de sensor. A comparação com a área queimada do MapBiomas Fogo é o próximo passo.</p>
+        <p style="margin-top:22px"><a href="docs/metodo-harmonizacao.md">Ler o método completo</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s tint" id="clima" aria-labelledby="h-cl">
+  <div class="wrap">
+    <h2 class="sh" id="h-cl">Seca mais seca, mais fogo.</h2>
+    <p class="sp" id="cl-lead">Cruzamos a série com a chuva e a umidade do NASA POWER. Nos anos em que a estação seca choveu menos que o habitual, Minas teve mais focos.</p>
+    <div class="two w">
+      <figure class="fig" style="margin:0">
+        <h3>Um ponto por ano: chuva e focos de julho a outubro</h3>
+        <svg id="sc" viewBox="0 0 720 380" role="img" aria-label="Focos na estação seca contra a chuva da estação seca, um ponto por ano, Minas Gerais"></svg>
+        <p class="cap">Chuva: média de 12 pontos do NASA POWER em Minas. Focos: série harmonizada, escala VIIRS.</p>
+      </figure>
+      <div>
+        <ul class="list num" id="cl-list"></ul>
+        <p class="note">Isso é associação, não causa. Ignição, uso do solo e fiscalização também mudam o fogo, e nenhum incêndio isolado é atribuído ao clima. Tiramos a tendência de longo prazo das duas séries antes de comparar, porque o fogo caiu desde 2003 enquanto o ar ficou mais seco. A grade do POWER tem cerca de 50 km: ela descreve a região, não o ponto do foco.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="dados" aria-labelledby="h-d">
+  <div class="wrap">
+    <h2 class="sh" id="h-d">Dado aberto, método aberto.</h2>
+    <p class="sp">A série harmonizada de Minas, mês a mês de 2001 a 2025, está publicada com o fator de cada mês, as contagens brutas dos dois sensores e a série do INPE ao lado. Os scripts refazem tudo do zero.</p>
+    <p style="margin-top:28px;display:flex;flex-wrap:wrap;gap:12px"><a class="btn p" href="data/serie-harmonizada-mg.csv" download>Baixar a série (CSV)</a><a class="btn g" href="docs/metodo-harmonizacao.md">Método e validação</a></p>
+    <div class="src">
+      <div><b>NASA FIRMS</b><span>Focos ativos MODIS (Terra e Aqua, C6.1) e VIIRS 375 m (S-NPP), 2001–2025</span></div>
+      <div><b>NASA POWER</b><span>Chuva, umidade relativa e temperatura mensais, usadas no contexto climático</span></div>
+      <div><b>INPE, Programa Queimadas</b><span>Série do satélite de referência, usada só para validar</span></div>
+      <div><b>IBGE</b><span>Limites do estado e dos municípios de Minas Gerais</span></div>
+    </div>
+    <div class="close">
+      <h2>Escolha um mês e veja onde Minas queimou.</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:12px"><a class="btn p" href="mock-olho-do-fogo-cientifico.html">Abrir o globo</a><a class="btn g" href="app-calendario-do-fogo.html">Ver o calendário</a></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Space Uai · NASA Space Apps Challenge 2026 · Ouro Preto, MG</span>
+    <span>Desafio: Harmonization of MODIS and VIIRS Hot Spots</span>
+  </div>
+</footer>
+
+<script src="data/mg-validacao.js"></script>
+<script src="data/mg-clima.js"></script>
+<script src="data/mg-mun-anual.js"></script>
+<script src="data/mg-municipios.js"></script>
+<script>
+(function(){
+var V=window.MG_VAL,C=window.MG_CLIMA,$=function(id){return document.getElementById(id);};
+var nf=function(v,d){return (+v).toLocaleString('pt-BR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
+var sg=function(v,d){return nf(v,d).replace('-','−');};
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var NS='http://www.w3.org/2000/svg';
+function el(t,a,txt){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;}
+
+/* nav border on scroll */
+var nav=document.querySelector('.nav');addEventListener('scroll',function(){nav.classList.toggle('s',scrollY>8);},{passive:true});
+
+if(!V)return;
+
+/* ---------- hero: the question, answered by the real series ---------- */
+var A=V.anos,n=A.length,raw=V.troca,harm=V.harm;
+var mi=0,mh=0;for(var i=0;i<n;i++){mi+=V.inpe[i];mh+=harm[i];}
+var inpe=V.inpe.map(function(v){return v*mh/mi;}); /* INPE na escala da série harmonizada, só para comparar a forma */
+var W=760,H=400,L=54,R=14,T=40,B=34,YM=160000;
+var X=function(i){return L+i*(W-L-R)/(n-1);},Y=function(v){return T+(1-v/YM)*(H-T-B);};
+var svg=$('hero-chart');
+[0,40000,80000,120000,160000].forEach(function(v){svg.appendChild(el('line',{x1:L,x2:W-R,y1:Y(v),y2:Y(v),stroke:'#DCE1E5'}));svg.appendChild(el('text',{x:L-8,y:Y(v)+5,'text-anchor':'end','font-size':14,fill:'#575F66'},v?nf(v/1000)+' mil':'0'));});
+A.forEach(function(y,i){if(((y-2003)%4===0&&y!==2023)||y===2025)svg.appendChild(el('text',{x:X(i),y:H-8,'text-anchor':'middle','font-size':14,fill:'#575F66'},y));});
+var i12=A.indexOf(2012),x12=X(i12);
+svg.appendChild(el('rect',{x:L,y:T,width:x12-L,height:H-T-B,fill:'#6B4FA0','fill-opacity':.06}));
+svg.appendChild(el('line',{x1:x12,x2:x12,y1:T-26,y2:H-B,stroke:'#4F575E','stroke-dasharray':'3 4'}));
+svg.appendChild(el('text',{x:x12+8,y:T-12,'font-size':15,'font-weight':700,fill:'#4F575E'},'2012: entra o VIIRS'));
+svg.appendChild(el('text',{x:L+8,y:T-12,'font-size':15,'font-weight':700,fill:'#6B4FA0'},'só MODIS'));
+var pts=function(a){return a.map(function(v,i){return X(i).toFixed(1)+','+Y(v).toFixed(1);}).join(' ');};
+svg.appendChild(el('polyline',{points:pts(inpe),fill:'none',stroke:'#22262A','stroke-width':1.6,'stroke-linejoin':'round'}));
+var ghost=el('polyline',{points:pts(raw),fill:'none',stroke:'#575F66','stroke-width':2,'stroke-dasharray':'6 6','stroke-opacity':.55});svg.appendChild(ghost);
+var line=el('polyline',{points:pts(harm),fill:'none',stroke:'#E5004B','stroke-width':4.5,'stroke-linejoin':'round','stroke-linecap':'round'});svg.appendChild(line);
+/* bracket do salto (só no modo sem ajuste) */
+var avg=function(a,y0,y1){var s=0,c=0;A.forEach(function(y,i){if(y>=y0&&y<=y1){s+=a[i];c++;}});return s/c;};
+var lo=avg(raw,2003,2011),hi=avg(raw,2012,2025);
+var jump=el('g',{opacity:0});
+jump.appendChild(el('line',{x1:X(i12-4),x2:x12,y1:Y(lo),y2:Y(lo),stroke:'#22262A','stroke-width':1.5}));
+jump.appendChild(el('line',{x1:x12,x2:X(i12+4),y1:Y(hi),y2:Y(hi),stroke:'#22262A','stroke-width':1.5}));
+jump.appendChild(el('path',{d:'M'+(x12-10)+' '+(Y(lo)-4)+'V'+(Y(hi)+10)+'M'+(x12-16)+' '+(Y(hi)+16)+'L'+(x12-10)+' '+(Y(hi)+6)+'L'+(x12-4)+' '+(Y(hi)+16),stroke:'#22262A','stroke-width':2,fill:'none','stroke-linecap':'round'}));
+jump.appendChild(el('text',{x:x12-20,y:(Y(lo)+Y(hi))/2+7,'text-anchor':'end','font-size':20,'font-weight':900,fill:'#22262A'},nf(V.salto.troca_sem_ajuste,1)+'×'));
+svg.appendChild(jump);
+var hn=el('g',{opacity:1});
+hn.appendChild(el('text',{x:x12-12,y:Y(112000),'text-anchor':'end','font-size':20,'font-weight':900,fill:'#B80040'},'só '+nf(V.salto.harmonizada,2)+'×'));
+hn.appendChild(el('line',{x1:x12-34,y1:Y(112000)+8,x2:x12-3,y2:Y(harm[i12])-5,stroke:'#B80040','stroke-width':1.5}));
+hn.appendChild(el('text',{x:X(0)+6,y:Y(0)-8,'font-size':14,'font-weight':600,fill:'#4F575E'},'sem ajuste'));
+svg.appendChild(hn);
+var mode='harm',anim=0;
+var copy={
+  harm:{ans:'<b>Não.</b> Tende a cair.',read:'Com a harmonização, 2012 não salta: a série muda só '+nf(V.salto.harmonizada,2)+' vez em relação ao INPE, o mesmo que o MODIS sozinho ('+nf(V.salto.modis,2)+'). A tendência de 2003 a 2025 é de queda, como na série do INPE.',key:'Nossa série harmonizada'},
+  raw:{ans:'<b>Sim?</b> 4,4× em 2012.',read:'Juntando os dois satélites sem ajuste, a contagem salta '+nf(V.salto.troca_sem_ajuste,1)+' vezes em 2012 e a série parece subir. A régua do INPE, que não trocou de satélite, não mostra salto nenhum.',key:'MODIS e depois VIIRS, sem ajuste'}};
+function setMode(m){if(m===mode)return;mode=m;
+  document.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.m===m);});
+  $('answer').innerHTML=copy[m].ans;$('answer').classList.toggle('raw',m==='raw');$('read').textContent=copy[m].read;$('k-main').textContent=copy[m].key;$('k-sw').setAttribute('stroke',m==='raw'?'#22262A':'#E5004B');$('k-ghost').textContent=m==='raw'?'Harmonizado':'Sem ajuste';
+  var from=line.getAttribute('points').split(' ').map(function(p){return +p.split(',')[1];}),to=(m==='raw'?raw:harm).map(Y);
+  ghost.setAttribute('points',pts(m==='raw'?harm:raw));ghost.setAttribute('stroke-opacity',m==='raw'?.35:.55);
+  line.setAttribute('stroke',m==='raw'?'#22262A':'#E5004B');
+  cancelAnimationFrame(anim);var t0=performance.now(),D=reduce?0:700;
+  (function step(t){var k=D?Math.min(1,(t-t0)/D):1,e=1-Math.pow(2,-10*k);
+    line.setAttribute('points',to.map(function(y,i){return X(i).toFixed(1)+','+(from[i]+(y-from[i])*e).toFixed(1);}).join(' '));
+    jump.setAttribute('opacity',m==='raw'?e:1-e);hn.setAttribute('opacity',m==='raw'?1-e:e);
+    if(k<1)anim=requestAnimationFrame(step);})(t0);}
+document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.m);});});
+$('read').textContent=copy.harm.read;
+
+/* ---------- fator mês a mês ---------- */
+var kf=V.kf,MES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'],ks=$('kf'),kW=520,kH=300,kL=48,kB=30,kT=34,km=6;
+var kx=function(i){return kL+i*(kW-kL-6)/12;},ky=function(v){return kT+(1-v/km)*(kH-kT-kB);};
+[0,2,4,6].forEach(function(v){ks.appendChild(el('line',{x1:kL,x2:kW-6,y1:ky(v),y2:ky(v),stroke:'#EBEEF1'}));ks.appendChild(el('text',{x:kL-8,y:ky(v)+5,'text-anchor':'end','font-size':14,fill:'#575F66'},v+'×'));});
+var kmax=Math.max.apply(null,kf),kmin=Math.min.apply(null,kf);
+kf.forEach(function(v,i){var bw=(kW-kL-6)/12-8,x=kx(i)+4,ext=v===kmax||v===kmin;
+  ks.appendChild(el('rect',{x:x,y:ky(v),width:bw,height:ky(0)-ky(v),rx:5,fill:'#00727F','fill-opacity':ext?1:.55}));
+  ks.appendChild(el('text',{x:x+bw/2,y:kH-8,'text-anchor':'middle','font-size':14,fill:'#575F66'},matchMedia('(max-width:560px)').matches?MES[i][0].toUpperCase():MES[i]));
+  if(ext)ks.appendChild(el('text',{x:x+bw/2,y:ky(v)-8,'text-anchor':'middle','font-size':15,'font-weight':800,fill:'#00727F'},nf(v,1)+'×'));});
+$('kf-cap').textContent='Medido nos 14 anos em que os dois satélites voam juntos (2012 a 2025): vai de '+nf(kmin,1)+'× em '+MES[kf.indexOf(kmin)]+' a '+nf(kmax,1)+'× em '+MES[kf.indexOf(kmax)]+'. Antes de 2012, cada mês do MODIS é multiplicado pelo fator daquele mês.';
+
+/* ---------- validação ---------- */
+var tend=function(s){return s<0?'queda':'alta';};
+$('val-rows').innerHTML=[
+  ['Salto quando entra o VIIRS, em 2012',nf(V.salto.troca_sem_ajuste,2)+'×',nf(V.salto.harmonizada,2)+'×','o ideal é 1×; o MODIS sozinho dá '+nf(V.salto.modis,2)+'×'],
+  ['Correlação ano a ano com o INPE',sg(V.r_anual.troca_sem_ajuste,2),nf(V.r_anual.harmonizada,2),'mês a mês: '+nf(V.r_mensal,2)],
+  ['Tendência de 2003 a 2025',tend(V.mk.troca_sem_ajuste)+' falsa',tend(V.mk.harmonizada),'o INPE mostra '+tend(V.mk.inpe)+' (Mann-Kendall)']
+].map(function(r){return '<tr><td>'+r[0]+'<div class="note" style="margin-top:4px;font-size:14px">'+r[3]+'</div></td><td class="v bad" data-l="Sem ajuste">'+r[1]+'</td><td class="v good" data-l="Harmonizada">'+r[2]+'</td></tr>';}).join('');
+
+/* ---------- seca × fogo ---------- */
+if(C){var S=C.assoc,xs=S.pr_seca,ys=S.fogo_seca,sv=$('sc'),sW=720,sH=380,sL=70,sR=52,sT=16,sB=52;
+  var x1=Math.ceil(Math.max.apply(null,xs)/50)*50,l0=Math.log(Math.min.apply(null,ys)*.85),l1=Math.log(Math.max.apply(null,ys)*1.12);
+  var sx=function(v){return sL+v/x1*(sW-sL-sR);},sy=function(v){return sT+(1-(Math.log(v)-l0)/(l1-l0))*(sH-sT-sB);};
+  for(var v=0;v<=x1;v+=50){sv.appendChild(el('line',{x1:sx(v),x2:sx(v),y1:sT,y2:sH-sB,stroke:'#EBEEF1'}));sv.appendChild(el('text',{x:sx(v),y:sH-sB+22,'text-anchor':'middle','font-size':15,fill:'#575F66'},v));}
+  sv.appendChild(el('text',{x:(sL+sW-sR)/2,y:sH-6,'text-anchor':'middle','font-size':15,'font-weight':600,fill:'#4F575E'},'chuva de julho a outubro (mm)'));
+  [20000,40000,80000,160000].forEach(function(t){if(Math.log(t)<l0||Math.log(t)>l1)return;sv.appendChild(el('line',{x1:sL,x2:sW-sR,y1:sy(t),y2:sy(t),stroke:'#EBEEF1'}));sv.appendChild(el('text',{x:sL-10,y:sy(t)+5,'text-anchor':'end','font-size':15,fill:'#575F66'},nf(t/1000)+' mil'));});
+  var o=S.anos.map(function(y,i){return i;}).sort(function(a,b){return ys[b]-ys[a];}),lab={};[o[0],o[1],o[o.length-1],xs.indexOf(Math.max.apply(null,xs)),xs.indexOf(Math.min.apply(null,xs))].forEach(function(i){lab[i]=1;});
+  S.anos.forEach(function(y,i){var c=el('circle',{cx:sx(xs[i]).toFixed(1),cy:sy(ys[i]).toFixed(1),r:7,fill:'#F7801E','fill-opacity':y<2012?.5:.9,stroke:'#C8102E','stroke-width':1.2});c.appendChild(el('title',{},y+': '+nf(xs[i])+' mm de chuva, '+nf(ys[i])+' focos'));sv.appendChild(c);
+    if(lab[i])sv.appendChild(el('text',{x:sx(xs[i])+11,y:sy(ys[i])+5,'font-size':15,'font-weight':700,fill:'#22262A'},y));});
+  $('cl-list').innerHTML='<li><b>r = '+sg(S.rd_pr,2)+'</b><span>entre a chuva e os focos da estação seca, ano a ano, de '+S.anos[0]+' a '+S.anos[S.anos.length-1]+'</span></li><li><b>r = '+sg(S.rd_rh,2)+'</b><span>entre a umidade relativa do ar e os focos, mesmo cálculo</span></li><li><b>'+S.anos.length+' anos</b><span>com essa quantidade de anos, uma correlação acima de 0,41 dificilmente aparece por acaso (p &lt; 0,05)</span></li>';}
+/* ---------- na sua cidade (data/mg-mun-anual.js, gerado por scripts/municipios_anual.py) ---------- */
+var MU=window.MG_MUN_ANUAL;
+if(MU){var names={},list=$('city-l'),Y0=MU.anos[0];
+  var norm=function(t){return t.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();};
+  Object.keys(MU.n).sort(function(a,b){return MU.n[a].localeCompare(MU.n[b],'pt-BR');}).forEach(function(c){names[norm(MU.n[c])]=c;var o=document.createElement('option');o.value=MU.n[c];list.appendChild(o);});
+  var MESX=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  var bars=function(vals,labels,W,Hh,hi,showLab,desc){var mx=Math.max.apply(null,vals)||1,bw=W/vals.length,g='',top=vals.indexOf(mx);
+    vals.forEach(function(v,i){var h=Math.max(2,v/mx*(Hh-46));g+='<rect x="'+(i*bw+2).toFixed(1)+'" y="'+(Hh-24-h).toFixed(1)+'" width="'+(bw-4).toFixed(1)+'" height="'+h.toFixed(1)+'" rx="3" fill="'+(i===hi?'#C8102E':'#F7801E')+'" fill-opacity="'+(i===hi?1:.65)+'"><title>'+labels[i]+': '+nf(v)+' focos</title></rect>';
+      if(showLab(i))g+='<text x="'+(i*bw+bw/2).toFixed(1)+'" y="'+(Hh-4)+'" text-anchor="middle" font-size="15" fill="#575F66">'+labels[i]+'</text>';});
+    g+='<text x="'+Math.min(W-24,Math.max(24,top*bw+bw/2)).toFixed(1)+'" y="14" text-anchor="middle" font-size="15" font-weight="800" fill="#22262A">'+nf(mx)+'</text>';
+    return '<svg viewBox="0 0 '+W+' '+Hh+'" role="img" aria-label="'+desc+'">'+g+'</svg>';};
+  var show=function(c){var r=$('city-r'),nm=MU.n[c],a=MU.a[c],m=MU.m[c];
+    if(!a){r.innerHTML='<p class="miss">'+nm+' é pequeno demais para a grade que usamos (quadrados de cerca de 11 km, cada um contado para o município do seu centro), então não tem uma série própria. Procure um município vizinho ou abra o globo e aproxime o mapa.</p>';return;}
+    var n=a.length,last=a[n-1],srt=a.slice().sort(function(x,y){return x-y;}),med=srt[Math.floor(n/2)],mx=Math.max.apply(null,a),ymx=Y0+a.indexOf(mx),pm=m.indexOf(Math.max.apply(null,m));
+    var cmp=last>med*1.15?'<em>acima</em> do normal':last<med*0.85?'<em>abaixo</em> do normal':'perto do normal';
+    var yrs=a.map(function(v,i){return String(Y0+i);});
+    var perDay=m[pm]/n/30,human=perDay>=1.5?'cerca de '+nf(perDay)+' focos por dia':perDay>=0.4?'cerca de um foco a cada '+nf(1/perDay)+' dias':'poucos focos no mês';
+    CUR={c:c,nm:nm,last:last,med:med,cmp:cmp.replace(/<\/?em>/g,''),ymx:ymx,pm:pm,a:a,human:human};
+    r.innerHTML='<p class="say">Em '+(Y0+n-1)+', '+nm+' teve cerca de '+nf(last)+' focos, '+cmp+' (o ano típico tem '+nf(med)+'). O pior ano foi '+ymx+'. Em '+MESX[pm]+', o mês mais forte, são '+human+'.</p>'+
+      '<div class="grid"><figure class="fig" style="margin:0"><h3>Focos por ano</h3>'+bars(a,yrs,700,230,n-1,function(i){var y=Y0+i;return ((y-2003)%4===0&&y!==2023)||i===n-1;},'Focos por ano em '+nm+', '+Y0+' a '+(Y0+n-1))+'</figure>'+
+      '<figure class="fig" style="margin:0"><h3>Em que meses</h3>'+bars(m,MES.map(function(x){return x[0].toUpperCase();}),400,230,pm,function(){return true;},'Focos por mês em '+nm+', soma de '+Y0+' a '+(Y0+n-1))+'</figure></div>'+
+      '<div class="share"><button class="btn p" type="button" id="city-share">Compartilhar '+nm+'</button><span class="hint">Gera uma imagem para WhatsApp ou Instagram, com o link desta página.</span></div>'+
+      '<p class="note">Contagem corrigida para que os anos possam ser comparados (veja o método mais abaixo). É aproximada: cada quadrado de cerca de 11 km conta para o município do seu centro.</p>';
+    $('city-share').addEventListener('click',shareCard);
+    if(history.replaceState)history.replaceState(null,'',location.pathname+'?cidade='+encodeURIComponent(nm)+location.hash);};
+  var find=function(){var q=norm($('city-q').value);if(!q)return null;var c=names[q];if(!c){var k=Object.keys(names).filter(function(x){return x.indexOf(q)===0;})[0];c=k&&names[k];}return c;};
+  $('city-f').addEventListener('submit',function(e){e.preventDefault();var c=find();
+    if(c){$('city-q').value=MU.n[c];show(c);}else $('city-r').innerHTML='<p class="miss">Não achamos "'+$('city-q').value.replace(/[<>&"]/g,'')+'" entre os 853 municípios de Minas. Confira a grafia, com ou sem acento.</p>';});
+  $('city-q').addEventListener('change',function(){var c=names[norm(this.value)];if(c)show(c);});
+  var qc=new URLSearchParams(location.search).get('cidade'),qcode=qc&&names[norm(qc)];
+  if(qcode){$('city-q').value=MU.n[qcode];show(qcode);setTimeout(function(){$('cidade').scrollIntoView();},60);}
+  else if(names['ouro preto']){$('city-q').value='Ouro Preto';show(names['ouro preto']);history.replaceState&&history.replaceState(null,'',location.pathname);}
+
+  /* usar minha localização: célula de 0,1° → município (data/mg-municipios.js) */
+  var MM=window.MG_MUN,gb=$('city-geo');
+  if(!navigator.geolocation||!MM)gb.hidden=true;
+  else gb.addEventListener('click',function(){gb.disabled=true;gb.lastChild.textContent='Procurando…';
+    navigator.geolocation.getCurrentPosition(function(pos){gb.disabled=false;gb.lastChild.textContent='Usar minha localização';
+      var la=Math.floor(pos.coords.latitude/.1),lo=Math.floor(pos.coords.longitude/.1),c=null;
+      for(var rr=0;rr<=2&&!c;rr++)for(var di=-rr;di<=rr&&!c;di++)for(var dj=-rr;dj<=rr&&!c;dj++)c=MM.c[(la+di)+','+(lo+dj)]||null;
+      if(c&&MU.n[c]){$('city-q').value=MU.n[c];show(c);}
+      else $('city-r').innerHTML='<p class="miss">Parece que você não está em Minas Gerais. Por enquanto o De Olho no Fogo cobre só Minas: escreva o nome de um município mineiro acima.</p>';},
+    function(){gb.disabled=false;gb.lastChild.textContent='Usar minha localização';$('city-r').insertAdjacentHTML('afterbegin','<p class="miss" style="margin-bottom:16px">Não conseguimos sua localização (permissão negada ou sem sinal). Escreva o nome do município acima.</p>');},
+    {timeout:10000,maximumAge:600000});});
+
+  /* época do fogo: parte de cada mês no total do estado */
+  var tm=[0,0,0,0,0,0,0,0,0,0,0,0];Object.keys(MU.m).forEach(function(c){MU.m[c].forEach(function(v,i){tm[i]+=v;});});
+  var tt=tm.reduce(function(x,y){return x+y;},0),sh=tm.map(function(v){return v/tt;}),smx=Math.max.apply(null,sh),ramp=function(f){return f>.6?'#C8102E':f>.3?'#F7801E':'#FFC02E';};
+  $('months').innerHTML=sh.map(function(f,i){return '<div><small>'+nf(f*100)+'%</small><i style="height:'+Math.max(2,f/smx*78).toFixed(1)+'%;background:'+ramp(f/smx)+'"></i><b>'+MES[i]+'</b></div>';}).join('');
+  var ord=sh.map(function(f,i){return i;}).sort(function(x,y){return sh[y]-sh[x];}),t3=ord.slice(0,3).sort(function(x,y){return x-y;}),p3=sh[t3[0]]+sh[t3[1]]+sh[t3[2]];
+  $('months').setAttribute('aria-label','Parte dos focos do ano em cada mês, Minas Gerais, '+Y0+' a '+MU.anos[1]);
+  var nyr=MU.anos[1]-Y0+1,pkMin=30*24*60/(tm[ord[0]]/nyr);
+  $('ep-lead').textContent='O fogo em Minas tem estação: de '+MESX[t3[0]]+' a '+MESX[t3[2]]+' acontecem '+nf(p3*100)+'% dos focos do ano. Em '+MESX[ord[0]]+', no fim da seca, o estado tem em média um foco a cada '+nf(pkMin)+' minutos, dia e noite, o mês inteiro. As barras mostram a parte de cada mês, na média de '+Y0+' a '+MU.anos[1]+'.';}
+
+/* ---------- card para compartilhar ---------- */
+var CUR;
+function shareCard(){if(!CUR)return;var W=1080,H=1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;var g=cv.getContext('2d');
+  var draw=function(){var F='Figtree, system-ui, sans-serif',P=88;
+    g.fillStyle='#FFFFFF';g.fillRect(0,0,W,H);
+    g.fillStyle='#E5004B';g.beginPath();g.roundRect(P,P,64,64,18);g.fill();
+    g.fillStyle='#fff';g.beginPath();g.ellipse(P+32,P+32,24,14,0,0,Math.PI*2);g.fill();g.fillStyle='#E5004B';g.beginPath();g.arc(P+32,P+32,9,0,Math.PI*2);g.fill();
+    g.fillStyle='#22262A';g.font='800 38px '+F;g.textBaseline='middle';g.fillText('De Olho no Fogo',P+88,P+33);
+    g.textBaseline='alphabetic';g.font='900 112px '+F;var nm=CUR.nm,fs=112;while(g.measureText(nm).width>W-2*P&&fs>56){fs-=6;g.font='900 '+fs+'px '+F;}
+    g.fillText(nm,P,P+250);
+    g.font='600 40px '+F;g.fillStyle='#4F575E';g.fillText('Focos de fogo por ano, 2003 a 2025',P,P+322);
+    var a=CUR.a,mx=Math.max.apply(null,a)||1,cx=P,cw=W-2*P,cy=P+380,ch=380,bw=cw/a.length;
+    a.forEach(function(v,i){var h=Math.max(4,v/mx*ch);g.fillStyle=i===a.length-1?'#C8102E':'#F7801E';g.globalAlpha=i===a.length-1?1:.6;g.beginPath();g.roundRect(cx+i*bw+3,cy+ch-h,bw-6,h,6);g.fill();});
+    g.globalAlpha=1;g.fillStyle='#575F66';g.font='600 30px '+F;g.fillText(String(Y0),cx,cy+ch+44);g.textAlign='right';g.fillText(String(MU.anos[1]),cx+cw,cy+ch+44);g.textAlign='left';
+    var lines=['Em '+MU.anos[1]+': cerca de '+nf(CUR.last)+' focos,',CUR.cmp+' (ano típico: '+nf(CUR.med)+').','Pico em '+MESX[CUR.pm]+': '+CUR.human+'.'];
+    g.fillStyle='#22262A';g.font='800 42px '+F;lines.forEach(function(t,i){g.fillText(t,P,cy+ch+130+i*62);});
+    g.fillStyle='#E5004B';g.fillRect(0,H-150,W,150);g.fillStyle='#fff';g.font='800 36px '+F;g.fillText('Veja a sua cidade:',P,H-88);
+    g.font='600 30px '+F;var url=location.host+location.pathname.replace(/index\.html$/,'')+'?cidade='+encodeURIComponent(CUR.nm);g.fillText(url.length>52?url.slice(0,51)+'…':url,P,H-44);
+    g.font='600 24px '+F;g.textAlign='right';g.fillText('NASA FIRMS · Space Uai',W-P,H-88);g.textAlign='left';
+    cv.toBlob(function(b){var fn='de-olho-no-fogo-'+norm(CUR.nm).replace(/[^a-z0-9]+/g,'-')+'.png',file=new File([b],fn,{type:'image/png'}),link=location.origin+location.pathname+'?cidade='+encodeURIComponent(CUR.nm);
+      if(navigator.canShare&&navigator.canShare({files:[file]}))navigator.share({files:[file],title:'De Olho no Fogo: '+CUR.nm,text:'O fogo em '+CUR.nm+', 2003 a 2025. Veja a sua cidade: '+link}).catch(function(){});
+      else{var u=URL.createObjectURL(b),A=document.createElement('a');A.href=u;A.download=fn;document.body.appendChild(A);A.click();A.remove();setTimeout(function(){URL.revokeObjectURL(u);},4000);}},'image/png');};
+  (document.fonts&&document.fonts.load?Promise.all([document.fonts.load('900 112px Figtree'),document.fonts.load('800 46px Figtree'),document.fonts.load('600 30px Figtree')]):Promise.resolve()).then(draw,draw);}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>De Olho no Fogo · globo (mock)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
+<style>
+:root{--brand:#E5004B;--brand-ink:#B80040;--brand-tint:#FFE8EF;--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--map:#E4E9EC;--card:#FFFFFF;--soft:#F3F5F7;--night:#E6EAED;--mun:#7F8C96;--green:#2E8B57;--green-ink:#1F4D33;--green-tint:#F4F9F5;--green-line:#CFE5D7;--warn-ink:#8A5A00;--warn-tint:#FFF3D6;--fire-lo:#FFC02E;--fire-md:#F7801E;--fire-hi:#C8102E;--modis:#6B4FA0;--viirs:#00727F;--shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10);--tlh:156px}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--map);color:var(--ink);font:15px/1.45 Figtree,system-ui,sans-serif;overflow:hidden}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.card{background:var(--card);border-radius:14px;box-shadow:var(--shadow)}
+.ib{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ib:hover{border-color:#C5CDD3}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 16px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-weight:600;font-size:14px;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:#C5CDD3}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+.btn.pri:hover{background:var(--brand-ink);border-color:var(--brand-ink)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:#EEF1F3;font-size:13px}
+.pill.fire{background:#FFF0E6;color:#8A3B00;font-weight:600}
+.pill.warn{background:var(--warn-tint);color:var(--warn-ink);font-weight:700}
+.k{font-size:13px;font-weight:600}
+.v{font-size:14px;color:var(--ink2)}
+.h2{font-size:15px;font-weight:700;margin:0}
+.muted{font-size:12px;color:var(--ink3)}
+.num{font-variant-numeric:tabular-nums}
+
+#globe{position:fixed;inset:0;cursor:grab}
+#globe:active{cursor:grabbing}
+#globe:focus-visible{outline:3px solid var(--brand);outline-offset:-3px}
+
+.top{position:fixed;left:16px;right:16px;top:12px;height:56px;z-index:20;display:flex;align-items:center;gap:16px;padding:0 10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand b{font-weight:800;font-size:17px;letter-spacing:-.01em;white-space:nowrap}
+.nav{display:flex;gap:2px}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;color:var(--ink2);text-decoration:none;font-size:14px;font-weight:600}
+.nav a[aria-current]{background:var(--brand-tint);color:var(--brand-ink)}
+.nav a:hover{background:var(--soft);color:var(--ink)}
+.top .search{flex:0 1 340px;margin-left:auto;background:var(--soft);border-radius:10px;min-height:44px;box-shadow:none}
+.tbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border:0;border-radius:10px;background:transparent;font-size:14px;font-weight:600;color:var(--ink)}
+.tbtn:hover,.tbtn[aria-expanded="true"]{background:var(--soft)}
+.tbtn svg{color:var(--brand)}
+.side .foot{font-size:12px;color:var(--ink3);line-height:1.4;padding:4px 4px 0}
+#btnPanel{display:none}
+body.has-panel .mapctl{right:472px}
+body.has-panel .tl{right:472px}
+@media (min-width:901px){
+ .panel:not(.open){display:none}
+ body .side{left:auto;right:16px;top:80px;bottom:auto;max-height:calc(100dvh - 96px);z-index:19}
+ body .side:not(.open){display:none}
+}
+#btnPanel{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:20;min-height:48px;padding:0 20px;border:0;border-radius:999px;background:var(--brand);color:#fff;font-weight:700;box-shadow:var(--shadow);align-items:center;gap:8px}
+
+.side{position:fixed;left:16px;top:96px;bottom:16px;width:300px;z-index:15;display:flex;flex-direction:column;gap:10px;overflow:auto;padding-bottom:2px}
+.search{display:flex;align-items:center;gap:8px;padding:0 6px 0 14px;min-height:48px;position:relative}
+.search input{flex:1;border:0;outline:0;background:transparent;min-height:44px;font-size:14px}
+.sugg{position:absolute;left:0;right:0;top:50px;z-index:5;padding:6px;display:none}
+.sugg.open{display:block}
+.sugg [role=option]{display:flex;align-items:center;gap:6px;min-height:44px;padding:0 10px;border-radius:8px;font-size:14px;cursor:pointer}
+.sugg [role=option]:hover,.sugg [aria-selected=true]{background:var(--soft)}
+.sugg [aria-selected=true]{box-shadow:inset 3px 0 0 var(--brand)}
+.seg{display:flex;padding:3px;gap:2px}
+.seg button{flex:1;min-height:44px;padding:0 10px;border:0;border-radius:8px;background:transparent;font-size:13px;font-weight:600}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.layers{padding:12px 14px}
+.layers label{display:flex;align-items:center;gap:10px;min-height:44px;font-size:14px;cursor:pointer;border-top:1px solid var(--line2)}
+.layers label:first-of-type{border-top:0}
+.layers input{width:18px;height:18px;margin:0;accent-color:var(--brand)}
+.layers .sw{margin-left:auto;flex:none}
+.more{border-top:1px solid var(--line2)}
+.more summary{display:flex;align-items:center;min-height:44px;font-size:14px;font-weight:600;color:var(--brand-ink);cursor:pointer;list-style:none}
+.more summary::-webkit-details-marker{display:none}
+.more summary:after{content:'+';margin-left:auto;font-size:18px}
+.more[open] summary:after{content:'−'}
+.legend{padding:14px 16px;margin-top:auto}
+.ramp{display:flex;height:10px;border-radius:5px;overflow:hidden;margin-top:8px}
+.ramp i{flex:1}
+.rampl{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);margin-top:4px}
+.conf{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--ink2)}
+.conf span{display:inline-flex;align-items:center;gap:6px}
+
+.mapctl{position:fixed;right:16px;top:84px;z-index:12;display:flex;flex-direction:column;gap:8px}
+.mapctl .zoom{display:flex;flex-direction:column;overflow:hidden}
+.mapctl .zoom button{min-width:44px;min-height:44px;border:0;background:var(--card);font-size:20px;font-weight:600}
+.mapctl .zoom button+button{border-top:1px solid var(--line2)}
+.mapctl .ib{border:0}
+
+/* linha do tempo */
+.tl{position:fixed;left:16px;right:16px;bottom:12px;max-width:1180px;margin:0 auto;z-index:14;padding:8px 12px}
+.tlh{display:flex;align-items:center;gap:8px}
+.tlh .play{flex:none;min-width:38px;min-height:38px;border-radius:50%;background:var(--brand);border-color:var(--brand)}
+.tlh .play:hover{background:var(--brand-ink)}
+.tlt{flex:1 1 160px;min-width:0;line-height:1.2}
+.tlt b,.tlt span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tlt b{font-size:13px}
+.tlt span{font-size:12px;color:var(--ink2)}
+.tl .seg{flex:none;padding:3px;background:var(--soft);border-radius:10px}
+.tl .seg button{min-height:32px;padding:0 9px;font-size:12px;white-space:nowrap}
+.tl .seg.spd button{padding:0 7px;font-variant-numeric:tabular-nums}
+.tlplot{position:relative;margin-top:4px;height:56px}
+.tlplot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.tlplot input{position:absolute;z-index:1;top:0;height:38px;margin:0;-webkit-appearance:none;appearance:none;background:transparent;cursor:ew-resize}
+.tlplot input:focus-visible{outline:none}
+.tlplot input::-webkit-slider-runnable-track{height:38px;background:transparent}
+.tlplot input::-moz-range-track{height:38px;background:transparent}
+.tlplot input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:38px;background:transparent;border:0}
+.tlplot input::-moz-range-thumb{width:20px;height:38px;background:transparent;border:0}
+.tlplot input:focus-visible+svg .knob{stroke:var(--ink);stroke-width:3}
+.insight{position:fixed;left:16px;top:80px;width:320px;max-height:calc(100dvh - 250px);overflow:auto;z-index:13;padding:10px 14px 12px}
+.insight[hidden]{display:none}
+.inh{display:flex;align-items:center;justify-content:space-between}
+.inh .ib{min-width:36px;min-height:36px;border:0}
+.insight.min .inb{display:none}
+.insight.min .inh svg{transform:rotate(180deg)}
+.inb{font-size:13px;line-height:1.45;color:var(--ink2)}
+.inb p{margin:6px 0}
+.inb b{color:var(--ink)}
+.inb .lead{font-size:14px;color:var(--ink);margin-top:2px}
+.inb .lead.hot b{color:var(--brand-ink)}
+.inb .lead.cool b{color:var(--green-ink)}
+.inb h3{margin:12px 0 4px;font-size:13px;color:var(--ink)}
+.rk{list-style:none;margin:0;padding:0}
+.rk li{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--line2)}
+.rk li:first-child{border-top:0}
+.rk button{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:0;border:0;background:none;font-weight:600;color:var(--brand-ink);text-align:left}
+.rk button:hover{text-decoration:underline;text-underline-offset:2px}
+.rk i{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:5px;background:var(--ink);color:#fff;font-style:normal;font-size:11px;font-weight:800}
+.rk .num{font-size:12px;color:var(--ink3);white-space:nowrap}
+body.has-panel .insight{display:none}
+.tll{display:flex;gap:12px;flex-wrap:nowrap;overflow:hidden;white-space:nowrap;font-size:11.5px;color:var(--ink2);margin-top:0}
+.tll span{display:inline-flex;align-items:center;gap:5px}
+
+.panel{position:fixed;right:16px;top:80px;bottom:16px;width:440px;z-index:15;display:flex;flex-direction:column;overflow:hidden}
+.phead{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line2)}
+.picon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:#E8F4EC;flex:none}
+.phead h1{margin:0;font-size:19px;font-weight:800;line-height:1.15}
+.phead .kk{font-size:12px;color:#2E6B45;font-weight:600}
+.pbody{padding:6px 16px 16px;overflow:auto;flex:1}
+.sec{padding:14px 0;border-top:1px solid var(--line2)}
+.sec:first-child{border-top:0}
+.ans{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--green-tint);border:1px solid var(--green-line)}
+.ans.hot{background:#FFF1F4;border-color:#F5C2D1}
+.ans small{display:block;font-size:13px;color:#2E6B45}
+.ans.hot small{color:var(--brand-ink)}
+.ans b{display:block;font-size:20px;font-weight:800;color:var(--green-ink)}
+.ans.hot b{color:var(--brand-ink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.spg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.spg button{padding:0;border:0;background:none;text-align:left}
+.spg .ph{display:flex;align-items:center;justify-content:center;aspect-ratio:1;border-radius:10px;background:#E3E8EB center/cover no-repeat;font-weight:800;color:var(--ink2);border:2px solid transparent}
+.spg .ph.warn{border-color:#E0A100}.spg .ph.bad{border-color:var(--fire-hi)}
+.spg span.n{display:block;font-size:12px;font-weight:600;margin-top:4px;line-height:1.2}
+.uclist{display:grid}
+.uclist button{display:flex;align-items:center;gap:10px;min-height:56px;padding:6px 4px;border:0;border-top:1px solid var(--line2);border-radius:0;background:transparent;text-align:left}
+.uclist button:first-child{border-top:0}
+.uclist button:hover{background:var(--soft)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;padding-top:10px}
+.acts .btn{flex:1 1 auto}
+.hlist{margin-top:10px}
+.hlist summary{display:flex;align-items:center;min-height:44px;font-size:14px;font-weight:600;color:var(--brand-ink);cursor:pointer}
+.hlist table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.hlist th{text-align:left;font-size:12px;font-weight:600;color:var(--ink3);padding:4px 6px 4px 0;border-bottom:1px solid var(--line2)}
+.hlist td{padding:0 6px 0 0;border-bottom:1px solid var(--line2)}
+.hlist td button{min-height:40px;border:0;background:none;padding:0;font-weight:600;color:var(--brand-ink);text-decoration:underline;text-underline-offset:2px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px;margin-right:4px}
+
+.hcard{position:fixed;left:50%;top:136px;transform:translateX(-50%);z-index:16;width:300px;padding:12px 14px}
+.hcard[hidden]{display:none}
+.hcard .hh{display:flex;align-items:flex-start;gap:10px}
+.hcard .hh b{display:block;font-size:15px}
+.hcard dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:10px 0 0;font-size:13px}
+.hcard dt{color:var(--ink3)}
+.hcard dd{margin:0;font-variant-numeric:tabular-nums}
+
+/* marcadores no globo */
+.pm{width:26px;height:26px;border-radius:50%;border:2px solid var(--green);background:#fff center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:9px;color:var(--ink);box-shadow:0 2px 8px rgba(31,26,23,.3);cursor:pointer;pointer-events:auto}
+.pm.warn{border-color:#E0A100}.pm.bad{border-color:var(--fire-hi)}
+.pw{width:0;height:0;position:relative;pointer-events:none}
+.pw .pm{position:absolute;left:-13px;bottom:7px;transition:transform .15s}
+.pw .pm:hover,.pw .pm:focus-visible{transform:scale(1.6);z-index:2}
+.pw .stem{position:absolute;left:-.75px;bottom:0;width:1.5px;height:7px;background:var(--ink)}
+.glabel{color:var(--ink2);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-shadow:0 0 2px var(--map),0 0 6px var(--map),0 0 10px var(--map);pointer-events:none;white-space:nowrap}
+.glabel.mun{color:var(--ink);letter-spacing:.16em;font-size:12px;opacity:.8}
+.glabel.uc{color:var(--green-ink);text-transform:none;letter-spacing:0;font-size:12px}
+.gpin{position:relative;width:44px;height:44px;border:0;background:transparent;padding:0;pointer-events:auto}
+.gpin i{position:absolute;left:15px;top:15px;width:14px;height:14px;border-radius:50%;background:var(--brand);border:2px solid #fff;box-shadow:0 0 0 4px rgba(229,0,75,.22)}
+.gpin span{position:absolute;left:38px;top:12px;font-size:13px;font-weight:800;color:var(--ink);white-space:nowrap;text-shadow:0 0 2px #fff,0 0 6px #fff,0 0 10px #fff}
+.hs{width:9px;height:9px;border-radius:50%;box-shadow:0 0 0 1.5px #fff,0 1px 3px rgba(31,26,23,.35);pointer-events:auto;cursor:pointer}
+.hs.m{width:12px;height:12px}
+.hs:hover{box-shadow:0 0 0 2px var(--ink)}
+.evb{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:7px;background:var(--ink);color:#fff;font-weight:800;font-size:12px;box-shadow:0 2px 6px rgba(31,26,23,.25);pointer-events:none}
+.fix{width:16px;height:16px;background:#fff;border:1.5px solid #3A2A1E;position:relative;pointer-events:auto}
+.fix:before,.fix:after{content:'';position:absolute;left:6px;top:-2px;width:1.5px;height:18px;background:#3A2A1E;transform:rotate(45deg)}
+.fix:after{transform:rotate(-45deg)}
+.tip{font:13px/1.35 Figtree,sans-serif;background:#fff;color:var(--ink);border-radius:10px;padding:8px 10px;box-shadow:var(--shadow)}
+
+.modal{position:fixed;inset:0;background:rgba(42,36,32,.45);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal.open{display:flex}
+.sheet{position:relative;background:var(--card);border-radius:16px;width:min(760px,100%);max-height:calc(100dvh - 32px);overflow:auto;box-shadow:0 10px 40px rgba(31,26,23,.25)}
+.hero{position:relative;width:100%;aspect-ratio:16/7;background:#D3DADF center/cover no-repeat;display:flex;align-items:center;justify-content:center;border-radius:16px 16px 0 0}
+.hero .ph{font-size:14px;font-weight:600;color:#4B433C;background:#fff;border-radius:999px;padding:6px 14px}
+.hero small{position:absolute;left:14px;bottom:12px;font-size:12px;background:rgba(255,255,255,.92);border-radius:6px;padding:2px 8px;max-width:calc(100% - 28px)}
+.mtop{position:absolute;left:14px;right:14px;top:14px;display:flex;justify-content:space-between;z-index:2}
+.mtop .btn{box-shadow:0 2px 8px rgba(31,26,23,.15);border:0}
+.mbody{padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px}
+.mbody .mt{margin:0;font-size:26px;font-weight:800;letter-spacing:-.01em}
+.sci{font-style:italic;color:var(--ink2)}
+.note{padding:10px 12px;border-radius:10px;background:var(--soft);font-size:13px;color:#4B433C}
+
+@media (max-width:1180px){
+ .top .pill{display:none}
+ .top .search{flex-basis:240px}
+}
+@media (max-width:900px){
+ .top{left:8px;right:8px;top:8px;height:56px;gap:8px;padding:0 6px}
+ .nav,.top .pill,#btnAreas,.tbtn .lbl{display:none}
+ .brand b{display:none}
+ .top .search{flex:1 1 auto;margin-left:0}
+ body.has-panel .tl,body.has-panel .mapctl{right:8px}
+ #btnPanel{display:inline-flex}
+ .panel.open~#btnPanel,.side.open~#btnPanel{display:none}
+ .mapctl{right:8px;top:72px}
+ .side{left:0;right:0;top:auto;bottom:0;width:auto;max-height:78dvh;padding:12px;background:var(--map);border-radius:18px 18px 0 0;box-shadow:0 -6px 24px rgba(31,26,23,.18);transform:translateY(105%);transition:transform .22s;z-index:30}
+ .side.open{transform:none}
+ .side .card{box-shadow:none;border-radius:0;background:transparent;border-bottom:1px solid var(--line)}
+ .side .sugg.card{background:var(--card);border-radius:12px;box-shadow:var(--shadow);border:0}
+ .legend{margin-top:0}
+ .tl{left:8px;right:8px;bottom:78px;padding:8px 10px}
+ .tlh{flex-wrap:wrap}
+ .insight{left:8px;right:8px;top:72px;width:auto;max-height:45dvh}
+ .tll{display:none}
+ .tlt span{display:none}
+ .panel{left:0;right:0;top:auto;bottom:0;width:auto;max-height:70dvh;border-radius:20px 20px 0 0;transform:translateY(105%);transition:transform .22s;z-index:25}
+ .panel.open{transform:none}
+ .hcard{left:8px;right:8px;top:72px;width:auto;transform:none}
+ .modal{padding:0}
+ .sheet{border-radius:0;max-height:100dvh;height:100dvh;width:100%}
+ .hero{border-radius:0}
+}
+@media (prefers-reduced-motion:reduce){.side,.panel{transition:none}}
+</style>
+</head>
+<body>
+<header class="top card">
+  <a class="brand" href="mock-olho-do-fogo-cientifico.html" aria-label="De Olho no Fogo, voltar ao globo"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#E5004B"/><path d="M6 25 Q24 7 42 25 Q24 43 6 25 Z" fill="#fff"/><path d="M24 14 C27 19 31 21 31 27 C31 31.5 27.8 34 24 34 C20.2 34 17 31.5 17 27.4 C17 24 19 22.5 20.4 20.6 C20.6 23 21.8 24.2 23 24.6 C22.4 21 23 17.5 24 14 Z" fill="#E5004B"/><rect x="21.8" y="27.4" width="4.4" height="4.4" fill="#fff"/></svg><b>De Olho no Fogo</b></a>
+  <nav class="nav" aria-label="Seções"><a href="mock-olho-do-fogo-cientifico.html" aria-current="page">Globo</a><a href="app-calendario-do-fogo.html?view=calendario">Calendário</a><a href="app-calendario-do-fogo.html?view=metodo">Método e dados</a></nav>
+  <div class="search">
+    <label for="q" class="sr">Buscar município, unidade de conservação ou coordenada</label>
+    <input id="q" type="search" placeholder="Buscar área ou lat, long" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sugg">
+    <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+    <div class="sugg card" id="sugg" role="listbox" aria-label="Resultados"></div>
+  </div>
+  <button type="button" class="tbtn" id="btnAreas" aria-controls="panel"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"/></svg>Áreas</button>
+  <button type="button" class="tbtn" id="btnLayers" aria-controls="side" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6l8-4 8 4-8 4-8-4zM2 10l8 4 8-4M2 14l8 4 8-4"/></svg><span class="lbl">Camadas</span><span class="sr">e legenda</span></button>
+  <span class="pill warn">Dados de exemplo</span>
+</header>
+
+<div id="globe" role="application" tabindex="0" aria-roledescription="globo" aria-label="Globo interativo com municípios, unidades de conservação, focos de calor e fauna. Setas giram, mais e menos aproximam."></div>
+
+<div class="mapctl">
+  <button class="ib card" id="gop" aria-label="Ir para Ouro Preto"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--brand)"><circle cx="10" cy="10" r="6"/><path d="M10 1v4M10 15v4M1 10h4M15 10h4"/></svg></button>
+  <div class="zoom card"><button type="button" id="zin" aria-label="Aproximar">+</button><button type="button" id="zout" aria-label="Afastar">−</button></div>
+  <button class="ib card" id="gall" aria-label="Visão global"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="8"/><path d="M2 10h16M10 2c3 3 3 13 0 16M10 2c-3 3-3 13 0 16"/></svg></button>
+</div>
+
+<aside class="side" id="side" aria-label="Camadas e legenda">
+  <div class="seg card" role="group" aria-label="Fundo do mapa"><button type="button" data-base="gray" aria-pressed="true">Mapa</button><button type="button" data-base="topo" aria-pressed="false">Relevo</button><button type="button" data-base="sat" aria-pressed="false">Satélite</button></div>
+  <div class="layers card" role="group" aria-labelledby="ly-t">
+    <h2 class="h2" id="ly-t" style="margin-bottom:2px">Camadas</h2>
+    <label><input type="checkbox" data-l="hot" checked>Focos de calor<svg class="sw" width="22" height="16" aria-hidden="true"><circle cx="11" cy="8" r="6" fill="#F7801E"/></svg></label>
+    <label><input type="checkbox" data-l="ev" checked>Agrupar focos em eventos<svg class="sw" width="22" height="16" aria-hidden="true"><rect x="1" y="1" width="20" height="14" rx="6" fill="none" stroke="#22262A" stroke-dasharray="3 2"/></svg></label>
+    <label><input type="checkbox" data-l="fix" checked>Fontes fixas de calor<svg class="sw" width="22" height="16" aria-hidden="true"><rect x="4" y="1" width="14" height="14" fill="#fff" stroke="#3A2A1E"/><path d="M4 1L18 15M18 1L4 15" stroke="#3A2A1E"/></svg></label>
+    <label><input type="checkbox" data-l="uc" checked>Unidades de conservação<svg class="sw" width="22" height="16" aria-hidden="true"><rect x="1" y="1" width="20" height="14" rx="2" fill="#2E8B57" fill-opacity=".2" stroke="#2E8B57" stroke-width="1.6"/></svg></label>
+    <label><input type="checkbox" data-l="mun" checked>Municípios (IBGE)<svg class="sw" width="22" height="16" aria-hidden="true"><line x1="1" y1="8" x2="21" y2="8" stroke="#7F8C96" stroke-width="2"/></svg></label>
+    <label><input type="checkbox" data-l="fauna" checked>Fauna com foto<svg class="sw" width="22" height="16" aria-hidden="true"><circle cx="11" cy="8" r="6" fill="#fff" stroke="#2E8B57" stroke-width="2"/></svg></label>
+    <details class="more">
+      <summary>Mais camadas</summary>
+      <label><input type="checkbox" data-l="rich">Riqueza de espécies<svg class="sw" width="22" height="16" aria-hidden="true"><rect x="1" y="1" width="20" height="14" rx="2" fill="#2E8B57" fill-opacity=".5"/></svg></label>
+      <label><input type="checkbox" data-l="bio" checked>Biomas<svg class="sw" width="22" height="16" aria-hidden="true"><text x="2" y="12" font-size="11" font-weight="700" fill="#2A2420">Aa</text></svg></label>
+      <p class="muted" style="margin:6px 0 2px">Riqueza: registros mostram onde a espécie foi observada; há mais perto de estradas e cidades.</p>
+    </details>
+  </div>
+  <section class="legend card" aria-labelledby="lg-t">
+    <h2 class="h2" id="lg-t">Intensidade do foco</h2>
+    <div class="muted">Potência radiativa do fogo (FRP), em megawatts</div>
+    <div class="ramp" aria-hidden="true"><i style="background:var(--fire-lo)"></i><i style="background:var(--fire-md)"></i><i style="background:var(--fire-hi)"></i></div>
+    <div class="rampl num"><span>até 15</span><span>15 a 40</span><span>acima de 40</span></div>
+    <div class="conf"><span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="#F7801E"/></svg>recente</span><span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="#F7801E" fill-opacity=".4"/></svg>mais antigo ou de baixa confiança</span></div>
+    <div class="muted" style="margin-top:8px">De perto, cada foco vira o quadrado do pixel real: MODIS ~1 km, VIIRS ~375 m.</div>
+  </section>
+  <p class="foot">Focos da semana, espécies e unidades são dados de exemplo. O histórico 2001–2025 é real (NASA FIRMS). Space Uai · NASA Space Apps 2026.</p>
+</aside>
+
+<section class="insight card" id="insight" aria-labelledby="in-t" hidden>
+  <div class="inh"><h2 class="h2" id="in-t">Leitura</h2><button type="button" class="ib" id="inMin" aria-expanded="true" aria-controls="inBody" aria-label="Recolher leitura"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 10l5-5 5 5"/></svg></button></div>
+  <div class="inb" id="inBody" aria-live="polite"></div>
+</section>
+<section class="tl card" id="tl" aria-labelledby="tl-t">
+  <div class="tlh">
+    <button type="button" class="ib play" id="tlPlay" aria-label="Reproduzir a semana"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" fill="#fff"><path id="tlIco" d="M5 3l10 6-10 6z"/></svg></button>
+    <div class="seg spd" role="group" aria-label="Velocidade do play"><button type="button" data-spd="1" aria-pressed="true">1×</button><button type="button" data-spd="2" aria-pressed="false">2×</button><button type="button" data-spd="4" aria-pressed="false">4×</button></div>
+    <div class="tlt"><b id="tl-t">Focos na região</b><span id="tlRange" class="num"></span></div>
+    <div class="seg" role="group" aria-label="Escala de tempo" id="tlMode"><button type="button" data-mode="now" aria-pressed="true">Semana</button><button type="button" data-mode="hist" aria-pressed="false">2001–2025</button></div>
+    <div class="seg" role="group" aria-label="Sensor" id="tlSen" style="display:none"><button type="button" data-sen="h" aria-pressed="true">Harmonizado</button><button type="button" data-sen="m" aria-pressed="false">MODIS</button><button type="button" data-sen="v" aria-pressed="false">VIIRS</button></div>
+    <div class="seg" role="group" aria-label="Período somado no globo" id="tlHWin" style="display:none"><button type="button" data-hw="1" aria-pressed="true">Mês</button><button type="button" data-hw="12" aria-pressed="false">12 meses</button><button type="button" data-hw="0" aria-pressed="false">Tudo</button></div>
+    <div class="seg" role="group" aria-label="Janela de tempo" id="tlWin"><button type="button" data-win="24" aria-pressed="false">24 h</button><button type="button" data-win="72" aria-pressed="false">3 dias</button><button type="button" data-win="168" aria-pressed="true">7 dias</button></div>
+  </div>
+  <div class="tlplot" id="tlPlot">
+    <input type="range" id="tlR" min="-168" max="0" step="1" value="0" aria-label="Fim do período mostrado no globo">
+    <svg id="tlSvg" aria-hidden="true"></svg>
+  </div>
+  <div class="tll"><span><svg width="12" height="12" aria-hidden="true"><rect width="12" height="12" rx="2" fill="#6B4FA0"/></svg>MODIS</span><span><svg width="12" height="12" aria-hidden="true"><rect width="12" height="12" rx="2" fill="#00727F"/></svg>VIIRS</span><span><svg width="14" height="12" aria-hidden="true"><rect width="14" height="12" fill="#E6EAED"/></svg>noite</span><span id="tlNext"></span></div>
+</section>
+
+<aside class="panel card" id="panel" aria-label="Detalhes"></aside>
+<section class="hcard card" id="hcard" aria-label="Foco selecionado" hidden></section>
+<div class="sr" id="live" aria-live="polite"></div>
+
+<button type="button" id="btnPanel" aria-controls="panel"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"/></svg>Áreas e detalhes</button>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle"><div class="sheet" id="sheet"></div></div>
+
+<script src="https://unpkg.com/globe.gl@2.45.0/dist/globe.gl.min.js"></script>
+<script src="data/mg-modis-mensal.js"></script>
+<script src="data/mg-viirs-mensal.js"></script>
+<script src="data/mg-municipios.js"></script>
+<script>
+(function(){
+var CS=getComputedStyle(document.documentElement);function cv(n){return CS.getPropertyValue(n).trim();}
+function rgbOf(h){h=h.replace('#','');return [0,2,4].map(function(i){return parseInt(h.substr(i,2),16);}).join(',');}
+var C={brand:cv('--brand'),brandInk:cv('--brand-ink'),green:cv('--green'),greenInk:cv('--green-ink'),mun:cv('--mun'),ink:cv('--ink'),ink3:cv('--ink3'),map:cv('--map'),night:cv('--night'),line:cv('--line'),modis:cv('--modis'),viirs:cv('--viirs')};
+var FIRE=[rgbOf(cv('--fire-lo')),rgbOf(cv('--fire-md')),rgbOf(cv('--fire-hi'))];
+
+function smooth(p,it){for(var k=0;k<it;k++){var q=[];for(var i=0;i<p.length;i++){var a=p[i],b=p[(i+1)%p.length];q.push([a[0]*.75+b[0]*.25,a[1]*.75+b[1]*.25],[a[0]*.25+b[0]*.75,a[1]*.25+b[1]*.75]);}p=q;}return p;}
+var UC=[
+ {id:'itacolomi',type:'uc',name:'Parque Estadual do Itacolomi',cat:'Parque estadual',grupo:'Proteção integral',gestor:'IEF-MG',ha:7543,ano:1967,bioma:'Mata Atlântica e Cerrado',muns:['Ouro Preto','Mariana'],sp:['lobo','onca','sagui'],poly:[[-20.37,-43.50],[-20.36,-43.40],[-20.45,-43.38],[-20.50,-43.47],[-20.45,-43.53]]},
+ {id:'tripui',type:'uc',name:'Estação Ecológica do Tripuí',cat:'Estação ecológica',grupo:'Proteção integral',gestor:'IEF-MG',ha:337,ano:1981,bioma:'Mata Atlântica e Cerrado',muns:['Ouro Preto'],sp:['tatu','sagui'],poly:[[-20.37,-43.60],[-20.36,-43.55],[-20.41,-43.54],[-20.42,-43.59]]},
+ {id:'andorinhas',type:'uc',name:'APA Cachoeira das Andorinhas',cat:'Área de proteção ambiental',grupo:'Uso sustentável',gestor:'IEF-MG',ha:18700,ano:1989,bioma:'Mata Atlântica e Cerrado',muns:['Ouro Preto'],sp:['lobo','tamandua'],poly:[[-20.40,-43.70],[-20.35,-43.62],[-20.46,-43.60],[-20.52,-43.66],[-20.48,-43.74]]}
+];
+var MUN=[
+ {id:'op',type:'mun',name:'Ouro Preto',ibge:3146107,ha:124600,ucs:['itacolomi','tripui','andorinhas'],poly:[[-20.22,-43.75],[-20.20,-43.45],[-20.33,-43.33],[-20.55,-43.38],[-20.60,-43.62],[-20.45,-43.78]]},
+ {id:'mar',type:'mun',name:'Mariana',ibge:3140001,ha:119400,ucs:['itacolomi'],poly:[[-20.20,-43.45],[-20.15,-43.22],[-20.40,-43.12],[-20.52,-43.22],[-20.33,-43.33]]},
+ {id:'ita',type:'mun',name:'Itabirito',ibge:3131901,ha:54300,ucs:[],poly:[[-20.22,-43.75],[-20.12,-43.92],[-20.30,-44.05],[-20.45,-43.90],[-20.45,-43.78]]}
+];
+UC.concat(MUN).forEach(function(x){x.poly=smooth(x.poly,3);});
+var SP={
+ lobo:{sci:'Chrysocyon brachyurus',pop:'Lobo-guará',st:'VU · Vulnerável',cl:'warn',n:42,desc:'Maior canídeo da América do Sul, de pernas longas e hábitos solitários. Frequenta campos e áreas abertas de Cerrado.',pos:[[-20.435,-43.46],[-20.44,-43.63]]},
+ tamandua:{sci:'Myrmecophaga tridactyla',pop:'Tamanduá-bandeira',st:'VU · Vulnerável',cl:'warn',n:31,desc:'Mamífero que se alimenta de formigas e cupins, com focinho alongado e cauda volumosa.',pos:[[-20.445,-43.665]]},
+ onca:{sci:'Puma concolor',pop:'Onça-parda',st:'VU · Vulnerável',cl:'warn',n:18,desc:'Felino de ampla distribuição nas Américas, predador de topo em vários biomas.',pos:[[-20.47,-43.45]]},
+ tatu:{sci:'Priodontes maximus',pop:'Tatu-canastra',st:'VU · Vulnerável',cl:'warn',n:9,desc:'O maior tatu do mundo, de hábitos noturnos e escavador de grandes tocas.',pos:[[-20.39,-43.575]]},
+ sagui:{sci:'Callithrix aurita',pop:'Sagui-da-serra-escuro',st:'EN · Em perigo',cl:'bad',n:12,desc:'Pequeno primata ligado à Mata Atlântica do Sudeste.',pos:[[-20.41,-43.42]]}
+};
+var BIO=[{n:'Amazônia',lat:-5,lng:-62},{n:'Cerrado',lat:-14,lng:-47},{n:'Pantanal',lat:-18.5,lng:-56.5},{n:'Caatinga',lat:-9,lng:-40.5},{n:'Mata Atlântica',lat:-23,lng:-46}];
+var FIX=[{lat:-20.385,lng:-43.515,name:'Fonte fixa de calor (ex.: industrial)'}];
+var OP=[-20.40,-43.50],byId={};UC.concat(MUN).forEach(function(x){byId[x.id]=x;});
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function pip(p,poly){var x=p[1],y=p[0],r=false;for(var i=0,j=poly.length-1;i<poly.length;j=i++){var xi=poly[i][1],yi=poly[i][0],xj=poly[j][1],yj=poly[j][0];if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))r=!r;}return r;}
+var seed=42;function rnd(){seed=(seed*9301+49297)%233280;return seed/233280;}
+function srnd(str){var s=0;for(var i=0;i<str.length;i++)s=(s*31+str.charCodeAt(i))%233280;return function(){s=(s*9301+49297)%233280;return s/233280;};}
+/* o globo preenche o lado errado se o anel não estiver no sentido horário */
+function cw(poly){var a=0;for(var i=0;i<poly.length;i++){var p=poly[i],n=poly[(i+1)%poly.length];a+=(n[1]-p[1])*(n[0]+p[0]);}return a<0?poly.slice().reverse():poly;}
+function geo(poly){var ring=poly.map(function(p){return [p[1],p[0]];});ring.push(ring[0]);return {type:'Polygon',coordinates:[ring]};}
+function centroid(poly){var la=0,lo=0;poly.forEach(function(p){la+=p[0];lo+=p[1];});return [la/poly.length,lo/poly.length];}
+
+/* tempo: agora = qua 28 out 2026, 15h (horário de Brasília). t em horas relativas a agora. */
+var NOW=new Date(2026,9,28,15,0),DOW=['dom','seg','ter','qua','qui','sex','sáb'],MON=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+function tDate(t){return new Date(NOW.getTime()+t*36e5);}
+function hm(d){return d.getHours()+'h'+(d.getMinutes()<10?'0':'')+d.getMinutes();}
+function fmtT(t){var d=tDate(t);return DOW[d.getDay()]+' '+d.getDate()+' '+MON[d.getMonth()]+', '+hm(d);}
+function fmtShort(t){var d=tDate(t);return d.getDate()+' '+MON[d.getMonth()]+' '+d.getHours()+'h';}
+function hrs(h){h=Math.max(0,h);var H=Math.floor(h),M=Math.round((h-H)*60);return H?H+' h'+(M?' '+M:''):M+' min';}
+/* passagens aproximadas, hora local */
+var SATS=[['Terra','MODIS',10.5],['Aqua','MODIS',13.5],['Terra','MODIS',22.5],['Aqua','MODIS',1.5],['NOAA-20','VIIRS',12.7],['S-NPP','VIIRS',13.4],['NOAA-21','VIIRS',14.2],['NOAA-20','VIIRS',0.7],['S-NPP','VIIRS',1.4],['NOAA-21','VIIRS',2.2]];
+var PASSES=[];for(var dd=-8;dd<=1;dd++)SATS.forEach(function(s){var t=dd*24+s[2]-15;if(t>=-168&&t<=12)PASSES.push({sat:s[0],s:s[1],t:t,day:s[2]>6&&s[2]<18});});
+PASSES.sort(function(a,b){return a.t-b.t;});
+
+var HS=[],EV=[];
+(function(){[{id:'A',lat:-20.43,lng:-43.40,n:14,a:-110,b:0},{id:'B',lat:-20.47,lng:-43.50,n:10,a:-80,b:-20},{id:'C',lat:-20.43,lng:-43.66,n:12,a:-165,b:-95},{id:'D',lat:-20.39,lng:-43.57,n:5,a:-30,b:0},{id:'E',lat:-20.30,lng:-43.30,n:6,a:-60,b:-35},{id:'F',lat:-20.26,lng:-43.90,n:4,a:-150,b:-120}].forEach(function(e){EV.push(e);
+ for(var j=0;j<e.n;j++){var s=rnd()<.72?'VIIRS':'MODIS',cand=PASSES.filter(function(p){return p.s===s&&p.t>=e.a&&p.t<=Math.min(e.b,0);});if(!cand.length)cand=PASSES.filter(function(p){return p.t>=e.a&&p.t<=Math.min(e.b,0);});
+  var tot=0;cand.forEach(function(p){tot+=p.day?3:1;});var r=rnd()*tot,p=cand[0];for(var i=0;i<cand.length;i++){r-=cand[i].day?3:1;if(r<=0){p=cand[i];break;}}
+  var prog=(p.t-e.a)/((e.b-e.a)||1),sp=.3+.7*prog,c=rnd();
+  HS.push({id:'h'+HS.length,lat:e.lat+(rnd()-.5)*.07*sp,lng:e.lng+(rnd()-.5)*.09*sp,s:p.s,sat:p.sat,day:p.day,t:Math.min(-.05,p.t+(rnd()-.5)*.25),frp:Math.round((p.day?6:3)+rnd()*rnd()*(p.day?70:30)),conf:c<.15?'baixa':c<.8?'nominal':'alta',ev:e.id});}});})();
+var HEX=[];
+(function(){var r=.034,dx=r*1.5,dy=r*Math.sqrt(3)*.85,c=0,cent=[[-20.43,-43.45],[-20.40,-43.57],[-20.44,-43.66]];
+for(var x=-43.86;x<-43.14;x+=dx,c++){for(var y=-20.64+(c%2?dy/2:0);y<-20.16;y+=dy){var pts=[];for(var k=0;k<6;k++){var a=Math.PI/3*k;pts.push([y+r*.85*Math.sin(a),x+r*Math.cos(a)]);}
+ var best=9;cent.forEach(function(q){var d=Math.hypot(q[0]-y,q[1]-x);if(d<best)best=d;});
+ var v=Math.max(0,Math.min(1,Math.exp(-best*best/.012)+rnd()*.18));HEX.push({poly:pts,n:Math.round(3+v*60),v:v});}}})();
+
+var REDUCED=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var LY={mun:true,uc:true,hot:true,ev:true,fix:true,rich:false,fauna:true,bio:true},selected=null,hov=null,curAlt=2.2,globe=null,base='gray';
+var tEnd=0,tWin=168,htmlKey='',hotKey='';
+var gEl=document.getElementById('globe'),panel=document.getElementById('panel'),live=document.getElementById('live');
+var TILES={gray:['https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/',16],topo:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/',17],sat:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/',17]};
+
+function frpIdx(f){return f<15?0:f<40?1:2;}
+function frpTxt(f){return ['baixa','média','alta'][frpIdx(f)];}
+function initials(s){return s.pop.split(/[ -]/).map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();}
+function tip(t){return '<div class="tip">'+t+'</div>';}
+function isMobile(){return window.innerWidth<=900;}
+function vis(){var a=Math.max(-168,tEnd-tWin);return HS.filter(function(h){return h.t>a&&h.t<=tEnd;});}
+function age(h){return (tEnd-h.t)/Math.max(1,Math.min(tWin,tEnd+168));}
+function alphaOf(h){var a=.95-.55*age(h);return h.conf==='baixa'?a*.45:a;}
+function areaOf(h){var u=UC.filter(function(x){return pip([h.lat,h.lng],x.poly);})[0]||MUN.filter(function(x){return pip([h.lat,h.lng],x.poly);})[0];return u?u.name:'fora das áreas do mock';}
+
+/* hull de cada evento, para o contorno tracejado */
+function hullOf(pts){if(pts.length<3){var c=[0,0];pts.forEach(function(p){c[0]+=p[0]/pts.length;c[1]+=p[1]/pts.length;});var o=[];for(var i=0;i<16;i++){var a=i/16*Math.PI*2;o.push([c[0]+.014*Math.sin(a),c[1]+.016*Math.cos(a)]);}return o;}
+ var P=pts.map(function(p){return [p[1],p[0]];}).sort(function(a,b){return a[0]-b[0]||a[1]-b[1];});
+ function cr(o,a,b){return (a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);}
+ var lo=[],up=[];P.forEach(function(p){while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);});
+ P.slice().reverse().forEach(function(p){while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p);});
+ var h=lo.slice(0,-1).concat(up.slice(0,-1)).map(function(p){return [p[1],p[0]];}),c2=centroid(h);
+ h=h.map(function(p){var dy=p[0]-c2[0],dx=p[1]-c2[1],d=Math.hypot(dx,dy)||1;return [p[0]+dy/d*.012,p[1]+dx/d*.014];});
+ return smooth(h,2);}
+function events(V){var g={};V.forEach(function(h){(g[h.ev]=g[h.ev]||[]).push(h);});return Object.keys(g).map(function(k){var ring=hullOf(g[k].map(function(h){return [h.lat,h.lng];})),ne=ring.reduce(function(a,p){return p[0]+p[1]>a[0]+a[1]?p:a;});
+ var fresh=g[k].filter(function(h){return h.t>tEnd-12;}),c=centroid(ring);return {id:k,ring:ring,ne:ne,n:g[k].length,fresh:fresh.length,c:c,frp:Math.max.apply(null,g[k].map(function(h){return h.frp;}))};});}
+
+function polys(){var out=[];
+ if(LY.rich)HEX.forEach(function(h){out.push({geo:geo(h.poly),rich:h.v,alt:.0003,name:'≈ '+h.n+' espécies registradas (exemplo)'});});
+ if(LY.mun)MUN.forEach(function(m){out.push({id:m.id,t:'mun',geo:geo(m.poly),alt:.0006,name:m.name+(m.real?' · limite IBGE':'')});});
+ if(LY.uc)UC.forEach(function(u){out.push({id:u.id,t:'uc',geo:geo(u.poly),alt:.0012,name:u.name});});
+ return out;}
+function capColor(d){if(d.rich!=null)return 'rgba(46,139,87,'+(.05+d.rich*.45)+')';var s=selected===d.id,h=hov===d.id;
+ if(d.t==='mun')return s?'rgba(229,0,75,.06)':h?'rgba(34,38,42,.05)':'rgba(0,0,0,0)';return s?'rgba(229,0,75,.14)':h?'rgba(46,139,87,.32)':'rgba(46,139,87,.18)';}
+function strokeColor(d){if(d.rich!=null)return null;if(selected===d.id)return C.brand;return d.t==='mun'?(hov===d.id?C.ink:C.mun):C.green;}
+function htmlItems(){var out=[],V=LY.hot&&!hist?vis():[];
+ if(hist&&wantPts())HEV.ev.slice(0,5).forEach(function(e,i){out.push({lat:e.ne[0],lng:e.ne[1],k:'ev',t:String(i+1)});});
+ if(LY.bio&&curAlt>.5)BIO.forEach(function(b){out.push({lat:b.lat,lng:b.lng,t:b.n,k:'bio'});});
+ if(curAlt>.3)out.push({lat:OP[0],lng:OP[1],t:'Ouro Preto',k:'pin'});
+ if(LY.mun&&curAlt<.5&&curAlt>.03)MUN.forEach(function(m){var c=centroid(m.poly);out.push({lat:c[0],lng:c[1],t:m.name,k:'mun'});});
+ if(LY.uc&&curAlt<.06)UC.forEach(function(u){var s=u.poly.reduce(function(a,p){return p[0]<a[0]?p:a;});out.push({lat:s[0]-.006,lng:s[1],t:u.name,k:'uc'});});
+ if(curAlt>=CLOSE&&curAlt<.6)V.forEach(function(h){out.push({lat:h.lat,lng:h.lng,k:'hs',h:h,a:Math.round(alphaOf(h)*10)});});
+ if(LY.ev&&curAlt<.07)events(V).forEach(function(e){out.push({lat:e.ne[0],lng:e.ne[1],k:'ev',t:e.id});});
+ if(LY.fix&&curAlt<.07)FIX.forEach(function(f){out.push({lat:f.lat,lng:f.lng,k:'fix',t:f.name});});
+ if(LY.fauna&&!hist&&curAlt<.02)Object.keys(SP).forEach(function(k){SP[k].pos.forEach(function(p){out.push({lat:p[0],lng:p[1],k:'fauna',key:k,ph:!!SP[k].photo});});});
+ return out;}
+var CLOSE=.03;
+function dotRad(d){return Math.max(d.s==='MODIS'?.0046:.0017,curAlt*.2);}
+var tmats={};
+function tileMat(d){if(d.hist){var hk='h'+d.b;if(!tmats[hk]){var HMt=globe.globeMaterial().constructor;tmats[hk]=new HMt({color:'#000',emissive:'rgb('+HRAMP[d.b]+')',emissiveIntensity:1,transparent:true,premultipliedAlpha:true,blending:4,depthWrite:false});/* 4 = MultiplyBlending: a cor tinge o mapa por baixo, e nomes e limites continuam legíveis */}return tmats[hk];}
+ var c=FIRE[frpIdx(d.frp)],a=Math.round(alphaOf(d)*10)/10,key=c+a;if(!tmats[key]){var M=globe.globeMaterial().constructor;tmats[key]=new M({color:'rgb('+c+')',emissive:'rgb('+c+')',emissiveIntensity:.45,transparent:true,opacity:a,depthWrite:false});}return tmats[key];}
+function hotLabel(d){return tip('<b>'+d.sat+' · '+d.s+'</b> · '+frpTxt(d.frp)+', '+d.frp+' MW<br>'+fmtT(d.t)+' · '+(d.day?'dia':'noite')+'<br>confiança '+d.conf+' · evento '+d.ev+'<br><span style="color:'+C.ink3+'">clique para detalhes · exemplo</span>');}
+
+/* histórico mensal real: NASA FIRMS, MODIS, Minas Gerais, grade 0,1° (data/mg-modis-mensal.js) */
+var HM=window.MG_HIST||null,hist=false,hIdx=0,HTOT=[],HRAMP=['255,237,160','254,178,76','253,121,40','227,26,28','170,0,38','84,0,28'],HCUT=[1,3,8,20,50,120],MESC=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+/* VIIRS S-NPP 2012–2025 (data/mg-viirs-mensal.js) e harmonização: fator VIIRS/MODIS por mês do calendário, medido na sobreposição;
+   antes de 2012 o MODIS é multiplicado pelo fator do mês e tudo fica na escala VIIRS (o sensor que continua) */
+var HV=window.MG_HIST_V||null,sen='m',VOFF=0,VT=[],KF=[],KAVG=1,KR=0,SER=[];
+function tot(a){var s=0;for(var i=1;i<a.length;i+=2)s+=a[i];return s;}
+if(HM){HTOT=HM.m.map(tot);hIdx=HTOT.length-4;}
+if(HM&&HV){sen='h';VOFF=(HV.y0-HM.y0)*12;VT=HV.m.map(tot);var sm=[],sv=[],tm=0,tv=0;for(var k=0;k<12;k++){sm.push(0);sv.push(0);}
+ VT.forEach(function(v,j){var i=j+VOFF;if(i<HTOT.length){sv[i%12]+=v;sm[i%12]+=HTOT[i];tv+=v;tm+=HTOT[i];}});
+ KF=sm.map(function(m,k){return m?sv[k]/m:tv/tm;});KAVG=tv/tm;
+ var xs=[],ys=[];VT.forEach(function(v,j){var i=j+VOFF;if(i<HTOT.length){xs.push(HTOT[i]*KF[i%12]);ys.push(v);}});
+ var kmx=xs.reduce(function(a,b){return a+b;},0)/xs.length,kmy=ys.reduce(function(a,b){return a+b;},0)/ys.length,sxy=0,sxx=0,syy=0;xs.forEach(function(x,q){sxy+=(x-kmx)*(ys[q]-kmy);sxx+=(x-kmx)*(x-kmx);syy+=(ys[q]-kmy)*(ys[q]-kmy);});KR=sxy/Math.sqrt(sxx*syy);}
+function ser(i){var j=i-VOFF;if(sen==='m')return HTOT[i];if(sen==='v')return j>=0?VT[j]:null;return j>=0?VT[j]:HTOT[i]*KF[i%12];}
+function setSer(){SER=HTOT.map(function(_,i){return ser(i);});}setSer();
+/* janela do histórico: 1 mês, 12 meses ou tudo até o mês escolhido (0) */
+var hWin=1,HCX=null;
+function wLen(){return hWin||hIdx+1;}
+function hFrom(){return Math.max(0,hIdx-wLen()+1);}
+function hRange(){return hWin===1?hLabel(hIdx):hLabel(hFrom())+' a '+hLabel(hIdx);}
+function cuts(){if(hWin===1)return sen==='m'?HCUT:HCUT.map(function(c){return c===1?1:Math.round(c*KAVG);});return HCX||HCUT;}
+function hBin(n){var C2=cuts();for(var i=C2.length-1;i>0;i--)if(n>=C2[i])return i;return 0;}
+function monthCells(i,acc){var j=i-VOFF,useV=sen!=='m'&&HV&&j>=0;if(sen==='v'&&!useV)return;var D=useV?HV:HM,a=D.m[useV?j:i],f=sen==='h'&&!useV?KF[i%12]:1;
+ for(var q=0;q<a.length;q+=2){var c=D.cells[a[q]],k=c[0]+','+c[1],o=acc[k]||(acc[k]={c:c,n:0,v:0,m:0});o.n+=a[q+1]*f;if(useV)o.v=1;else o.m=1;}}
+function hAcc(){var acc={};for(var i=hFrom();i<=hIdx;i++)monthCells(i,acc);return acc;}
+function hTiles(){var acc=hAcc(),o=[],ks=Object.keys(acc);
+ if(hWin!==1){// janelas longas: faixas pelos quantis da própria janela, senão tudo vira a cor mais forte
+  var vs=ks.map(function(k){return acc[k].n;}).sort(function(a,b){return a-b;}),q=function(p){return vs[Math.min(vs.length-1,Math.floor(p*vs.length))]||1;};
+  HCX=[1,q(.5),q(.75),q(.9),q(.97),q(.995)].map(function(v){return Math.max(1,Math.round(v));});for(var z=1;z<HCX.length;z++)if(HCX[z]<=HCX[z-1])HCX[z]=HCX[z-1]+1;}
+ /* longe, células de 11 km juntam em blocos de 2×2 ou 4×4: menos objetos no globo (2.500 viram ~250 no Brasil inteiro). Cor = a célula mais quente do bloco */
+ var F=curAlt>.9?4:curAlt>.45?2:1,G={};
+ ks.forEach(function(k){var x=acc[k],gi=Math.floor(x.c[0]/F),gj=Math.floor(x.c[1]/F),y=G[gi+','+gj]||(G[gi+','+gj]={gi:gi,gj:gj,n:0,b:0,v:0,m:0});y.n+=x.n;y.b=Math.max(y.b,hBin(x.n));y.v|=x.v;y.m|=x.m;});
+ Object.keys(G).forEach(function(k){var x=G[k];o.push({hist:1,lat:(x.gi+.5)*F*HM.cell,lng:(x.gj+.5)*F*HM.cell,w:F*HM.cell,km:11*F,n:x.n,b:x.b,src:x.v&&x.m?'VIIRS e MODIS convertido':x.v?'VIIRS':(sen==='h'?'MODIS convertido para escala VIIRS':'MODIS')});});
+ return o;}
+function hLabel(i){return MESC[i%12]+' '+(HM.y0+Math.floor(i/12));}
+function hStat(i){var v=[];for(var k=i%12;k<SER.length;k+=12)if(k!==i&&SER[k]!=null)v.push(SER[k]);v.sort(function(a,b){return a-b;});return {med:v[v.length>>1]||0,pc:v.length?Math.round(v.filter(function(x){return x<SER[i];}).length/v.length*100):0};}
+function nf(v){return Math.round(v).toLocaleString('pt-BR');}
+/* camadas coladas no chão: a altura acompanha o zoom, então não há paralaxe de perto nem z-fighting de longe */
+function setLifts(){globe.polygonAltitude(function(d){return d.alt*3*curAlt;}).tileAltitude(function(d){return (d.hist?.004:.005)*curAlt;}).pathPointAlt(function(){return .005*curAlt;}).ringAltitude(function(){return .005*curAlt;}).particleAltitude(function(){return .0045*curAlt;});}
+/* focos exatos do mês (data/pts/AAAA-MM.js), carregados sob demanda quando o globo aproxima no histórico */
+var PTS={},PTS_ALT=.3;
+window.__pts=function(m,d){PTS[m]=d;if(hist)refreshHot(true);};
+function mKey(i){var m=i%12+1;return (HM.y0+Math.floor(i/12))+'-'+(m<10?'0':'')+m;}
+function wantPts(){return hist&&hWin===1&&curAlt<PTS_ALT;}
+function loadPts(k){if(k in PTS)return;PTS[k]=0;var s=document.createElement('script');s.src='data/pts/'+k+'.js';s.onerror=function(){PTS[k]={M:[],V:[]};};document.head.appendChild(s);}
+/* focos do mês: lista plana lat*1000, lng*1000, frp, dia */
+function hPts(){var k=mKey(hIdx),d=PTS[k];for(var z=1;z<4&&hIdx+z<HTOT.length;z++)loadPts(mKey(hIdx+z));if(!d){loadPts(k);return null;}
+ var j=hIdx-VOFF,I=sen==='m'?'M':sen==='v'?'V':(j>=0&&HV?'V':'M'),a=(sen==='v'&&j<0)?[]:d[I]||[],g=[[],[],[]],L=[];
+ for(var q=0;q<a.length;q+=4){var p={lat:a[q]/1000,lng:a[q+1]/1000,frp:a[q+2],d:a[q+3]};g[frpIdx(p.frp)].push(p);L.push(p);}
+ var ck=k+I;if(HEV.k!==ck)HEV={k:ck,ev:hEvents(L)};return {g:g,I:I,n:L.length,ev:HEV.ev};}
+/* eventos: focos ligados se estão a até ~1,6 km e 2 dias um do outro (componentes conexos); 4 ou mais focos viram um evento */
+var HEV={k:null,ev:[]},ER=.015;
+function hEvents(L){var grid={},K=function(i,j){return i+'_'+j;};
+ L.forEach(function(p,x){var k=K(Math.floor(p.lat/ER),Math.floor(p.lng/ER));(grid[k]=grid[k]||[]).push(x);});
+ var lab=new Int32Array(L.length).fill(-1),groups=[];
+ for(var s=0;s<L.length;s++){if(lab[s]>=0)continue;var id=groups.length,q=[s],mem=[];lab[s]=id;
+  while(q.length){var x=q.pop(),p=L[x],i=Math.floor(p.lat/ER),j=Math.floor(p.lng/ER);mem.push(p);
+   for(var di=-1;di<=1;di++)for(var dj=-1;dj<=1;dj++){var c=grid[K(i+di,j+dj)];if(!c)continue;
+    for(var z=0;z<c.length;z++){var y=c[z];if(lab[y]>=0)continue;var o=L[y];if(Math.abs(o.d-p.d)<=2&&Math.abs(o.lat-p.lat)<ER&&Math.abs(o.lng-p.lng)<ER*1.06){lab[y]=id;q.push(y);}}}}
+  groups.push(mem);}
+ return groups.filter(function(m){return m.length>=4;}).map(function(m){var d0=99,d1=0,f=0;m.forEach(function(p){d0=Math.min(d0,p.d);d1=Math.max(d1,p.d);f+=p.frp;});
+  var ring=hullOf(m.map(function(p){return [p.lat,p.lng];})),c=centroid(ring);
+  return {n:m.length,d0:d0,d1:d1,frp:f,ring:ring,c:c,ne:ring.reduce(function(a,p){return p[0]+p[1]>a[0]+a[1]?p:a;}),km2:ringKm2(ring),mun:munAt(c[0],c[1])};}).sort(function(a,b){return b.n-a.n;});}
+function ringKm2(r){var s=0,k=111.32*Math.cos(r[0][0]*Math.PI/180);for(var i=0;i<r.length;i++){var a=r[i],b=r[(i+1)%r.length];s+=(a[1]*k)*(b[0]*110.57)-(b[1]*k)*(a[0]*110.57);}return Math.abs(s/2);}
+var MMUN=window.MG_MUN||null;
+function munAt(lat,lng){if(!MMUN)return '';var c=MMUN.c[Math.floor(lat/.1)+','+Math.floor(lng/.1)];return c?MMUN.n[c]:'';}
+function ptsLegend(P){if(!P.n)return '<span>'+(sen==='v'&&hIdx<VOFF?'VIIRS só existe a partir de 2012; escolha MODIS ou Harmonizado':'Nenhum foco em MG em '+hLabel(hIdx))+' · NASA FIRMS, dado real</span>';return ['até 15 MW','15 a 40 MW','acima de 40 MW'].map(function(t,i){return '<span><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="rgb('+FIRE[i]+')"/></svg>'+t+'</span>';}).join('')+
+ '<span>cada ponto é um foco '+(P.I==='M'?'MODIS (pixel ~1 km)':'VIIRS (pixel 375 m)')+' · '+nf(P.n)+' em '+hLabel(hIdx)+' · NASA FIRMS, dado real</span>';}
+/* leitura: o que os números dizem, em frases */
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+function fp(p){return p<.01?'< 0,01':p.toFixed(2).replace('.',',');}
+var MESF=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+function Phi(z){var t=1/(1+.2316419*z),d=.3989423*Math.exp(-z*z/2);return 1-d*t*(.3193815+t*(-.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));}
+function mkTrend(m){var xs=[],ys=[];for(var k=m;k<SER.length;k+=12)if(SER[k]!=null){xs.push(HM.y0+Math.floor(k/12));ys.push(SER[k]);}
+ var n=ys.length,S=0,sl=[];for(var i=0;i<n;i++)for(var j=i+1;j<n;j++){S+=Math.sign(ys[j]-ys[i]);sl.push((ys[j]-ys[i])/(xs[j]-xs[i]));}
+ sl.sort(function(a,b){return a-b;});var b=sl.length?sl[sl.length>>1]:0,v=n*(n-1)*(2*n+5)/18,z=S>0?(S-1)/Math.sqrt(v):S<0?(S+1)/Math.sqrt(v):0,med=ys.slice().sort(function(a,c){return a-c;})[n>>1]||1;
+ return {pct:b*10/med*100,p:n>3?2*(1-Phi(Math.abs(z))):1,y0:xs[0],y1:xs[n-1]};}/* Sen (mediana das inclinações) e Mann-Kendall, aproximação normal sem correção de empates */
+function ytd(i){var y=Math.floor(i/12),m=i%12,tot=function(yy){var s=0;for(var k=yy*12;k<=yy*12+m;k++){if(SER[k]==null)return null;s+=SER[k];}return s;},me=tot(y),all=[];
+ for(var yy=0;yy*12+m<SER.length;yy++){var t=tot(yy);if(t!=null)all.push(t);}return {v:me,rank:all.filter(function(x){return x>me;}).length+1,n:all.length};}
+function season(){var s=[],c=[];for(var k=0;k<12;k++){s.push(0);c.push(0);}SER.forEach(function(v,i){if(v!=null){s[i%12]+=v;c[i%12]++;}});
+ var mean=s.map(function(v,k){return c[k]?v/c[k]:0;}),tot=mean.reduce(function(a,b){return a+b;},0),pk=mean.indexOf(Math.max.apply(0,mean)),best=0,bs=-1;
+ for(k=0;k<12;k++){var w=mean[k]+mean[(k+1)%12]+mean[(k+2)%12]+mean[(k+3)%12];if(w>bs){bs=w;best=k;}}return {pk:pk,from:best,to:(best+3)%12,share:bs/(tot||1)};}
+var insight=document.getElementById('insight'),inBody=document.getElementById('inBody');
+function drawInsight(P){if(!hist||!HM){insight.hidden=true;return;}insight.hidden=false;if(insight.classList.contains('min'))return;
+ var i=hIdx,v=SER[i],st=hStat(i),mes=MESC[i%12],y=HM.y0+Math.floor(i/12),h='';
+ if(hWin===1){if(v==null)h+='<p class="lead">Sem VIIRS antes de 2012. Use Harmonizado ou MODIS.</p>';
+  else{var lv=st.pc>=90?['muito acima do normal','hot']:st.pc>=75?['acima do normal','hot']:st.pc<=10?['muito abaixo do normal','cool']:st.pc<=25?['abaixo do normal','cool']:['dentro do normal',''];
+   h+='<p class="lead '+lv[1]+'">'+cap(MESF[i%12])+' de '+y+' ficou <b>'+lv[0]+'</b>: '+nf(v)+' focos'+(st.med?', '+(v/st.med).toFixed(1).replace('.',',')+'× a mediana de '+mes:'')+' (percentil '+st.pc+').</p>';
+   var Yt=ytd(i);if(Yt.v!=null)h+='<p>De jan a '+mes+' de '+y+': <b>'+nf(Yt.v)+' focos</b>, o '+Yt.rank+'º maior acumulado em '+Yt.n+' anos.</p>';}}
+ else{var tw=0;for(var k=hFrom();k<=i;k++)tw+=SER[k]||0;h+='<p class="lead">'+cap(hRange())+': <b>'+nf(tw)+' focos</b> somados.</p>';}
+ var T=mkTrend(i%12);h+='<p>Tendência de '+MESF[i%12]+', '+T.y0+'–'+T.y1+': '+(T.p<.05?'<b>'+(T.pct>0?'alta':'queda')+' de '+Math.abs(Math.round(T.pct))+'% por década</b> (Mann-Kendall, p = '+fp(T.p)+').':'sem tendência clara (Mann-Kendall, p = '+fp(T.p)+').')+'</p>';
+ var Se=season();h+='<p>'+Math.round(Se.share*100)+'% dos focos do ano caem de '+MESC[Se.from]+' a '+MESC[Se.to]+'; o pico é em '+MESC[Se.pk]+'.</p>';
+ if(MMUN){var acc=hAcc(),by={};Object.keys(acc).forEach(function(kk){var c=MMUN.c[kk];if(!c)return;var o=by[c]||(by[c]={n:0,la:0,lo:0}),x=acc[kk];o.n+=x.n;o.la+=(x.c[0]+.5)*.1*x.n;o.lo+=(x.c[1]+.5)*.1*x.n;});
+  var top=Object.keys(by).sort(function(a,b){return by[b].n-by[a].n;}).slice(0,5);
+  if(top.length)h+='<h3>Onde mais queimou</h3><ol class="rk">'+top.map(function(c){var o=by[c];return '<li><button type="button" data-go="'+(o.la/o.n).toFixed(3)+','+(o.lo/o.n).toFixed(3)+',.12">'+esc(MMUN.n[c])+'</button><span class="num">'+nf(o.n)+'</span></li>';}).join('')+'</ol>';}
+ if(hWin===1){h+='<h3>Eventos de fogo</h3>';
+  if(P&&P.ev){var E=P.ev;h+='<p>'+nf(E.length)+' eventos com 4 ou mais focos'+(E.length?'. O maior: '+nf(E[0].n)+' focos em ~'+nf(E[0].km2)+' km²'+(E[0].mun?', em '+esc(E[0].mun):'')+'.':'.')+'</p>'+
+   (E.length?'<ol class="rk">'+E.slice(0,5).map(function(e,k){return '<li><button type="button" data-go="'+e.c[0].toFixed(3)+','+e.c[1].toFixed(3)+','+Math.min(.08,Math.max(.02,Math.sqrt(e.km2)/300)).toFixed(3)+'"><i>'+(k+1)+'</i>'+esc(e.mun||'Minas Gerais')+'</button><span class="num">'+e.n+' focos · '+(e.d0===e.d1?e.d0:e.d0+'–'+e.d1)+' '+mes+'</span></li>';}).join('')+'</ol>':'')+
+   '<p class="muted">Evento = focos a até ~1,6 km e 2 dias um do outro; provavelmente o mesmo incêndio.</p>';}
+  else h+='<p class="muted">Carregando os focos do mês…</p>';}
+ inBody.innerHTML=h;inBody.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){var g=b.dataset.go.split(',').map(Number);fly(g[0],g[1],g[2],1400);};});}
+function refreshHot(force){if(!globe)return;
+ if(hist){hotKey='';var P0=hWin===1?hPts():null,P=wantPts()?P0:null;
+  if(wantPts()&&!P0&&globe.particlesData().length)return;// mês ainda carregando: segura os pontos do anterior em vez de piscar as células
+  globe.tilesData(P?[]:hTiles());globe.particlesData(P?P.g.map(function(a,i){return {pts:a,c:'rgb('+FIRE[i]+')'};}):[]);document.querySelector('.tll').innerHTML=P?ptsLegend(P):hLegend();globe.pathsData(HM.mg.map(function(r){return {pts:r.concat([r[0]])};}).concat(P?P.ev.slice(0,400).map(function(e){return {pts:e.ring.concat([e.ring[0]])};}):[]));globe.ringsData([]);refreshHtml();drawInsight(P0);return;}var V=LY.hot?vis():[],close=curAlt<CLOSE,key=V.length+'|'+(V[0]&&V[0].id)+'|'+close+'|'+Math.round(Math.log2(curAlt)*4)+'|'+LY.ev+'|'+Math.round(tEnd);
+ if(!force&&key===hotKey)return;hotKey=key;
+ globe.tilesData(close?V:[]);
+ var E=LY.ev&&curAlt<.6?events(V):[];
+ globe.pathsData(E.map(function(e){var r=e.ring.concat([e.ring[0]]);return {pts:r};}));
+ globe.ringsData(REDUCED?[]:E.filter(function(e){return e.fresh;}));
+ refreshHtml();}
+function refreshHtml(){var it=htmlItems(),k=it.map(function(d){return d.k+(d.t||d.key||d.h.id+d.a)+d.lat.toFixed(3)+(d.ph?1:0);}).join();if(k===htmlKey)return;htmlKey=k;globe.htmlElementsData(it);}
+function refresh(){if(!globe)return;
+ globe.polygonsData(polys());
+ refreshHot(true);
+}
+function repaintPolys(){if(globe){globe.polygonCapColor(capColor).polygonStrokeColor(strokeColor);}}
+function mkEl(d){var e;
+ if(d.k==='pin'){e=document.createElement('button');e.className='gpin';e.innerHTML='<i></i><span>Ouro Preto</span>';e.setAttribute('aria-label','Ir para Ouro Preto');e.onclick=goOP;}
+ else if(d.k==='bio'||d.k==='mun'||d.k==='uc'){e=document.createElement('div');e.className='glabel'+(d.k==='bio'?'':' '+d.k);e.textContent=d.t;e.setAttribute('aria-hidden','true');}
+ else if(d.k==='hs'){var h=d.h;e=document.createElement('div');e.className='hs'+(h.s==='MODIS'?' m':'');e.style.background='rgb('+FIRE[frpIdx(h.frp)]+')';e.style.opacity=d.a/10;e.title=h.sat+' · '+frpTxt(h.frp)+', '+h.frp+' MW · '+fmtT(h.t);e.setAttribute('aria-hidden','true');e.onclick=function(ev){ev.stopPropagation();showHot(h);};}
+ else if(d.k==='ev'){e=document.createElement('div');e.className='evb';e.textContent=d.t;e.setAttribute('aria-hidden','true');}
+ else if(d.k==='fix'){e=document.createElement('div');e.className='fix';e.title=d.t+' · fora da contagem';e.setAttribute('aria-hidden','true');}
+ else{var s=SP[d.key],p=document.createElement('div'),st=document.createElement('div');e=document.createElement('div');e.className='pw';p.className='pm '+s.cl;st.className='stem';e.appendChild(p);e.appendChild(st);
+  p.setAttribute('role','button');p.tabIndex=0;p.setAttribute('aria-label',s.pop+', abrir perfil');
+  if(s.photo)p.style.backgroundImage='url('+s.photo+')';else p.textContent=initials(s);
+  var open=function(ev){ev.stopPropagation();openModal(function(){return animalHTML(d.key);});};p.onclick=open;p.onkeydown=function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();open(ev);}};}
+ return e;}
+function setBase(){var b=TILES[base];globe.globeTileEngineMaxLevel(b[1]).globeTileEngineUrl(function(x,y,l){return b[0]+l+'/'+y+'/'+x;});}
+
+function initGlobe(){
+ if(typeof Globe==='undefined'){gEl.innerHTML='<p style="padding:120px 20px;text-align:center">Não foi possível carregar o globo. Verifique a conexão com a internet.</p>';return;}
+ globe=Globe()(gEl).width(gEl.clientWidth).height(gEl.clientHeight)
+  .lineHoverPrecision(0).backgroundColor(C.map).globeImageUrl('https://unpkg.com/three-globe@2.30.0/example/img/earth-blue-marble.jpg').atmosphereColor('#A9BFCF').atmosphereAltitude(.14)
+  .polygonGeoJsonGeometry('geo').polygonCapColor(capColor).polygonSideColor(function(){return 'rgba(0,0,0,0)';}).polygonStrokeColor(strokeColor).polygonAltitude(function(d){return d.alt*3*curAlt;}).polygonsTransitionDuration(0)
+  .polygonLabel(function(d){return tip(esc(d.name));})
+  .onPolygonClick(function(d){if(d.id)select(d.id);})
+  .onPolygonHover(function(d){var n=d&&d.id||null;if(n!==hov){hov=n;gEl.style.cursor=n?'pointer':'';repaintPolys();}})
+  .pointLat('lat').pointLng('lng').pointAltitude(.0018).pointRadius(dotRad).pointResolution(18).pointsMerge(false).pointsTransitionDuration(0)
+  .pointColor(function(d){return 'rgba('+FIRE[frpIdx(d.frp)]+','+alphaOf(d).toFixed(2)+')';})
+  .pointLabel(hotLabel).onPointClick(function(d){showHot(d);})
+  .tileLat('lat').tileLng('lng').tileAltitude(function(d){return (d.hist?.004:.005)*curAlt;}).tileWidth(function(d){if(d.hist)return d.w;return (d.s==='MODIS'?.009:.0034)/Math.max(.2,Math.cos(d.lat*Math.PI/180));}).tileHeight(function(d){if(d.hist)return d.w;return d.s==='MODIS'?.009:.0034;}).tileMaterial(tileMat).tilesTransitionDuration(0)
+  .tileLabel(function(d){return d.hist?tip('<b>'+nf(d.n)+(Math.round(d.n)===1?' foco':' focos')+'</b> em '+hRange()+'<br>'+d.src+' · célula de ~'+d.km+' km · NASA FIRMS'):hotLabel(d);}).onTileClick(function(d){if(!d.hist)showHot(d);})
+  .pathPoints('pts').pathPointLat(function(p){return p[0];}).pathPointLng(function(p){return p[1];}).pathPointAlt(function(){return .005*curAlt;}).pathColor(function(){return 'rgba(34,38,42,.8)';}).pathStroke(1.4).pathDashLength(.035).pathDashGap(.025).pathDashAnimateTime(0).pathTransitionDuration(0)
+  .ringLat(function(d){return d.c[0];}).ringLng(function(d){return d.c[1];}).ringAltitude(function(){return .005*curAlt;}).ringColor(function(d){var c=FIRE[frpIdx(d.frp)];return function(t){return 'rgba('+c+','+(.75*(1-t)).toFixed(3)+')';};}).ringMaxRadius(function(){return Math.min(4,curAlt*1.1);}).ringPropagationSpeed(function(){return Math.min(4,curAlt*1.1)/1.4;}).ringRepeatPeriod(1600)
+  .particlesList('pts').particleLat('lat').particleLng('lng').particleAltitude(function(){return .0045*curAlt;}).particlesSize(5).particlesSizeAttenuation(false).particlesColor(function(d){return d.c;})
+  .htmlLat('lat').htmlLng('lng').htmlAltitude(0).htmlElement(mkEl)
+  .onGlobeClick(function(){hideHot();closeSide();})
+  .onZoom(function(p){var b=Math.round(Math.log2(p.altitude)*4),ob=Math.round(Math.log2(curAlt)*4),wp=wantPts();curAlt=p.altitude;if(b!==ob||wp!==wantPts()){setLifts();refreshHot();refreshHtml();}});
+ setBase();
+ var c=globe.controls();c.autoRotate=!REDUCED;c.autoRotateSpeed=.35;c.minDistance=100.6;c.enableDamping=true;
+ globe.pointOfView({lat:-16,lng:-48,altitude:2.2});
+ gEl.addEventListener('pointerdown',function(){c.autoRotate=false;});
+ refresh();
+ Object.keys(SP).forEach(function(k){fetch('https://api.inaturalist.org/v1/taxa?q='+encodeURIComponent(SP[k].sci)+'&rank=species&per_page=1&locale=pt-BR').then(function(r){return r.json();}).then(function(j){var t=j.results&&j.results[0];if(t&&t.default_photo&&t.default_photo.medium_url){SP[k].photo=t.default_photo.medium_url;SP[k].credit=t.default_photo.attribution||'';refreshHtml();if(selected)select(selected,true);}}).catch(function(){});});
+ MUN.forEach(function(m){fetch('https://servicodados.ibge.gov.br/api/v3/malhas/municipios/'+m.ibge+'?formato=application/vnd.geo%2Bjson&qualidade=maxima').then(function(r){return r.json();}).then(function(j){var g=j.features[0].geometry,ring=g.type==='Polygon'?g.coordinates[0]:g.coordinates.reduce(function(a,p){return p[0].length>a.length?p[0]:a;},[]);
+  m.poly=cw(ring.slice(0,-1).map(function(p){return [p[1],p[0]];}));m.real=true;globe.polygonsData(polys());htmlKey='';refreshHtml();if(selected===m.id)select(m.id,true);}).catch(function(){});});
+ if(window.ResizeObserver)new ResizeObserver(function(){globe.width(gEl.clientWidth).height(gEl.clientHeight);}).observe(gEl);}
+
+function stopRot(){if(globe)globe.controls().autoRotate=false;}
+function fly(lat,lng,alt,ms){if(!globe)return;stopRot();globe.pointOfView({lat:lat,lng:lng,altitude:alt},REDUCED?0:ms);}
+function goOP(){fly(OP[0],OP[1],.3,2200);}
+function goAll(){fly(-16,-48,2.2,1600);}
+function zoomBy(f){if(!globe)return;var v=globe.pointOfView();fly(v.lat,v.lng,Math.max(.006,Math.min(4,v.altitude*f)),500);}
+document.getElementById('gop').onclick=goOP;document.getElementById('gall').onclick=goAll;
+document.getElementById('zin').onclick=function(){zoomBy(.5);};document.getElementById('zout').onclick=function(){zoomBy(2);};
+gEl.addEventListener('keydown',function(e){if(!globe)return;var v=globe.pointOfView(),d=Math.min(10,v.altitude*14),m={ArrowLeft:[0,-d],ArrowRight:[0,d],ArrowUp:[d,0],ArrowDown:[-d,0]}[e.key];
+ if(m){e.preventDefault();fly(Math.max(-85,Math.min(85,v.lat+m[0])),v.lng+m[1],v.altitude,250);}else if(e.key==='+'||e.key==='='){e.preventDefault();zoomBy(.6);}else if(e.key==='-'||e.key==='_'){e.preventDefault();zoomBy(1.6);}});
+document.querySelectorAll('[data-base]').forEach(function(b){b.onclick=function(){base=b.dataset.base;document.querySelectorAll('[data-base]').forEach(function(x){x.setAttribute('aria-pressed',x===b);});if(globe)setBase();};});
+document.querySelectorAll('[data-l]').forEach(function(cb){cb.addEventListener('change',function(){LY[cb.dataset.l]=cb.checked;refresh();drawTL();if(selected)select(selected,true);});});
+
+/* busca: combobox com setas, Enter e coordenadas */
+var q=document.getElementById('q'),sugg=document.getElementById('sugg'),act=-1;
+function norm(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();}
+function closeSugg(){sugg.classList.remove('open');q.setAttribute('aria-expanded','false');q.removeAttribute('aria-activedescendant');act=-1;}
+function opts(){return sugg.querySelectorAll('[role=option]');}
+function setAct(i){var o=opts();if(!o.length)return;act=(i+o.length)%o.length;o.forEach(function(x,j){x.setAttribute('aria-selected',j===act);});q.setAttribute('aria-activedescendant',o[act].id);}
+function pick(o){var id=o.dataset.id;q.value='';closeSugg();closeSide();if(id.indexOf('@')===0){var p=id.slice(1).split(',');fly(+p[0],+p[1],.05,1400);live.textContent='Indo para '+p[0]+', '+p[1]+'.';}else select(id);}
+q.addEventListener('input',function(){var raw=q.value.trim(),t=norm(raw),html='';act=-1;q.removeAttribute('aria-activedescendant');if(!t){closeSugg();sugg.innerHTML='';return;}
+ var cm=raw.match(/^(-?\d{1,2}(?:[.,]\d+)?)\s*[;,\s]\s*(-?\d{1,3}(?:[.,]\d+)?)$/);
+ if(cm){var la=parseFloat(cm[1].replace(',','.')),lo=parseFloat(cm[2].replace(',','.'));if(Math.abs(la)<=90&&Math.abs(lo)<=180)html+='<div role="option" id="op-c" data-id="@'+la+','+lo+'" aria-selected="false">Ir para '+la+', '+lo+' <span class="muted">· coordenada</span></div>';}
+ var m=UC.concat(MUN).filter(function(x){return norm(x.name).indexOf(t)>-1;});
+ html+=m.map(function(x){return '<div role="option" id="op-'+x.id+'" data-id="'+x.id+'" aria-selected="false">'+esc(x.name)+' <span class="muted">· '+(x.type==='uc'?'unidade':'município')+'</span></div>';}).join('');
+ sugg.innerHTML=html||'<p class="muted" style="margin:8px 10px">Nada encontrado. Tente "Itacolomi", "Mariana" ou "-20.4, -43.5".</p>';
+ sugg.classList.add('open');q.setAttribute('aria-expanded','true');
+ opts().forEach(function(o){o.onmousedown=function(e){e.preventDefault();};o.onclick=function(){pick(o);};});});
+q.addEventListener('keydown',function(e){var o=opts();
+ if(e.key==='ArrowDown'){e.preventDefault();if(o.length){if(!sugg.classList.contains('open')){sugg.classList.add('open');q.setAttribute('aria-expanded','true');}setAct(act+1);}}
+ else if(e.key==='ArrowUp'){e.preventDefault();if(o.length)setAct(act-1);}
+ else if(e.key==='Enter'){if(o.length){e.preventDefault();pick(o[act<0?0:act]);}}
+ else if(e.key==='Escape'){if(sugg.classList.contains('open')){e.stopPropagation();closeSugg();}}});
+q.addEventListener('blur',function(){setTimeout(closeSugg,120);});
+
+/* linha do tempo */
+var tlSvg=document.getElementById('tlSvg'),tlR=document.getElementById('tlR'),tlPlot=document.getElementById('tlPlot'),playing=null;
+var T0=-168,T1=12,PAD=4;
+function tx(t,W){return PAD+(t-T0)/(T1-T0)*(W-2*PAD);}
+var tllNow=document.querySelector('.tll').innerHTML;
+function drawHist(){var W=tlPlot.clientWidth,H=56,BY=38,s='',n=SER.length,mx=Math.max.apply(0,SER.filter(function(v){return v!=null;})),bw=(W-2*PAD)/n;if(!W)return;
+ var X=function(i){return PAD+i*bw;};
+ for(var y=0;y*12<n;y++){if(y%2)s+='<rect x="'+X(y*12)+'" y="0" width="'+12*bw+'" height="'+BY+'" fill="'+C.night+'" fill-opacity=".6"/>';
+  if(y%4===0)s+='<line x1="'+X(y*12)+'" y1="'+BY+'" x2="'+X(y*12)+'" y2="'+(BY+8)+'" stroke="'+C.line+'"/><text x="'+(X(y*12)+3)+'" y="'+(H-4)+'" font-size="11" fill="'+C.ink3+'" font-family="Figtree,sans-serif">'+(HM.y0+y)+'</text>';}
+ if(sen==='v')s+='<text x="'+X(VOFF/2)+'" y="'+(BY/2+4)+'" font-size="12" fill="'+C.ink3+'" text-anchor="middle" font-family="Figtree,sans-serif">VIIRS S-NPP começa em 2012</text>';
+ if(sen==='h')s+='<line x1="'+X(VOFF)+'" y1="0" x2="'+X(VOFF)+'" y2="'+BY+'" stroke="'+C.ink3+'" stroke-dasharray="2 2"/><text x="'+(X(VOFF)-4)+'" y="10" font-size="10.5" fill="'+C.ink3+'" text-anchor="end" font-family="Figtree,sans-serif">MODIS × fator</text><text x="'+(X(VOFF)+4)+'" y="10" font-size="10.5" fill="'+C.ink3+'" font-family="Figtree,sans-serif">VIIRS</text>';
+ SER.forEach(function(v,i){if(v==null)return;var h=v/mx*(BY-4),vi=sen==='v'||(sen==='h'&&i>=VOFF);if(h>0)s+='<rect x="'+X(i)+'" y="'+(BY-h)+'" width="'+Math.max(1,bw-.6)+'" height="'+h+'" fill="'+(i>=hFrom()&&i<=hIdx?C.brand:vi?C.viirs:C.modis)+'" opacity="'+(i>=hFrom()&&i<=hIdx?(i===hIdx?1:.55):.75)+'"/>';});
+ s+='<line x1="'+PAD+'" y1="'+BY+'" x2="'+(W-PAD)+'" y2="'+BY+'" stroke="'+C.line+'"/>';
+ var xe=X(hIdx)+bw/2;s+='<line x1="'+xe+'" y1="0" x2="'+xe+'" y2="'+BY+'" stroke="'+C.brand+'" stroke-width="2"/><rect class="knob" x="'+(xe-6)+'" y="'+(BY/2-9)+'" width="12" height="18" rx="4" fill="#fff" stroke="'+C.brand+'" stroke-width="2"/>';
+ tlSvg.setAttribute('viewBox','0 0 '+W+' '+H);tlSvg.innerHTML=s;tlR.style.left=(PAD-10)+'px';tlR.style.width=(W-2*PAD+20)+'px';
+ var st=hStat(hIdx),v=SER[hIdx],mes=MESC[hIdx%12];
+ document.getElementById('tl-t').textContent='Focos em Minas Gerais · '+hRange();var tw=0;for(var wi=hFrom();wi<=hIdx;wi++)tw+=SER[wi]||0;
+ document.getElementById('tlRange').textContent=hWin!==1?nf(tw)+(sen==='h'?' focos somados (escala VIIRS)':' focos somados')+' em '+(hIdx-hFrom()+1)+' meses':v==null?'sem VIIRS antes de 2012 · use Harmonizado ou MODIS':nf(v)+(sen==='h'?' focos (escala VIIRS)':' focos')+' · mediana de '+mes+': '+nf(st.med)+' · percentil '+st.pc+(sen==='h'?' · fator de '+mes+': '+KF[hIdx%12].toFixed(1).replace('.',','):'');
+ tlR.setAttribute('aria-valuetext',hLabel(hIdx)+': '+(v==null?'sem dado VIIRS':nf(v)+' focos, percentil '+st.pc+' para o mês.'));}
+function hLegend(){var C2=cuts(),src=sen==='m'?'MODIS (Terra + Aqua)':sen==='v'?'VIIRS S-NPP, 375 m':'VIIRS; antes de 2012, MODIS × fator do mês (r = '+KR.toFixed(2).replace('.',',')+')';
+ return HRAMP.map(function(c,i){return '<span><svg width="12" height="12" aria-hidden="true"><rect width="12" height="12" rx="2" fill="rgb('+c.split(',').map(function(v){return Math.round(v*.86);}).join(',')+')"/></svg>'+C2[i]+(i===HRAMP.length-1?'+':'')+'</span>';}).join('')+'<span>focos por célula de ~11 km · NASA FIRMS, '+src+' · dado real'+(hWin===1?' · <b>aproxime para ver cada foco</b>':' · <b>escolha Mês e aproxime para ver cada foco</b>')+'</span>';}
+function drawTL(){if(hist){drawHist();return;}var W=tlPlot.clientWidth,H=56,BY=30,s='',area=selected?byId[selected]:null;if(!W)return;
+ var src=area?HS.filter(function(h){return pip([h.lat,h.lng],area.poly);}):HS,a=Math.max(T0,tEnd-tWin);
+ for(var d=-8;d<=1;d++){var n0=d*24+18-15,n1=n0+12;if(n1<T0||n0>T1)continue;s+='<rect x="'+tx(Math.max(T0,n0),W)+'" y="0" width="'+(tx(Math.min(T1,n1),W)-tx(Math.max(T0,n0),W))+'" height="'+BY+'" fill="'+C.night+'"/>';}
+ s+='<rect x="'+tx(0,W)+'" y="0" width="'+(tx(T1,W)-tx(0,W))+'" height="'+BY+'" fill="#fff" fill-opacity=".55"/>';
+ s+='<rect x="'+tx(a,W)+'" y="0" width="'+Math.max(2,tx(tEnd,W)-tx(a,W))+'" height="'+BY+'" fill="'+C.brand+'" fill-opacity=".04"/><rect x="'+tx(a,W)+'" y="0" width="'+Math.max(2,tx(tEnd,W)-tx(a,W))+'" height="3" fill="'+C.brand+'"/>';
+ var bins={},mx=1,bw=3;src.forEach(function(h){var b=Math.floor((h.t-T0)/bw);var o=bins[b]=bins[b]||{M:0,V:0};o[h.s==='MODIS'?'M':'V']++;mx=Math.max(mx,o.M+o.V);});
+ var px=(W-2*PAD)/((T1-T0)/bw),sc=(BY-6)/mx;
+ Object.keys(bins).forEach(function(b){var o=bins[b],t=T0+b*bw,x=tx(t,W)+.5,w=Math.max(2,px-1.5),inW=t+bw>a&&t<=tEnd,op=inW?1:.28,hM=o.M*sc,hV=o.V*sc;
+  if(o.M)s+='<rect x="'+x+'" y="'+(BY-hM)+'" width="'+w+'" height="'+hM+'" rx="1" fill="'+C.modis+'" opacity="'+op+'"/>';
+  if(o.V)s+='<rect x="'+x+'" y="'+(BY-hM-hV)+'" width="'+w+'" height="'+hV+'" rx="1" fill="'+C.viirs+'" opacity="'+op+'"/>';});
+ s+='<line x1="'+PAD+'" y1="'+BY+'" x2="'+(W-PAD)+'" y2="'+BY+'" stroke="'+C.line+'"/>';
+ PASSES.forEach(function(p){var x=tx(p.t,W),fut=p.t>0,col=p.s==='MODIS'?C.modis:C.viirs;s+=p.s==='MODIS'?'<rect x="'+(x-2)+'" y="'+(BY+4)+'" width="4" height="4" fill="'+(fut?'#fff':col)+'" stroke="'+col+'" stroke-width="1"/>':'<circle cx="'+x+'" cy="'+(BY+11)+'" r="2" fill="'+(fut?'#fff':col)+'" stroke="'+col+'" stroke-width="1"/>';});
+ for(d=-7;d<=0;d++){var m=d*24-15,x2=tx(m,W);if(m<T0)continue;var dt=tDate(m);s+='<line x1="'+x2+'" y1="'+(BY)+'" x2="'+x2+'" y2="'+(BY+16)+'" stroke="'+C.line+'"/><text x="'+(x2+3)+'" y="'+(H-2)+'" font-size="11" fill="'+C.ink3+'" font-family="Figtree,sans-serif">'+DOW[dt.getDay()]+' '+dt.getDate()+'</text>';}
+ var xe=tx(tEnd,W),x0=tx(0,W);
+ s+='<line x1="'+x0+'" y1="0" x2="'+x0+'" y2="'+(BY+16)+'" stroke="'+C.ink+'" stroke-width="1" stroke-dasharray="2 2"/><text x="'+(x0+4)+'" y="10" font-size="11" font-weight="700" fill="'+C.ink+'" font-family="Figtree,sans-serif">agora</text>';
+ s+='<line x1="'+xe+'" y1="0" x2="'+xe+'" y2="'+BY+'" stroke="'+C.brand+'" stroke-width="2.5"/><rect class="knob" x="'+(xe-6)+'" y="'+(BY/2-9)+'" width="12" height="18" rx="4" fill="#fff" stroke="'+C.brand+'" stroke-width="2"/>';
+ tlSvg.setAttribute('viewBox','0 0 '+W+' '+H);tlSvg.innerHTML=s;
+ tlR.style.left=(tx(T0,W)-10)+'px';tlR.style.width=(tx(0,W)-tx(T0,W)+20)+'px';
+ var V=src.filter(function(h){return h.t>a&&h.t<=tEnd;});
+ document.getElementById('tl-t').textContent=area?'Focos em '+area.name:'Focos na região de Ouro Preto';
+ document.getElementById('tlRange').textContent=fmtShort(a)+' → '+(tEnd>-.5?'agora':fmtShort(tEnd))+' · '+V.length+(V.length===1?' foco':' focos');
+ tlR.setAttribute('aria-valuetext','Até '+fmtT(tEnd)+'. '+V.length+' focos no período.');
+ var nx=PASSES.filter(function(p){return p.t>0;})[0];document.getElementById('tlNext').innerHTML=nx?'<b style="color:var(--brand-ink)">Próxima passagem:</b>&nbsp;'+nx.sat+' ('+nx.s+') às '+hm(tDate(nx.t))+', em '+hrs(nx.t):'';}
+function setEnd(v,quiet){tEnd=Math.max(T0+1,Math.min(0,v));tlR.value=Math.round(tEnd);drawTL();refreshHot();if(!quiet)hideHot();}
+tlR.addEventListener('input',function(){stopPlay();if(hist){hIdx=+tlR.value;drawTL();refreshHot(true);}else setEnd(+tlR.value);});
+function setMode(h){stopPlay();hideHot();hist=h;document.querySelectorAll('[data-mode]').forEach(function(x){x.setAttribute('aria-pressed',(x.dataset.mode==='hist')===h);});
+ document.getElementById('tlWin').style.display=h?'none':'';
+ tlR.min=h?0:-168;tlR.max=h?HTOT.length-1:0;tlR.value=h?hIdx:Math.round(tEnd);tlR.setAttribute('aria-label',h?'Mês mostrado no globo':'Fim do período mostrado no globo');
+ playBtn.setAttribute('aria-label',h?'Reproduzir os meses':'Reproduzir a semana');
+ document.getElementById('tlSen').style.display=h&&HV?'':'none';document.getElementById('tlHWin').style.display=h?'':'none';
+ document.querySelector('.tll').innerHTML=h?hLegend():tllNow;
+ if(!h)insight.hidden=true;
+ hotKey='';refreshHot(true);drawTL();if(h)fly(-19.4,-44.6,.5,1800);else if(globe){globe.pathsData([]);globe.particlesData([]);}live.textContent=h?'Histórico mensal de Minas Gerais, '+hLabel(hIdx)+'.':'Últimos 7 dias.';}
+document.querySelectorAll('[data-mode]').forEach(function(b){b.onclick=function(){if((b.dataset.mode==='hist')!==hist)setMode(!hist);};});
+if(!HM)document.getElementById('tlMode').style.display='none';
+document.getElementById('inMin').onclick=function(){var m=insight.classList.toggle('min');this.setAttribute('aria-expanded',!m);this.setAttribute('aria-label',m?'Abrir leitura':'Recolher leitura');if(!m)refreshHot(true);};
+if(matchMedia('(max-width:900px)').matches){insight.classList.add('min');}
+document.querySelectorAll('[data-hw]').forEach(function(b){b.onclick=function(){hWin=+b.dataset.hw;document.querySelectorAll('[data-hw]').forEach(function(x){x.setAttribute('aria-pressed',x===b);});drawTL();refreshHot(true);};});
+document.querySelectorAll('[data-sen]').forEach(function(b){b.onclick=function(){sen=b.dataset.sen;document.querySelectorAll('[data-sen]').forEach(function(x){x.setAttribute('aria-pressed',x===b);});setSer();document.querySelector('.tll').innerHTML=hLegend();drawTL();refreshHot(true);};});
+document.querySelectorAll('[data-win]').forEach(function(b){b.onclick=function(){tWin=+b.dataset.win;document.querySelectorAll('[data-win]').forEach(function(x){x.setAttribute('aria-pressed',x===b);});drawTL();refreshHot(true);};});
+var playBtn=document.getElementById('tlPlay'),ico=document.getElementById('tlIco'),SPD=1;
+function stopPlay(){if(playing){clearInterval(playing);playing=null;ico.setAttribute('d','M5 3l10 6-10 6z');playBtn.setAttribute('aria-label',hist?'Reproduzir os meses':'Reproduzir a semana');}}
+/* velocidade: 1× = 1 mês a cada 0,4 s no histórico, 12 h por segundo na semana */
+function tick(){if(hist){if(hIdx>=HTOT.length-1){stopPlay();return;}hIdx++;tlR.value=hIdx;drawTL();refreshHot(true);}
+ else{if(tEnd>=0){stopPlay();live.textContent='Fim da semana. '+vis().length+' focos no período.';return;}setEnd(tEnd+(REDUCED?6:.6)*SPD,true);}}
+function startTimer(){clearInterval(playing);playing=setInterval(tick,hist?(REDUCED?700:400/SPD):(REDUCED?500:50));}
+playBtn.onclick=function(){if(playing){stopPlay();return;}
+ if(hist){if(hIdx>=HTOT.length-1)hIdx=0;}else if(tEnd>-1)setEnd(T0+Math.min(tWin,24),true);stopRot();
+ ico.setAttribute('d','M4 3h4v12H4zM10 3h4v12h-4z');playBtn.setAttribute('aria-label','Pausar');startTimer();};
+document.querySelectorAll('[data-spd]').forEach(function(b){b.onclick=function(){SPD=+b.dataset.spd;document.querySelectorAll('[data-spd]').forEach(function(x){x.setAttribute('aria-pressed',x===b);});if(playing)startTimer();};});
+if(window.ResizeObserver)new ResizeObserver(drawTL).observe(tlPlot);
+
+/* detalhe de um foco (clique, toque ou tabela) */
+var hcard=document.getElementById('hcard');
+function showHot(h,goTo){var d=tDate(h.t);
+ hcard.innerHTML='<div class="hh"><span class="dot" style="width:14px;height:14px;margin-top:3px;background:rgb('+FIRE[frpIdx(h.frp)]+')"></span><div style="flex:1"><b>Foco '+h.sat+' · '+h.s+'</b><span class="muted">'+esc(areaOf(h))+' · exemplo</span></div><button class="ib" type="button" data-hx aria-label="Fechar detalhe do foco"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>'+
+ '<dl><dt>Detecção</dt><dd>'+fmtT(h.t)+' · '+(h.day?'dia':'noite')+'</dd><dt>Há</dt><dd>'+hrs(-h.t)+'</dd><dt>Intensidade</dt><dd>'+frpTxt(h.frp)+', FRP '+h.frp+' MW</dd><dt>Confiança</dt><dd>'+h.conf+'</dd><dt>Pixel</dt><dd>'+(h.s==='MODIS'?'~1 km':'~375 m')+'</dd><dt>Evento</dt><dd>'+h.ev+'</dd><dt>Posição</dt><dd>'+h.lat.toFixed(4)+', '+h.lng.toFixed(4)+'</dd></dl>';
+ hcard.hidden=false;hcard.querySelector('[data-hx]').onclick=hideHot;
+ live.textContent='Foco '+h.s+' de '+fmtT(h.t)+', intensidade '+frpTxt(h.frp)+', confiança '+h.conf+'.';
+ if(goTo)fly(h.lat,h.lng,.012,1200);}
+function hideHot(){hcard.hidden=true;}
+
+function statsOf(x){var hs=HS.filter(function(h){return pip([h.lat,h.lng],x.poly);}),n=hs.length,km2=x.ha/100,pct=Math.min(100,n*.14/km2*100),pc=Math.min(99,Math.round(35+n*2.4));
+ var mo=hs.filter(function(h){return h.s==='MODIS';}).length,evs={};hs.forEach(function(h){evs[h.ev]=1;});var low=hs.filter(function(h){return h.conf==='baixa';}).length;
+ var last=hs.reduce(function(a,h){return !a||h.t>a.t?h:a;},null),fix=FIX.filter(function(f){return pip([f.lat,f.lng],x.poly);}).length;
+ return {hs:hs,n:n,pct:pct,pc:pc,mo:mo,vi:n-mo,ev:Object.keys(evs).length,low:low,last:last,fix:fix};}
+function spList(x){return x.type==='uc'?x.sp:Object.keys(SP).filter(function(k){return x.ucs.some(function(u){return byId[u].sp.indexOf(k)>-1;});});}
+/* diagrama de fogo calculado por área (série histórica de exemplo, semente pelo id) */
+function diagram(x,s){var r=srnd(x.id),shape=[.03,.02,.03,.05,.09,.16,.38,.72,1,.62,.22,.06],peak=(6+r()*24)*(.6+Math.min(2,x.ha/40000));
+ var med=shape.map(function(v){return v*peak;}),p10=med.map(function(v){return v*.4;}),hi=1.8+r()*.5,p90=med.map(function(v){return v*hi;});
+ var cur=med.map(function(v,i){return i<9?v*(.55+r()*1.0):0;}),f=Math.max(0,Math.min(1,(s.pc-10)/80));cur[9]=p10[9]+(p90[9]-p10[9])*f;
+ var mx=Math.max.apply(null,p90.concat(cur))*1.08,X=function(i){return 49+26*i;},Y=function(v){return 160-v/mx*140;},pid='d'+x.id;
+ var band=p90.map(function(v,i){return X(i)+','+Y(v).toFixed(1);}).concat(p10.map(function(v,i){return X(i)+','+Y(v).toFixed(1);}).reverse()).join(' ');
+ var mline=med.map(function(v,i){return X(i)+','+Y(v).toFixed(1);}).join(' ');
+ var bars=cur.slice(0,10).map(function(v,i){var y=Y(v),h=160-y,up=v>med[i];return '<rect x="'+(X(i)-8)+'" y="'+y.toFixed(1)+'" width="16" height="'+Math.max(1,h).toFixed(1)+'" rx="2" fill="'+(up?'url(#'+pid+')':'#fff')+'"'+(i===9?' stroke="'+C.brand+'" stroke-width="2.5"':'')+'/>';}).join('');
+ var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+ return '<svg width="100%" viewBox="0 0 360 178" role="img" aria-label="Diagrama de fogo de '+esc(x.name)+': outubro até agora com cerca de '+Math.round(cur[9])+' focos, contra mediana histórica de '+Math.round(med[9])+' para o mês; percentil '+s.pc+'. Exemplo." style="display:block;margin-top:6px"><defs><pattern id="'+pid+'" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#F7801E"/><line x1="0" y1="0" x2="0" y2="5" stroke="#3A2A1E"/></pattern></defs>'+
+ '<rect x="'+(X(6)-13)+'" y="18" width="'+(X(9)-X(6)+26)+'" height="142" rx="6" fill="'+C.night+'" fill-opacity=".7"/><text x="'+(X(7.5))+'" y="13" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" fill="'+C.ink3+'">estação seca</text>'+
+ '<polygon points="'+band+'" fill="#D3DADF" fill-opacity=".8"/><polyline points="'+mline+'" fill="none" stroke="'+C.ink+'" stroke-width="1.3" stroke-dasharray="4 3"/><g stroke="#3A2A1E" stroke-width="1.1">'+bars+'</g>'+
+ '<line x1="36" y1="160" x2="348" y2="160" stroke="#3A2A1E" stroke-width="1.2"/><g font-family="Figtree,sans-serif" font-size="11" fill="'+C.ink3+'" text-anchor="middle">'+M.map(function(m,i){return i%2&&i!==9?'':'<text x="'+X(i)+'" y="175"'+(i===9?' font-weight="800" fill="'+C.brandInk+'"':'')+'>'+m+'</text>';}).join('')+'</g></svg>'+
+ '<div class="muted">Faixa: histórico p10 a p90 · traço: mediana · hachura: acima da mediana · outubro até dia 28 · série de exemplo, diferente por área</div>';}
+function sensors(){return '<svg width="100%" viewBox="0 0 360 54" role="img" aria-label="Satélites da série: MODIS desde 2001; VIIRS S-NPP desde 2012, NOAA-20 desde 2018 e NOAA-21 desde 2023. Os dados S-NPP da NASA terminam em 1º de novembro de 2026." style="display:block;margin-top:6px"><g font-family="Figtree,sans-serif" font-size="11" fill="'+C.ink3+'"><text x="0" y="10">MODIS</text><text x="0" y="28">VIIRS</text></g><rect x="46" y="2" width="314" height="9" rx="4" fill="'+C.modis+'"/><rect x="176" y="15" width="180" height="6" rx="3" fill="'+C.viirs+'"/><rect x="250" y="23" width="110" height="6" rx="3" fill="'+C.viirs+'" fill-opacity=".75"/><rect x="310" y="31" width="50" height="6" rx="3" fill="'+C.viirs+'" fill-opacity=".55"/><line x1="356" y1="11" x2="356" y2="25" stroke="'+C.brand+'" stroke-width="2"/><text x="356" y="50" text-anchor="end" font-family="Figtree,sans-serif" font-size="11" font-weight="700" fill="'+C.brandInk+'">S-NPP: fim dos dados NASA em 1º nov 2026</text></svg>';}
+function spGrid(ks){return '<div class="spg">'+ks.map(function(k){var s=SP[k];return '<button type="button" data-a="'+k+'" aria-label="'+esc(s.pop)+', '+esc(s.st)+', abrir perfil"><span class="ph '+s.cl+'" style="'+(s.photo?'background-image:url('+s.photo+')':'')+'">'+(s.photo?'':initials(s))+'</span><span class="n">'+esc(s.pop)+'</span></button>';}).join('')+'</div>';}
+function bindSp(root){root.querySelectorAll('[data-a]').forEach(function(b){b.onclick=function(){openModal(function(){return animalHTML(b.dataset.a);});};});}
+function hotTable(hs){var r=hs.slice().sort(function(a,b){return b.t-a.t;});return '<details class="hlist"><summary>Ver os '+r.length+' focos, um a um</summary><table><thead><tr><th scope="col">Detecção</th><th scope="col">Sensor</th><th scope="col">FRP</th><th scope="col">Confiança</th></tr></thead><tbody>'+
+ r.map(function(h){return '<tr><td><button type="button" data-h="'+h.id+'">'+fmtShort(h.t).replace(/ \d+h$/,'')+', '+hm(tDate(h.t))+'</button></td><td>'+h.s+'</td><td><span class="dot" style="background:rgb('+FIRE[frpIdx(h.frp)]+')"></span>'+h.frp+' MW</td><td>'+h.conf+'</td></tr>';}).join('')+'</tbody></table></details>';}
+
+function xIcon(){return '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--brand)"><path d="M3 3l10 10M13 3L3 13"/></svg>';}
+function intro(){selected=null;panel.innerHTML='<div class="phead"><span class="picon" style="background:var(--brand-tint)"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--brand)"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><div style="flex:1"><h1>Áreas em Ouro Preto</h1></div><button class="ib" type="button" data-close aria-label="Fechar painel">'+xIcon()+'</button></div>'+
+ '<div class="pbody"><div class="sec"><p style="margin:0">Escolha uma área para ver se o fogo está <b>acima do normal para esta época</b>.</p></div>'+
+ '<div class="sec"><h2 class="h2" style="margin-bottom:8px">Unidades de conservação</h2><div class="uclist">'+UC.map(function(u){var s=statsOf(u);return '<button type="button" data-id="'+u.id+'"><span class="picon" style="width:34px;height:34px"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--green)"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"/></svg></span><span style="flex:1"><b style="display:block;font-size:14px">'+esc(u.name)+'</b><span class="muted">'+s.n+' focos em 7 dias · percentil '+s.pc+'</span></span></button>';}).join('')+'</div></div>'+
+ '<div class="sec note">Focos da semana, eventos e espécies são exemplo. Limites municipais: IBGE. Histórico 2001–2025: NASA FIRMS.</div></div>';
+ panel.querySelectorAll('[data-id]').forEach(function(b){b.onclick=function(){select(b.dataset.id);};});
+ panel.querySelector('[data-close]').onclick=closePanel;drawTL();}
+function dl(name,type,text){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:type}));a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},500);}
+function calUrl(x){var la=x.poly.map(function(p){return p[0];}),lo=x.poly.map(function(p){return p[1];}),f=function(v){return v.toFixed(3);};
+ return 'app-calendario-do-fogo.html?view=calendario&nome='+encodeURIComponent(x.name)+'&ha='+x.ha+'&bbox='+[Math.min.apply(0,la),Math.min.apply(0,lo),Math.max.apply(0,la),Math.max.apply(0,lo)].map(f).join(',');}
+function select(id,keepView){var x=byId[id];selected=id;repaintPolys();refreshHtml();hideHot();var s=statsOf(x),ks=spList(x),hot=s.pc>=90;
+ var icon=x.type==='uc'?'<span class="picon"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--green)"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"/><path d="M12 8v8M9 12l3-3 3 3"/></svg></span>':'<span class="picon" style="background:#EEF1F3"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--ink2)"><path d="M4 20V9l8-5 8 5v11z"/><path d="M9 20v-6h6v6"/></svg></span>';
+ panel.innerHTML='<div class="phead">'+icon+'<div style="flex:1;min-width:0"><h1>'+esc(x.name)+'</h1><div class="kk"'+(x.type==='uc'?'':' style="color:var(--ink2)"')+'>'+(x.type==='uc'?'Unidade de conservação · '+esc(x.grupo.toLowerCase()):'Município'+(x.real?' · limite IBGE':''))+'</div></div><button class="ib" type="button" data-back aria-label="Voltar à visão geral"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L5 8l5 5"/></svg></button><button class="ib" type="button" data-close aria-label="Fechar painel">'+xIcon()+'</button></div>'+
+ '<div class="pbody"><div class="sec"><div class="ans'+(hot?' hot':'')+'"><small>Acima do normal para fim de outubro?</small><b>'+(hot?'Sim':'Não')+' · percentil '+s.pc+'</b><svg width="100%" viewBox="0 0 360 26" role="img" aria-label="Régua de percentil: valor '+s.pc+'" style="display:block;margin-top:4px"><rect x="0" y="8" width="360" height="8" rx="4" fill="#DDEBE2"/><rect x="36" y="8" width="288" height="8" fill="#BFDCC9"/><line x1="180" y1="4" x2="180" y2="20" stroke="#2E6B45" stroke-dasharray="2 2"/><circle cx="'+(s.pc*3.6)+'" cy="12" r="7" fill="'+(hot?C.brandInk:C.greenInk)+'" stroke="#fff" stroke-width="2"/><g font-family="Figtree,sans-serif" font-size="11" fill="#2E6B45" text-anchor="middle"><text x="36" y="26">p10</text><text x="180" y="26">mediana</text><text x="324" y="26">p90</text></g></svg><span class="muted">exemplo</span></div></div>'+
+ '<div class="sec"><div class="grid2">'+
+ (x.type==='uc'?'<div><div class="k">Municípios</div><div class="v" style="color:var(--brand-ink)">'+esc(x.muns.join(' e '))+'</div></div><div><div class="k">Gestor</div><div class="v">'+esc(x.gestor)+'</div></div>':'<div><div class="k">Unidades de conservação</div><div class="v">'+(x.ucs.length||'nenhuma no mock')+'</div></div><div><div class="k">Estado</div><div class="v">Minas Gerais</div></div>')+
+ '<div><div class="k">Último foco</div><div class="v">'+(s.last?'há '+hrs(-s.last.t)+' · '+s.last.sat:'sem focos')+'</div></div><div><div class="k">Área</div><div class="v">'+x.ha.toLocaleString('pt-BR')+' ha · '+s.pct.toFixed(2).replace('.',',')+'% com foco</div></div></div></div>'+
+ '<div class="sec"><h2 class="h2" style="margin-bottom:8px">Últimos 7 dias</h2><div class="chips"><span class="pill fire">'+s.n+' focos · '+s.mo+' MODIS + '+s.vi+' VIIRS</span><span class="pill">'+s.ev+' '+(s.ev===1?'evento':'eventos')+'</span>'+(s.low?'<span class="pill">'+s.low+' de baixa confiança</span>':'')+(s.fix?'<span class="pill">'+s.fix+' fonte fixa fora da contagem</span>':'')+'</div><p class="muted" style="margin:8px 0 0">Focos próximos da mesma queimada, vistos por satélites diferentes, contam como um evento.</p>'+(s.n?hotTable(s.hs):'')+'</div>'+
+ '<div class="sec"><div style="display:flex;justify-content:space-between;align-items:baseline"><h2 class="h2">Diagrama de fogo · 2026</h2><span class="muted">contra 2003 a 2025</span></div>'+diagram(x,s)+'</div>'+
+ '<div class="sec"><h2 class="h2" style="margin-bottom:8px">Espécies registradas</h2>'+(ks.length?spGrid(ks):'<p class="muted">Nenhuma espécie no mock.</p>')+'<p class="muted" style="margin:6px 0 0">Registros mostram onde a espécie foi observada, não toda a distribuição.</p></div>'+
+ '<div class="acts"><a class="btn pri" href="'+calUrl(x)+'" target="_blank" rel="noopener">Abrir no calendário</a><button class="btn" type="button" data-prof>Perfil completo</button><button class="btn" type="button" data-csv>Baixar CSV</button><button class="btn" type="button" data-exp>GeoJSON</button></div></div>';
+ bindSp(panel);
+ panel.querySelectorAll('[data-h]').forEach(function(b){b.onclick=function(){showHot(HS.filter(function(h){return h.id===b.dataset.h;})[0],true);};});
+ live.textContent=x.name+' selecionado. '+(hot?'Acima':'Dentro')+' do normal, percentil '+s.pc+'. '+s.n+' focos em 7 dias.';
+ panel.querySelector('[data-back]').onclick=function(){intro();repaintPolys();refreshHtml();};
+ panel.querySelector('[data-close]').onclick=closePanel;
+ panel.querySelector('[data-prof]').onclick=function(){openModal(function(){return profileHTML(id);});};
+ panel.querySelector('[data-exp]').onclick=function(){dl(x.id+'.geojson','application/geo+json',JSON.stringify({type:'Feature',properties:{nome:x.name,tipo:x.type,focos_7d:s.n,aviso:x.real?'limite IBGE; focos de exemplo':'limites ilustrativos (mock)'},geometry:geo(x.poly)},null,2));};
+ panel.querySelector('[data-csv]').onclick=function(){dl(x.id+'-focos.csv','text/csv',['latitude,longitude,data_hora_local,sensor,satelite,frp_mw,confianca,dia_noite,evento'].concat(s.hs.map(function(h){var d=tDate(h.t);return [h.lat.toFixed(5),h.lng.toFixed(5),d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'),h.s,h.sat,h.frp,h.conf,h.day?'D':'N',h.ev].join(',');})).join('\n'));};
+ openPanel();drawTL();
+ if(!keepView){var c=centroid(x.poly);fly(c[0],c[1],x.type==='uc'?.02:.035,1400);}}
+function openPanel(){panel.classList.add('open');document.body.classList.add('has-panel');}
+function closePanel(){panel.classList.remove('open');document.body.classList.remove('has-panel');selected=null;drawTL();repaintPolys();refreshHtml();}
+
+var side=document.getElementById('side'),bl=document.getElementById('btnLayers');
+bl.onclick=function(){var o=side.classList.toggle('open');bl.setAttribute('aria-expanded',o);if(o&&isMobile())panel.classList.remove('open');};
+function closeSide(){side.classList.remove('open');bl.setAttribute('aria-expanded','false');}
+function showAreas(){closeSide();if(!selected)intro();openPanel();var f=panel.querySelector('button');if(f)f.focus();}
+document.getElementById('btnPanel').onclick=showAreas;
+document.getElementById('btnAreas').onclick=function(){if(panel.classList.contains('open'))closePanel();else showAreas();};
+
+var modal=document.getElementById('modal'),sheet=document.getElementById('sheet'),stack=[],lastFocus=null;
+function profileHTML(id){var x=byId[id],s=statsOf(x),ks=spList(x);
+ var facts=x.type==='uc'?[['Categoria',x.cat],['Grupo',x.grupo],['Gestor',x.gestor],['Área',x.ha.toLocaleString('pt-BR')+' ha'],['Criação',x.ano],['Bioma',x.bioma],['Municípios',x.muns.join(', ')]]:[['Área',x.ha.toLocaleString('pt-BR')+' ha'],['Unidades de conservação',x.ucs.length?x.ucs.map(function(u){return byId[u].name;}).join(', '):'nenhuma no mock'],['Limite',x.real?'IBGE, malha municipal':'ilustrativo']];
+ return '<div class="hero"><span class="ph">'+(x.type==='uc'?'Fotos da área (Wikimedia Commons), com crédito':'Mapa do município')+'</span></div><div class="mbody"><div><div class="kk" style="font-size:13px;color:#2E6B45;font-weight:600">'+(x.type==='uc'?'Unidade de conservação':'Município')+'</div><h2 class="mt" id="mtitle">'+esc(x.name)+'</h2></div>'+
+ '<div class="grid2">'+facts.map(function(f){return '<div><div class="k">'+f[0]+'</div><div class="v">'+esc(f[1])+'</div></div>';}).join('')+'</div>'+
+ '<div><h3 class="h2" style="margin-bottom:8px">Fogo nos últimos 7 dias</h3><div class="chips"><span class="pill fire">'+s.n+' focos</span><span class="pill">percentil '+s.pc+'</span><span class="pill">'+s.pct.toFixed(2).replace('.',',')+'% da área com foco</span></div></div>'+
+ '<div><h3 class="h2">Diagrama de fogo · 2026</h3>'+diagram(x,s)+'</div>'+
+ '<div><h3 class="h2" style="margin-bottom:8px">Espécies registradas</h3>'+(ks.length?spGrid(ks):'<p class="muted">Nenhuma espécie no mock.</p>')+'</div>'+
+ '<div class="note">Dados de exemplo. Validar área, categoria e criação no CNUC/MMA antes de publicar.</div></div>';}
+function animalHTML(k){var s=SP[k],ucs=UC.filter(function(u){return u.sp.indexOf(k)>-1;});
+ return '<div class="hero" style="'+(s.photo?'background-image:url('+s.photo+')':'')+'">'+(s.photo?'':'<span class="ph">Foto da espécie (iNaturalist)</span>')+'<small>'+(s.photo?'Foto: '+esc(s.credit||'iNaturalist'):'Sem foto carregada')+'</small></div><div class="mbody">'+
+ '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap"><div><h2 class="mt" id="mtitle">'+esc(s.pop)+'</h2><div class="sci">'+esc(s.sci)+'</div></div><span class="pill warn" style="'+(s.cl==='bad'?'background:#FFF1F4;color:var(--brand-ink)':'')+'"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1l6 11H1z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>'+esc(s.st)+' (exemplo)</span></div>'+
+ '<p style="margin:0">'+esc(s.desc)+'</p>'+
+ '<div class="grid2" style="grid-template-columns:repeat(3,1fr);padding:12px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)"><div><div class="k">Ocorrências na região</div><div class="v">'+s.n+' (exemplo)</div></div><div><div class="k">Unidades com registro</div><div class="v">'+ucs.length+'</div></div><div><div class="k">Fontes</div><div class="v">GBIF e iNaturalist</div></div></div>'+
+ '<div><h3 class="k" style="margin:0 0 8px">Registrado em</h3><div class="chips">'+ucs.map(function(u){return '<button type="button" class="btn" data-u="'+u.id+'" style="border-radius:999px;background:var(--green-tint);border-color:var(--green-line);color:var(--green-ink)">'+esc(u.name)+'</button>';}).join('')+'</div></div>'+
+ '<div class="note"><b>Sobre os registros:</b> mostram onde alguém observou a espécie, não toda a sua distribuição. Perto de trilhas e cidades há mais registros porque há mais observadores. Texto e status são exemplo; validar no ICMBio (SALVE) e na IUCN.</div></div>';}
+function render(){var fn=stack[stack.length-1];sheet.innerHTML='<div class="mtop"><button class="btn" type="button" id="mback"'+(stack.length>1?'':' style="visibility:hidden"')+'>← Voltar</button><button class="btn" type="button" id="mclose" aria-label="Fechar">Fechar</button></div>'+fn();
+ document.getElementById('mclose').onclick=closeModal;document.getElementById('mback').onclick=function(){stack.pop();render();};
+ sheet.querySelectorAll('[data-a]').forEach(function(b){b.onclick=function(){var k=b.dataset.a;stack.push(function(){return animalHTML(k);});render();};});
+ sheet.querySelectorAll('[data-u]').forEach(function(b){b.onclick=function(){var u=b.dataset.u;stack.push(function(){return profileHTML(u);});render();};});
+ sheet.scrollTop=0;document.getElementById('mclose').focus();}
+function openModal(fn){lastFocus=document.activeElement;stack=[fn];modal.classList.add('open');render();}
+function closeModal(){modal.classList.remove('open');stack=[];sheet.innerHTML='';if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+modal.addEventListener('click',function(e){if(e.target===modal)closeModal();});
+document.addEventListener('keydown',function(e){
+ if(modal.classList.contains('open')){if(e.key==='Escape')closeModal();
+  if(e.key==='Tab'){var f=sheet.querySelectorAll('button,a[href]');if(!f.length)return;var a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}}return;}
+ if(e.key==='Escape'){if(!hcard.hidden)hideHot();else if(side.classList.contains('open'))closeSide();else if(panel.classList.contains('open'))closePanel();}});
+
+intro();initGlobe();drawTL();
+matchMedia('(max-width:900px)').addEventListener('change',function(){closeSide();});
+var Q=new URLSearchParams(location.search);if(byId[Q.get('sel')])select(Q.get('sel'));if(Q.get('t'))setEnd(+Q.get('t'),true);
+if(HM&&Q.get('mes')){var qm=Q.get('mes').split('-');hIdx=Math.max(0,Math.min(HTOT.length-1,(+qm[0]-HM.y0)*12+(+qm[1]-1)||hIdx));setMode(true);var qs=document.querySelector('[data-sen="'+Q.get('sen')+'"]');if(qs&&HV)qs.click();}
+if(Q.get('cam')){var cp=Q.get('cam').split(',').map(Number);if(cp.length===3&&cp.every(isFinite))setTimeout(function(){fly(cp[0],cp[1],cp[2],0);curAlt=cp[2];setLifts();refreshHot(true);refreshHtml();},2000);}
+window.__olho={goOP:goOP,select:select,setEnd:setEnd,showHot:showHot,HS:HS,get globe(){return globe;}};
+})();
+</script>
+</body>
+</html>

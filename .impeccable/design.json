@@ -1,0 +1,605 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-09T18:04:12+00:00",
+  "title": "Design System: De Olho no Fogo",
+  "extensions": {
+    "colorMeta": {
+      "brand": {
+        "role": "primary",
+        "displayName": "Answer Magenta",
+        "canonical": "#E5004B",
+        "tonalRamp": [
+          "#4C0019",
+          "#80002A",
+          "#B2003A",
+          "#E6004B",
+          "#FF296F",
+          "#FF709F",
+          "#FFB2CC",
+          "#FFE5EE"
+        ]
+      },
+      "brand-ink": {
+        "role": "primary",
+        "displayName": "Deep Magenta",
+        "canonical": "#B80040",
+        "tonalRamp": [
+          "#4C001B",
+          "#80002C",
+          "#B2003E",
+          "#E60050",
+          "#FF2973",
+          "#FF70A2",
+          "#FFB2CD",
+          "#FFE5EE"
+        ]
+      },
+      "brand-tint": {
+        "role": "primary",
+        "displayName": "Magenta Mist",
+        "canonical": "#FFE8EF",
+        "tonalRamp": [
+          "#4C0017",
+          "#800027",
+          "#B20036",
+          "#E60046",
+          "#FF296A",
+          "#FF709C",
+          "#FFB2CA",
+          "#FFE5ED"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Instrument Ink",
+        "canonical": "#22262A",
+        "tonalRamp": [
+          "#22262A",
+          "#394046",
+          "#505963",
+          "#67737F",
+          "#89949F",
+          "#B0B8BF",
+          "#D5D9DD",
+          "#F1F2F4"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#4F575E",
+        "tonalRamp": [
+          "#23262A",
+          "#3A4045",
+          "#525A61",
+          "#69737D",
+          "#8B959D",
+          "#B1B8BE",
+          "#D5D9DC",
+          "#F1F2F3"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Slate",
+        "canonical": "#575F66",
+        "tonalRamp": [
+          "#232629",
+          "#3B4045",
+          "#525A60",
+          "#6A737C",
+          "#8B949C",
+          "#B2B8BD",
+          "#D6D9DC",
+          "#F1F2F3"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Rule Grey",
+        "canonical": "#DCE1E5",
+        "tonalRamp": [
+          "#21272C",
+          "#364149",
+          "#4C5B66",
+          "#627584",
+          "#8496A4",
+          "#ADB9C2",
+          "#D3D9DE",
+          "#F0F2F4"
+        ]
+      },
+      "line-2": {
+        "role": "neutral",
+        "displayName": "Faint Rule",
+        "canonical": "#EBEEF1",
+        "tonalRamp": [
+          "#1F262D",
+          "#34404B",
+          "#4A5969",
+          "#5E7387",
+          "#8194A7",
+          "#ABB8C4",
+          "#D2D9E0",
+          "#F0F2F4"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Paper White",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#262626",
+          "#404040",
+          "#595959",
+          "#737373",
+          "#949494",
+          "#B8B8B8",
+          "#D9D9D9",
+          "#F2F2F2"
+        ]
+      },
+      "soft": {
+        "role": "neutral",
+        "displayName": "Mist Grey",
+        "canonical": "#F3F5F7",
+        "tonalRamp": [
+          "#1F262E",
+          "#33404D",
+          "#47596B",
+          "#5C738A",
+          "#7E94A9",
+          "#A9B8C6",
+          "#D1D9E0",
+          "#F0F2F5"
+        ]
+      },
+      "map": {
+        "role": "neutral",
+        "displayName": "Map Grey",
+        "canonical": "#E4E9EC",
+        "tonalRamp": [
+          "#20282D",
+          "#35434B",
+          "#4A5D69",
+          "#5F7887",
+          "#8199A7",
+          "#ABBBC4",
+          "#D2DADF",
+          "#F0F3F4"
+        ]
+      },
+      "night": {
+        "role": "neutral",
+        "displayName": "Night Grey",
+        "canonical": "#E6EAED",
+        "tonalRamp": [
+          "#20272C",
+          "#35414A",
+          "#4B5B68",
+          "#607585",
+          "#8296A5",
+          "#ACB9C3",
+          "#D3DADF",
+          "#F0F3F4"
+        ]
+      },
+      "fire-lo": {
+        "role": "data",
+        "displayName": "Ember Yellow",
+        "canonical": "#FFC02E",
+        "tonalRamp": [
+          "#4C3500",
+          "#805900",
+          "#B27D00",
+          "#E6A000",
+          "#FFBE29",
+          "#FFD470",
+          "#FFE8B2",
+          "#FFF7E5"
+        ]
+      },
+      "fire-md": {
+        "role": "data",
+        "displayName": "Burn Orange",
+        "canonical": "#F7801E",
+        "tonalRamp": [
+          "#4A2303",
+          "#7B3A04",
+          "#AC5106",
+          "#DE6808",
+          "#F88A30",
+          "#FAB175",
+          "#FCD5B5",
+          "#FEF1E6"
+        ]
+      },
+      "fire-hi": {
+        "role": "data",
+        "displayName": "Fire Red",
+        "canonical": "#C8102E",
+        "tonalRamp": [
+          "#470610",
+          "#76091B",
+          "#A50D26",
+          "#D41131",
+          "#EF3956",
+          "#F47B8F",
+          "#F9B8C3",
+          "#FDE7EB"
+        ]
+      },
+      "modis": {
+        "role": "data",
+        "displayName": "MODIS Violet",
+        "canonical": "#6B4FA0",
+        "tonalRamp": [
+          "#221933",
+          "#392A55",
+          "#503B77",
+          "#674C9A",
+          "#8970B8",
+          "#B09FD0",
+          "#D5CCE6",
+          "#F1EEF7"
+        ]
+      },
+      "viirs": {
+        "role": "data",
+        "displayName": "VIIRS Teal",
+        "canonical": "#00727F",
+        "tonalRamp": [
+          "#00454C",
+          "#007280",
+          "#00A0B2",
+          "#00CEE6",
+          "#29E9FF",
+          "#70F0FF",
+          "#B2F7FF",
+          "#E5FCFF"
+        ]
+      },
+      "green": {
+        "role": "status",
+        "displayName": "Field Green",
+        "canonical": "#2E8B57",
+        "tonalRamp": [
+          "#133924",
+          "#20603C",
+          "#2C8654",
+          "#39AC6C",
+          "#5ECA8E",
+          "#94DBB3",
+          "#C6ECD6",
+          "#ECF9F1"
+        ]
+      },
+      "green-ink": {
+        "role": "status",
+        "displayName": "Field Green Ink",
+        "canonical": "#1F4D33",
+        "tonalRamp": [
+          "#163724",
+          "#255B3C",
+          "#337F54",
+          "#42A46C",
+          "#66C28E",
+          "#99D6B4",
+          "#C8E9D7",
+          "#EDF8F2"
+        ]
+      },
+      "green-tint": {
+        "role": "status",
+        "displayName": "Field Green Tint",
+        "canonical": "#F4F9F5",
+        "tonalRamp": [
+          "#1B3120",
+          "#2D5235",
+          "#3F734A",
+          "#51945F",
+          "#74B381",
+          "#A3CDAB",
+          "#CEE4D2",
+          "#EEF6F0"
+        ]
+      },
+      "warn-ink": {
+        "role": "status",
+        "displayName": "Amber Warning Ink",
+        "canonical": "#8A5A00",
+        "tonalRamp": [
+          "#4C3200",
+          "#805300",
+          "#B27400",
+          "#E69600",
+          "#FFB429",
+          "#FFCD70",
+          "#FFE4B2",
+          "#FFF6E5"
+        ]
+      },
+      "warn-tint": {
+        "role": "status",
+        "displayName": "Amber Warning Tint",
+        "canonical": "#FFF3D6",
+        "tonalRamp": [
+          "#4C3600",
+          "#805A00",
+          "#B27E00",
+          "#E6A200",
+          "#FFC029",
+          "#FFD570",
+          "#FFE9B2",
+          "#FFF8E5"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Landing hero question, one per page."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Landing section heads, max ~22ch."
+      },
+      "answer": {
+        "displayName": "Answer",
+        "purpose": "Live chart verdict next to the segmented switch; answer word in magenta."
+      },
+      "title-app": {
+        "displayName": "App Title",
+        "purpose": "Page titles on calendar and globe."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Figure titles and list heads on the landing."
+      },
+      "body-editorial": {
+        "displayName": "Body (editorial)",
+        "purpose": "Landing running text."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Tool surfaces running text."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Form labels, table headers, chart axes. Sentence case."
+      }
+    },
+    "shadows": [
+      {
+        "name": "tool-card",
+        "value": "0 1px 2px rgba(31,26,23,.08), 0 6px 20px rgba(31,26,23,.10)",
+        "purpose": "Cards, top bar, tabs, map and tooltips on tool surfaces."
+      },
+      {
+        "name": "editorial-figure",
+        "value": "0 1px 2px rgba(31,26,23,.06), 0 10px 30px rgba(31,26,23,.07)",
+        "purpose": "White figures on a white band; removed on tinted bands."
+      },
+      {
+        "name": "screenshot",
+        "value": "0 2px 6px rgba(31,26,23,.08), 0 18px 48px rgba(31,26,23,.14)",
+        "purpose": "Product screenshots on the landing."
+      },
+      {
+        "name": "primary-glow",
+        "value": "0 2px 4px rgba(184,0,64,.18), 0 8px 22px rgba(229,0,75,.22)",
+        "purpose": "Editorial primary button only."
+      },
+      {
+        "name": "sheet",
+        "value": "0 10px 40px rgba(31,26,23,.25)",
+        "purpose": "Globe modals."
+      },
+      {
+        "name": "segmented-track",
+        "value": "0 1px 2px rgba(31,26,23,.06)",
+        "purpose": "White segmented track on a Mist Grey panel."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "Shared ease for button lift, segmented fill and chart morph."
+      },
+      {
+        "name": "chart-morph",
+        "value": "700ms",
+        "purpose": "Series geometry change; 0ms under prefers-reduced-motion."
+      },
+      {
+        "name": "control",
+        "value": "200-250ms",
+        "purpose": "Hover and press state changes."
+      },
+      {
+        "name": "sheet",
+        "value": "220ms transform",
+        "purpose": "Globe side panel and bottom sheet slide."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "editorial-stack",
+        "value": "1100px"
+      },
+      {
+        "name": "editorial-grid",
+        "value": "860px"
+      },
+      {
+        "name": "editorial-phone",
+        "value": "560px"
+      },
+      {
+        "name": "globe-sheet",
+        "value": "900px"
+      },
+      {
+        "name": "app-grid-2",
+        "value": "1000px"
+      },
+      {
+        "name": "app-grid-1",
+        "value": "700px"
+      }
+    ],
+    "browserSurface": [
+      {
+        "name": "selection",
+        "value": "background #FFE8EF; color #B80040",
+        "purpose": "Text selection in Magenta Mist (landing only so far)."
+      },
+      {
+        "name": "scrollbar",
+        "value": "scrollbar-color #C9CFD4 #F3F5F7",
+        "purpose": "Quiet grey scrollbar on Mist Grey (landing only so far)."
+      },
+      {
+        "name": "focus",
+        "value": "outline 3px solid #E5004B, offset 2-3px",
+        "purpose": "All surfaces."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button (editorial)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Magenta pill for the one main action on the landing.",
+      "html": "<a class=\"ds-btn-p\" href=\"#\">Abrir o globo <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
+      "css": ".ds-btn-p{font-family:Figtree,system-ui,sans-serif;display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:15px 26px;font-weight:700;font-size:18px;line-height:1;text-decoration:none;background:#E5004B;color:#fff;box-shadow:0 2px 4px rgba(184,0,64,.18),0 8px 22px rgba(229,0,75,.22);transition:transform .25s cubic-bezier(.16,1,.3,1),background .2s}.ds-btn-p:hover{background:#B80040;transform:translateY(-1px)}.ds-btn-p:focus-visible{outline:3px solid #E5004B;outline-offset:3px}"
+    },
+    {
+      "name": "Secondary Button (editorial)",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Mist Grey pill beside the primary.",
+      "html": "<a class=\"ds-btn-g\" href=\"#\">Ver o calendário</a>",
+      "css": ".ds-btn-g{font-family:Figtree,system-ui,sans-serif;display:inline-flex;align-items:center;border-radius:999px;padding:15px 26px;font-weight:700;font-size:18px;line-height:1;text-decoration:none;background:#F3F5F7;color:#22262A;transition:background .2s}.ds-btn-g:hover{background:#EBEEF1}.ds-btn-g:focus-visible{outline:3px solid #E5004B;outline-offset:3px}"
+    },
+    {
+      "name": "App Button",
+      "kind": "button",
+      "refersTo": "button-app",
+      "description": "Compact 10px-radius control for the tool surfaces; .pri is the magenta variant.",
+      "html": "<button class=\"ds-abtn\">Exportar</button> <button class=\"ds-abtn pri\">Ver calendário</button>",
+      "css": ".ds-abtn{font-family:Figtree,system-ui,sans-serif;font-size:15px;font-weight:600;color:#22262A;background:#fff;border:1px solid #DCE1E5;border-radius:10px;min-height:46px;padding:0 14px;cursor:pointer}.ds-abtn:hover{border-color:#C5CDD3}.ds-abtn.pri{background:#E5004B;border-color:#E5004B;color:#fff;font-weight:700}.ds-abtn.pri:hover{background:#B80040;border-color:#B80040}.ds-abtn:focus-visible{outline:3px solid #E5004B;outline-offset:2px}"
+    },
+    {
+      "name": "Segmented Switch",
+      "kind": "custom",
+      "refersTo": "segmented-option-on",
+      "description": "Series or period chooser; selected option is an ink fill.",
+      "html": "<div class=\"ds-seg\" role=\"group\" aria-label=\"Série\"><button aria-pressed=\"true\">Harmonizado</button><button aria-pressed=\"false\">Sem ajuste</button></div>",
+      "css": ".ds-seg{display:inline-flex;gap:4px;background:#fff;border-radius:999px;padding:5px;box-shadow:0 1px 2px rgba(31,26,23,.06)}.ds-seg button{font-family:Figtree,system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;border:0;background:none;color:#4F575E;padding:12px 18px;border-radius:999px;cursor:pointer;transition:background .25s cubic-bezier(.16,1,.3,1),color .25s}.ds-seg button[aria-pressed=\"true\"]{background:#22262A;color:#fff}.ds-seg button:not([aria-pressed=\"true\"]):hover{background:#F3F5F7;color:#22262A}.ds-seg button:focus-visible{outline:3px solid #E5004B;outline-offset:3px}"
+    },
+    {
+      "name": "Status Badges",
+      "kind": "chip",
+      "refersTo": "badge-real",
+      "description": "Provenance labels: real (green) and simulated (amber).",
+      "html": "<span class=\"ds-src real\">Dados reais</span> <span class=\"ds-src sim\">Simulado</span>",
+      "css": ".ds-src{font-family:Figtree,system-ui,sans-serif;font-size:13px;font-weight:700;padding:6px 12px;border-radius:99px;white-space:nowrap}.ds-src.real{color:#1F4D33;background:#F4F9F5}.ds-src.sim{color:#8A5A00;background:#FFF3D6}"
+    },
+    {
+      "name": "Tool Card (KPI)",
+      "kind": "card",
+      "refersTo": "card-app",
+      "description": "White 14px card with the ambient tool shadow.",
+      "html": "<div class=\"ds-card\"><small>Focos harmonizados</small><b>12.480</b><span>MODIS-equivalente</span></div>",
+      "css": ".ds-card{font-family:Figtree,system-ui,sans-serif;background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10);padding:18px 20px;color:#22262A;max-width:260px}.ds-card small{display:block;color:#575F66;font-size:14px;font-weight:600}.ds-card b{display:block;font-size:28px;font-weight:800;line-height:1.2;margin:4px 0;letter-spacing:-.01em;font-variant-numeric:tabular-nums}.ds-card span{font-size:14px;color:#575F66}"
+    },
+    {
+      "name": "App Navigation",
+      "kind": "nav",
+      "refersTo": "nav-tab-current",
+      "description": "Tab row of the tool surfaces; current tab in Magenta Mist.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Resumo</a><a href=\"#\">Calendário</a><a href=\"#\">Sensores</a><a href=\"#\">Mapa</a></nav>",
+      "css": ".ds-nav{display:flex;gap:2px;background:#fff;border-radius:14px;padding:6px;box-shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10);width:max-content}.ds-nav a{font-family:Figtree,system-ui,sans-serif;display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;color:#4F575E;text-decoration:none;font-size:14px;font-weight:600}.ds-nav a[aria-current]{background:#FFE8EF;color:#B80040}.ds-nav a:hover{background:#F3F5F7;color:#22262A}.ds-nav a:focus-visible{outline:3px solid #E5004B;outline-offset:2px}"
+    },
+    {
+      "name": "Select Field",
+      "kind": "input",
+      "refersTo": "button-app",
+      "description": "Select field with its label above (tool surfaces).",
+      "html": "<label class=\"ds-f\">Área<select><option>Ouro Preto (MG)</option></select></label>",
+      "css": ".ds-f{font-family:Figtree,system-ui,sans-serif;display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:#575F66}.ds-f select{font:inherit;font-size:15px;font-weight:400;color:#22262A;background:#fff;border:1px solid #DCE1E5;border-radius:10px;min-height:46px;padding:0 14px;min-width:240px}.ds-f select:focus-visible{outline:3px solid #E5004B;outline-offset:2px}"
+    },
+    {
+      "name": "Hero Chart Panel",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Mist Grey 28px panel holding the answer and an SVG series chart.",
+      "html": "<div class=\"ds-panel\"><p class=\"ds-ans\"><b>Não.</b> Tende a cair.</p><svg viewBox=\"0 0 300 110\" width=\"100%\" aria-hidden=\"true\"><polyline points=\"10,90 60,88 110,92 160,30 210,20 260,28 290,24\" fill=\"none\" stroke=\"#575F66\" stroke-width=\"2\" stroke-dasharray=\"6 6\" stroke-opacity=\".7\"/><polyline points=\"10,40 60,55 110,48 160,62 210,70 260,66 290,78\" fill=\"none\" stroke=\"#E5004B\" stroke-width=\"4\" stroke-linejoin=\"round\"/><line x1=\"160\" x2=\"160\" y1=\"8\" y2=\"102\" stroke=\"#DCE1E5\"/><text x=\"164\" y=\"16\" font-size=\"11\" fill=\"#575F66\" font-family=\"Figtree,sans-serif\">2012</text></svg></div>",
+      "css": ".ds-panel{font-family:Figtree,system-ui,sans-serif;background:#F3F5F7;border-radius:28px;padding:24px;color:#22262A;max-width:420px}.ds-ans{margin:0 0 10px;font-weight:900;font-size:30px;letter-spacing:-.02em;line-height:1}.ds-ans b{color:#E5004B}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Calibrated Instrument",
+    "overview": "Every surface is a measuring instrument laid on cool white: grey-white grounds, near-black ink, hairline rules, and one magenta that marks the answer or the next action. Colour is never decoration. Fire colours appear only where there is fire data, the two sensor colours only where a sensor is being named, and magenta only where the reader should look or click. Charts are drawn in SVG from the data itself, with annotations written onto the plot, so the evidence carries the page rather than imagery or illustration.\n\nThe system runs at two densities that share one palette, one typeface and one set of colour roles. The tool surfaces (the calendar and the globe) are compact: 16px body, 10px-radius controls, 14px cards with a soft ambient shadow over a grey map ground. The editorial surface (the landing page) is generous: 18px body, Figtree 900 display, pill controls, and 24-28px rounded panels on white. A new surface picks one density and stays in it.\n\nThe look is deliberately scientific, not tactical: the earlier dark \"game HUD\" versions were rejected, and the light world is the incumbent.",
+    "keyCharacteristics": [
+      "Cool white and grey-white grounds, near-black ink, hairline dividers.",
+      "One magenta for answer and action; tints of it for current state and selection.",
+      "Fire ramp, MODIS purple and VIIRS teal are data encodings, never UI chrome.",
+      "Figtree only, heavy weights for headlines, tabular numerals for figures.",
+      "Charts are hand-drawn SVG built from the data, labelled in place.",
+      "Two densities (tool and editorial) on one token set."
+    ],
+    "rules": [
+      {
+        "name": "The One Voice Rule",
+        "body": "Magenta means \"answer\" or \"act\". If it is on screen, it is either the conclusion of a chart, a link, a focus ring, or the primary button. It never fills a decorative shape or a section background.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fenced Data Rule",
+        "body": "Fire ramp colours encode fire; MODIS violet and VIIRS teal encode sensors. None of them may style a button, a heading, or a background that is not data. A legend must exist wherever they appear.",
+        "section": "colors"
+      },
+      {
+        "name": "The Labelled Truth Rule",
+        "body": "Data provenance is shown with a status badge: green for real data, amber for simulated. Colour is paired with a text label, never alone.",
+        "section": "colors"
+      },
+      {
+        "name": "The Weight Ladder Rule",
+        "body": "Figtree 900 is reserved for editorial display, headlines and the chart answer; tool surfaces top out at 800. Body never goes below 400.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Figure Rule",
+        "body": "Numbers that are compared (counts, factors, years) use `font-variant-numeric: tabular-nums`.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ground First Rule",
+        "body": "Separate surfaces by ground colour before reaching for a shadow; when the ground already contrasts, drop the shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep magenta to the answer and the action: one primary button per view, the conclusive series, links, focus.",
+      "Do encode fire only with the fire ramp (Ember Yellow to Fire Red) and sensors only with MODIS Violet and VIIRS Teal, always with a legend.",
+      "Do draw charts as SVG from the real data, with labels and annotations on the plot.",
+      "Do mark data provenance with the green \"real\" or amber \"simulated\" badge, text included.",
+      "Do use Instrument Ink fill for the selected option of a segmented switch.",
+      "Do honour `prefers-reduced-motion`: motion becomes instant, smooth scroll becomes auto.",
+      "Do pick one density per surface: tool (16px, 10/14px radii) or editorial (18px, pills, 24/28px radii)."
+    ],
+    "donts": [
+      "Don't use fire colours or sensor colours for buttons, headings, or decorative backgrounds.",
+      "Don't return to dark, tactical, HUD-style surfaces; the light instrument world replaced them.",
+      "Don't add a second typeface for display; hierarchy comes from Figtree weight.",
+      "Don't use uppercase tracked labels above headings; labels are sentence case.",
+      "Don't let colour be the only carrier of intensity or threat status; pair it with text or a legend.",
+      "Don't use heavy borders or hard offset shadows; depth is ground contrast plus soft ambient shadow."
+    ]
+  }
+}

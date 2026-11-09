@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Olho do Fogo · globo científico (mock)</title>
+<style>
+:root{--bg:#0b1220;--bg2:#101a2e;--card:#142038;--line:#26385a;--tx:#eef3fb;--mut:#9fb0cc;--acc:#ff8a3d;--cy:#5ad1ff;--gr:#7dffa0;--rd:#ff5a3d;--yl:#ffd34d}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.5 "Segoe UI",system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+.app{display:grid;grid-template-rows:auto 1fr;height:100dvh}
+header{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--bg2);flex-wrap:wrap}
+header h1{font-size:18px;margin:0;font-weight:600}
+header h1 b{color:var(--acc)}
+.sub{color:var(--mut);font-size:13px}
+.tag{margin-left:auto;font-size:12px;color:var(--yl);border:1px solid #6b5a1f;background:#2a2410;border-radius:999px;padding:3px 10px}
+.btn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font-size:14px}
+.btn:hover{border-color:var(--cy)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#1a0d00;font-weight:600}
+#btnLayers{display:none}
+.main{position:relative;display:grid;grid-template-columns:280px minmax(0,1fr) 340px;min-height:0}
+#globe{height:100%;min-height:0;background:#030610;position:relative;overflow:hidden;cursor:grab}
+#globe:active{cursor:grabbing}
+aside{background:var(--bg2);overflow:auto;padding:14px;min-height:0}
+.layers{border-right:1px solid var(--line)}
+.detail{border-left:1px solid var(--line)}
+aside h2{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 8px;font-weight:600}
+.row{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:14px}
+.row input{width:18px;height:18px;accent-color:var(--acc)}
+.sw{width:14px;height:14px;border-radius:4px;flex:none;border:1px solid rgba(255,255,255,.3)}
+.note{font-size:12px;color:var(--mut);margin:6px 0 14px}
+.leg{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;color:var(--mut);margin:6px 0 14px}
+.leg i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.empty{color:var(--mut);font-size:14px;padding:6px 0}
+.close{float:right;display:none;background:none;border:0;font-size:22px;line-height:1;color:var(--mut)}
+.kicker{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+.dtitle{font-size:20px;margin:2px 0 10px;font-weight:600;line-height:1.25}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.stat b{display:block;font-size:20px;font-weight:600}
+.stat span{font-size:12px;color:var(--mut)}
+.stat.hot b{color:var(--acc)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.pm{width:46px;height:46px;border-radius:50%;border:2.5px solid var(--gr);background:#0b1220 center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--gr);box-shadow:0 2px 8px rgba(0,0,0,.7);font-size:15px;cursor:pointer;pointer-events:auto}
+.pm.warn{border-color:var(--yl)}
+.pm.bad{border-color:var(--rd)}
+.pw{width:0;height:0;position:relative;pointer-events:none}
+.pw .pm{position:absolute;left:-23px;bottom:11px}
+.pw .stem{position:absolute;left:-1px;bottom:0;width:2px;height:11px;background:var(--gr)}
+.pw.warn .stem{background:var(--yl)}
+.pw.bad .stem{background:var(--rd)}
+.cell{border-radius:4px;transform:translate(0,0);pointer-events:auto;mix-blend-mode:screen}
+.cell.pulse{animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.55}}
+.glabel{color:#dfe8f7;font-size:12px;text-shadow:0 0 4px #000,0 0 8px #000;pointer-events:none;white-space:nowrap}
+.gpin{background:var(--acc);color:#1a0d00;border:0;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer;pointer-events:auto;white-space:nowrap;box-shadow:0 0 0 4px rgba(255,138,61,.35)}
+.fly{position:absolute;z-index:900;left:50%;bottom:20px;transform:translateX(-50%);display:flex;gap:8px}
+.fly .btn{background:rgba(11,18,32,.88)}
+.fly .btn.pri{background:var(--acc)}
+.readout{position:absolute;z-index:900;left:296px;top:12px;background:rgba(11,18,32,.88);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font:12px Consolas,monospace;color:var(--mut)}
+.readout b{color:var(--tx);font-weight:500}
+.badge{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);background:var(--card);margin:0 6px 6px 0}
+.badge.ok{color:var(--gr);border-color:#2f6b45}
+.badge.warn{color:var(--yl);border-color:#6b5a1f}
+.badge.bad{color:var(--rd);border-color:#7a2f22}
+.modal{position:fixed;inset:0;background:rgba(3,7,14,.74);display:none;align-items:center;justify-content:center;z-index:3000;padding:16px}
+.modal.open{display:flex}
+.sheet{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;width:min(740px,100%);max-height:calc(100dvh - 32px);overflow:auto}
+.hero{width:100%;aspect-ratio:16/8;background:#0b1220 center/cover no-repeat;display:flex;align-items:flex-end;border-radius:16px 16px 0 0}
+.hero small{display:block;width:100%;padding:18px 16px 6px;font-size:11px;color:#d7e2f5;background:linear-gradient(transparent,rgba(0,0,0,.7))}
+.body{padding:16px 18px 20px}
+.mtop{position:absolute;top:10px;right:10px;left:10px;display:flex;justify-content:space-between;z-index:2}
+.mtop .btn{background:rgba(11,18,32,.85)}
+.body h3{font-size:22px;margin:0 0 2px}
+.sci{font-style:italic;color:var(--mut);margin:0 0 10px}
+.sec{margin-top:16px}
+.sec h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 6px;font-weight:600}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:4px 12px 4px 4px;font-size:14px}
+.chip:hover{border-color:var(--cy)}
+.chip .th{width:30px;height:30px;border-radius:50%;background:#0b1220 center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr)}
+.chip.t{padding:6px 14px}
+.warnbox{font-size:12px;color:var(--yl);background:#2a2410;border:1px solid #6b5a1f;border-radius:10px;padding:8px 10px;margin-top:16px}
+@media (max-width:899px){
+  #btnLayers{display:inline-block}
+  .tag{margin-left:0}
+  .main{grid-template-columns:minmax(0,1fr)}
+  .layers{position:absolute;z-index:1100;left:0;top:0;bottom:0;width:min(86vw,320px);transform:translateX(-102%);transition:transform .22s;border-right:1px solid var(--line)}
+  .layers.open{transform:none}
+  .detail{position:absolute;z-index:1100;left:0;right:0;bottom:0;max-height:58%;border-left:0;border-top:1px solid var(--line);border-radius:16px 16px 0 0;transform:translateY(102%);transition:transform .22s}
+  .detail.open{transform:none}
+  .close{display:block}
+  .readout{left:10px;top:10px}
+}
+@media (max-width:600px){
+  .modal{padding:0}
+  .sheet{border-radius:0;border:0;max-height:100dvh;height:100dvh;width:100%}
+  .hero{border-radius:0}
+  .body h3{font-size:20px}
+  .fly{width:calc(100% - 20px);justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){.layers,.detail{transition:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <button class="btn" id="btnLayers" aria-controls="layers" aria-expanded="false">Camadas</button>
+  <h1><b>Olho do Fogo</b> · globo científico</h1>
+  <span class="sub">Ouro Preto e entorno (MG)</span>
+  <span class="tag">MOCK · limites, fauna e focos ilustrativos</span>
+</header>
+<div class="main">
+  <aside class="layers" id="layers" aria-label="Camadas do globo">
+    <h2>Camadas</h2>
+    <label class="row"><input type="checkbox" data-l="heat" checked><span class="sw" style="background:#ff8a3d"></span>Densidade histórica (calor plano)</label>
+    <label class="row"><input type="checkbox" data-l="mun" checked><span class="sw" style="background:transparent;border-color:#cfd9ea"></span>Municípios</label>
+    <label class="row"><input type="checkbox" data-l="uc" checked><span class="sw" style="background:rgba(125,255,160,.35);border-color:#7dffa0"></span>Unidades de conservação</label>
+    <label class="row"><input type="checkbox" data-l="hot" checked><span class="sw" style="background:#ffd34d"></span>Focos de calor</label>
+    <label class="row"><input type="checkbox" data-l="rich"><span class="sw" style="background:rgba(125,255,160,.6)"></span>Riqueza de espécies</label>
+    <label class="row"><input type="checkbox" data-l="fauna" checked><span class="sw" style="background:#0b1220;border-radius:50%"></span>Fauna (foto da espécie)</label>
+    <label class="row"><input type="checkbox" data-l="bio" checked><span class="sw" style="background:#cfd9ea;border-radius:50%"></span>Biomas</label>
+    <div class="leg">
+      <span><i style="background:var(--yl)"></i>FRP baixo</span>
+      <span><i style="background:#ff9f43"></i>médio</span>
+      <span><i style="background:var(--rd)"></i>alto</span>
+    </div>
+    <p class="note">Cada célula é um foco detectado por satélite, colada na superfície. Ela é ampliada para continuar visível; ao chegar bem perto tem o tamanho real: cerca de 1 km (MODIS) ou 375 m (VIIRS). A cor mostra a intensidade.</p>
+    <p class="note">Riqueza de espécies: registros mostram onde alguém observou a espécie, não onde ela vive. Há viés de amostragem perto de estradas e cidades.</p>
+    <p class="note">Limites desenhados à mão só para o mock. Na versão real: malhas do IBGE e cadastro de UCs (CNUC/MMA). Fotos reais vêm do iNaturalist, com crédito. Imagens: Esri, Maxar, Earthstar Geographics.</p>
+  </aside>
+  <div id="globe" role="application" aria-label="Globo interativo: aproxime para ver municípios, unidades de conservação, focos de calor e fauna"></div>
+  <div class="fly"><button class="btn pri" id="gop">Ir para Ouro Preto</button><button class="btn" id="gall">Visão global</button></div>
+  <div class="readout" id="readout" aria-hidden="true"></div>
+  <aside class="detail" id="detail" aria-live="polite">
+    <button class="close" id="dclose" aria-label="Fechar painel">&times;</button>
+    <div id="dbody"></div>
+  </aside>
+</div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script src="https://unpkg.com/globe.gl@2.45.0/dist/globe.gl.min.js"></script>
+<script>
+(function(){
+var UC=[
+ {id:'itacolomi',type:'uc',name:'Parque Estadual do Itacolomi',cat:'Parque (proteção integral)',gestor:'IEF-MG',ha:7543,ano:1967,bioma:'Mata Atlântica / Cerrado',muns:['Ouro Preto','Mariana'],sp:['lobo','onca','sagui'],poly:[[-20.37,-43.50],[-20.36,-43.40],[-20.45,-43.38],[-20.50,-43.47],[-20.45,-43.53]]},
+ {id:'tripui',type:'uc',name:'Estação Ecológica do Tripuí',cat:'Estação Ecológica (proteção integral)',gestor:'IEF-MG',ha:337,ano:1981,bioma:'Mata Atlântica / Cerrado',muns:['Ouro Preto'],sp:['tatu','sagui'],poly:[[-20.37,-43.60],[-20.36,-43.55],[-20.41,-43.54],[-20.42,-43.59]]},
+ {id:'andorinhas',type:'uc',name:'APA Cachoeira das Andorinhas',cat:'APA (uso sustentável)',gestor:'IEF-MG',ha:18700,ano:1989,bioma:'Mata Atlântica / Cerrado',muns:['Ouro Preto'],sp:['lobo','tamandua'],poly:[[-20.40,-43.70],[-20.35,-43.62],[-20.46,-43.60],[-20.52,-43.66],[-20.48,-43.74]]}
+];
+var MUN=[
+ {id:'op',type:'mun',name:'Ouro Preto',ha:123400,ucs:['itacolomi','tripui','andorinhas'],poly:[[-20.22,-43.75],[-20.20,-43.45],[-20.33,-43.33],[-20.55,-43.38],[-20.60,-43.62],[-20.45,-43.78]]},
+ {id:'mar',type:'mun',name:'Mariana',ha:119400,ucs:['itacolomi'],poly:[[-20.20,-43.45],[-20.15,-43.22],[-20.40,-43.12],[-20.52,-43.22],[-20.33,-43.33]]},
+ {id:'ita',type:'mun',name:'Itabirito',ha:54400,ucs:[],poly:[[-20.22,-43.75],[-20.12,-43.92],[-20.30,-44.05],[-20.45,-43.90],[-20.45,-43.78]]}
+];
+var SP={
+ lobo:{sci:'Chrysocyon brachyurus',pop:'Lobo-guará',st:'Vulnerável',cl:'warn',n:42,desc:'Maior canídeo da América do Sul, de hábitos solitários e pernas longas. Frequenta campos e áreas abertas de Cerrado.',pos:[[-20.435,-43.46],[-20.44,-43.63]]},
+ tamandua:{sci:'Myrmecophaga tridactyla',pop:'Tamanduá-bandeira',st:'Vulnerável',cl:'warn',n:31,desc:'Mamífero que se alimenta de formigas e cupins, com focinho alongado e cauda volumosa.',pos:[[-20.445,-43.665]]},
+ onca:{sci:'Puma concolor',pop:'Onça-parda',st:'Pouco preocupante',cl:'ok',n:18,desc:'Felino de ampla distribuição nas Américas, predador de topo de cadeia em vários biomas.',pos:[[-20.47,-43.45]]},
+ tatu:{sci:'Priodontes maximus',pop:'Tatu-canastra',st:'Vulnerável',cl:'warn',n:9,desc:'O maior tatu do mundo, de hábitos noturnos e escavador de grandes tocas.',pos:[[-20.39,-43.575]]},
+ sagui:{sci:'Callithrix aurita',pop:'Sagui-da-serra-escuro',st:'Em perigo',cl:'bad',n:12,desc:'Pequeno primata ligado à Mata Atlântica do Sudeste.',pos:[[-20.41,-43.42]]}
+};
+var BIO=[{n:'Amazônia',lat:-5,lng:-62},{n:'Cerrado',lat:-14,lng:-47},{n:'Pantanal',lat:-18.5,lng:-56.5},{n:'Caatinga',lat:-9,lng:-40.5},{n:'Mata Atlântica',lat:-23,lng:-46}];
+var OP=[-20.40,-43.50],byId={};UC.concat(MUN).forEach(function(x){byId[x.id]=x;});
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function pip(p,poly){var x=p[1],y=p[0],r=false;for(var i=0,j=poly.length-1;i<poly.length;j=i++){var xi=poly[i][1],yi=poly[i][0],xj=poly[j][1],yj=poly[j][0];if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))r=!r;}return r;}
+var seed=42;function rnd(){seed=(seed*9301+49297)%233280;return seed/233280;}
+function geo(poly){var ring=poly.map(function(p){return [p[1],p[0]];});ring.push(ring[0]);return {type:'Polygon',coordinates:[ring]};}
+function centroid(poly){var la=0,lo=0;poly.forEach(function(p){la+=p[0];lo+=p[1];});return [la/poly.length,lo/poly.length];}
+
+var HS=[];
+(function(){[[-20.43,-43.40,14],[-20.47,-43.50,10],[-20.43,-43.66,12],[-20.39,-43.57,5],[-20.30,-43.30,6],[-20.26,-43.90,4]].forEach(function(c){for(var i=0;i<c[2];i++){HS.push({lat:c[0]+(rnd()-.5)*.07,lng:c[1]+(rnd()-.5)*.09,frp:Math.round(4+rnd()*rnd()*70),s:rnd()<.72?'VIIRS':'MODIS',conf:rnd()<.8?'nominal':'alta'});}});})();
+var HEAT=[];
+(function(){[[-14,-47,4,70],[-9,-55,3,60],[-11,-61,2.5,45],[-18.5,-56.5,1.5,35],[-20,-43.8,1.2,25],[-9,-41,2,25],[-8,22,6,80],[-12,28,3,40],[-3,110,2.5,30],[-14,132,3.5,35],[22,80,2.5,30]].forEach(function(c){for(var i=0;i<c[3];i++){HEAT.push({lat:c[0]+(rnd()-.5)*c[2]*2,lng:c[1]+(rnd()-.5)*c[2]*2.4,w:1+rnd()*rnd()*5});}});})();
+var HEX=[];
+(function(){var r=.034,dx=r*1.5,dy=r*Math.sqrt(3)*.85,c=0,cent=[[-20.43,-43.45],[-20.40,-43.57],[-20.44,-43.66]];
+for(var x=-43.86;x<-43.14;x+=dx,c++){for(var y=-20.64+(c%2?dy/2:0);y<-20.16;y+=dy){var pts=[];for(var k=0;k<6;k++){var a=Math.PI/3*k;pts.push([y+r*.85*Math.sin(a),x+r*Math.cos(a)]);}
+ var best=9;cent.forEach(function(q){var d=Math.hypot(q[0]-y,q[1]-x);if(d<best)best=d;});
+ var v=Math.max(0,Math.min(1,Math.exp(-best*best/.012)+rnd()*.18));HEX.push({poly:pts,n:Math.round(3+v*60),v:v});}}})();
+
+function resFor(a){return a>.5?4:a>.15?5:a>.04?6:7;}
+var hexRes=4,heatOn=null,ringOn=null,REDUCED=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,LY={heat:true,mun:true,uc:true,hot:true,rich:false,fauna:true,bio:true},selected=null,curAlt=2.4,globe=null;
+var gEl=document.getElementById('globe'),detail=document.getElementById('detail'),dbody=document.getElementById('dbody');
+
+function frpColor(f){return f<15?'#ffd34d':f<40?'#ff9f43':'#ff5a3d';}
+function initials(s){return s.pop.split(/[ -]/).map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();}
+
+function polys(){var out=[];
+ if(LY.rich)HEX.forEach(function(h){out.push({geo:geo(h.poly),cap:'rgba(125,255,160,'+(.06+h.v*.5)+')',stroke:null,alt:.0003,name:'≈ '+h.n+' espécies registradas (exemplo)'});});
+ if(LY.mun)MUN.forEach(function(m){var s=selected===m.id;out.push({id:m.id,geo:geo(m.poly),cap:s?'rgba(255,138,61,.14)':'rgba(255,255,255,.035)',stroke:s?'#ff8a3d':'#cfd9ea',alt:.0006,name:m.name});});
+ if(LY.uc)UC.forEach(function(u){var s=selected===u.id;out.push({id:u.id,geo:geo(u.poly),cap:s?'rgba(255,138,61,.35)':'rgba(125,255,160,.3)',stroke:s?'#ff8a3d':'#7dffa0',alt:.0012,name:u.name});});
+ return out;}
+function frpRGB(f){return f<15?'255,211,77':f<40?'255,159,67':'255,90,61';}
+function htmlItems(){var out=[];
+ if(LY.bio&&curAlt>.5)BIO.forEach(function(b){out.push({lat:b.lat,lng:b.lng,t:b.n,k:'bio'});});
+ if(curAlt>.3)out.push({lat:OP[0],lng:OP[1],t:'Ouro Preto',k:'pin'});
+ if(LY.fauna&&curAlt<.8)Object.keys(SP).forEach(function(k){SP[k].pos.forEach(function(p){out.push({lat:p[0],lng:p[1],k:'fauna',key:k});});});
+ return out;}
+function pointRad(d){var phys=d.s==='MODIS'?.0046:.0017,vis=curAlt*(d.s==='MODIS'?.6:.4);return Math.max(phys,vis);}
+var tmats={},ANIM=[];
+Object.keys(SP).forEach(function(k){SP[k].pos.forEach(function(p){ANIM.push({lat:p[0],lng:p[1],s:'VIIRS',frp:0,animal:true,cl:SP[k].cl,key:k});});});
+function tileMat(d){var c=d.animal?(d.cl==='bad'?'255,90,61':d.cl==='warn'?'255,211,77':'125,255,160'):frpRGB(d.frp);if(!tmats[c]){var M=globe.globeMaterial().constructor;tmats[c]=new M({color:'rgb('+c+')',emissive:'rgb('+c+')',emissiveIntensity:.7,transparent:true,opacity:.6,depthWrite:false});}return tmats[c];}
+function refresh(){if(!globe)return;
+ globe.polygonsData(polys());
+ globe.tilesData((LY.hot?HS:[]).concat(LY.fauna&&curAlt<.8?ANIM:[]));
+ globe.htmlElementsData(htmlItems());
+ var want=!!(LY.heat&&curAlt>.45);if(globe.heatmapsData&&want!==heatOn){heatOn=want;globe.heatmapsData(want?[HEAT]:[]);}}
+function mkEl(d){var e;
+ if(d.k==='pin'){e=document.createElement('button');e.className='gpin';e.textContent=d.t;e.setAttribute('aria-label','Ir para Ouro Preto');e.onclick=goOP;}
+ else if(d.k==='bio'){e=document.createElement('div');e.className='glabel';e.textContent=d.t;}
+ else{var s=SP[d.key],cls=s.cl==='bad'?'bad':s.cl==='warn'?'warn':'',p=document.createElement('div'),st=document.createElement('div');e=document.createElement('div');e.className='pw '+cls;p.className='pm '+cls;st.className='stem';e.appendChild(p);e.appendChild(st);
+  p.title=s.pop;p.setAttribute('role','button');p.tabIndex=0;
+  if(s.photo)p.style.backgroundImage='url('+s.photo+')';else p.textContent=initials(s);
+  var open=function(ev){ev.stopPropagation();openModal(function(){return animalHTML(d.key);});};p.onclick=open;p.onkeydown=function(ev){if(ev.key==='Enter')open(ev);};}
+ return e;}
+
+function initGlobe(){
+ if(typeof Globe==='undefined'){gEl.innerHTML='<p class="empty" style="padding:20px">Não foi possível carregar o globo (sem internet?).</p>';return;}
+ var ESRI='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/',IMG='https://unpkg.com/three-globe@2.30.0/example/img/';
+ globe=Globe()(gEl).width(gEl.clientWidth).height(gEl.clientHeight)
+  .globeImageUrl(IMG+'earth-blue-marble.jpg').backgroundImageUrl(IMG+'night-sky.png').atmosphereColor('#6fd8ff').atmosphereAltitude(.15)
+  .globeTileEngineUrl(function(x,y,l){return ESRI+l+'/'+y+'/'+x;}).globeTileEngineMaxLevel(17)
+  .polygonGeoJsonGeometry('geo').polygonCapColor(function(d){return d.cap;}).polygonSideColor(function(){return 'rgba(0,0,0,0)';}).polygonStrokeColor(function(d){return d.stroke;}).polygonAltitude(function(d){return d.alt;}).polygonsTransitionDuration(0)
+  .polygonLabel(function(d){return '<div style="font:12px sans-serif;background:#0b1220;border:1px solid #26385a;border-radius:8px;padding:5px 8px;color:#eef3fb">'+esc(d.name)+'</div>';})
+  .onPolygonClick(function(d){if(d.id)select(d.id);})
+  .tileLat('lat').tileLng('lng').tileAltitude(.0016).tileWidth(function(d){return 2*pointRad(d)/Math.max(.2,Math.cos(d.lat*Math.PI/180));}).tileHeight(function(d){return 2*pointRad(d);}).tileMaterial(tileMat).tilesTransitionDuration(0)
+  .tileLabel(function(d){if(d.animal)return '<div style="font:12px sans-serif;background:#0b1220;border:1px solid #26385a;border-radius:8px;padding:5px 8px;color:#eef3fb">'+esc(SP[d.key].pop)+'</div>';return '<div style="font:12px sans-serif;background:#0b1220;border:1px solid #26385a;border-radius:8px;padding:5px 8px;color:#eef3fb">'+d.s+' · FRP '+d.frp+' MW · conf. '+d.conf+'<br>pixel ≈ '+(d.s==='MODIS'?'1 km':'375 m')+' (exemplo)</div>';})
+  .htmlLat('lat').htmlLng('lng').htmlAltitude(0).htmlElement(mkEl)
+  .onZoom(function(p){var b=Math.round(Math.log2(p.altitude)*4),ob=Math.round(Math.log2(curAlt)*4);curAlt=p.altitude;if(b!==ob)refresh();});
+ if(globe.heatmapsData){globe.heatmapPointLat('lat').heatmapPointLng('lng').heatmapPointWeight('w').heatmapBandwidth(1.1).heatmapColorSaturation(1.8).heatmapBaseAltitude(.001).heatmapTopAltitude(.001)
+  .heatmapColorFn(function(){return function(t){return 'rgba(255,'+Math.round(210-150*t)+','+Math.round(60-40*t)+','+(t<.1?0:Math.min(.5,(t-.1)*1.2))+')';};});}
+ var c=globe.controls();c.autoRotate=true;c.autoRotateSpeed=.45;c.minDistance=100.6;c.enableDamping=true;
+ globe.pointOfView({lat:-14,lng:-50,altitude:2.4});
+ gEl.addEventListener('pointerdown',function(){c.autoRotate=false;});
+ refresh();
+ Object.keys(SP).forEach(function(k){fetch('https://api.inaturalist.org/v1/taxa?q='+encodeURIComponent(SP[k].sci)+'&rank=species&per_page=1&locale=pt-BR').then(function(r){return r.json();}).then(function(j){var t=j.results&&j.results[0];if(t&&t.default_photo&&t.default_photo.medium_url){SP[k].photo=t.default_photo.medium_url;SP[k].credit=t.default_photo.attribution||'';refresh();}}).catch(function(){});});
+ setInterval(function(){var v=globe.pointOfView();document.getElementById('readout').innerHTML='LAT <b>'+v.lat.toFixed(3)+'</b> · LON <b>'+v.lng.toFixed(3)+'</b> · ALT <b>'+Math.round(v.altitude*6371).toLocaleString('pt-BR')+' km</b>';},300);
+ if(window.ResizeObserver)new ResizeObserver(function(){globe.width(gEl.clientWidth).height(gEl.clientHeight);}).observe(gEl);}
+
+function goOP(){if(!globe)return;globe.controls().autoRotate=false;globe.pointOfView({lat:OP[0],lng:OP[1],altitude:.35},2200);}
+function goAll(){if(!globe)return;globe.pointOfView({lat:-14,lng:-50,altitude:2.4},1600);}
+document.getElementById('gop').onclick=goOP;document.getElementById('gall').onclick=goAll;
+
+document.querySelectorAll('[data-l]').forEach(function(cb){cb.addEventListener('change',function(){LY[cb.dataset.l]=cb.checked;refresh();});});
+
+function statsOf(x){var n=HS.filter(function(h){return pip([h.lat,h.lng],x.poly);}).length,km2=x.ha/100,pct=Math.min(100,n*.14/km2*100),pc=Math.min(99,Math.round(35+n*2.4));return {n:n,pct:pct,pc:pc};}
+function spList(x){return x.type==='uc'?x.sp:Object.keys(SP).filter(function(k){return x.ucs.some(function(u){return byId[u].sp.indexOf(k)>-1;});});}
+function intro(){dbody.innerHTML='<span class="kicker">Globo</span><div class="dtitle">Explore a região</div><p class="empty">Gire e aproxime com o mouse ou os dedos. A resolução da imagem aumenta conforme você chega perto. Clique num município, numa unidade de conservação ou num animal para ver os detalhes.</p><div class="warnbox">Dados de exemplo. Na versão real, a densidade vem do histórico FIRMS (MODIS e VIIRS) já harmonizado.</div>';}
+function select(id){var x=byId[id];selected=id;refresh();var s=statsOf(x),ks=spList(x);
+ dbody.innerHTML='<span class="kicker">'+(x.type==='uc'?'Unidade de conservação':'Município')+'</span><div class="dtitle">'+esc(x.name)+'</div>'+(x.type==='uc'?'<span class="badge ok">'+esc(x.cat)+'</span>':'')+
+ '<div class="stats"><div class="stat hot"><b>'+s.n+'</b><span>focos (7 dias)</span></div><div class="stat"><b>p'+s.pc+'</b><span>contra o histórico (exemplo)</span></div><div class="stat"><b>'+s.pct.toFixed(2)+'%</b><span>da área com foco</span></div><div class="stat"><b>'+ks.length+'</b><span>espécies com foto</span></div></div>'+
+ '<div class="actions"><button class="btn pri" id="bperf">Ver perfil</button><button class="btn" id="bcal">Abrir no calendário</button><button class="btn" id="bexp">Exportar GeoJSON</button></div>';
+ document.getElementById('bperf').onclick=function(){openModal(function(){return profileHTML(id);});};
+ document.getElementById('bcal').onclick=function(){window.open('app-calendario-do-fogo.html?view=calendario','_blank');};
+ document.getElementById('bexp').onclick=function(){var gj={type:'Feature',properties:{nome:x.name,tipo:x.type,focos_7d:s.n,aviso:'limites ilustrativos (mock)'},geometry:geo(x.poly)};var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(gj,null,2)],{type:'application/geo+json'}));a.download=x.id+'.geojson';a.click();URL.revokeObjectURL(a.href);};
+ detail.classList.add('open');var c=centroid(x.poly);globe.controls().autoRotate=false;globe.pointOfView({lat:c[0],lng:c[1],altitude:x.type==='uc'?.02:.07},1400);}
+document.getElementById('dclose').onclick=function(){detail.classList.remove('open');selected=null;refresh();};
+var layersEl=document.getElementById('layers'),bl=document.getElementById('btnLayers');
+bl.onclick=function(){var o=layersEl.classList.toggle('open');bl.setAttribute('aria-expanded',o);};
+
+var modal=document.getElementById('modal'),sheet=document.getElementById('sheet'),stack=[],lastFocus=null;
+function chipsAnimals(ks){return '<div class="chips">'+ks.map(function(k){var s=SP[k];return '<button class="chip" data-a="'+k+'"><span class="th" style="'+(s.photo?'background-image:url('+s.photo+')':'')+'">'+(s.photo?'':initials(s))+'</span>'+esc(s.pop)+'</button>';}).join('')+'</div>';}
+function profileHTML(id){var x=byId[id],s=statsOf(x),ks=spList(x);
+ var facts=x.type==='uc'?[['Categoria',x.cat],['Gestor',x.gestor],['Área',x.ha.toLocaleString('pt-BR')+' ha'],['Criação',x.ano],['Bioma',x.bioma],['Municípios',x.muns.join(', ')]]:[['Área',x.ha.toLocaleString('pt-BR')+' ha'],['Unidades de conservação',x.ucs.length?x.ucs.map(function(u){return byId[u].name;}).join(', '):'nenhuma no mock']];
+ return '<div class="hero" style="background:linear-gradient(135deg,#1c3a2c,#0b1220)"><small>'+(x.type==='uc'?'Foto da área: Wikimedia Commons (na versão real)':'Município')+'</small></div><div class="body"><h3 id="mtitle">'+esc(x.name)+'</h3><p class="sci">'+(x.type==='uc'?'Unidade de conservação':'Município')+'</p>'+
+ '<div class="facts">'+facts.map(function(f){return '<div class="stat"><span>'+f[0]+'</span><b style="font-size:15px;font-weight:500">'+esc(f[1])+'</b></div>';}).join('')+'</div>'+
+ '<div class="sec"><h4>Fogo (exemplo)</h4><div class="facts"><div class="stat hot"><b>'+s.n+'</b><span>focos nos últimos 7 dias</span></div><div class="stat"><b>p'+s.pc+'</b><span>percentil contra o histórico</span></div><div class="stat"><b>'+s.pct.toFixed(2)+'%</b><span>da área com foco</span></div></div></div>'+
+ '<div class="sec"><h4>Espécies registradas</h4>'+(ks.length?chipsAnimals(ks):'<p class="empty">Nenhuma espécie no mock.</p>')+'</div>'+
+ '<div class="actions"><button class="btn pri" data-cal="1">Abrir no calendário</button></div>'+
+ '<div class="warnbox">Dados de exemplo. Validar área, categoria e criação no CNUC/MMA antes de publicar.</div></div>';}
+function animalHTML(k){var s=SP[k],ucs=UC.filter(function(u){return u.sp.indexOf(k)>-1;});
+ return '<div class="hero" style="'+(s.photo?'background-image:url('+s.photo+')':'background:linear-gradient(135deg,#1c3a2c,#0b1220)')+'"><small>'+(s.photo?'Foto: '+esc(s.credit||'iNaturalist'):'Sem foto carregada (mock offline)')+'</small></div><div class="body"><h3 id="mtitle">'+esc(s.pop)+'</h3><p class="sci">'+esc(s.sci)+'</p>'+
+ '<span class="badge '+s.cl+'">'+esc(s.st)+'</span><p>'+esc(s.desc)+'</p>'+
+ '<div class="sec"><h4>Registros</h4><div class="facts"><div class="stat"><b>'+s.n+'</b><span>ocorrências na região (exemplo)</span></div><div class="stat"><b>'+ucs.length+'</b><span>unidades de conservação</span></div></div></div>'+
+ '<div class="sec"><h4>Registrado em</h4><div class="chips">'+ucs.map(function(u){return '<button class="chip t" data-u="'+u.id+'">'+esc(u.name)+'</button>';}).join('')+'</div></div>'+
+ '<div class="warnbox">Texto e status de exemplo. Validar na lista do ICMBio (SALVE) e na IUCN. Registros mostram onde a espécie foi observada, não toda a distribuição.</div></div>';}
+function render(){var fn=stack[stack.length-1];sheet.innerHTML='<div class="mtop"><button class="btn" id="mback" aria-label="Voltar"'+(stack.length>1?'':' style="visibility:hidden"')+'>&larr; Voltar</button><button class="btn" id="mclose" aria-label="Fechar">Fechar &times;</button></div>'+fn();
+ document.getElementById('mclose').onclick=closeModal;document.getElementById('mback').onclick=function(){stack.pop();render();};
+ sheet.querySelectorAll('[data-a]').forEach(function(b){b.onclick=function(){var k=b.dataset.a;stack.push(function(){return animalHTML(k);});render();};});
+ sheet.querySelectorAll('[data-u]').forEach(function(b){b.onclick=function(){var u=b.dataset.u;stack.push(function(){return profileHTML(u);});render();};});
+ sheet.querySelectorAll('[data-cal]').forEach(function(b){b.onclick=function(){window.open('app-calendario-do-fogo.html?view=calendario','_blank');};});
+ sheet.scrollTop=0;document.getElementById('mclose').focus();}
+function openModal(fn){lastFocus=document.activeElement;stack=[fn];modal.classList.add('open');render();}
+function closeModal(){modal.classList.remove('open');stack=[];sheet.innerHTML='';if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+modal.addEventListener('click',function(e){if(e.target===modal)closeModal();});
+document.addEventListener('keydown',function(e){if(!modal.classList.contains('open'))return;if(e.key==='Escape')closeModal();
+ if(e.key==='Tab'){var f=sheet.querySelectorAll('button');if(!f.length)return;var a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}}});
+
+intro();initGlobe();
+window.__olho={goOP:goOP,select:select,get globe(){return globe;}};
+})();
+</script>
+</body>
+</html>

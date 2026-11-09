@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Calendário do Fogo vs Field Shift</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--bg:#0b1020;--card:#141b2f;--line:#26304d;--tx:#f2f4fb;--mut:#a3aeca;--fire:#ff7a45;--fire2:#ffb347;--farm:#2fd3a0;--farm2:#7be0ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 500px at 15% -10%,#3a1a14 0,transparent 60%),radial-gradient(1200px 500px at 85% -10%,#0d3a33 0,transparent 60%),var(--bg);color:var(--tx);font:16px/1.5 "Segoe UI","Segoe UI Emoji",system-ui,sans-serif}
+.wrap{width:1200px;margin:0 auto;padding:36px 36px 28px}
+.top{text-align:center;margin-bottom:22px}
+.top h1{font-size:42px;margin:0;font-weight:700;letter-spacing:-.5px}
+.top p{margin:6px 0 0;color:var(--mut);font-size:19px}
+.vs{display:grid;grid-template-columns:1fr 64px 1fr;align-items:stretch;gap:0;margin-bottom:26px}
+.hero{border-radius:20px;padding:22px 24px;position:relative;overflow:hidden}
+.hero.fire{background:linear-gradient(135deg,#ff6a3d,#ffb347);color:#2b1204}
+.hero.farm{background:linear-gradient(135deg,#1fc99a,#7be0ff);color:#04251f}
+.hero .ico{font-size:46px;line-height:1}
+.hero h2{margin:6px 0 0;font-size:34px;font-weight:700}
+.hero .en{font-size:17px;opacity:.8;margin:0 0 10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:16px;font-weight:600;padding:3px 10px;border-radius:99px;background:rgba(255,255,255,.55)}
+.score{position:absolute;right:20px;top:18px;text-align:center;background:rgba(0,0,0,.22);color:#fff;border-radius:14px;padding:8px 14px}
+.score b{display:block;font-size:38px;line-height:1}
+.score span{font-size:14px;opacity:.9}
+.mid{display:flex;align-items:center;justify-content:center}
+.mid i{font-style:normal;font-weight:800;font-size:18px;background:var(--bg);border:2px solid var(--line);border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center}
+h3.sec{font-size:28px;margin:0 0 4px;font-weight:700}
+p.sub{color:var(--mut);font-size:17px;margin:0 0 14px}
+.crit{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px}
+.cl{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin-top:10px}
+.cl .ci{font-size:26px;width:46px;height:46px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.cl b{font-size:23px}
+.cl small{color:var(--mut);font-size:16px;margin-left:4px}
+.cell{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.cell.win.fire{border-color:var(--fire);box-shadow:0 0 0 1px var(--fire) inset}
+.cell.win.farm{border-color:var(--farm);box-shadow:0 0 0 1px var(--farm) inset}
+.bar{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.track{flex:1;height:14px;border-radius:99px;background:#222b46;overflow:hidden}
+.fill{height:100%;border-radius:99px}
+.fire .fill{background:linear-gradient(90deg,#ff6a3d,#ffb347)}
+.farm .fill{background:linear-gradient(90deg,#1fc99a,#7be0ff)}
+.num{font-weight:700;font-size:20px;min-width:44px;text-align:right}
+.crown{font-size:15px;font-weight:700;padding:2px 8px;border-radius:99px;color:#101010}
+.fire .crown{background:var(--fire2)}.farm .crown{background:var(--farm2)}
+.why{font-size:17.5px;line-height:1.5;color:#c3cce3;margin:0}
+.team{display:grid;grid-template-columns:250px 1fr 1fr;gap:10px 14px;margin-top:6px}
+.team .hd{font-weight:700;font-size:21px;padding:8px 12px;border-radius:12px}
+.hd.fire{background:rgba(255,122,69,.15);color:var(--fire2)}
+.hd.farm{background:rgba(47,211,160,.15);color:var(--farm2)}
+.who{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.av{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;flex:none}
+.who b{display:block;font-size:20px;line-height:1.2}
+.who span{font-size:15.5px;color:var(--mut)}
+.badge{display:inline-block;margin-top:4px;font-size:13.5px;padding:1px 8px;border-radius:99px;background:#3a3320;color:#ffd77a}
+.role{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-size:17.5px;line-height:1.5;display:flex;gap:10px;align-items:flex-start}
+.role em{font-style:normal;font-size:24px;line-height:1.3}
+.verdict{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
+.v{border-radius:16px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start}
+.v.fire{background:linear-gradient(135deg,rgba(255,106,61,.22),rgba(255,179,71,.1));border:1px solid var(--fire)}
+.v.farm{background:linear-gradient(135deg,rgba(31,201,154,.22),rgba(123,224,255,.1));border:1px solid var(--farm)}
+.v .vi{font-size:38px}
+.v h4{margin:0 0 4px;font-size:22px}
+.v p{margin:0;font-size:17px;color:#c3cce3}
+.foot{margin-top:20px;color:var(--mut);font-size:15.5px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="top">
+<h1>🛰️ Qual desafio o Space Uai escolhe?</h1>
+<p>Notas de 1 a 5, justificativas e a função de cada pessoa do time</p>
+</div>
+
+<div class="vs">
+  <div class="hero fire">
+    <div class="score"><b>23</b><span>de 30</span></div>
+    <div class="ico">🔥</div>
+    <h2>Calendário do Fogo</h2>
+    <p class="en">Harmonization of MODIS and VIIRS Hot Spots</p>
+    <div class="chips"><span class="chip">Avançado / Intermediário</span><span class="chip">🌍 Earth Science</span><span class="chip">💻 Software</span></div>
+  </div>
+  <div class="mid"><i>VS</i></div>
+  <div class="hero farm">
+    <div class="score"><b>21</b><span>de 30</span></div>
+    <div class="ico">🌾</div>
+    <h2>Field Shift</h2>
+    <p class="en">Adapting Farms with NASA Data</p>
+    <div class="chips"><span class="chip">Avançado / Intermediário</span><span class="chip">🌍 Earth Science</span><span class="chip">🎨 Arts &amp; Multimedia</span></div>
+  </div>
+</div>
+
+<h3 class="sec">📊 Placar por critério</h3>
+<p class="sub">Borda colorida = vencedor do critério. A soma não tem pesos: se valor social pesar mais para vocês, o resultado muda.</p>
+
+<div class="crit">
+  <div class="cl"><div class="ci">🎮</div><b>Diversão</b><small>dá para gamificar?</small></div>
+  <div class="cell fire win"><div class="bar"><div class="track"><div class="fill" style="width:80%"></div></div><span class="num">4/5</span><span class="crown">👑 vence</span></div><p class="why">Calendário pessoal ("meu ano em focos"), duelo MODIS x VIIRS e chute antes da revelação funcionam bem como jogo. O tema é pesado, então o tom precisa de humor.</p></div>
+  <div class="cell farm"><div class="bar"><div class="track"><div class="fill" style="width:60%"></div></div><span class="num">3/5</span></div><p class="why">Escolher rotação de cultura é seco por natureza. Só fica divertido como simulador de safra (decidir e ver o resultado do ano), o que exige mais criatividade de design.</p></div>
+
+  <div class="cl"><div class="ci">🌍</div><b>Valor para a sociedade</b><small>quem usa e para quê</small></div>
+  <div class="cell fire"><div class="bar"><div class="track"><div class="fill" style="width:80%"></div></div><span class="num">4/5</span></div><p class="why">O desafio cita alerta precoce, resposta a emergências e gestão do território. Serve a brigadas, a quem tem problema respiratório e ao produtor, mas o efeito é mais indireto.</p></div>
+  <div class="cell farm win"><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="num">5/5</span><span class="crown">👑 vence</span></div><p class="why">Ajuda o agricultor a enfrentar seca, chuva irregular e solo degradado: decisões reais e caras. Minas é estado agrícola, então o público existe aqui.</p></div>
+
+  <div class="cl"><div class="ci">🛰️</div><b>Dado pronto</b><small>risco de ficar sem dado</small></div>
+  <div class="cell fire win"><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="num">5/5</span><span class="crown">👑 vence</span></div><p class="why">Os dois sensores têm registro público de mais de duas décadas, e o próprio desafio descreve esse histórico. O trabalho é harmonizar, não achar dado.</p></div>
+  <div class="cell farm"><div class="bar"><div class="track"><div class="fill" style="width:40%"></div></div><span class="num">2/5</span></div><p class="why">O desafio pede dados da NASA mais solo local, características das culturas e prioridades do produtor. Esses três últimos não vêm da NASA e teriam de ser buscados ou simulados.</p></div>
+
+  <div class="cl"><div class="ci">🧩</div><b>Facilidade de terminar</b><small>escopo para o prazo</small></div>
+  <div class="cell fire win"><div class="bar"><div class="track"><div class="fill" style="width:60%"></div></div><span class="num">3/5</span><span class="crown">👑 vence</span></div><p class="why">O produto é concreto: um calendário numa área escolhida. O difícil é tornar os dois sensores comparáveis, e isso cabe numa estatística bem feita.</p></div>
+  <div class="cell farm"><div class="bar"><div class="track"><div class="fill" style="width:40%"></div></div><span class="num">2/5</span></div><p class="why">Ferramenta de decisão aberta: modelo, dados misturados e interface para leigo. É fácil entregar algo raso e difícil entregar algo confiável.</p></div>
+
+  <div class="cl"><div class="ci">👥</div><b>Uso de todo o time</b><small>cada um com papel real</small></div>
+  <div class="cell fire"><div class="bar"><div class="track"><div class="fill" style="width:80%"></div></div><span class="num">4/5</span></div><p class="why">Estatística, código, design, conteúdo e ambiental têm papel central. A veterinária entra pela saúde (fumaça, animais, pasto), de forma mais lateral.</p></div>
+  <div class="cell farm win"><div class="bar"><div class="track"><div class="fill" style="width:100%"></div></div><span class="num">5/5</span><span class="crown">👑 vence</span></div><p class="why">Solo e água (ambiental), pasto e integração lavoura-pecuária (veterinária), risco (estatística), código, design e comunicação com o produtor. Todos ficam no centro.</p></div>
+
+  <div class="cl"><div class="ci">✨</div><b>Originalidade</b><small>destaque diante dos jurados</small></div>
+  <div class="cell fire"><div class="bar"><div class="track"><div class="fill" style="width:60%"></div></div><span class="num">3/5</span></div><p class="why">O pedido é específico: "calendário de queimadas". A diferença vem da execução (gamificação, uso pela população), porque a base do desafio é a mesma para quem escolher.</p></div>
+  <div class="cell farm win"><div class="bar"><div class="track"><div class="fill" style="width:80%"></div></div><span class="num">4/5</span><span class="crown">👑 vence</span></div><p class="why">O enunciado é mais aberto e aceita "Arts &amp; Multimedia" como tema, então há espaço para uma solução própria e visual. Não sei quantos times vão escolher este.</p></div>
+</div>
+
+<h3 class="sec" style="margin-top:30px">🧑‍🚀 Função sugerida para cada pessoa</h3>
+<p class="sub">Sugestões a partir do que cada um declarou. O time decide.</p>
+
+<div class="team">
+  <div></div><div class="hd fire">🔥 No Calendário do Fogo</div><div class="hd farm">🌾 No Field Shift</div>
+
+  <div class="who"><div class="av" style="background:#3a2a5c">🎨</div><div><b>Wedny</b><span>vibe coder e designer</span></div></div>
+  <div class="role"><em>🖌️</em><div>Desenha o app e a identidade, o calendário pessoal, o duelo dos satélites e os protótipos clicáveis. Liga o front aos dados com o Kevilin.</div></div>
+  <div class="role"><em>🕹️</em><div>Desenha o simulador de safra e a interface de decisão para o produtor, em linguagem visual simples, e constrói o protótipo navegável.</div></div>
+
+  <div class="who"><div class="av" style="background:#1d3b5c">📊</div><div><b>João Pedro</b><span>estudante de estatística</span></div></div>
+  <div class="role"><em>🧮</em><div>Harmoniza MODIS e VIIRS, trata as séries no tempo e define o que é "condição incomum". Explica a incerteza para o jurado.</div></div>
+  <div class="role"><em>📈</em><div>Modela o risco por cultura e por clima, compara estratégias de rotação e mostra a incerteza de cada cenário.</div></div>
+
+  <div class="who"><div class="av" style="background:#17463f">💻</div><div><b>Kevilin</b><span>ciência da computação</span></div></div>
+  <div class="role"><em>🛰️</em><div>Pega os dados de focos de calor, monta a base e o back-end, e entrega o web app rápido para qualquer área escolhida.</div></div>
+  <div class="role"><em>⚙️</em><div>Integra chuva, temperatura e umidade do solo com o solo local, e cuida do motor da simulação.</div></div>
+
+  <div class="who"><div class="av" style="background:#5c2a2a">🎬</div><div><b>Wander</b><span>criador de conteúdo</span></div></div>
+  <div class="role"><em>📣</em><div>Escreve o roteiro e o tom (o narrador mineiro), grava o vídeo do pitch e cria o cartão de compartilhar para o WhatsApp.</div></div>
+  <div class="role"><em>🎤</em><div>Traduz tudo para a linguagem do produtor, conversa com agricultores reais e conduz o vídeo e o pitch.</div></div>
+
+  <div class="who"><div class="av" style="background:#5c4a1d">🐄</div><div><b>Maria Heduarda</b><span>veterinária</span></div></div>
+  <div class="role"><em>🩺</em><div>Cuida do conteúdo de saúde (fumaça, animais, pasto), valida as dicas e escreve o guia para o produtor rural.</div></div>
+  <div class="role"><em>🌿</em><div>Traz a pecuária: pasto, integração lavoura-pecuária e bem-estar animal como critério da rotação.</div></div>
+
+  <div class="who"><div class="av" style="background:#1f4a2a">🌱</div><div><b>Mila Paiva</b><span>eng. ambiental</span><div class="badge">⏳ aguarda aprovação no site</div></div></div>
+  <div class="role"><em>🔬</em><div>Valida a ciência: foco de calor não é igual a incêndio, queima agrícola e incêndio, janelas de risco e manejo.</div></div>
+  <div class="role"><em>💧</em><div>Define os parâmetros de solo, água e rotação, e valida se a recomendação faz sentido agronomicamente.</div></div>
+</div>
+
+<div class="verdict">
+  <div class="v fire"><div class="vi">🛡️</div><div><h4>Escolha o Fogo se quiser segurança</h4><p>Dado pronto, pedido claro e escopo que cabe. O destaque virá da gamificação e do uso pela população.</p></div></div>
+  <div class="v farm"><div class="vi">🚀</div><div><h4>Escolha o Field Shift se quiser impacto</h4><p>Maior valor e todo o time no centro, mas exige dado local e mais cuidado com o escopo.</p></div></div>
+</div>
+
+<p class="foot">Notas e funções são sugestões minhas a partir dos textos oficiais dos desafios do NASA Space Apps 2026, sem dado medido. A entrada da Mila no time depende da aprovação no site.</p>
+</div>
+</body>
+</html>

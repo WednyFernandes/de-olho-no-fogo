@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Calendário do Fogo: MODIS + VIIRS harmonizados</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Aplicação web que harmoniza os focos de calor dos sensores MODIS e VIIRS em um calendário de atividade de fogo para uma área de interesse.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&display=swap">
+<style>
+:root{--brand:#E5004B;--brand-ink:#B80040;--brand-tint:#FFE8EF;--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--map:#E4E9EC;--card:#FFFFFF;--soft:#F3F5F7;--night:#E6EAED;--green:#2E8B57;--green-ink:#1F4D33;--green-tint:#F4F9F5;--green-line:#CFE5D7;--warn-ink:#8A5A00;--warn-tint:#FFF3D6;--fire-lo:#FFC02E;--fire-md:#F7801E;--fire-hi:#C8102E;--modis:#6B4FA0;--viirs:#00727F;--shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--map);color:var(--ink);font:16px/1.55 Figtree,system-ui,-apple-system,sans-serif}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+a{color:var(--brand-ink)}
+.card{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px}
+.top{position:sticky;top:12px;margin:12px 16px 0;z-index:20;display:flex;align-items:center;gap:16px;height:56px;padding:0 10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand b{font-weight:800;font-size:17px;letter-spacing:-.01em}
+.nav{display:flex;gap:2px}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;color:var(--ink2);text-decoration:none;font-size:14px;font-weight:600}
+.nav a[aria-current]{background:var(--brand-tint);color:var(--brand-ink)}
+.nav a:hover{background:var(--soft);color:var(--ink)}
+@media (max-width:600px){.brand b{display:none}.top{margin:8px 8px 0}}
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+.phead{display:flex;gap:16px 24px;align-items:flex-end;flex-wrap:wrap;padding:28px 0 16px}
+.ptitle{margin-right:auto}
+.ptitle h1{font-size:28px;font-weight:800;letter-spacing:-.015em;margin:0 0 2px}
+.ptitle p{margin:0;color:var(--ink3);font-size:15px}
+.ctl{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+label.f{display:flex;flex-direction:column;font-size:13px;font-weight:600;color:var(--ink3);gap:4px}
+select,button,input[type=number]{font:inherit;font-size:15px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:46px;padding:0 14px}
+select{min-width:240px}
+button{cursor:pointer;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+button:hover{border-color:#C5CDD3}
+button.pri{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+button.pri:hover{background:var(--brand-ink);border-color:var(--brand-ink)}
+.src{font-size:13px;font-weight:700;padding:6px 12px;border-radius:99px;white-space:nowrap;align-self:center}
+.src.sim{color:var(--warn-ink);background:var(--warn-tint)}
+.src.real{color:var(--green-ink);background:var(--green-tint)}
+.seg{display:inline-flex;gap:2px;padding:3px;background:var(--soft);border-radius:12px;max-width:100%;overflow-x:auto}
+.seg button{border:0;border-radius:9px;background:transparent;min-height:44px;padding:0 14px;font-size:14px;color:var(--ink2);white-space:nowrap}
+.seg button:hover{color:var(--ink);background:var(--line2)}
+.seg button.on{background:var(--ink);color:#fff}
+nav.tabs{display:flex;width:max-content;background:var(--card);box-shadow:var(--shadow)}
+.view{display:none;padding:20px 0 56px}
+.view.on{display:block}
+h1,h2,h3{margin:0 0 8px;line-height:1.25}
+h2{font-size:24px;font-weight:800;letter-spacing:-.01em}
+h3{font-size:17px;font-weight:700;color:var(--ink)}
+p{margin:0 0 10px}
+.lead{font-size:19px;color:var(--ink);max-width:960px}
+.mut{color:var(--ink3)}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:1000px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:0 12px}select{min-width:0;width:100%}.ctl,.ctl label.f{width:100%}.ptitle h1{font-size:24px}.card{padding:16px}.phead{padding-top:20px}}
+.kpi small{display:block;color:var(--ink3);font-size:14px;font-weight:600}
+.kpi b{display:block;font-size:28px;font-weight:800;line-height:1.2;margin:4px 0;letter-spacing:-.01em}
+.kpi span{font-size:14px;color:var(--ink3)}
+.badge{display:inline-block;padding:3px 12px;border-radius:99px;font-weight:700;font-size:15px}
+.b-red{background:var(--brand-tint);color:var(--brand-ink)}
+.b-or{background:var(--warn-tint);color:var(--warn-ink)}
+.b-gr{background:var(--green-tint);color:var(--green-ink);box-shadow:inset 0 0 0 1px var(--green-line)}
+.b-bl{background:#EAF1F8;color:#1F4E79}
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+canvas{display:block;width:100%}
+#calWrap{position:relative}
+#tip{position:fixed;z-index:3000;pointer-events:none;background:var(--card);color:var(--ink);box-shadow:var(--shadow);border-radius:10px;padding:9px 12px;font-size:14px;line-height:1.45;max-width:340px;display:none}
+.legend{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--ink3);margin-top:10px}
+.ramp{height:12px;width:220px;max-width:40vw;border-radius:6px}
+.nodata{display:inline-block;width:18px;height:12px;border-radius:3px;background:repeating-linear-gradient(135deg,#F3F5F7 0 3px,#B9C2C9 3px 4px);box-shadow:inset 0 0 0 1px var(--line)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+th{color:var(--ink3);font-weight:600;font-size:13.5px}
+.ok{color:var(--green)}.warn{color:var(--warn-ink)}
+.tag{display:inline-block;background:var(--warn-tint);border-radius:99px;padding:0 8px;font-size:13px;font-weight:700}
+.tblx{overflow-x:auto}
+#map{height:560px;border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.leaflet-container{background:var(--night);font:inherit}
+.leaflet-popup-content-wrapper{border-radius:10px;box-shadow:var(--shadow)}
+details{border-top:1px solid var(--line2);padding:10px 0}
+details summary{cursor:pointer;font-weight:600}
+code,.mono{font-family:Consolas,"Cascadia Mono",monospace;font-size:.92em;background:var(--soft);padding:1px 6px;border-radius:6px}
+.eq{font-family:Consolas,monospace;background:var(--soft);padding:10px 14px;border-radius:10px;display:block;margin:8px 0;overflow-x:auto}
+svg text{font-family:Figtree,system-ui,sans-serif}
+.note{font-size:14px;color:var(--ink3)}
+footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--ink3);font-size:14px}
+.chk li{margin:4px 0}
+.sr{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<header class="top card">
+  <a class="brand" href="mock-olho-do-fogo-cientifico.html" aria-label="De Olho no Fogo, voltar ao globo"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#E5004B"/><path d="M6 25 Q24 7 42 25 Q24 43 6 25 Z" fill="#fff"/><path d="M24 14 C27 19 31 21 31 27 C31 31.5 27.8 34 24 34 C20.2 34 17 31.5 17 27.4 C17 24 19 22.5 20.4 20.6 C20.6 23 21.8 24.2 23 24.6 C22.4 21 23 17.5 24 14 Z" fill="#E5004B"/><rect x="21.8" y="27.4" width="4.4" height="4.4" fill="#fff"/></svg><b>De Olho no Fogo</b></a>
+  <nav class="nav" aria-label="Seções"><a href="mock-olho-do-fogo-cientifico.html">Globo</a><a href="app-calendario-do-fogo.html?view=calendario" aria-current="page">Calendário</a><a href="app-calendario-do-fogo.html?view=metodo">Método e dados</a></nav>
+</header>
+<div class="wrap">
+<div class="phead">
+  <div class="ptitle"><h1>Calendário do Fogo</h1><p>MODIS + VIIRS harmonizados · atividade de queimadas em qualquer área</p></div>
+  <div class="ctl">
+    <label class="f">Área de interesse<select id="aoi"></select></label>
+    <button id="btnUp" title="Carregue arquivos CSV baixados do NASA FIRMS (MODIS e/ou VIIRS)">Carregar dados FIRMS (CSV)</button>
+    <input type="file" id="file" accept=".csv,text/csv" multiple hidden>
+    <div id="src" class="src sim">DADOS SIMULADOS · demonstração</div>
+  </div>
+</div>
+<nav class="tabs seg" id="tabs" aria-label="Visões do calendário">
+  <button data-v="resumo" class="on" aria-pressed="true">Resumo</button>
+  <button data-v="calendario" aria-pressed="false">Calendário</button>
+  <button data-v="sensores" aria-pressed="false">Sensores e harmonização</button>
+  <button data-v="mapa" aria-pressed="false">Mapa</button>
+  <button data-v="metodo" aria-pressed="false">Método e dados</button>
+</nav>
+
+<!-- RESUMO -->
+<section class="view on" id="v-resumo">
+  <h2 id="rTitle">Resumo</h2>
+  <p class="lead" id="rLead"></p>
+  <div class="grid g4" style="margin:18px 0">
+    <div class="card kpi"><small>Situação agora</small><b id="kStatus">--</b><span id="kStatusS"></span></div>
+    <div class="card kpi"><small>Época mais crítica</small><b id="kCrit">--</b><span id="kCritS"></span></div>
+    <div class="card kpi"><small>Pico habitual</small><b id="kPeak">--</b><span id="kPeakS"></span></div>
+    <div class="card kpi"><small>Acumulado no ano</small><b id="kYtd">--</b><span id="kYtdS"></span></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3>Últimos 90 dias comparados ao normal</h3><div id="spark"></div><p class="note">Linha laranja: atividade recente. Faixa cinza: o que é comum nesta época nos anos anteriores (10% a 90% dos anos).</p></div>
+    <div class="card"><h3>Como ler estes números</h3>
+      <ol style="margin:0;padding-left:20px">
+        <li><b>Foco de calor</b> é um ponto onde o satélite detectou calor intenso. Pode ser incêndio, queimada controlada ou outra fonte quente.</li>
+        <li><b>Normal</b> é a mediana dos anos anteriores na mesma época. O <b>percentil</b> diz em quantos anos o fogo foi menor que agora.</li>
+        <li>Dois satélites medem de forma diferente. O app os coloca na <b>mesma régua</b> para o histórico ser comparável.</li>
+      </ol>
+      <div class="row" style="margin:12px 0 0"><button class="pri" id="btnCopy">Copiar resumo para compartilhar</button><button id="btnGoCal">Ver o calendário completo</button></div>
+      <p class="note" id="copied" style="margin-top:8px"></p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Perguntas frequentes</h3>
+    <details><summary>Foco de calor é a mesma coisa que incêndio?</summary><p class="mut">Não. É um alerta de calor visto do espaço. Serve para indicar onde olhar, mas só uma checagem em campo confirma o que é.</p></details>
+    <details><summary>Por que usar dois satélites?</summary><p class="mut">O MODIS tem registro desde 2000, mas enxerga pixels de 1 km. O VIIRS, a partir de 2012, enxerga 375 m e detecta fogos menores. Sozinhos, eles não são comparáveis ao longo do tempo.</p></details>
+    <details><summary>Isso prevê onde vai pegar fogo?</summary><p class="mut">Não. O app mostra o padrão histórico e quando a situação atual foge dele. Isso ajuda a antecipar a atenção, mas não é uma previsão de ignição.</p></details>
+  </div>
+</section>
+
+<!-- CALENDARIO -->
+<section class="view" id="v-calendario">
+  <h2>Calendário de atividade de fogo</h2>
+  <p class="mut">Cada linha é um ano e cada coluna é um dia. Quanto mais quente a cor, mais fogo foi detectado naquela área. Clique em um dia para ver os detalhes.</p>
+  <div class="row">
+    <label class="f">Medida<span class="seg" id="segMetric"><button data-k="c" class="on">Focos (contagem)</button><button data-k="f">Energia do fogo (FRP)</button></span></label>
+    <label class="f">Cor mostra<span class="seg" id="segMode"><button data-k="int" class="on">Intensidade</button><button data-k="ano">Fora do normal</button></span></label>
+    <label class="f">Suavização<span class="seg" id="segSm"><button data-k="7" class="on">7 dias</button><button data-k="1">Diário</button></span></label>
+  </div>
+  <div class="card" id="calWrap"><canvas id="cal" role="img" aria-label="Calendário de atividade de fogo por ano e dia do ano"></canvas><div class="legend" id="calLegend"></div></div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>Dia selecionado</h3><div id="dayCard" class="mut">Clique em um dia no calendário.</div></div>
+    <div class="card"><h3>Leitura rápida</h3><div id="calRead"></div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3 id="climTitle">Ano selecionado contra o normal</h3>
+    <p class="note">Clique no nome de um ano no calendário para trocá-lo aqui. Pontos vermelhos: dias acima de 95% dos outros anos.</p>
+    <div id="clim"></div></div>
+  <div class="card" style="margin-top:16px"><h3>Períodos críticos por ano</h3>
+    <p class="note">Cada barra vai do ponto em que o ano acumulou 10% da atividade até 90%. O ponto marca o meio (50%). Mostra se a época crítica começa mais cedo ou mais tarde.</p>
+    <div id="crit"></div></div>
+  <div class="card" style="margin-top:16px" id="climaCard" hidden><h3>Fogo e clima na estação seca (julho a outubro)</h3>
+    <p class="note">Cada ponto é um ano em Minas Gerais, de 2003 a 2025. Eixo horizontal: chuva somada de julho a outubro (NASA POWER, média de 12 pontos do estado). Eixo vertical: focos harmonizados no mesmo período (escala VIIRS).</p>
+    <div id="climaStats" class="grid g3" style="margin:8px 0 12px"></div>
+    <div id="climaChart" role="img" aria-label="Focos na estação seca contra a chuva da estação seca, um ponto por ano, Minas Gerais 2003 a 2025"></div>
+    <p class="note" id="climaNote"></p></div>
+</section>
+
+<!-- SENSORES -->
+<section class="view" id="v-sensores">
+  <h2>Sensores e harmonização</h2>
+  <p class="mut">O MODIS e o VIIRS não contam o fogo do mesmo jeito, e a frota de satélites mudou ao longo do tempo. Esta aba mostra o problema e como o app o corrige.</p>
+  <div class="row">
+    <label class="f">Sensor de referência<span class="seg" id="segRef"><button data-k="M" class="on">MODIS (registro longo)</button><button data-k="V">VIIRS (mais detalhe)</button></span></label>
+    <label class="f">Medida<span class="seg" id="segMetric2"><button data-k="c" class="on">Contagem</button><button data-k="f">FRP</button></span></label>
+  </div>
+  <div class="card"><h3>Totais anuais: antes e depois</h3><div id="annual"></div>
+    <p class="note" id="annualNote"></p></div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>Calibração por época (sobreposição entre sensores)</h3><div id="scatter"></div><p class="note">Cada ponto é um mês em que os dois sensores observaram a área. A reta passando pela origem é o fator de conversão da época.</p></div>
+    <div class="card"><h3>Validação</h3><div id="valid"></div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Fatores de conversão por época de satélites</h3><div id="epTable"></div></div>
+</section>
+
+<!-- MAPA -->
+<section class="view" id="v-mapa">
+  <h2>Mapa dos focos</h2>
+  <div class="row">
+    <label class="f">Dia central<input type="number" id="mapDay" min="1" max="366" style="width:110px"></label>
+    <label class="f">Ano<select id="mapYear" style="min-width:110px"></select></label>
+    <label class="f">Janela<span class="seg" id="segWin"><button data-k="0">1 dia</button><button data-k="3" class="on">7 dias</button><button data-k="7">15 dias</button><button data-k="15">31 dias</button></span></label>
+    <button id="btnGeo">Baixar focos (GeoJSON)</button>
+    <button id="btnUseView" title="Usa a área visível no mapa como nova área de interesse (dados simulados)">Usar área visível</button>
+  </div>
+  <div id="map"></div>
+  <p class="note" id="mapNote"></p>
+</section>
+
+<!-- METODO -->
+<section class="view" id="v-metodo">
+  <h2>Método e dados</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Fonte dos dados</h3>
+      <p>Focos ativos dos produtos MODIS (1 km, Terra e Aqua, desde 2000) e VIIRS (375 m, S-NPP desde 2012, NOAA-20 desde 2018, NOAA-21 desde 2024), distribuídos pelo NASA FIRMS.</p>
+      <p><b>Em Minas Gerais os números são reais</b> (NASA FIRMS, 2001–2025). Fora de MG a demonstração usa dados simulados; para outras regiões, baixe os CSV no FIRMS e carregue-os pelo botão no topo (o app lê as colunas padrão do FIRMS).</p>
+      <p id="mDataset" class="note"></p>
+    </div>
+    <div class="card"><h3>Como atende ao desafio</h3>
+      <ul class="chk" style="margin:0;padding-left:20px">
+        <li><b class="ok">✓</b> Harmoniza os registros de MODIS e VIIRS em uma série comparável.</li>
+        <li><b class="ok">✓</b> Calendário de atividade de fogo por área de interesse.</li>
+        <li><b class="ok">✓</b> Padrões históricos: climatologia diária e períodos críticos.</li>
+        <li><b class="ok">✓</b> Condições incomuns: percentil de cada dia contra os outros anos.</li>
+      <li><b class="ok">✓</b> Contexto climático: chuva, umidade e temperatura do mês (NASA POWER) e a relação seca × fogo, sem afirmar causa.</li>
+        <li><b class="ok">✓</b> Alerta antecipado: situação atual contra o normal e início esperado do período crítico.</li>
+        <li><b class="warn">◐</b> Prever ignição não faz parte (o app não promete isso).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Método de harmonização</h3>
+    <ol style="margin:0 0 8px;padding-left:22px">
+      <li>Filtra focos de baixa confiança e agrega por dia, sensor e época de plataformas (mudou o número de satélites, muda a sensibilidade).</li>
+      <li>Escolhe um sensor de referência e uma época-base (a de mais plataformas).</li>
+      <li>Para cada outra época, calcula a razão mensal entre os sensores nos meses de sobreposição (mínimo de focos por mês) e usa a <b>mediana</b>. O intervalo de 90% vem de reamostragem (bootstrap, 300 repetições).</li>
+      <li>Épocas sem sobreposição usam uma premissa pelo número de plataformas, com incerteza de ±25% sinalizada na tabela.</li>
+      <li>A série harmonizada de cada dia é o estimador de Poisson combinado:</li>
+    </ol>
+    <span class="eq">H(dia) = Σ X_sensor(dia) / Σ ( 1 / f_sensor,época )</span>
+    <p class="note">X é a contagem (ou FRP) bruta e f é o fator de conversão para a unidade do sensor de referência. Sensores mais sensíveis têm fator menor e pesam mais. A medida de FRP costuma depender menos do tamanho do pixel que a contagem.</p>
+    <p>A climatologia usa a mediana e os percentis 10, 90 e 95 dos outros anos. O percentil de cada dia compara o valor suavizado com os outros anos no mesmo dia do ano (±3 dias). O período crítico é onde o acumulado do ano passa de 10% a 90%.</p>
+  </div>
+  <div class="card" style="margin-top:16px" id="valCard"><h3>Validação independente: a harmonização funciona?</h3>
+    <p>Comparamos a série de Minas Gerais com a <b>série de referência do INPE</b> (Programa Queimadas). Ela usa um único satélite, o Aqua, e o algoritmo de detecção do próprio INPE, de 2003 a 2025. Como o satélite não muda, ela não tem o salto de 2012, e serve de régua para conferir a nossa.</p>
+    <div id="valStats" class="grid g3" style="margin:8px 0 12px"></div>
+    <div id="valChart" role="img" aria-label="Focos por ano em Minas Gerais, cada série dividida pela própria média de 2003 a 2011"></div>
+    <p class="note" id="valNote"></p>
+    <p style="margin:8px 0 0"><a href="data/serie-harmonizada-mg.csv" download>Baixar a série harmonizada de MG, mês a mês (CSV, dado aberto)</a> · <a href="docs/metodo-harmonizacao.md">método completo</a></p>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Limitações</h3>
+    <ul style="margin:0;padding-left:20px">
+      <li>Foco de calor não é incêndio confirmado: inclui queimadas agrícolas e fontes quentes fixas, que devem ser filtradas.</li>
+      <li>Nuvem, fumaça densa e horário da passagem escondem fogos. A ausência de foco não prova ausência de fogo.</li>
+      <li>A calibração assume que a razão entre sensores é estável dentro de cada época.</li>
+      <li>O calendário usa o dia do ano de 1 a 366, então em anos bissextos há um deslocamento de um dia após fevereiro.</li>
+      <li>Os arquivos carregados precisam estar entre nov/2000 e out/2026 (limite do eixo de tempo atual).</li>
+    </ul>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Exportar</h3>
+    <div class="row" style="margin:0"><button id="btnCsv">Série diária harmonizada (CSV)</button><button id="btnJson">Parâmetros e fatores (JSON)</button></div>
+  </div>
+</section>
+<footer>Imagens de mapa: Esri, Maxar, Earthstar Geographics · Mapa: Leaflet · Dados de fogo: NASA FIRMS (MG, 2001–2025; fora de MG, simulados) · clima: NASA POWER · validação: INPE, Programa Queimadas. Projeto Space Uai, NASA Space Apps Challenge 2026.</footer>
+</div>
+<div id="tip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="data/mg-diario.js"></script>
+<script src="data/mg-validacao.js"></script>
+<script src="data/mg-clima.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(i){return document.getElementById(i);};
+var MES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+var MD=[1,32,60,91,121,152,182,213,244,274,305,335];
+function pad(n){return (n<10?'0':'')+n;}
+function fmt(n,d){if(n==null||isNaN(n))return '--';return Number(n).toLocaleString('pt-BR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});}
+function rng(seed){var s=seed>>>0;return function(){s=(s+0x6D2B79F5)>>>0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function randn(r){var u=0,v;while(!u)u=r();v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+function pois(l,r){if(l<=0)return 0;if(l>30)return Math.max(0,Math.round(l+Math.sqrt(l)*randn(r)));var L=Math.exp(-l),k=0,p=1;do{k++;p*=r();}while(p>L);return k-1;}
+function median(a){if(!a.length)return NaN;var b=a.slice().sort(function(x,y){return x-y;}),m=b.length>>1;return b.length%2?b[m]:(b[m-1]+b[m])/2;}
+function quant(sorted,q){if(!sorted.length)return NaN;var p=(sorted.length-1)*q,i=Math.floor(p),f=p-i;return i+1<sorted.length?sorted[i]*(1-f)+sorted[i+1]*f:sorted[i];}
+function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+
+/* ---------- eixo de tempo ---------- */
+var DAY=864e5,T0=Date.UTC(2000,10,1),T1=Date.UTC(2026,9,10),N=Math.round((T1-T0)/DAY)+1;
+var Y=new Int16Array(N),DOY=new Int16Array(N),MON=new Int16Array(N);
+(function(){for(var i=0;i<N;i++){var d=new Date(T0+i*DAY),y=d.getUTCFullYear();Y[i]=y;DOY[i]=Math.floor((Date.UTC(y,d.getUTCMonth(),d.getUTCDate())-Date.UTC(y,0,0))/DAY);MON[i]=(y-2000)*12+d.getUTCMonth()-10;}})();
+function idxOf(y,doy){return Math.round((Date.UTC(y,0,doy)-T0)/DAY);}
+function dIdx(y,m,d){return Math.round((Date.UTC(y,m-1,d)-T0)/DAY);}
+function dstr(i){var d=new Date(T0+i*DAY);return d.getUTCDate()+' '+MES[d.getUTCMonth()]+' '+d.getUTCFullYear();}
+function dmon(doy){var d=new Date(Date.UTC(2001,0,doy));return d.getUTCDate()+' de '+['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][d.getUTCMonth()];}
+function cdist(a,b){var d=Math.abs(a-b);return Math.min(d,365-d);}
+
+/* ---------- datasets ---------- */
+var AOIS=[
+ {id:'ouro',name:'Ouro Preto e entorno (MG)',bbox:[-20.60,-43.80,-20.15,-43.20],ty:160,peak:244,w:34},
+ {id:'mg',name:'Minas Gerais (estado inteiro)',bbox:[-22.93,-51.05,-14.23,-39.86],all:true,ty:20000,peak:244,w:34},
+ {id:'espinhaco',name:'Serra do Espinhaço (MG)',bbox:[-19.40,-43.90,-18.00,-43.10],ty:950,peak:240,w:38},
+ {id:'norte',name:'Norte de Minas (Cerrado)',bbox:[-17.50,-45.00,-15.50,-43.00],ty:3600,peak:236,w:40},
+ {id:'pantanal',name:'Pantanal (MS/MT)',bbox:[-20.00,-58.00,-17.00,-55.50],ty:5200,peak:248,w:32}
+];
+var EPDEF=[
+ {inst:'M',name:'Terra',nsat:1,i0:dIdx(2000,11,1),i1:dIdx(2002,7,3),sc:0.55,sf:0.55},
+ {inst:'M',name:'Terra + Aqua',nsat:2,i0:dIdx(2002,7,4),i1:N-1,sc:1.0,sf:1.0},
+ {inst:'V',name:'S-NPP',nsat:1,i0:dIdx(2012,1,20),i1:dIdx(2018,3,31),sc:2.9,sf:1.15},
+ {inst:'V',name:'S-NPP + NOAA-20',nsat:2,i0:dIdx(2018,4,1),i1:dIdx(2024,1,16),sc:5.6,sf:2.2},
+ {inst:'V',name:'S-NPP + NOAA-20 + NOAA-21',nsat:3,i0:dIdx(2024,1,17),i1:N-1,sc:8.0,sf:3.2}
+];
+function epIndex(eps){var E={M:new Int8Array(N).fill(-1),V:new Int8Array(N).fill(-1)};eps.forEach(function(e,k){for(var i=e.i0;i<=e.i1;i++)E[e.inst][i]=k;});return E;}
+function nanArr(){var a=new Float32Array(N);a.fill(NaN);return a;}
+
+function makeSynth(aoi){
+  var r=rng(hash(aoi.id)),yf={};
+  for(var y=2000;y<=2026;y++)yf[y]=Math.exp(0.45*randn(r)-0.1);
+  var S=function(d){return 0.04+Math.exp(-0.5*Math.pow(cdist(d,aoi.peak)/aoi.w,2));},nrm=0;
+  for(var d=1;d<=365;d++)nrm+=S(d);nrm/=365;
+  var eps=EPDEF.map(function(e){return {inst:e.inst,name:e.name,nsat:e.nsat,i0:e.i0,i1:e.i1};}),E=epIndex(eps);
+  var DS={id:aoi.id,name:aoi.name,synthetic:true,bbox:aoi.bbox,eps:eps,E:E,cnt:{M:nanArr(),V:nanArr()},frp:{M:nanArr(),V:nanArr()},truth:{c:new Float32Array(N),f:new Float32Array(N)},rows:null,aoi:aoi,asOf:N-1};
+  var ar=0;
+  for(var i=0;i<N;i++){
+    ar=0.8*ar+0.36*randn(r);var lam=aoi.ty*S(DOY[i])/nrm/365*yf[Y[i]]*Math.exp(ar-0.18);
+    DS.truth.c[i]=lam;DS.truth.f[i]=30*lam;
+    ['M','V'].forEach(function(I){var k=E[I][i];if(k<0)return;var c=pois(lam*EPDEF[k].sc*Math.exp(0.22*randn(r)),r);
+      DS.cnt[I][i]=c;DS.frp[I][i]=c>0?30*(EPDEF[k].sf/EPDEF[k].sc)*c*Math.exp(0.25*randn(r)/Math.sqrt(c)):0;});
+  }
+  return DS;
+}
+
+/* ---------- dado real: NASA FIRMS, MG, focos por dia em células de 0,1° (data/mg-diario.js) ---------- */
+var G=window.MG_DAY||null,GPOS=null;
+function inMG(b){return b[0]>=-23.2&&b[2]<=-14&&b[1]>=-51.3&&b[3]<=-39.6;}
+function mk(a){return G&&(a.all||inMG(a.bbox))?makeReal(a):makeSynth(a);}
+function epsFromSpans(sp){var eps=[];
+  ['M','V'].forEach(function(I){var sats=sp[I]||{},keys=Object.keys(sats);if(!keys.length)return;var cuts=[];keys.forEach(function(k){cuts.push(sats[k][0]);cuts.push(sats[k][1]+1);});
+    cuts=cuts.filter(function(v,j,a){return a.indexOf(v)===j;}).sort(function(a,b){return a-b;});
+    for(var j=0;j<cuts.length-1;j++){var a=cuts[j],b=cuts[j+1]-1,act=keys.filter(function(k){return sats[k][0]<=a&&sats[k][1]>=b;});
+      if(act.length)eps.push({inst:I,name:act.map(function(k){return {T:'Terra',A:'Aqua',N:'S-NPP'}[k]||k;}).join(' + '),nsat:act.length,i0:a,i1:b});}});
+  return eps;}
+function gScan(I,i0,i1,fn){var a=G[I],P=GPOS[I],p=P[Math.max(0,Math.min(N-1,i0))];if(p<0)return;var d=P.day[p];
+  while(p<a.length){d=P.day[p];if(d>i1)break;var k=a[p+1];p+=2;for(var q=0;q<k;q++,p+=3)fn(d,a[p],a[p+1],a[p+2]);}}
+function gIndex(){GPOS={};['M','V'].forEach(function(I){var a=G[I],pos=new Int32Array(N).fill(-1),day={},p=0,d=0,lastP=a.length;
+  while(p<a.length){d+=a[p];day[p]=d;if(d<N&&pos[d]<0)pos[d]=p;p+=2+3*a[p+1];}
+  for(var i=N-1;i>=0;i--){if(pos[i]<0)pos[i]=lastP;lastP=pos[i];}pos.day=day;GPOS[I]=pos;});}
+function makeReal(aoi){if(!GPOS)gIndex();var b=aoi.bbox,c=G.cell,inB=G.cells.map(function(x){return aoi.all||((x[0]+1)*c>b[0]&&x[0]*c<b[2]&&(x[1]+1)*c>b[1]&&x[1]*c<b[3]);});
+  var eps=epsFromSpans(G.sat),E=epIndex(eps),last=Math.min(N-1,G.last),tot=0;
+  var DS={id:aoi.id,name:aoi.name,synthetic:false,real:true,bbox:aoi.bbox,inB:inB,eps:eps,E:E,cnt:{M:nanArr(),V:nanArr()},frp:{M:nanArr(),V:nanArr()},truth:null,rows:null,asOf:last,aoi:aoi};
+  ['M','V'].forEach(function(I){for(var i=0;i<=last;i++)if(E[I][i]>=0){DS.cnt[I][i]=0;DS.frp[I][i]=0;}
+    gScan(I,0,last,function(d,ci,n,f){if(!inB[ci]||E[I][d]<0)return;DS.cnt[I][d]+=n;DS.frp[I][d]+=f;tot+=n;});});
+  DS.nTot=tot;return DS;}
+function realPts(DS,i0,i1){var out=[],c=G.cell;['M','V'].forEach(function(I){gScan(I,Math.max(0,i0),i1,function(d,ci,n,f){if(!DS.inB[ci])return;var x=G.cells[ci];
+  out.push({lat:(x[0]+.5)*c,lng:(x[1]+.5)*c,i:d,inst:I,sat:(I==='M'?'Terra/Aqua':'S-NPP')+' · '+n+(n===1?' foco':' focos')+' na célula de ~11 km',frp:f/n,conf:'—',t:'',dn:''});});});return out;}
+
+/* ---------- CSV FIRMS ---------- */
+function parseCsv(texts){
+  var rows=[];
+  texts.forEach(function(t){var lines=t.split(/\r?\n/);if(lines.length<2)return;var h=lines[0].split(',').map(function(s){return s.trim().toLowerCase();});
+    var ix=function(n){return h.indexOf(n);},iLa=ix('latitude'),iLo=ix('longitude'),iDa=ix('acq_date'),iTi=ix('acq_time'),iSa=ix('satellite'),iIn=ix('instrument'),iCo=ix('confidence'),iFr=ix('frp'),iDn=ix('daynight');
+    if(iLa<0||iLo<0||iDa<0)return;
+    for(var k=1;k<lines.length;k++){var c=lines[k].split(',');if(c.length<h.length)continue;
+      var inst=(iIn>=0&&/viirs/i.test(c[iIn]))?'V':'M',conf=iCo>=0?c[iCo].trim().toLowerCase():'n';
+      if(conf==='l'||conf==='low'||(!isNaN(+conf)&&+conf<30))continue;
+      var p=c[iDa].split('-'),di=dIdx(+p[0],+p[1],+p[2]);if(!(di>=0&&di<N))continue;
+      rows.push({lat:+c[iLa],lng:+c[iLo],i:di,inst:inst,sat:iSa>=0?c[iSa].trim():'?',frp:iFr>=0?+c[iFr]:0,conf:conf,t:iTi>=0?c[iTi].trim():'',dn:iDn>=0?c[iDn].trim():''});}
+  });
+  return rows;
+}
+function makeFromRows(rows,name){
+  if(!rows.length)return null;
+  var minLa=1e9,maxLa=-1e9,minLo=1e9,maxLo=-1e9,last=0;
+  rows.forEach(function(r){if(r.lat<minLa)minLa=r.lat;if(r.lat>maxLa)maxLa=r.lat;if(r.lng<minLo)minLo=r.lng;if(r.lng>maxLo)maxLo=r.lng;if(r.i>last)last=r.i;});
+  var eps=[];
+  ['M','V'].forEach(function(I){var sats={};rows.forEach(function(r){if(r.inst!==I)return;var s=sats[r.sat]||(sats[r.sat]={a:1e9,b:-1});if(r.i<s.a)s.a=r.i;if(r.i>s.b)s.b=r.i;});
+    var keys=Object.keys(sats);if(!keys.length)return;var cuts=[];keys.forEach(function(k){cuts.push(sats[k].a);cuts.push(sats[k].b+1);});
+    cuts=cuts.filter(function(v,j,a){return a.indexOf(v)===j;}).sort(function(a,b){return a-b;});
+    for(var j=0;j<cuts.length-1;j++){var a=cuts[j],b=cuts[j+1]-1,act=keys.filter(function(k){return sats[k].a<=a&&sats[k].b>=b;});if(act.length)eps.push({inst:I,name:act.join(' + '),nsat:act.length,i0:a,i1:b});}});
+  var E=epIndex(eps),DS={id:'csv',name:name,synthetic:false,bbox:[minLa,minLo,maxLa,maxLo],eps:eps,E:E,cnt:{M:nanArr(),V:nanArr()},frp:{M:nanArr(),V:nanArr()},truth:null,rows:rows,asOf:last,aoi:null};
+  ['M','V'].forEach(function(I){for(var i=0;i<N;i++)if(E[I][i]>=0&&i<=last){DS.cnt[I][i]=0;DS.frp[I][i]=0;}});
+  rows.forEach(function(r){if(E[r.inst][r.i]<0)return;DS.cnt[r.inst][r.i]+=1;DS.frp[r.inst][r.i]+=(r.frp||0);});
+  return DS;
+}
+
+/* ---------- harmonização ---------- */
+function harmonize(DS,metric,ref){
+  var X=metric==='c'?DS.cnt:DS.frp,CNT=DS.cnt,eps=DS.eps.map(function(e){return {inst:e.inst,name:e.name,nsat:e.nsat,i0:e.i0,i1:e.i1,factor:NaN,ci:[NaN,NaN],method:'',nm:0,pts:[]};});
+  var other={M:'V',V:'M'},E=DS.E,minC=8,rg=rng(7);
+  var refEps=eps.filter(function(e){return e.inst===ref;}).sort(function(a,b){return b.nsat-a.nsat||(b.i1-b.i0)-(a.i1-a.i0);});
+  if(!refEps.length)return null;
+  refEps[0].factor=1;refEps[0].ci=[1,1];refEps[0].method='referência';
+  var changed=true;
+  while(changed){changed=false;
+    eps.forEach(function(e,ke){if(isFinite(e.factor))return;var J=other[e.inst],mm={};
+      for(var d=e.i0;d<=e.i1;d++){var kj=E[J][d];if(kj<0||!isFinite(eps[kj].factor)||isNaN(X[e.inst][d])||isNaN(X[J][d]))continue;
+        var m=MON[d],o=mm[m]||(mm[m]={sJ:0,sI:0,cJ:0,cI:0,n:0});o.sJ+=X[J][d]*eps[kj].factor;o.sI+=X[e.inst][d];o.cJ+=CNT[J][d];o.cI+=CNT[e.inst][d];o.n++;}
+      var rat=[],pts=[];Object.keys(mm).forEach(function(m){var o=mm[m];if(o.n>=24&&o.cJ>=minC&&o.cI>=minC&&o.sI>0){rat.push(o.sJ/o.sI);pts.push({x:o.sJ,y:o.sI});}});
+      if(rat.length>=6){var bs=[];for(var b=0;b<300;b++){var s=[];for(var k=0;k<rat.length;k++)s.push(rat[Math.floor(rg()*rat.length)]);bs.push(median(s));}bs.sort(function(a,c){return a-c;});
+        e.factor=median(rat);e.ci=[quant(bs,0.05),quant(bs,0.95)];e.method='sobreposição';e.nm=rat.length;e.pts=pts;changed=true;}});
+  }
+  eps.forEach(function(e){if(isFinite(e.factor))return;var c=eps.filter(function(x){return x.inst===e.inst&&isFinite(x.factor);}).sort(function(a,b){return b.nsat-a.nsat;})[0];
+    if(c){e.factor=c.factor*c.nsat/e.nsat;e.ci=[e.factor*0.75,e.factor*1.25];e.method='premissa (nº de plataformas)';}});
+  var H=nanArr();
+  for(var d=0;d<=DS.asOf&&d<N;d++){var num=0,den=0;['M','V'].forEach(function(I){var k=E[I][d];if(k<0||!isFinite(eps[k].factor)||isNaN(X[I][d]))return;num+=X[I][d];den+=1/eps[k].factor;});if(den>0)H[d]=num/den;}
+  return {H:H,eps:eps};
+}
+
+/* ---------- análise: suavização, climatologia, percentis, período crítico ---------- */
+function smooth(H,w,asOf){if(w<=1)return H;var S=nanArr(),h=w>>1;for(var i=0;i<=asOf;i++){var s=0,c=0;for(var k=i-h;k<=i+h;k++){if(k<0||k>asOf)continue;var v=H[k];if(!isNaN(v)){s+=v;c++;}}if(c)S[i]=s/c;}return S;}
+function analyze(DS,H,sm){
+  var asOf=DS.asOf,asY=Y[asOf],asDoy=DOY[asOf],lastFull=(asDoy>=365)?asY:asY-1,S=smooth(H,sm,asOf),firstY=2001,years=[];
+  for(var y=firstY;y<=asY;y++)years.push(y);
+  var base=[];for(var y2=firstY;y2<=lastFull;y2++)base.push(y2);
+  var val=function(y,doy){if(doy<1||doy>366)return NaN;var i=idxOf(y,doy);return (i>=0&&i<=asOf&&Y[i]===y)?S[i]:NaN;};
+  var pct=nanArr();
+  for(var i=0;i<=asOf;i++){var y3=Y[i],doy=DOY[i],v=S[i];if(y3<firstY||isNaN(v))continue;var n=0,less=0,eq=0;
+    for(var b=0;b<base.length;b++){var yb=base[b];if(yb===y3)continue;for(var dd=doy-3;dd<=doy+3;dd++){var x=val(yb,dd);if(isNaN(x))continue;n++;if(x<v)less++;else if(x===v)eq++;}}
+    if(n>=10)pct[i]=(less+0.5*eq)/n;}
+  var yearInfo={};
+  years.forEach(function(y){var tot=0,cum=[],c=0,full=(y<=lastFull);for(var doy=1;doy<=366;doy++){var i=idxOf(y,doy);if(i>=0&&i<=asOf&&Y[i]===y&&!isNaN(H[i]))c+=H[i];cum.push(c);}tot=c;
+    var f=function(q){for(var k=0;k<366;k++)if(cum[k]>=q*tot)return k+1;return 366;};yearInfo[y]={total:tot,full:full,d10:tot>0?f(0.1):NaN,d50:tot>0?f(0.5):NaN,d90:tot>0?f(0.9):NaN};});
+  return {S:S,pct:pct,years:years,base:base,val:val,asY:asY,asDoy:asDoy,lastFull:lastFull,yearInfo:yearInfo,sm:sm};
+}
+function climFor(A,selY){
+  var p10=[],p50=[],p90=[],p95=[],ys=A.base.filter(function(y){return y!==selY;});
+  for(var doy=1;doy<=366;doy++){var a=[];ys.forEach(function(y){var x=A.val(y,doy);if(!isNaN(x))a.push(x);});a.sort(function(x,y){return x-y;});
+    p10.push(quant(a,0.1));p50.push(quant(a,0.5));p90.push(quant(a,0.9));p95.push(quant(a,0.95));}
+  var sm50=p50.map(function(_,k){var s=0,c=0;for(var j=k-7;j<=k+7;j++){if(j<0||j>365||isNaN(p50[j]))continue;s+=p50[j];c++;}return c?s/c:NaN;});
+  var pk=0;sm50.forEach(function(v,k){if(!isNaN(v)&&v>sm50[pk])pk=k;});
+  var d10=[],d50=[],d90=[];ys.forEach(function(y){var o=A.yearInfo[y];if(o&&o.full&&isFinite(o.d10)){d10.push(o.d10);d50.push(o.d50);d90.push(o.d90);}});
+  return {p10:p10,p50:p50,p90:p90,p95:p95,peak:pk+1,c10:median(d10),c50:median(d50),c90:median(d90)};
+}
+
+/* ---------- estado ---------- */
+var ST={ds:null,hz:{c:null,f:null},A:null,metric:'c',mode:'int',sm:7,ref:'M',view:'resumo',selY:2026,selDoy:1,win:3,mapPts:[],hov:null};
+var CACHE={};
+function status(){return ST.ds.synthetic?{t:'DADOS SIMULADOS · demonstração',c:'src sim'}:(ST.ds.real?{t:'DADO REAL · NASA FIRMS · '+fmt(ST.ds.nTot)+' focos até 2025',c:'src real'}:{t:'ARQUIVO LOCAL · '+ST.ds.name+' · '+fmt(ST.ds.rows.length)+' focos',c:'src real'});}
+function recompute(){
+  var DS=ST.ds;ST.hz.c=harmonize(DS,'c',ST.ref);ST.hz.f=harmonize(DS,'f',ST.ref);
+  var h=ST.hz[ST.metric];ST.A=analyze(DS,h.H,ST.sm);ST.C=climFor(ST.A,ST.selY);
+}
+function reanalyze(){var h=ST.hz[ST.metric];ST.A=analyze(ST.ds,h.H,ST.sm);ST.C=climFor(ST.A,ST.selY);}
+function unit(){return ST.metric==='c'?'focos (equiv. '+(ST.ref==='M'?'MODIS':'VIIRS')+')':'MW (equiv. '+(ST.ref==='M'?'MODIS':'VIIRS')+')';}
+function ustr(v){return fmt(v,ST.metric==='c'?1:0)+(ST.metric==='c'?' focos':' MW');}
+
+/* ---------- cores ---------- */
+var RAMP=[[0,'#FFF3D6'],[0.3,'#FFC02E'],[0.55,'#F7801E'],[0.8,'#C8102E'],[1,'#6E0A26']];
+function hex2(h){return [parseInt(h.substr(1,2),16),parseInt(h.substr(3,2),16),parseInt(h.substr(5,2),16)];}
+function lerpRamp(R,t){t=Math.max(0,Math.min(1,t));for(var k=1;k<R.length;k++){if(t<=R[k][0]){var a=R[k-1],b=R[k],f=(t-a[0])/(b[0]-a[0]),A=hex2(a[1]),B=hex2(b[1]);return 'rgb('+Math.round(A[0]+(B[0]-A[0])*f)+','+Math.round(A[1]+(B[1]-A[1])*f)+','+Math.round(A[2]+(B[2]-A[2])*f)+')';}}return R[R.length-1][1];}
+var DIV=[[0,'#2C6FB0'],[0.15,'#A9C6E3'],[0.5,'#EEF0F2'],[0.8,'#FFC02E'],[0.9,'#F7801E'],[0.95,'#C8102E'],[1,'#6E0A26']];
+var NODATA=null;function nodata(ctx){if(NODATA)return NODATA;var c=document.createElement('canvas');c.width=c.height=6;var x=c.getContext('2d');x.fillStyle='#F3F5F7';x.fillRect(0,0,6,6);x.strokeStyle='#B9C2C9';x.lineWidth=1;x.beginPath();x.moveTo(0,6);x.lineTo(6,0);x.stroke();return NODATA=ctx.createPattern(c,'repeat');}
+function rampCss(R){return 'linear-gradient(90deg,'+R.map(function(s){return s[1]+' '+(s[0]*100)+'%';}).join(',')+')';}
+
+/* ---------- RESUMO ---------- */
+function stat(){
+  var A=ST.A,DS=ST.ds,H=ST.hz[ST.metric].H,asOf=DS.asOf,y=A.asY,doy=A.asDoy;
+  var last=0,c=0;for(var k=asOf-6;k<=asOf;k++){if(k>=0&&!isNaN(H[k])){last+=H[k];c++;}}last=c?last/c:NaN;
+  var dist=[];A.base.forEach(function(yb){if(yb===y)return;var s=0,n=0;for(var d=doy-6;d<=doy;d++){var i=idxOf(yb,d);if(i>=0&&i<=asOf&&!isNaN(H[i])){s+=H[i];n++;}}if(n)dist.push(s/n);});
+  dist.sort(function(a,b){return a-b;});var less=0,eq=0;dist.forEach(function(v){if(v<last)less++;else if(v===last)eq++;});
+  var p=dist.length>=5?(less+0.5*eq)/dist.length:NaN,med=quant(dist,0.5);
+  var ytd=0;for(var d2=1;d2<=doy;d2++){var i2=idxOf(y,d2);if(i2<=asOf&&!isNaN(H[i2]))ytd+=H[i2];}
+  var ytds=A.base.filter(function(yb){return yb!==y;}).map(function(yb){var s=0;for(var d3=1;d3<=doy;d3++){var i3=idxOf(yb,d3);if(i3>=0&&i3<=asOf&&!isNaN(H[i3]))s+=H[i3];}return s;});
+  var ytdMean=ytds.length?ytds.reduce(function(a,b){return a+b;},0)/ytds.length:NaN;
+  return {last:last,p:p,med:med,ytd:ytd,ytdMean:ytdMean};
+}
+function label(p){if(isNaN(p))return ['Histórico curto','b-bl'];return p>=0.95?['Muito acima do normal','b-red']:p>=0.8?['Acima do normal','b-or']:p>=0.2?['Dentro do normal','b-gr']:['Abaixo do normal','b-bl'];}
+function critTxt(C){return isFinite(C.c10)?dmon(Math.round(C.c10))+' a '+dmon(Math.round(C.c90)):'--';}
+function renderResumo(){
+  var DS=ST.ds,A=ST.A,C=ST.C,s=stat(),lb=label(s.p),asI=DS.asOf;
+  $('rTitle').textContent='Fogo em '+DS.name;
+  var ytdPct=isFinite(s.ytdMean)&&s.ytdMean>0?(s.ytd/s.ytdMean-1)*100:NaN;
+  $('rLead').innerHTML=isNaN(s.p)?'Em <b>'+dstr(asI)+'</b> ainda não há histórico suficiente (pelo menos 5 anos) para dizer se a atividade de fogo está acima ou abaixo do normal. Carregue mais anos de dados.':'Em <b>'+dstr(asI)+'</b>, a atividade de fogo nesta área está <b>'+lb[0].toLowerCase()+'</b> para esta época do ano (maior que em '+Math.round(s.p*100)+'% dos anos anteriores). A época mais crítica costuma ir de <b>'+critTxt(C)+'</b>.';
+  $('kStatus').innerHTML='<span class="badge '+lb[1]+'">'+lb[0]+'</span>';
+  $('kStatusS').textContent='Média dos últimos 7 dias contra os anos anteriores';
+  $('kCrit').textContent=critTxt(C);$('kCritS').textContent='Quando o ano acumula de 10% a 90% do fogo (mediana dos anos)';
+  $('kPeak').textContent=dmon(C.peak);$('kPeakS').textContent='Dia de maior atividade típica';
+  $('kYtd').textContent=isNaN(ytdPct)?'--':(ytdPct>=0?'+':'')+fmt(ytdPct,0)+'%';$('kYtdS').textContent='Em '+A.asY+' até hoje, contra a média dos anos anteriores na mesma data';
+  var bef=idxOf(A.asY,A.asDoy)-89;$('spark').innerHTML=spark(bef,asI);
+  ST.summary='Fogo em '+DS.name+' ('+dstr(asI)+'): atividade '+lb[0].toLowerCase()+(isNaN(s.p)?'':' (maior que em '+Math.round(s.p*100)+'% dos anos anteriores)')+'. Época crítica habitual: '+critTxt(C)+'; pico por volta de '+dmon(C.peak)+'. Acumulado do ano: '+(isNaN(ytdPct)?'--':(ytdPct>=0?'+':'')+fmt(ytdPct,0)+'%')+' contra a média. '+(DS.synthetic?'Dados simulados (demonstração).':DS.real?'Fonte: NASA FIRMS (MODIS e VIIRS S-NPP).':'Fonte: arquivo FIRMS carregado.')+' Foco de calor não é incêndio confirmado.';
+}
+function spark(i0,i1){
+  var W=560,Hh=190,pl=40,pr=10,pt=10,pb=26,A=ST.A,C=ST.C,H=ST.hz[ST.metric].H,n=i1-i0+1,vals=[],hi=[],lo=[],md=[];
+  for(var k=0;k<n;k++){var i=i0+k,doy=DOY[i];vals.push(H[i]);md.push(C.p50[doy-1]);hi.push(C.p90[doy-1]);lo.push(C.p10[doy-1]);}
+  var mx=0;vals.concat(hi).forEach(function(v){if(v>mx)mx=v;});mx=mx||1;
+  var X=function(k){return pl+(W-pl-pr)*k/(n-1);},Yy=function(v){return pt+(Hh-pt-pb)*(1-v/mx);};
+  var up=hi.map(function(v,k){return X(k)+','+Yy(v);}),dn=lo.map(function(v,k){return X(k)+','+Yy(v);}).reverse();
+  var path=vals.map(function(v,k){return (k?'L':'M')+X(k)+','+Yy(isNaN(v)?0:v);}).join(' ');
+  var s='<svg viewBox="0 0 '+W+' '+Hh+'" width="100%" role="img" aria-label="Últimos 90 dias contra o normal"><polygon points="'+up.join(' ')+' '+dn.join(' ')+'" fill="#E4E9EC"/>'+
+   '<polyline fill="none" stroke="#575F66" stroke-dasharray="4 4" points="'+md.map(function(v,k){return X(k)+','+Yy(v);}).join(' ')+'"/>'+
+   '<path d="'+path+'" fill="none" stroke="#F7801E" stroke-width="2.5"/>';
+  for(var g=0;g<=3;g++){var v=mx*g/3;s+='<text x="'+(pl-6)+'" y="'+(Yy(v)+4)+'" font-size="12" fill="#575F66" text-anchor="end">'+fmt(v,ST.metric==='c'?0:0)+'</text><line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Yy(v)+'" y2="'+Yy(v)+'" stroke="#DCE1E5"/>';}
+  [0,30,60,89].forEach(function(k){s+='<text x="'+(k===89?X(k)+4:X(k))+'" y="'+(Hh-6)+'" font-size="12" fill="#575F66" text-anchor="'+(k===89?'end':'middle')+'">'+dstr(i0+k).replace(/ \d{4}$/,'')+'</text>';});
+  return s+'</svg>';
+}
+
+/* ---------- CALENDARIO ---------- */
+var calG=null;
+function drawCal(){
+  var cv=$('cal'),A=ST.A,years=A.years,rowH=17,padL=54,padT=26,padB=8,W=cv.parentNode.clientWidth-40||1100,Hh=padT+years.length*rowH+padB,dpr=window.devicePixelRatio||1;
+  cv.width=W*dpr;cv.height=Hh*dpr;cv.style.height=Hh+'px';var ctx=cv.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,Hh);
+  var cw=(W-padL-6)/366,vs=[];A.base.forEach(function(y){for(var d=1;d<=366;d++){var x=A.val(y,d);if(!isNaN(x))vs.push(x);}});vs.sort(function(a,b){return a-b;});var vmax=quant(vs,0.995)||1;
+  calG={padL:padL,padT:padT,cw:cw,rowH:rowH,years:years};
+  ctx.font='600 13px Figtree,sans-serif';ctx.fillStyle='#575F66';ctx.textAlign='left';
+  MD.forEach(function(d,m){ctx.fillText(MES[m],padL+(d-1)*cw,16);});
+  years.forEach(function(y,r){ctx.textAlign='right';ctx.fillStyle=(y===ST.selY)?'#22262A':'#575F66';ctx.font=(y===ST.selY?'800 ':'')+'13px Figtree,sans-serif';ctx.fillText(y,padL-8,padT+r*rowH+rowH-4);
+    for(var d=1;d<=366;d++){var i=idxOf(y,d),x=padL+(d-1)*cw,yy=padT+r*rowH;
+      if(i<0||i>ST.ds.asOf||Y[i]!==y){if(y===years[0]||i>ST.ds.asOf){ctx.fillStyle=nodata(ctx);ctx.fillRect(x,yy,Math.ceil(cw),rowH-2);}continue;}
+      var col;if(ST.mode==='int'){var v=A.S[i];col=isNaN(v)?nodata(ctx):lerpRamp(RAMP,Math.sqrt(v/vmax));}else{var p=A.pct[i];col=isNaN(p)?nodata(ctx):lerpRamp(DIV,p);}
+      ctx.fillStyle=col;ctx.fillRect(x,yy,Math.ceil(cw),rowH-2);}});
+  var sy=A.years.indexOf(ST.selY);if(sy>=0&&ST.selDoy){var sx=padL+(ST.selDoy-1)*cw;ctx.strokeStyle='#22262A';ctx.lineWidth=2;ctx.strokeRect(sx-1,padT+sy*rowH-1,Math.max(cw,3)+2,rowH);}
+  var lg=$('calLegend');
+  lg.innerHTML=(ST.mode==='int'?'<span>menos fogo</span><div class="ramp" style="background:'+rampCss(RAMP)+'"></div><span>mais fogo</span><span class="mut">· escala em raiz quadrada, topo = valor típico dos dias mais ativos</span>':'<span>abaixo do normal</span><div class="ramp" style="background:'+rampCss(DIV)+'"></div><span>muito acima do normal</span><span class="mut">· percentil do dia contra os outros anos (±3 dias)</span>')+'<span style="margin-left:auto;display:inline-flex;gap:6px;align-items:center"><span class="nodata"></span>sem dado</span>';
+}
+function calHit(e){var cv=$('cal'),r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;if(!calG)return null;var d=Math.floor((x-calG.padL)/calG.cw)+1,row=Math.floor((y-calG.padT)/calG.rowH);
+  if(d<1||d>366||row<0||row>=calG.years.length)return null;return {y:calG.years[row],doy:d,row:row,labelOnly:(x<calG.padL)};}
+function dayInfo(y,doy){var i=idxOf(y,doy),DS=ST.ds;if(i<0||i>DS.asOf||Y[i]!==y)return null;
+  var Hc=ST.hz.c.H[i],Hf=ST.hz.f.H[i];return {i:i,mc:DS.cnt.M[i],vc:DS.cnt.V[i],mf:DS.frp.M[i],vf:DS.frp.V[i],hc:Hc,hf:Hf,p:ST.A.pct[i],s:ST.A.S[i]};}
+function dayHtml(y,doy){var o=dayInfo(y,doy);if(!o)return '<span class="mut">Sem dado neste dia.</span>';
+  var lb=isNaN(o.p)?null:label(o.p),cm=function(v){return isNaN(v)?'sem sensor':fmt(v,0);};
+  return '<b>'+dstr(o.i)+'</b><br>Harmonizado: <b>'+fmt(o.hc,1)+'</b> focos · <b>'+fmt(o.hf,0)+'</b> MW<br>MODIS bruto: '+cm(o.mc)+' focos · VIIRS bruto: '+cm(o.vc)+' focos'+(lb?'<br>Contra os outros anos: <span class="badge '+lb[1]+'" style="font-size:13px;padding:1px 9px">'+lb[0]+'</span> (percentil '+Math.round(o.p*100)+')':'')+climaMes(y,o.i);}
+/* clima do mês (data/mg-clima.js, gerado por scripts/clima_power.py): só para áreas de MG com dado real */
+var CL_NOME={mg:'média de Minas Gerais',ouro:'Ouro Preto',espinhaco:'Serra do Espinhaço',norte:'Norte de Minas'};
+function climaArea(){var C=window.MG_CLIMA,DS=ST.ds;if(!C||!DS.real)return null;var k=DS.aoi&&C.areas[DS.aoi.id]?DS.aoi.id:'mg';return {k:k,a:C.areas[k],y0:C.y0};}
+function climaMes(y,i){var c=climaArea();if(!c)return '';var m=new Date(T0+i*DAY).getUTCMonth(),j=(y-c.y0)*12+m,a=c.a;if(isNaN(m)||j<0||a.pr[j]==null)return '';
+  var nm=function(s){var t=0,n=0;for(var q=m;q<s.length;q+=12)if(s[q]!=null){t+=s[q];n++;}return t/n;},pn=nm(a.pr),rn=nm(a.rh);
+  return '<div class="note" style="margin:8px 0 0">Clima do mês (NASA POWER, '+CL_NOME[c.k]+'): chuva <b>'+fmt(a.pr[j],0)+' mm</b> (normal '+fmt(pn,0)+') · umidade <b>'+fmt(a.rh[j],0)+'%</b> (normal '+fmt(rn,0)+'%) · '+fmt(a.t[j],1)+' °C. Grade de ~50 km: descreve a região, não o ponto do foco.</div>';}
+function renderClima(){var C=window.MG_CLIMA;if(!C||!ST.ds.real){$('climaCard').hidden=true;return;}$('climaCard').hidden=false;if($('climaChart').firstChild)return;
+  var A=C.assoc,n=A.anos.length,W=720,H=300,L=64,R=14,T=12,B=46,xs=A.pr_seca,ys=A.fogo_seca,x0=0,x1=Math.ceil(Math.max.apply(null,xs)/100)*100,
+      l0=Math.log(Math.min.apply(null,ys)*0.85),l1=Math.log(Math.max.apply(null,ys)*1.1),X=function(v){return L+(v-x0)/(x1-x0)*(W-L-R);},Yp=function(v){return T+(1-(Math.log(v)-l0)/(l1-l0))*(H-T-B);},g='';
+  for(var v=x0;v<=x1;v+=100)g+='<line x1="'+X(v)+'" x2="'+X(v)+'" y1="'+T+'" y2="'+(H-B)+'" stroke="var(--line2)"/><text x="'+X(v)+'" y="'+(H-B+20)+'" text-anchor="middle" font-size="16" fill="var(--ink3)">'+v+'</text>';
+  g+='<text x="'+((L+W-R)/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="16" fill="var(--ink2)">chuva de julho a outubro (mm)</text>';
+  [5000,10000,20000,40000,80000,160000].forEach(function(t){if(Math.log(t)<l0||Math.log(t)>l1)return;g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Yp(t)+'" y2="'+Yp(t)+'" stroke="var(--line2)"/><text x="'+(L-6)+'" y="'+(Yp(t)+4)+'" text-anchor="end" font-size="16" fill="var(--ink3)">'+(t/1000)+' mil</text>';});
+  var ord=A.anos.map(function(y,i){return i;}).sort(function(a,b){return ys[b]-ys[a];}),dest={};ord.slice(0,2).concat(ord.slice(-2)).forEach(function(i){dest[i]=1;});
+  A.anos.forEach(function(y,i){var r=A.anos[i]>=2012;g+='<circle cx="'+X(xs[i]).toFixed(1)+'" cy="'+Yp(ys[i]).toFixed(1)+'" r="5" fill="var(--brand)" fill-opacity="'+(r?0.85:0.45)+'" stroke="var(--brand-ink)" stroke-width="1"><title>'+y+': '+fmt(xs[i],0)+' mm, '+fmt(ys[i],0)+' focos</title></circle>';
+    if(dest[i])g+='<text x="'+(X(xs[i])+8).toFixed(1)+'" y="'+(Yp(ys[i])+4).toFixed(1)+'" font-size="16" fill="var(--ink2)">'+y+'</text>';});
+  $('climaChart').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block">'+g+'</svg>';
+  var f=function(v){return String(v.toFixed(2)).replace('.',',').replace('-','−');};
+  $('climaStats').innerHTML=[['r = '+f(A.rd_pr),'chuva × focos, ano a ano, sem a tendência de longo prazo (com tendência: '+f(A.r_pr)+')'],['r = '+f(A.rd_rh),'umidade relativa × focos, mesmo cálculo (com tendência: '+f(A.r_rh)+')'],[n+' anos',A.anos[0]+' a '+A.anos[n-1]+' (desde 2003 o MODIS voa em dois satélites, Terra e Aqua). Com '+n+' anos, |r| acima de 0,41 já é improvável por acaso (p < 0,05)']].map(function(x){return '<div><div style="font-size:22px;font-weight:700;color:var(--brand-ink)">'+x[0]+'</div><div class="note" style="margin:2px 0 0">'+x[1]+'</div></div>';}).join('');
+  $('climaNote').textContent='Leitura: estações secas com menos chuva e ar mais seco que o habitual tiveram mais focos. Isso é associação, não causa: ignição, uso do solo e fiscalização também mudam o fogo, e a correlação de um ano não atribui nenhum incêndio ao clima. Tiramos a tendência linear das duas séries porque o fogo caiu desde 2001 enquanto o ar ficou mais seco; sem isso, a tendência esconderia a relação de ano a ano. Fonte: NASA POWER (chuva corrigida PRECTOTCORR, umidade RH2M), grade de ~50 km, média de 12 pontos; o número é estadual, mesmo quando a área escolhida é uma região. Pontos claros: anos só com MODIS, convertidos pelo fator.';}
+function renderCal(){
+  drawCal();renderClima();var C=ST.C,A=ST.A;
+  $('dayCard').innerHTML=(ST.selDoy?dayHtml(ST.selY,ST.selDoy)+'<div class="row" style="margin:10px 0 0"><button id="btnMapDay">Ver este dia no mapa</button></div>':'<span class="mut">Clique em um dia no calendário.</span>');
+  var bm=$('btnMapDay');if(bm)bm.onclick=function(){$('mapYear').value=ST.selY;$('mapDay').value=ST.selDoy;setView('mapa');};
+  var top=A.base.slice().sort(function(a,b){return A.yearInfo[b].total-A.yearInfo[a].total;}).slice(0,3);
+  $('calRead').innerHTML='<ul style="margin:0;padding-left:20px"><li>Época crítica habitual: <b>'+critTxt(C)+'</b> (pico por volta de <b>'+dmon(C.peak)+'</b>).</li><li>Anos de maior atividade acumulada: <b>'+top.join(', ')+'</b>.</li><li>O início do período crítico varia de ano a ano; veja o gráfico mais abaixo.</li><li>Áreas laranja e vermelhas em modo "Fora do normal" mostram semanas mais ativas que o habitual.</li></ul>';
+  $('climTitle').textContent=A.asY===ST.selY?'Ano '+ST.selY+' contra o normal':'Ano '+ST.selY+' contra o normal dos outros anos';
+  $('clim').innerHTML=climSvg();$('crit').innerHTML=critSvg();
+}
+function climSvg(){
+  var W=1180,Hh=300,pl=56,pr=14,pt=40,pb=30,A=ST.A,C=ST.C,y=ST.selY,mx=0,ser=[];
+  for(var d=1;d<=366;d++){var v=A.val(y,d);ser.push(v);if(!isNaN(v)&&v>mx)mx=v;if(C.p90[d-1]>mx)mx=C.p90[d-1];}mx=mx||1;
+  var X=function(d){return pl+(W-pl-pr)*(d-1)/365;},Yy=function(v){return pt+(Hh-pt-pb)*(1-v/mx);};
+  var s='<svg viewBox="0 0 '+W+' '+Hh+'" width="100%" role="img" aria-label="Ano selecionado contra o normal">';
+  if(isFinite(C.c10))s+='<rect x="'+X(C.c10)+'" y="'+pt+'" width="'+(X(C.c90)-X(C.c10))+'" height="'+(Hh-pt-pb)+'" fill="#FFF3D6"/><text x="'+((X(C.c10)+X(C.c90))/2)+'" y="'+(pt-8)+'" fill="#8A5A00" font-weight="600" font-size="13" text-anchor="middle">período crítico habitual</text>';
+  for(var g=0;g<=4;g++){var v=mx*g/4;s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Yy(v)+'" y2="'+Yy(v)+'" stroke="#DCE1E5"/><text x="'+(pl-8)+'" y="'+(Yy(v)+4)+'" font-size="13" fill="#575F66" text-anchor="end">'+fmt(v,mx<10?1:0)+'</text>';}
+  MD.forEach(function(d,m){s+='<text x="'+X(d)+'" y="'+(Hh-8)+'" font-size="13" fill="#575F66">'+MES[m]+'</text>';});
+  var up=[],dn=[];for(var d2=1;d2<=366;d2++){if(!isNaN(C.p90[d2-1])){up.push(X(d2)+','+Yy(C.p90[d2-1]));dn.push(X(d2)+','+Yy(C.p10[d2-1]));}}
+  s+='<polygon points="'+up.join(' ')+' '+dn.reverse().join(' ')+'" fill="#DCE1E5" fill-opacity=".75"/>';
+  s+='<polyline fill="none" stroke="#4F575E" stroke-width="1.8" stroke-dasharray="5 4" points="'+C.p50.map(function(v,k){return isNaN(v)?'':X(k+1)+','+Yy(v);}).filter(Boolean).join(' ')+'"/>';
+  var path='',first=true;ser.forEach(function(v,k){if(isNaN(v)){first=true;return;}path+=(first?'M':'L')+X(k+1)+','+Yy(v);first=false;});
+  s+='<path d="'+path+'" fill="none" stroke="#F7801E" stroke-width="2.6"/>';
+  ser.forEach(function(v,k){if(!isNaN(v)&&v>C.p95[k]&&v>0)s+='<circle cx="'+X(k+1)+'" cy="'+Yy(v)+'" r="3.6" fill="#C8102E" stroke="#fff" stroke-width=".8"/>';});
+  s+='<g font-size="13" fill="#575F66"><rect x="'+(W-330)+'" y="'+(pt-30)+'" width="14" height="3" fill="#F7801E"/><text x="'+(W-310)+'" y="'+(pt-24)+'">'+y+'</text><rect x="'+(W-250)+'" y="'+(pt-32)+'" width="14" height="8" fill="#DCE1E5"/><text x="'+(W-230)+'" y="'+(pt-24)+'">10% a 90% dos outros anos</text></g>';
+  return s+'</svg>';
+}
+function critSvg(){
+  var A=ST.A,W=1180,rh=15,pl=56,pr=14,pt=12,pb=26,ys=A.years.filter(function(y){return A.yearInfo[y].full;}),Hh=pt+ys.length*rh+pb,X=function(d){return pl+(W-pl-pr)*(d-1)/365;};
+  var s='<svg viewBox="0 0 '+W+' '+Hh+'" width="100%" role="img" aria-label="Período crítico por ano">';
+  MD.forEach(function(d,m){s+='<line x1="'+X(d)+'" x2="'+X(d)+'" y1="'+pt+'" y2="'+(Hh-pb)+'" stroke="#DCE1E5"/><text x="'+X(d)+'" y="'+(Hh-8)+'" font-size="13" fill="#575F66">'+MES[m]+'</text>';});
+  ys.forEach(function(y,r){var o=A.yearInfo[y],yy=pt+r*rh+rh/2;s+='<text x="'+(pl-8)+'" y="'+(yy+4)+'" font-size="12.5" fill="#575F66" text-anchor="end">'+y+'</text>';
+    if(isFinite(o.d10))s+='<line x1="'+X(o.d10)+'" x2="'+X(o.d90)+'" y1="'+yy+'" y2="'+yy+'" stroke="#F7801E" stroke-width="6" stroke-linecap="round"/><circle cx="'+X(o.d50)+'" cy="'+yy+'" r="4" fill="#fff" stroke="#6E0A26" stroke-width="1.5"/>';});
+  return s+'</svg>';
+}
+
+/* ---------- SENSORES ---------- */
+function lineChart(W,Hh,series,opt){
+  var pl=60,pr=14,pt=14,pb=30,mx=0,x0=opt.x0,x1=opt.x1;series.forEach(function(s){s.v.forEach(function(v){if(!isNaN(v)&&v>mx)mx=v;});});mx=mx||1;
+  var mg=Math.pow(10,Math.floor(Math.log10(mx))),nf=mx/mg;mx=(nf<=1?1:nf<=2?2:nf<=4?4:nf<=5?5:10)*mg;
+  var X=function(x){return pl+(W-pl-pr)*(x-x0)/(x1-x0);},Yy=function(v){return pt+(Hh-pt-pb)*(1-v/mx);};
+  var s='<svg viewBox="0 0 '+W+' '+Hh+'" width="100%" role="img" aria-label="'+opt.label+'">';
+  for(var g=0;g<=4;g++){var v=mx*g/4;s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Yy(v)+'" y2="'+Yy(v)+'" stroke="#DCE1E5"/><text x="'+(pl-8)+'" y="'+(Yy(v)+4)+'" font-size="13" fill="#575F66" text-anchor="end">'+fmt(v,0)+'</text>';}
+  for(var x=x0;x<=x1;x+=opt.step)s+='<text x="'+X(x)+'" y="'+(Hh-8)+'" font-size="13" fill="#575F66" text-anchor="middle">'+x+'</text>';
+  series.forEach(function(se){var p='',f=true;se.v.forEach(function(v,k){if(isNaN(v)){f=true;return;}p+=(f?'M':'L')+X(x0+k)+','+Yy(v);f=false;});
+    s+='<path d="'+p+'" fill="none" stroke="'+se.c+'" stroke-width="'+(se.w||2.4)+'"'+(se.dash?' stroke-dasharray="6 5"':'')+'/>';});
+  var lx=pl+10;series.forEach(function(se){s+='<rect x="'+lx+'" y="'+(pt+2)+'" width="16" height="4" fill="'+se.c+'"/><text x="'+(lx+22)+'" y="'+(pt+9)+'" font-size="13.5" fill="#22262A">'+se.n+'</text>';lx+=se.n.length*7.4+60;});
+  return s+'</svg>';
+}
+function annualTotals(arr,asOf){var o={};for(var y=2001;y<=Y[asOf];y++)o[y]=0;for(var i=0;i<=asOf;i++){if(Y[i]<2001||isNaN(arr[i]))continue;o[Y[i]]+=arr[i];}return o;}
+function renderSensores(){
+  var DS=ST.ds,m=ST.metric,hz=ST.hz[m],X=m==='c'?DS.cnt:DS.frp,asOf=DS.asOf,lastFull=ST.A.lastFull,ys=[];
+  for(var y=2001;y<=lastFull;y++)ys.push(y);
+  var tM=annualTotals(X.M,asOf),tV=annualTotals(X.V,asOf),tH=annualTotals(hz.H,asOf),tT=DS.truth?annualTotals(DS.truth[m],asOf):null;
+  if(tT){var tsc=ST.ref==='M'?1:(m==='c'?8.0:3.2);for(var ky in tT)tT[ky]*=tsc;}
+  var hasV=function(y){return y>=2013;},ser=[];
+  ser.push({n:'MODIS bruto',c:'#6B4FA0',v:ys.map(function(y){return tM[y];})});
+  ser.push({n:'VIIRS bruto',c:'#00727F',v:ys.map(function(y){return hasV(y)?tV[y]:NaN;})});
+  if(tT)ser.push({n:'Verdade simulada',c:'#4F575E',dash:true,w:2,v:ys.map(function(y){return tT[y];})});
+  ser.push({n:'Harmonizado',c:'#E5004B',w:3.2,v:ys.map(function(y){return tH[y];})});
+  $('annual').innerHTML=lineChart(1180,320,ser,{x0:2001,x1:lastFull,step:2,label:'Totais anuais antes e depois da harmonização'});
+  $('annualNote').textContent='Cada linha soma '+(m==='c'?'focos':'MW')+' por ano na área. As linhas brutas dão saltos quando muda o sensor ou o número de satélites; a harmonizada fica numa só régua ('+(ST.ref==='M'?'MODIS':'VIIRS')+').';
+  var mape=function(a){if(!tT)return NaN;var s=0,n=0;ys.forEach(function(y){if(a[y]==null||isNaN(a[y])||!tT[y])return;s+=Math.abs(a[y]/tT[y]-1);n++;});return n?s/n:NaN;};
+  var scM=mape(tM),scV=mape((function(){var o={};ys.forEach(function(y){o[y]=hasV(y)?tV[y]:NaN;});return o;})()),scH=mape(tH);
+  $('valid').innerHTML=tT?'<p>Como a série verdadeira é conhecida só nos dados simulados, dá para medir o ganho:</p><table><tr><th>Série</th><th>Erro médio anual</th></tr><tr><td>MODIS bruto</td><td>'+fmt(scM*100,0)+'%</td></tr><tr><td>VIIRS bruto</td><td>'+fmt(scV*100,0)+'%</td></tr><tr><td><b>Harmonizado</b></td><td><b class="ok">'+fmt(scH*100,0)+'%</b></td></tr></table><p class="note" style="margin-top:8px">Erro de cada ano em relação à série verdadeira, na unidade do sensor de referência. O que resta de erro vem do ruído e das épocas sem sobreposição (premissa).</p>':'<p>Com dados reais não há série verdadeira para comparar. Use a consistência entre épocas: as linhas brutas saltam nas trocas de plataforma e a harmonizada não.</p><p class="note">Dica: veja se os fatores da tabela abaixo são estáveis e se os intervalos de 90% são estreitos.</p>';
+  $('scatter').innerHTML=scatterSvg(hz.eps);
+  $('epTable').innerHTML=epTable(hz.eps);
+}
+function scatterSvg(eps){
+  var W=560,Hh=330,pl=62,pr=14,pt=12,pb=40,pts=[],PAL={M:['#6B4FA0','#A890D4','#3E2A66'],V:['#00727F','#4FB3BF','#0B3F45']},rk={M:0,V:0},cols=eps.map(function(e){return PAL[e.inst][rk[e.inst]++%3];}),mx=0,my=0;
+  eps.forEach(function(e,k){e.pts.forEach(function(p){if(p.x>mx)mx=p.x;if(p.y>my)my=p.y;pts.push({x:p.x,y:p.y,c:cols[k]});});});
+  if(!pts.length)return '<p class="mut">Sem meses de sobreposição entre os sensores neste conjunto.</p>';
+  var X=function(v){return pl+(W-pl-pr)*v/mx;},Yy=function(v){return pt+(Hh-pt-pb)*(1-v/my);};
+  var s='<svg viewBox="0 0 '+W+' '+Hh+'" width="100%" role="img" aria-label="Sobreposição mensal entre sensores">';
+  for(var g=0;g<=4;g++){s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Yy(my*g/4)+'" y2="'+Yy(my*g/4)+'" stroke="#DCE1E5"/><text x="'+(pl-8)+'" y="'+(Yy(my*g/4)+4)+'" font-size="12.5" fill="#575F66" text-anchor="end">'+fmt(my*g/4,0)+'</text><text x="'+X(mx*g/4)+'" y="'+(Hh-22)+'" font-size="12.5" fill="#575F66" text-anchor="middle">'+fmt(mx*g/4,0)+'</text>';}
+  s+='<text x="'+(pl+(W-pl-pr)/2)+'" y="'+(Hh-5)+'" font-size="13" fill="#575F66" text-anchor="middle">mês na unidade do sensor de referência</text>';
+  pts.forEach(function(p){s+='<circle cx="'+X(p.x)+'" cy="'+Yy(p.y)+'" r="4" fill="'+p.c+'" opacity=".8"/>';});
+  eps.forEach(function(e,k){if(e.pts.length&&isFinite(e.factor)){var sl=1/e.factor;s+='<line x1="'+X(0)+'" y1="'+Yy(0)+'" x2="'+X(mx)+'" y2="'+Yy(Math.min(my,mx*sl))+'" stroke="'+cols[k]+'" stroke-width="1.8"/>';}});
+  var lx=pl+6,ly=pt+14;eps.forEach(function(e,k){if(!e.pts.length)return;s+='<rect x="'+lx+'" y="'+(ly-9)+'" width="12" height="12" fill="'+cols[k]+'"/><text x="'+(lx+18)+'" y="'+(ly+1)+'" font-size="12.5" fill="#22262A">'+(e.inst==='M'?'MODIS ':'VIIRS ')+e.name+'</text>';ly+=18;});
+  return s+'</svg>';
+}
+function epTable(eps){
+  var rows=eps.map(function(e){var per=dstr(e.i0)+' a '+(e.i1>=N-1?'hoje':dstr(e.i1));
+    return '<tr><td>'+(e.inst==='M'?'MODIS':'VIIRS')+'</td><td>'+e.name+'</td><td>'+per+'</td><td>'+e.method+(e.nm?' ('+e.nm+' meses)':'')+(e.method.indexOf('premissa')===0?' <span class="tag warn">incerteza maior</span>':'')+'</td><td>'+(isFinite(e.factor)?'<b>'+fmt(e.factor,3)+'</b>':'--')+'</td><td>'+(isFinite(e.ci[0])?fmt(e.ci[0],3)+' a '+fmt(e.ci[1],3):'--')+'</td></tr>';}).join('');
+  return '<div class="tblx"><table><tr><th>Sensor</th><th>Plataformas</th><th>Período</th><th>Como foi calibrado</th><th>Fator</th><th>Intervalo 90%</th></tr>'+rows+'</table></div><p class="note" style="margin-top:8px">Fator: multiplique o valor bruto por ele para obter o equivalente no sensor de referência.</p>';
+}
+
+/* ---------- MAPA ---------- */
+var map=null,gPts=null,gAoi=null;
+function initMap(){
+  if(map)return;
+  map=L.map('map',{zoomControl:true,attributionControl:true});
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:17,attribution:'Imagens: Esri, Maxar, Earthstar Geographics'}).addTo(map);
+  gAoi=L.layerGroup().addTo(map);gPts=L.layerGroup().addTo(map);
+}
+function synthPts(DS,i0,i1){
+  var out=[],b=DS.bbox,hubs=[],rh=rng(hash(DS.id)+7);
+  for(var k=0;k<8;k++)hubs.push({lat:b[0]+(b[2]-b[0])*(0.15+0.7*rh()),lng:b[1]+(b[3]-b[1])*(0.15+0.7*rh()),w:0.3+rh()});
+  var tw=hubs.reduce(function(s,h){return s+h.w;},0),sg=Math.max(b[2]-b[0],b[3]-b[1])*0.035;
+  for(var i=i0;i<=i1;i++){if(i<0||i>DS.asOf)continue;
+    ['M','V'].forEach(function(I){var c=DS.cnt[I][i];if(!(c>0))return;var k=DS.E[I][i],e=EPDEF[DS.eps.length===5?k:0],mean=DS.frp[I][i]/c,n=Math.min(c,80),r=rng(hash(DS.id)*31+i*7+(I==='M'?1:2)),r2=rng(hash(DS.id)*13+i);
+      var hs=[0,1].map(function(){var x=r2()*tw,a=0;for(var q=0;q<hubs.length;q++){a+=hubs[q].w;if(x<=a)return hubs[q];}return hubs[0];});
+      for(var j=0;j<n;j++){var h=hs[j%2];var fr=mean*Math.exp(0.6*randn(r)-0.18),cf=r();
+        out.push({lat:h.lat+sg*randn(r),lng:h.lng+sg*randn(r),i:i,inst:I,sat:DS.eps[k].name,frp:fr,conf:I==='V'?(cf<0.1?'n':cf<0.5?'n':'h'):Math.round(30+70*cf),t:I==='V'?(r()<.5?'0130':'1330'):(r()<.5?'1030':'1330'),dn:r()<.5?'D':'N'});}});}
+  return out;
+}
+function renderMap(){
+  initMap();var DS=ST.ds,b=DS.bbox,y=+$('mapYear').value||ST.selY,doy=+$('mapDay').value||ST.selDoy||1,ci=idxOf(y,doy),i0=ci-ST.win,i1=ci+ST.win;
+  gAoi.clearLayers();L.rectangle([[b[0],b[1]],[b[2],b[3]]],{color:'#E5004B',weight:2.5,fill:false,dashArray:'6 6'}).addTo(gAoi);
+  if(!ST.mapInit){map.fitBounds([[b[0],b[1]],[b[2],b[3]]]);ST.mapInit=true;}
+  var pts=DS.synthetic?synthPts(DS,i0,i1):DS.real?realPts(DS,i0,i1).slice(0,3000):DS.rows.filter(function(r){return r.i>=i0&&r.i<=i1;}).slice(0,3000);
+  ST.mapPts=pts;gPts.clearLayers();var nM=0,nV=0,tM=0,tV=0;
+  for(var i=i0;i<=i1;i++){if(i<0||i>DS.asOf)continue;if(!isNaN(DS.cnt.M[i]))tM+=DS.cnt.M[i];if(!isNaN(DS.cnt.V[i]))tV+=DS.cnt.V[i];}
+  pts.forEach(function(p){if(p.inst==='M')nM++;else nV++;
+    var col=p.inst==='M'?'#6B4FA0':'#00727F';
+    L.circleMarker([p.lat,p.lng],{radius:Math.max(3,Math.min(13,2.5+Math.sqrt(p.frp||1)*0.9)),color:'#fff',weight:1.2,fillColor:col,fillOpacity:.85}).bindPopup('<b>'+(p.inst==='M'?'MODIS':'VIIRS')+'</b> · '+p.sat+'<br>'+dstr(p.i)+(p.t?' · '+p.t+' UTC':'')+'<br>FRP: '+fmt(p.frp,1)+' MW<br>Confiança: '+p.conf+(p.dn?'<br>'+(p.dn==='D'?'dia':'noite'):'')+(DS.synthetic?'<br><i>SIMULADO</i>':'')).addTo(gPts);});
+  $('mapNote').innerHTML='Janela: '+dstr(Math.max(i0,0))+' a '+dstr(Math.min(i1,DS.asOf))+'. Roxo: MODIS ('+fmt(tM)+(tM===1?' foco':' focos')+' na janela). Verde-azulado: VIIRS ('+fmt(tV)+(tV===1?' foco':' focos')+'). Tamanho = energia (FRP). '+(DS.synthetic?'<b>Posições simuladas.</b> ':'')+'Mostrando '+fmt(nM+nV)+' pontos'+((nM+nV)<(tM+tV)?' (amostra)':'')+'.';
+  setTimeout(function(){map.invalidateSize();},50);
+}
+
+/* ---------- exportar ---------- */
+function download(name,text,type){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);}
+function exportCsv(){
+  var DS=ST.ds,hc=ST.hz.c.H,hf=ST.hz.f.H,A=ST.A,rows=['data,modis_focos,viirs_focos,harmonizado_focos,modis_frp,viirs_frp,harmonizado_frp,percentil_'+(ST.metric==='c'?'focos':'frp')];
+  var f=function(v){return isNaN(v)?'':(Math.round(v*1000)/1000);};
+  for(var i=0;i<=DS.asOf;i++){var d=new Date(T0+i*DAY);rows.push(d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate())+','+f(DS.cnt.M[i])+','+f(DS.cnt.V[i])+','+f(hc[i])+','+f(DS.frp.M[i])+','+f(DS.frp.V[i])+','+f(hf[i])+','+f(A.pct[i]));}
+  download('calendario-do-fogo-serie-diaria.csv',rows.join('\n'),'text/csv');
+}
+function exportJson(){
+  var DS=ST.ds,o={area:DS.name,bbox:DS.bbox,fonte:DS.synthetic?'simulado':DS.real?'NASA FIRMS, CSV anual Brasil, recorte MG':'FIRMS (CSV carregado)',sensor_referencia:ST.ref,suavizacao_dias:ST.sm,
+    epocas:{contagem:ST.hz.c.eps.map(function(e){return {sensor:e.inst,plataformas:e.name,fator:e.factor,ic90:e.ci,metodo:e.method,meses:e.nm};}),frp:ST.hz.f.eps.map(function(e){return {sensor:e.inst,plataformas:e.name,fator:e.factor,ic90:e.ci,metodo:e.method,meses:e.nm};})},
+    periodo_critico_mediano:{inicio_doy:ST.C.c10,meio_doy:ST.C.c50,fim_doy:ST.C.c90,pico_doy:ST.C.peak}};
+  download('calendario-do-fogo-parametros.json',JSON.stringify(o,null,2),'application/json');
+}
+function exportGeo(){
+  var f=ST.mapPts.map(function(p){return {type:'Feature',geometry:{type:'Point',coordinates:[p.lng,p.lat]},properties:{sensor:p.inst==='M'?'MODIS':'VIIRS',plataforma:p.sat,data:dstr(p.i),frp:Math.round(p.frp*10)/10,confianca:p.conf,simulado:!!ST.ds.synthetic}};});
+  download('focos.geojson',JSON.stringify({type:'FeatureCollection',features:f}),'application/geo+json');
+}
+
+/* ---------- metodo ---------- */
+/* validação contra a série de referência do INPE (data/mg-validacao.js, gerado por scripts/validar_harmonizacao.py) */
+function renderVal(){var V=window.MG_VAL;if(!V){$('valCard').hidden=true;return;}if($('valChart').firstChild)return;
+ var n=V.anos.length,base=function(a){var s=0,c=0;V.anos.forEach(function(y,i){if(y<2012){s+=a[i];c++;}});return s/c;},S=[['INPE, satélite de referência','var(--ink)',V.inpe,''],['Nossa série harmonizada','var(--brand)',V.harm,''],['MODIS e depois VIIRS, sem ajuste','var(--ink3)',V.troca,'5 4']],W=720,H=230,L=34,R=12,T=12,B=26;
+ S.forEach(function(x){var b=base(x[2]);x.push(x[2].map(function(v){return v/b;}));});var ym=Math.ceil(Math.max.apply(null,S.map(function(x){return Math.max.apply(null,x[4]);})));
+ var X=function(i){return L+i*(W-L-R)/(n-1);},Y=function(v){return T+(1-v/ym)*(H-T-B);},g='';
+ for(var v=0;v<=ym;v++)g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="var(--line2)"/><text x="'+(L-6)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-size="13" fill="var(--ink3)">'+v+'×</text>';
+ V.anos.forEach(function(y,i){if(y%4===0)g+='<text x="'+X(i)+'" y="'+(H-8)+'" text-anchor="middle" font-size="13" fill="var(--ink3)">'+y+'</text>';});
+ var i12=V.anos.indexOf(2012);g+='<line x1="'+X(i12)+'" x2="'+X(i12)+'" y1="'+T+'" y2="'+(H-B)+'" stroke="var(--ink3)" stroke-dasharray="2 3"/><text x="'+(X(i12)+4)+'" y="'+(T+10)+'" font-size="13" fill="var(--ink2)">entra o VIIRS</text>';
+ S.forEach(function(x){g+='<polyline fill="none" stroke="'+x[1]+'" stroke-width="'+(x[1]==='var(--brand)'?2.5:1.8)+'" stroke-dasharray="'+x[3]+'" points="'+x[4].map(function(v,i){return X(i).toFixed(1)+','+Y(v).toFixed(1);}).join(' ')+'"/>';});
+ $('valChart').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block">'+g+'</svg><div class="row" style="gap:16px;margin:6px 0 0;flex-wrap:wrap">'+S.map(function(x){return '<span style="display:inline-flex;align-items:center;gap:6px;font-size:13px"><svg width="22" height="8" aria-hidden="true"><line x1="0" x2="22" y1="4" y2="4" stroke="'+x[1]+'" stroke-width="2.5" stroke-dasharray="'+x[3]+'"/></svg>'+x[0]+'</span>';}).join('')+'</div>';
+ var f=function(v){return String(v).replace('.',',');},st=[[f(V.salto.troca_sem_ajuste)+'× → '+f(V.salto.harmonizada)+'×','salto em 2012, sem ajuste → harmonizado (o MODIS sozinho dá '+f(V.salto.modis)+'×)'],['r = '+f(V.r_anual.harmonizada.toFixed(2)),'correlação ano a ano com o INPE (sem ajuste: '+f(V.r_anual.troca_sem_ajuste.toFixed(2))+'); mês a mês: '+f(V.r_mensal.toFixed(2))],[(V.mk.harmonizada<0?'queda':'alta')+', como o INPE','tendência de Mann-Kendall nos totais anuais. Sem ajuste, a série mostraria '+(V.mk.troca_sem_ajuste>0?'alta':'queda')+' falsa']];
+ $('valStats').innerHTML=st.map(function(x){return '<div><div style="font-size:22px;font-weight:700;color:var(--brand-ink)">'+x[0]+'</div><div class="note" style="margin:2px 0 0">'+x[1]+'</div></div>';}).join('');
+ $('valNote').textContent='Cada linha está dividida pela própria média de 2003 a 2011, para comparar a forma das séries e não o número absoluto (o VIIRS vê cerca de 3,5 vezes mais focos). Limite: o INPE também usa um sensor MODIS (no Aqua), então a validação é independente no processamento e no satélite, mas não no tipo de sensor. A comparação com área queimada (MapBiomas Fogo) fica como próximo passo.';}
+function renderMetodo(){renderVal();var DS=ST.ds;$('mDataset').textContent='Conjunto atual: '+DS.name+' · '+(DS.synthetic?'simulado':fmt(DS.real?DS.nTot:DS.rows.length)+' focos'+(DS.real?' (NASA FIRMS, células de ~11 km que tocam a caixa)':' carregados'))+' · caixa '+DS.bbox.map(function(v){return fmt(v,2);}).join(', ')+' · sensor de referência: '+(ST.ref==='M'?'MODIS':'VIIRS')+'.';}
+
+/* ---------- controle geral ---------- */
+function pressed(){document.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('aria-pressed',b.classList.contains('on'));});}
+function renderAll(){
+  pressed();
+  var s=status();$('src').textContent=s.t;$('src').className=s.c;
+  renderResumo();
+  if(ST.view==='calendario')renderCal();
+  if(ST.view==='sensores')renderSensores();
+  if(ST.view==='mapa')renderMap();
+  if(ST.view==='metodo')renderMetodo();
+}
+function setView(v){ST.view=v;document.querySelectorAll('#tabs button').forEach(function(b){b.classList.toggle('on',b.dataset.v===v);});
+  document.querySelectorAll('.nav a').forEach(function(a,k){if(k===(v==='metodo'?2:1))a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  document.querySelectorAll('.view').forEach(function(s){s.classList.toggle('on',s.id==='v-'+v);});renderAll();window.scrollTo(0,0);}
+function setDataset(DS,full){
+  ST.ds=DS;ST.selY=Y[DS.asOf];ST.selDoy=DOY[DS.asOf];ST.mapInit=false;
+  var sel=$('mapYear');sel.innerHTML='';for(var y=2001;y<=Y[DS.asOf];y++){var o=document.createElement('option');o.value=y;o.textContent=y;sel.appendChild(o);}
+  sel.value=ST.selY;$('mapDay').value=ST.selDoy;recompute();renderAll();
+}
+function seg(id,fn){document.querySelectorAll('#'+id+' button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#'+id+' button').forEach(function(x){x.classList.toggle('on',x===b);});fn(b.dataset.k);});});}
+
+AOIS.forEach(function(a){var o=document.createElement('option');o.value=a.id;o.textContent=a.name;$('aoi').appendChild(o);});
+$('aoi').addEventListener('change',function(){var a=AOIS.filter(function(x){return x.id===$('aoi').value;})[0];setDataset(mk(a));});
+$('btnUp').onclick=function(){$('file').click();};
+$('file').addEventListener('change',function(e){var files=[].slice.call(e.target.files);if(!files.length)return;
+  Promise.all(files.map(function(f){return f.text();})).then(function(texts){var rows=parseCsv(texts),DS=makeFromRows(rows,files.map(function(f){return f.name;}).join(', '));
+    if(!DS){alert('Não encontrei focos válidos. O CSV precisa ter as colunas latitude, longitude e acq_date (formato NASA FIRMS), com datas entre nov/2000 e out/2026.');return;}
+    var opt=document.createElement('option');opt.value='csv';opt.textContent='Arquivo: '+DS.name;opt.selected=true;$('aoi').appendChild(opt);setDataset(DS);});});
+document.querySelectorAll('#tabs button').forEach(function(b){b.addEventListener('click',function(){setView(b.dataset.v);});});
+function setMetric(k){ST.metric=k;['segMetric','segMetric2'].forEach(function(id){document.querySelectorAll('#'+id+' button').forEach(function(x){x.classList.toggle('on',x.dataset.k===k);});});reanalyze();renderAll();}
+seg('segMetric',setMetric);seg('segMetric2',setMetric);
+seg('segMode',function(k){ST.mode=k;renderAll();});
+seg('segSm',function(k){ST.sm=+k;reanalyze();renderAll();});
+seg('segRef',function(k){ST.ref=k;recompute();renderAll();});
+seg('segWin',function(k){ST.win=+k;pressed();renderMap();});
+$('mapDay').addEventListener('change',renderMap);$('mapYear').addEventListener('change',renderMap);
+$('btnCsv').onclick=exportCsv;$('btnJson').onclick=exportJson;$('btnGeo').onclick=exportGeo;
+$('btnGoCal').onclick=function(){setView('calendario');};
+$('btnCopy').onclick=function(){var t=ST.summary||'';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){$('copied').textContent='Resumo copiado.';},function(){$('copied').textContent='Não consegui copiar automaticamente. Selecione e copie: '+t;});};
+$('btnUseView').onclick=function(){initMap();var b=map.getBounds(),bb=[b.getSouth(),b.getWest(),b.getNorth(),b.getEast()],area=Math.abs((bb[2]-bb[0])*111*(bb[3]-bb[1])*111*Math.cos((bb[0]+bb[2])/2*Math.PI/180));
+  var a={id:'custom'+Math.round(bb[0]*100)+Math.round(bb[1]*100),name:'Área personalizada'+(G&&inMG(bb)?'':' (simulada)'),bbox:bb,ty:Math.max(10,0.05*area),peak:244,w:34};
+  var DS=mk(a);var opt=document.createElement('option');opt.value=a.id;opt.textContent=a.name;opt.selected=true;$('aoi').appendChild(opt);ST.mapInit=true;setDataset(DS);ST.mapInit=true;setView('mapa');};
+var cal=$('cal');
+cal.addEventListener('mousemove',function(e){var h=calHit(e),t=$('tip');if(!h||h.labelOnly){t.style.display='none';return;}t.innerHTML=dayHtml(h.y,h.doy);t.style.display='block';t.style.left=Math.min(e.clientX+14,innerWidth-360)+'px';t.style.top=(e.clientY+14)+'px';});
+cal.addEventListener('mouseleave',function(){$('tip').style.display='none';});
+cal.addEventListener('click',function(e){var h=calHit(e);if(!h&&calG){var r=cal.getBoundingClientRect(),row=Math.floor((e.clientY-r.top-calG.padT)/calG.rowH);if(row>=0&&row<calG.years.length&&(e.clientX-r.left)<calG.padL){ST.selY=calG.years[row];ST.C=climFor(ST.A,ST.selY);renderCal();}return;}
+  if(!h)return;if(h.labelOnly){ST.selY=h.y;}else{ST.selY=h.y;ST.selDoy=h.doy;}ST.C=climFor(ST.A,ST.selY);renderCal();});
+window.addEventListener('resize',function(){if(ST.view==='calendario')drawCal();});
+
+var Q=new URLSearchParams(location.search),qb=(Q.get('bbox')||'').split(',').map(Number);
+if(qb.length===4&&qb.every(isFinite)&&qb[0]<qb[2]&&qb[1]<qb[3]){
+  // vindo do globo: área clicada vira a AOI, com densidade de focos de exemplo proporcional à área
+  var qa={id:'globo-'+qb.join('_'),name:(Q.get('nome')||'Área do globo')+(G&&inMG(qb)?'':' (simulada)'),bbox:qb,ty:Math.max(10,(+Q.get('ha')||10000)/100*0.05),peak:244,w:34};
+  var qo=document.createElement('option');qo.value=qa.id;qo.textContent=qa.name;$('aoi').insertBefore(qo,$('aoi').firstChild);$('aoi').value=qa.id;AOIS.unshift(qa);
+  setDataset(mk(qa));
+}else setDataset(mk(AOIS[0]));if(Q.get('view'))setView(Q.get('view'));
+if(Q.get('m'))setMetric(Q.get('m'));
+if(Q.get('mode')){ST.mode=Q.get('mode');document.querySelectorAll('#segMode button').forEach(function(x){x.classList.toggle('on',x.dataset.k===ST.mode);});renderAll();}
+if(Q.get('ref')){ST.ref=Q.get('ref');document.querySelectorAll('#segRef button').forEach(function(x){x.classList.toggle('on',x.dataset.k===ST.ref);});recompute();renderAll();}
+})();
+</script>
+</body>
+</html>
