@@ -96,8 +96,8 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--ink3);fo
 </head>
 <body>
 <header class="top card">
-  <a class="brand" href="mock-olho-do-fogo-cientifico.html" aria-label="De Olho no Fogo, voltar ao globo"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#E5004B"/><path d="M6 25 Q24 7 42 25 Q24 43 6 25 Z" fill="#fff"/><path d="M24 14 C27 19 31 21 31 27 C31 31.5 27.8 34 24 34 C20.2 34 17 31.5 17 27.4 C17 24 19 22.5 20.4 20.6 C20.6 23 21.8 24.2 23 24.6 C22.4 21 23 17.5 24 14 Z" fill="#E5004B"/><rect x="21.8" y="27.4" width="4.4" height="4.4" fill="#fff"/></svg><b>De Olho no Fogo</b></a>
-  <nav class="nav" aria-label="Seções"><a href="mock-olho-do-fogo-cientifico.html">Globo</a><a href="app-calendario-do-fogo.html?view=calendario" aria-current="page">Calendário</a><a href="app-calendario-do-fogo.html?view=metodo">Método e dados</a></nav>
+  <a class="brand" href="/" aria-label="De Olho no Fogo, página inicial"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#E5004B"/><path d="M6 25 Q24 7 42 25 Q24 43 6 25 Z" fill="#fff"/><path d="M24 14 C27 19 31 21 31 27 C31 31.5 27.8 34 24 34 C20.2 34 17 31.5 17 27.4 C17 24 19 22.5 20.4 20.6 C20.6 23 21.8 24.2 23 24.6 C22.4 21 23 17.5 24 14 Z" fill="#E5004B"/><rect x="21.8" y="27.4" width="4.4" height="4.4" fill="#fff"/></svg><b>De Olho no Fogo</b></a>
+  <nav class="nav" aria-label="Seções"><a href="/globo">Globo</a><a href="/calendario?view=calendario" aria-current="page">Calendário</a><a href="/calendario?view=metodo">Método e dados</a></nav>
 </header>
 <div class="wrap">
 <div class="phead">
@@ -242,7 +242,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--ink3);fo
     <div id="valStats" class="grid g3" style="margin:8px 0 12px"></div>
     <div id="valChart" role="img" aria-label="Focos por ano em Minas Gerais, cada série dividida pela própria média de 2003 a 2011"></div>
     <p class="note" id="valNote"></p>
-    <p style="margin:8px 0 0"><a href="data/serie-harmonizada-mg.csv" download>Baixar a série harmonizada de MG, mês a mês (CSV, dado aberto)</a> · <a href="docs/metodo-harmonizacao.md">método completo</a></p>
+    <p style="margin:8px 0 0"><a href="/data/serie-harmonizada-mg.csv" download>Baixar a série harmonizada de MG, mês a mês (CSV, dado aberto)</a> · <a href="/metodo">método completo</a></p>
   </div>
   <div class="card" style="margin-top:16px"><h3>Limitações</h3>
     <ul style="margin:0;padding-left:20px">
@@ -262,9 +262,9 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--ink3);fo
 <div id="tip"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="data/mg-diario.js"></script>
-<script src="data/mg-validacao.js"></script>
-<script src="data/mg-clima.js"></script>
+<script src="/data/mg-diario.js"></script>
+<script src="/data/mg-validacao.js"></script>
+<script src="/data/mg-clima.js"></script>
 <script>
 (function(){
 'use strict';

@@ -5,8 +5,8 @@ Uso: python scripts/validar_harmonizacao.py <inpe_mg.csv>
   inpe_mg.csv: https://data.inpe.br/queimadas/portal/csv/download/historico-mensal/estados/minas_gerais.csv
 
 Saídas:
-  data/serie-harmonizada-mg.csv  série mensal 2001–2025 (dado aberto)
-  data/mg-validacao.js           números da validação para o app (window.MG_VAL)
+  public/data/serie-harmonizada-mg.csv  série mensal 2001–2025 (dado aberto)
+  public/data/mg-validacao.js           números da validação para o app (window.MG_VAL)
 """
 import csv
 import json
@@ -18,7 +18,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def load_js(name):
-    with open(os.path.join(ROOT, 'data', name), encoding='utf-8') as f:
+    with open(os.path.join(ROOT, 'public', 'data', name), encoding='utf-8') as f:
         s = f.read()
     return json.loads(s[s.index('=') + 1:].rstrip().rstrip(';'))
 
@@ -90,7 +90,7 @@ r_mensal = pearson([harm[(y - M['y0']) * 12 + k] for y, k in idx], [inpe[(y, k)]
 mk = {k: mk_s(s) for k, s in ser.items()}
 mk['inpe'] = mk_s(inpe_a)
 
-with open(os.path.join(ROOT, 'data', 'serie-harmonizada-mg.csv'), 'w', newline='', encoding='utf-8') as f:
+with open(os.path.join(ROOT, 'public', 'data', 'serie-harmonizada-mg.csv'), 'w', newline='', encoding='utf-8') as f:
     w = csv.writer(f)
     w.writerow(['ano', 'mes', 'modis_terra_aqua', 'viirs_snpp', 'fator_viirs_modis_do_mes', 'harmonizada_escala_viirs', 'origem_harmonizada', 'inpe_referencia_aqua'])
     for i, m in enumerate(mt):
@@ -101,7 +101,7 @@ with open(os.path.join(ROOT, 'data', 'serie-harmonizada-mg.csv'), 'w', newline='
 out = {'anos': yrs, 'inpe': inpe_a, 'harm': [round(x) for x in ser['harmonizada']], 'troca': ser['troca_sem_ajuste'],
        'salto': {k: round(v, 2) for k, v in salto.items()}, 'r_anual': {k: round(v, 3) for k, v in r_anual.items()},
        'r_mensal': round(r_mensal, 3), 'mk': mk, 'kf': [round(x, 3) for x in kf]}
-with open(os.path.join(ROOT, 'data', 'mg-validacao.js'), 'w', encoding='utf-8') as f:
+with open(os.path.join(ROOT, 'public', 'data', 'mg-validacao.js'), 'w', encoding='utf-8') as f:
     f.write('window.MG_VAL=' + json.dumps(out, separators=(',', ':')) + ';\n')
 print(json.dumps({k: out[k] for k in ('salto', 'r_anual', 'r_mensal', 'mk', 'kf')}, indent=1))
 

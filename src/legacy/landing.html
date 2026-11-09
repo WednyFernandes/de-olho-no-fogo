@@ -162,7 +162,7 @@ section.s:not(.tint) .phones{background:var(--soft)}
     <nav aria-label="Seções">
       <a href="#cidade">Sua cidade</a><a href="#epoca">Viu fogo?</a><a href="#foco">O que é foco</a><a href="#gestores">Para gestores</a><a href="#metodo">O método</a><a href="#dados">Dados</a>
     </nav>
-    <a class="btn p sm" href="mock-olho-do-fogo-cientifico.html">Abrir o globo</a>
+    <a class="btn p sm" href="/globo">Abrir o globo</a>
   </div>
 </header>
 
@@ -173,7 +173,7 @@ section.s:not(.tint) .phones{background:var(--soft)}
       <h1 id="h1">O fogo em Minas aumentou?</h1>
       <p class="lead">Sem ajuste, os satélites da NASA dizem que sim: em 2012 a contagem de focos salta 4,4 vezes. Só que quem mudou foi o satélite, não o fogo.</p>
       <div class="cta">
-        <a class="btn p" href="mock-olho-do-fogo-cientifico.html">Abrir o globo
+        <a class="btn p" href="/globo">Abrir o globo
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a class="btn g" href="#cidade">Ver a minha cidade</a>
       </div>
@@ -269,8 +269,8 @@ section.s:not(.tint) .phones{background:var(--soft)}
     <p class="sp">Defesa civil, brigadas, gestores de unidades de conservação e pesquisadores precisam saber se este mês está fora do normal, e onde. O globo e o calendário respondem isso para qualquer área de Minas.</p>
     <div class="uses">
       <div>
-        <div class="shot"><img src="assets/globo.png" width="2880" height="1800" loading="lazy" alt="Globo do De Olho no Fogo em setembro de 2024: Minas Gerais coberta de células de focos, painel de leitura dizendo que o mês ficou acima do normal, com 28.502 focos, e a lista de municípios e eventos de fogo"></div>
-        <div class="shot"><img src="assets/calendario.png" width="2464" height="1056" loading="lazy" alt="Calendário do fogo de Minas Gerais: uma linha por ano de 2001 a 2025 e uma coluna por dia, com a faixa de agosto a outubro mais quente todos os anos"></div>
+        <div class="shot"><img src="/assets/globo.png" width="2880" height="1800" loading="lazy" alt="Globo do De Olho no Fogo em setembro de 2024: Minas Gerais coberta de células de focos, painel de leitura dizendo que o mês ficou acima do normal, com 28.502 focos, e a lista de municípios e eventos de fogo"></div>
+        <div class="shot"><img src="/assets/calendario.png" width="2464" height="1056" loading="lazy" alt="Calendário do fogo de Minas Gerais: uma linha por ano de 2001 a 2025 e uma coluna por dia, com a faixa de agosto a outubro mais quente todos os anos"></div>
       </div>
       <ul class="list">
         <li><b>Este mês está acima do normal?</b><span>Cada mês é comparado com o mesmo mês dos outros 24 anos. Setembro de 2024, por exemplo, ficou 1,4 vez acima da mediana dos setembros.</span></li>
@@ -333,7 +333,7 @@ section.s:not(.tint) .phones{background:var(--soft)}
       <div>
         <p style="font-size:clamp(22px,2vw,28px);font-weight:800;line-height:1.25;letter-spacing:-.01em">Sem harmonizar, a troca de satélite inventa um aumento de fogo em Minas. Com a harmonização, a série conta a mesma história que o INPE.</p>
         <p class="note">Limite: o satélite do INPE também carrega um sensor MODIS. A conferência é independente no processamento e no satélite, não no tipo de sensor. A comparação com a área queimada do MapBiomas Fogo é o próximo passo.</p>
-        <p style="margin-top:22px"><a href="docs/metodo-harmonizacao.md">Ler o método completo</a></p>
+        <p style="margin-top:22px"><a href="/metodo">Ler o método completo</a></p>
       </div>
     </div>
   </div>
@@ -361,7 +361,7 @@ section.s:not(.tint) .phones{background:var(--soft)}
   <div class="wrap">
     <h2 class="sh" id="h-d">Dado aberto, método aberto.</h2>
     <p class="sp">A série harmonizada de Minas, mês a mês de 2001 a 2025, está publicada com o fator de cada mês, as contagens brutas dos dois sensores e a série do INPE ao lado. Os scripts refazem tudo do zero.</p>
-    <p style="margin-top:28px;display:flex;flex-wrap:wrap;gap:12px"><a class="btn p" href="data/serie-harmonizada-mg.csv" download>Baixar a série (CSV)</a><a class="btn g" href="docs/metodo-harmonizacao.md">Método e validação</a></p>
+    <p style="margin-top:28px;display:flex;flex-wrap:wrap;gap:12px"><a class="btn p" href="/data/serie-harmonizada-mg.csv" download>Baixar a série (CSV)</a><a class="btn g" href="/metodo">Método e validação</a></p>
     <div class="src">
       <div><b>NASA FIRMS</b><span>Focos ativos MODIS (Terra e Aqua, C6.1) e VIIRS 375 m (S-NPP), 2001–2025</span></div>
       <div><b>NASA POWER</b><span>Chuva, umidade relativa e temperatura mensais, usadas no contexto climático</span></div>
@@ -370,7 +370,7 @@ section.s:not(.tint) .phones{background:var(--soft)}
     </div>
     <div class="close">
       <h2>Escolha um mês e veja onde Minas queimou.</h2>
-      <div style="display:flex;flex-wrap:wrap;gap:12px"><a class="btn p" href="mock-olho-do-fogo-cientifico.html">Abrir o globo</a><a class="btn g" href="app-calendario-do-fogo.html">Ver o calendário</a></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px"><a class="btn p" href="/globo">Abrir o globo</a><a class="btn g" href="/calendario">Ver o calendário</a></div>
     </div>
   </div>
 </section>
@@ -384,10 +384,10 @@ section.s:not(.tint) .phones{background:var(--soft)}
   </div>
 </footer>
 
-<script src="data/mg-validacao.js"></script>
-<script src="data/mg-clima.js"></script>
-<script src="data/mg-mun-anual.js"></script>
-<script src="data/mg-municipios.js"></script>
+<script src="/data/mg-validacao.js"></script>
+<script src="/data/mg-clima.js"></script>
+<script src="/data/mg-mun-anual.js"></script>
+<script src="/data/mg-municipios.js"></script>
 <script>
 (function(){
 var V=window.MG_VAL,C=window.MG_CLIMA,$=function(id){return document.getElementById(id);};

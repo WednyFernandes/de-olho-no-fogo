@@ -249,8 +249,8 @@ body.has-panel .insight{display:none}
 </head>
 <body>
 <header class="top card">
-  <a class="brand" href="mock-olho-do-fogo-cientifico.html" aria-label="De Olho no Fogo, voltar ao globo"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#E5004B"/><path d="M6 25 Q24 7 42 25 Q24 43 6 25 Z" fill="#fff"/><path d="M24 14 C27 19 31 21 31 27 C31 31.5 27.8 34 24 34 C20.2 34 17 31.5 17 27.4 C17 24 19 22.5 20.4 20.6 C20.6 23 21.8 24.2 23 24.6 C22.4 21 23 17.5 24 14 Z" fill="#E5004B"/><rect x="21.8" y="27.4" width="4.4" height="4.4" fill="#fff"/></svg><b>De Olho no Fogo</b></a>
-  <nav class="nav" aria-label="Seções"><a href="mock-olho-do-fogo-cientifico.html" aria-current="page">Globo</a><a href="app-calendario-do-fogo.html?view=calendario">Calendário</a><a href="app-calendario-do-fogo.html?view=metodo">Método e dados</a></nav>
+  <a class="brand" href="/" aria-label="De Olho no Fogo, página inicial"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#E5004B"/><path d="M6 25 Q24 7 42 25 Q24 43 6 25 Z" fill="#fff"/><path d="M24 14 C27 19 31 21 31 27 C31 31.5 27.8 34 24 34 C20.2 34 17 31.5 17 27.4 C17 24 19 22.5 20.4 20.6 C20.6 23 21.8 24.2 23 24.6 C22.4 21 23 17.5 24 14 Z" fill="#E5004B"/><rect x="21.8" y="27.4" width="4.4" height="4.4" fill="#fff"/></svg><b>De Olho no Fogo</b></a>
+  <nav class="nav" aria-label="Seções"><a href="/globo" aria-current="page">Globo</a><a href="/calendario?view=calendario">Calendário</a><a href="/calendario?view=metodo">Método e dados</a></nav>
   <div class="search">
     <label for="q" class="sr">Buscar município, unidade de conservação ou coordenada</label>
     <input id="q" type="search" placeholder="Buscar área ou lat, long" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sugg">
@@ -328,9 +328,9 @@ body.has-panel .insight{display:none}
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle"><div class="sheet" id="sheet"></div></div>
 
 <script src="https://unpkg.com/globe.gl@2.45.0/dist/globe.gl.min.js"></script>
-<script src="data/mg-modis-mensal.js"></script>
-<script src="data/mg-viirs-mensal.js"></script>
-<script src="data/mg-municipios.js"></script>
+<script src="/data/mg-modis-mensal.js"></script>
+<script src="/data/mg-viirs-mensal.js"></script>
+<script src="/data/mg-municipios.js"></script>
 <script>
 (function(){
 var CS=getComputedStyle(document.documentElement);function cv(n){return CS.getPropertyValue(n).trim();}
@@ -490,7 +490,7 @@ var PTS={},PTS_ALT=.3;
 window.__pts=function(m,d){PTS[m]=d;if(hist)refreshHot(true);};
 function mKey(i){var m=i%12+1;return (HM.y0+Math.floor(i/12))+'-'+(m<10?'0':'')+m;}
 function wantPts(){return hist&&hWin===1&&curAlt<PTS_ALT;}
-function loadPts(k){if(k in PTS)return;PTS[k]=0;var s=document.createElement('script');s.src='data/pts/'+k+'.js';s.onerror=function(){PTS[k]={M:[],V:[]};};document.head.appendChild(s);}
+function loadPts(k){if(k in PTS)return;PTS[k]=0;var s=document.createElement('script');s.src='/data/pts/'+k+'.js';s.onerror=function(){PTS[k]={M:[],V:[]};};document.head.appendChild(s);}
 /* focos do mês: lista plana lat*1000, lng*1000, frp, dia */
 function hPts(){var k=mKey(hIdx),d=PTS[k];for(var z=1;z<4&&hIdx+z<HTOT.length;z++)loadPts(mKey(hIdx+z));if(!d){loadPts(k);return null;}
  var j=hIdx-VOFF,I=sen==='m'?'M':sen==='v'?'V':(j>=0&&HV?'V':'M'),a=(sen==='v'&&j<0)?[]:d[I]||[],g=[[],[],[]],L=[];
@@ -757,7 +757,7 @@ function intro(){selected=null;panel.innerHTML='<div class="phead"><span class="
  panel.querySelector('[data-close]').onclick=closePanel;drawTL();}
 function dl(name,type,text){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:type}));a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},500);}
 function calUrl(x){var la=x.poly.map(function(p){return p[0];}),lo=x.poly.map(function(p){return p[1];}),f=function(v){return v.toFixed(3);};
- return 'app-calendario-do-fogo.html?view=calendario&nome='+encodeURIComponent(x.name)+'&ha='+x.ha+'&bbox='+[Math.min.apply(0,la),Math.min.apply(0,lo),Math.max.apply(0,la),Math.max.apply(0,lo)].map(f).join(',');}
+ return '/calendario?view=calendario&nome='+encodeURIComponent(x.name)+'&ha='+x.ha+'&bbox='+[Math.min.apply(0,la),Math.min.apply(0,lo),Math.max.apply(0,la),Math.max.apply(0,lo)].map(f).join(',');}
 function select(id,keepView){var x=byId[id];selected=id;repaintPolys();refreshHtml();hideHot();var s=statsOf(x),ks=spList(x),hot=s.pc>=90;
  var icon=x.type==='uc'?'<span class="picon"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--green)"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"/><path d="M12 8v8M9 12l3-3 3 3"/></svg></span>':'<span class="picon" style="background:#EEF1F3"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--ink2)"><path d="M4 20V9l8-5 8 5v11z"/><path d="M9 20v-6h6v6"/></svg></span>';
  panel.innerHTML='<div class="phead">'+icon+'<div style="flex:1;min-width:0"><h1>'+esc(x.name)+'</h1><div class="kk"'+(x.type==='uc'?'':' style="color:var(--ink2)"')+'>'+(x.type==='uc'?'Unidade de conservação · '+esc(x.grupo.toLowerCase()):'Município'+(x.real?' · limite IBGE':''))+'</div></div><button class="ib" type="button" data-back aria-label="Voltar à visão geral"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L5 8l5 5"/></svg></button><button class="ib" type="button" data-close aria-label="Fechar painel">'+xIcon()+'</button></div>'+

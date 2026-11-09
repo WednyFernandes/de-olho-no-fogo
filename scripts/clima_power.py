@@ -1,11 +1,11 @@
 """Clima mensal de Minas Gerais (NASA POWER) e associação com a série harmonizada de focos.
 
 Uso: python scripts/clima_power.py
-  Baixa (uma vez, com cache em data/power/) chuva, umidade relativa e temperatura mensais
+  Baixa (uma vez, com cache em cache/power/) chuva, umidade relativa e temperatura mensais
   do NASA POWER para uma grade de pontos de MG e para o centro de cada área do app.
-  Lê data/serie-harmonizada-mg.csv (gerado por scripts/validar_harmonizacao.py).
+  Lê public/data/serie-harmonizada-mg.csv (gerado por scripts/validar_harmonizacao.py).
 
-Saída: data/mg-clima.js (window.MG_CLIMA) usado no app-calendario-do-fogo.html.
+Saída: public/data/mg-clima.js (window.MG_CLIMA) usado no app-calendario-do-fogo.html.
 """
 import calendar
 import csv
@@ -16,7 +16,7 @@ import sys
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CACHE = os.path.join(ROOT, 'data', 'power')
+CACHE = os.path.join(ROOT, 'cache', 'power')
 Y0, Y1 = 2001, 2025
 API = ('https://power.larc.nasa.gov/api/temporal/monthly/point?parameters=PRECTOTCORR,RH2M,T2M'
        '&community=AG&longitude={lon}&latitude={lat}&start={y0}&end={y1}&format=JSON')
@@ -82,7 +82,7 @@ C.update({k: area([p]) for k, p in AREAS.items()})
 
 # associação (não causa): estação seca (jul–out) de cada ano, fogo harmonizado contra umidade e chuva
 fogo = {}
-with open(os.path.join(ROOT, 'data', 'serie-harmonizada-mg.csv'), encoding='utf-8') as f:
+with open(os.path.join(ROOT, 'public', 'data', 'serie-harmonizada-mg.csv'), encoding='utf-8') as f:
     for row in csv.DictReader(f):
         fogo[(int(row['ano']), int(row['mes']))] = float(row['harmonizada_escala_viirs'])
 SECA = (7, 8, 9, 10)
@@ -115,6 +115,6 @@ assoc = {'anos': anos, 'fogo_seca': [round(v) for v in fs], 'rh_seca': [round(v,
 
 out = {'y0': Y0, 'areas': C, 'assoc': assoc,
        'fonte': 'NASA POWER (MERRA-2 / IMERG), mensal, grade ~0,5°; média de 12 pontos para MG'}
-with open(os.path.join(ROOT, 'data', 'mg-clima.js'), 'w', encoding='utf-8') as f:
+with open(os.path.join(ROOT, 'public', 'data', 'mg-clima.js'), 'w', encoding='utf-8') as f:
     f.write('window.MG_CLIMA=' + json.dumps(out, separators=(',', ':')) + ';\n')
 sys.stdout.write(json.dumps({k: v for k, v in assoc.items() if k[:2] in ('r_', 'rs', 'rd')}) + '\n')

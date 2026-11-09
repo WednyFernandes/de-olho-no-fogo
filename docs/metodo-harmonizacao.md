@@ -1,6 +1,6 @@
 # De Olho no Fogo — MODIS/VIIRS harmonized fire series for Minas Gerais (open data)
 
-File: `data/serie-harmonizada-mg.csv` — one row per month, Jan 2001 to Dec 2025.
+File: `public/data/serie-harmonizada-mg.csv` — one row per month, Jan 2001 to Dec 2025.
 
 | column | meaning |
 |---|---|
@@ -36,7 +36,7 @@ INPE: falling (S = −89). Without harmonization, the 2012 sensor change creates
 
 ## Climate context (NASA POWER)
 
-File: `data/mg-clima.js` (`window.MG_CLIMA`), built by `scripts/clima_power.py`. Monthly precipitation (`PRECTOTCORR`, converted to mm per month), relative humidity (`RH2M`) and air temperature (`T2M`) from NASA POWER, 2001–2025 (the association test uses 2003–2025, when MODIS flies on both Terra and Aqua, as in the validation). The statewide value is the plain mean of 12 points spread across Minas Gerais; each regional area in the app uses its center point. The POWER grid is about 0.5° (~50 km), so these numbers describe the region, not the pixel of a fire.
+File: `public/data/mg-clima.js` (`window.MG_CLIMA`), built by `scripts/clima_power.py`. Monthly precipitation (`PRECTOTCORR`, converted to mm per month), relative humidity (`RH2M`) and air temperature (`T2M`) from NASA POWER, 2001–2025 (the association test uses 2003–2025, when MODIS flies on both Terra and Aqua, as in the validation). The statewide value is the plain mean of 12 points spread across Minas Gerais; each regional area in the app uses its center point. The POWER grid is about 0.5° (~50 km), so these numbers describe the region, not the pixel of a fire.
 
 Association test, one value per year for the dry season (July–October): harmonized fire count (log) against total rain and mean humidity. Fire fell since 2001 while the air got drier, so both series are linearly detrended before the correlation; the raw value is reported too.
 
@@ -53,8 +53,8 @@ With 23 years, |r| > 0.41 has p < 0.05. Drier dry seasons had more fire. This is
 python scripts/validar_harmonizacao.py minas_gerais.csv
 ```
 
-`minas_gerais.csv` comes from https://data.inpe.br/queimadas/portal/csv/download/historico-mensal/estados/minas_gerais.csv. The script rebuilds the CSV and `data/mg-validacao.js`, and stops with an error if a jump is left in 2012.
+`minas_gerais.csv` comes from https://data.inpe.br/queimadas/portal/csv/download/historico-mensal/estados/minas_gerais.csv. The script rebuilds the CSV and `public/data/mg-validacao.js`, and stops with an error if a jump is left in 2012.
 
-`python scripts/clima_power.py` downloads NASA POWER once (cached in `data/power/`) and rebuilds `data/mg-clima.js`.
+`python scripts/clima_power.py` downloads NASA POWER once (cached in `cache/power/`) and rebuilds `public/data/mg-clima.js`.
 
 Sources: NASA FIRMS (https://firms.modaps.eosdis.nasa.gov), NASA POWER (https://power.larc.nasa.gov), INPE Programa Queimadas (https://data.inpe.br/queimadas), IBGE (malhas territoriais).

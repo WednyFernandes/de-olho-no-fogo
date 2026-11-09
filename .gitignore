@@ -10,3 +10,4 @@ __pycache__/
 .impeccable/mocks/
 .impeccable/build/
 .impeccable/config.local.json
+.claude/state/
