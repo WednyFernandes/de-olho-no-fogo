@@ -1,6 +1,6 @@
 """Focos das últimas 48 h em Minas Gerais, do NASA FIRMS (arquivos públicos NRT, sem chave).
 
-Gera public/data/recentes.js (window.MG_RECENTES). Rodar de hora em hora (GitHub Actions ou cron).
+Gera public/data/recentes.js (window.MG_RECENTES), usado como reserva quando o FIRMS falha. No site, a rota /api/recentes faz isso sozinha.
 """
 
 import csv
