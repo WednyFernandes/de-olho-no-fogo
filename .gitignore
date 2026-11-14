@@ -1,6 +1,7 @@
 node_modules/
 dist/
-.astro/
+.next/
+next-env.d.ts
 .vercel/
 .ruff_cache/
 __pycache__/

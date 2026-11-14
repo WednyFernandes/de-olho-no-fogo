@@ -1,0 +1,31 @@
+:root{--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--soft:#F3F5F7;--card:#FFFFFF;--brand:#E5004B;--brand-ink:#B80040;--brand-tint:#FFE8EF;--pad:clamp(20px,4.4vw,64px)}
+*{box-sizing:border-box}
+html{scrollbar-color:#C9CFD4 var(--soft)}
+body{margin:0;font-family:Figtree,system-ui,sans-serif;color:var(--ink);background:var(--card);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--brand-tint);color:var(--brand-ink)}
+a{color:var(--brand-ink);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1440px;margin:0 auto;padding:0 var(--pad)}
+.nav{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line2)}
+.nav .wrap{display:flex;align-items:center;gap:24px;height:72px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--ink);text-decoration:none;margin-right:auto}
+.nav nav{display:flex;gap:6px}
+.nav nav a{padding:9px 14px;border-radius:999px;font-weight:600;font-size:16px;color:var(--ink2);text-decoration:none}
+.nav nav a:hover{background:var(--soft);color:var(--ink)}
+.nav nav a[aria-current="page"]{background:var(--brand-tint);color:var(--brand-ink)}
+footer{border-top:1px solid var(--line2);margin-top:96px;padding:32px 0 48px;color:var(--ink3);font-size:15px}
+@media (max-width:640px){.logo span{display:none}.nav nav a{padding:8px 10px;font-size:15px}}
+
+/* /metodo */
+.doc{max-width:900px;padding-top:40px}
+.intro{background:var(--soft);border-radius:16px;padding:16px 20px;color:var(--ink2);font-size:16px}
+.md h1{font-size:clamp(32px,4vw,52px);line-height:1.05;font-weight:900;letter-spacing:-.03em;margin:40px 0 20px;text-wrap:balance}
+.md h2{font-size:clamp(24px,2.4vw,32px);font-weight:900;letter-spacing:-.02em;margin:56px 0 12px}
+.md p,.md li{max-width:72ch}
+.md code{font-size:.88em;background:var(--soft);border-radius:6px;padding:2px 6px}
+.md pre{background:var(--soft);border-radius:12px;padding:16px 18px;overflow-x:auto}
+.md pre code{background:none;padding:0}
+.md table{border-collapse:collapse;width:100%;margin:20px 0;font-size:16px;font-variant-numeric:tabular-nums;display:block;overflow-x:auto}
+.md th,.md td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.md th{font-size:14px;color:var(--ink3)}
+.md strong{font-weight:800}

@@ -8,7 +8,7 @@
       "port": 8765
     },
     {
-      "name": "astro-dev",
+      "name": "site-dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 4321
