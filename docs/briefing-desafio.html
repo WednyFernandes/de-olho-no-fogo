@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Briefing do desafio MODIS/VIIRS</title>
+<style>
+@page{size:A4;margin:14mm 14mm 13mm}
+body{font-family:"Segoe UI",Figtree,system-ui,sans-serif;color:#22262A;font-size:9.6pt;line-height:1.38;margin:0}
+h1{font-size:17pt;margin:0 0 2px;letter-spacing:-.01em}
+.sub{color:#575F66;font-size:9pt;margin:0 0 8px}
+.box{border-left:3px solid #E5004B;background:#FFF2F6;padding:6px 10px;margin:0 0 9px;font-size:9pt}
+h2{font-size:11pt;margin:11px 0 4px;color:#B80040}
+p{margin:0 0 5px}
+ul{margin:0 0 5px;padding-left:16px}li{margin:0 0 2px}
+table{width:100%;border-collapse:collapse;font-size:8.8pt;margin:2px 0 4px}
+th,td{border:1px solid #DCE1E5;padding:3.5px 6px;vertical-align:top;text-align:left}
+th{background:#F3F5F7;font-weight:700}
+.tag{display:inline-block;font-size:7.6pt;font-weight:700;border-radius:3px;padding:0 4px;margin-right:3px;color:#fff}
+.f{background:#00727F}.i{background:#6B4FA0}.d{background:#C8102E}.p{background:#575F66}
+.q{border:2px solid #22262A;border-radius:6px;padding:7px 10px;font-weight:700;font-size:10pt;margin:4px 0}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+footer{margin-top:8px;color:#575F66;font-size:8pt;border-top:1px solid #DCE1E5;padding-top:4px}
+</style></head><body>
+<h1>Harmonization of MODIS and VIIRS Hot Spots</h1>
+<p class="sub">Briefing do desafio · NASA Space Apps Challenge 2026 · rascunho de 14/11/2026 para a equipe validar · orientador independente, sem falar pela NASA nem pelos jurados</p>
+<div class="box"><b>Fonte e limites.</b> A página oficial abriu em branco em 14/11. Este texto parte de um resumo fiel do enunciado feito em 28/10 e da aba Resources de 13/11, que lista um único recurso: o NASA FIRMS no Earthdata. Ficam pendentes o enunciado completo, o público principal e as horas restantes. Legenda: <span class="tag f">FATO</span>está no enunciado; <span class="tag i">INTERPRETAÇÃO</span>leitura nossa; <span class="tag d">DÚVIDA</span>confirmar no texto original; <span class="tag p">PROPOSTA</span>sugestão, não requisito.</div>
+
+<h2>1. O problema real</h2>
+<ul>
+<li><span class="tag f">FATO</span>Os satélites registram focos ativos de fogo há mais de 20 anos, mas o histórico está dividido entre sensores que não se comparam diretamente.</li>
+<li><span class="tag f">FATO</span>O MODIS (satélites Terra e Aqua) tem a série longa e está no fim da vida útil. O VIIRS tem mais detalhe e é a continuidade.</li>
+<li><span class="tag f">FATO</span>Diferenças de resolução, sensibilidade e horário de passagem impedem a comparação direta.</li>
+<li><span class="tag i">INTERPRETAÇÃO</span>Sem harmonização, uma série longa pode mostrar um "aumento do fogo" que na verdade é a troca de sensor. Isso afeta quem decide recursos com base em "este ano está pior?".</li>
+</ul>
+
+<h2>2. Usuários</h2>
+<p><span class="tag f">FATO</span>Brigadistas, defesa civil, cientistas e gestores de território. <span class="tag d">DÚVIDA</span>Qual é o público principal? Cada um pede uma coisa: o brigadista quer saber onde e quando; o gestor, se o período está fora do normal; o cientista, o método e os dados.</p>
+
+<h2>3. Requisitos, interpretação e dúvidas</h2>
+<table>
+<tr><th style="width:36%">Requisito (enunciado)</th><th style="width:34%">Interpretação possível</th><th>Dúvida</th></tr>
+<tr><td><b>Parte 1:</b> harmonizar MODIS e VIIRS para que "o sensor de origem não importe mais"; o foco vira padrão, tendência e anomalia</td><td>Calibrar um sensor contra o outro no período em que os dois coexistem (desde 2012)</td><td>Harmonizar contagens agregadas basta, ou espera-se algo por foco?</td></tr>
+<tr><td><b>Parte 2:</b> app web; o usuário escolhe região e intervalo de datas e baixa análises e visualizações</td><td>Seleção livre de área e de datas de início e fim</td><td>Há cobertura geográfica mínima esperada?</td></tr>
+<tr><td>Calendário de focos do início dos anos 2000 <b>até hoje</b>: meses e anos com mais fogo</td><td>Inclui o ano corrente até o último dado disponível</td><td>"Hoje" admite dado provisório (tempo quase real)?</td></tr>
+<tr><td><b>Mês atual × mediana histórica</b></td><td>Comparar o mês corrente com a mediana do mesmo mês nos outros anos</td><td>O mês incompleto conta, ou só o último mês fechado?</td></tr>
+<tr><td>Rampas de cor acessíveis</td><td>Paleta legível por quem tem daltonismo; cor nunca sozinha</td><td>Algum padrão específico (WCAG)?</td></tr>
+<tr><td><b>Download em CSV</b> dos focos da busca</td><td>Focos individuais da área e do período escolhidos</td><td>Foco bruto, harmonizado ou os dois?</td></tr>
+<tr><td>Opcional: desenhar a área no mapa ou digitar lat/long; anomalias contra médias plurianuais</td><td>Polígono no mapa; desvio contra a média de vários anos</td><td>—</td></tr>
+<tr><td>Opcional: número de focos "detectados e notificados"</td><td>—</td><td>O que é "notificados"? Ler o original</td></tr>
+</table>
+
+<div class="cols">
+<div>
+<h2>4. Premissas a questionar</h2>
+<ul>
+<li><span class="tag i">HIPÓTESE</span>A relação VIIRS/MODIS medida desde 2012 vale para os anos anteriores. Se o regime de fogo mudou, ela muda.</li>
+<li><span class="tag i">HIPÓTESE</span>Um fator único serve para regiões diferentes. Biomas e estações podem pedir fatores próprios.</li>
+<li><span class="tag i">HIPÓTESE</span>Validar contra outra série é independente. Se a referência usa o mesmo tipo de sensor, a independência é parcial.</li>
+<li><span class="tag p">PROPOSTA</span>Focos em tempo quase real são úteis para brigadas, mas não estão entre os requisitos expressos.</li>
+</ul>
+<h2>5. Erros de interpretação prováveis</h2>
+<ul>
+<li>Tratar foco como incêndio confirmado ou como área queimada.</li>
+<li>Mostrar a série crua e chamar o salto da troca de sensor de aumento real.</li>
+<li>Ler "mês atual" como "um mês de exemplo".</li>
+<li>Ler "nenhum foco" como "nenhum fogo" (nuvem, fumaça e horário escondem fogo).</li>
+<li>Apresentar correlação (com clima, por exemplo) como causa.</li>
+</ul>
+</div>
+<div>
+<h2>6. Resposta mínima × bem fundamentada</h2>
+<table>
+<tr><th></th><th>Mínima</th><th>Bem fundamentada</th></tr>
+<tr><td>Harmonização</td><td>Um fator global</td><td>Fator por mês e região, validado, com limites declarados</td></tr>
+<tr><td>Período</td><td>Até o último ano fechado</td><td>Até o último mês disponível</td></tr>
+<tr><td>Mês atual</td><td>Ausente</td><td>Contra a mediana, com aviso de dado provisório</td></tr>
+<tr><td>Busca</td><td>Região fixa</td><td>Polígono ou lat/long e datas livres</td></tr>
+<tr><td>CSV</td><td>Série agregada</td><td>Focos da busca com sensor, data e valor harmonizado</td></tr>
+<tr><td>Transparência</td><td>—</td><td>Método e dados abertos, com o que o método não diz</td></tr>
+</table>
+<h2>7. Tecnologias possíveis</h2>
+<ul>
+<li><b>Dados:</b> NASA FIRMS, que é o recurso oficial. Tem arquivos anuais por país; focos dos últimos dias em tempo quase real (NRT); API com chave gratuita; e pedido de arquivo histórico com login Earthdata.</li>
+<li><b>Processamento:</b> Python, agregação em grade ou por município, GeoPandas para polígonos.</li>
+<li><b>Web:</b> site estático com mapa (Leaflet, MapLibre ou globo 3D), gráficos em SVG ou canvas, atualização agendada.</li>
+</ul>
+</div>
+</div>
+
+<h2>8. Pergunta de projeto (a equipe ajusta)</h2>
+<div class="q">Como podemos ajudar brigadistas, defesa civil e gestores de território a saber se o fogo do período atual está fora do normal na sua área, usando os focos MODIS e VIIRS do NASA FIRMS harmonizados numa régua só?</div>
+
+<h2>9. Próximo passo concreto</h2>
+<p>Colar o enunciado completo e confirmar as dúvidas da seção 3, sobretudo três: <b>"até hoje"</b>, <b>"mês atual"</b> e o <b>CSV dos focos</b>. Depois, a equipe escolhe o público principal e decide, conforme as horas que restam, quais requisitos entram e quais lacunas declara abertamente.</p>
+<footer>Fonte: resumo do enunciado (28/10/2026) e aba Resources (13/11/2026) de spaceappschallenge.org. Nenhum dado ou resultado foi criado para este documento.</footer>
+</body></html>

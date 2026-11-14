@@ -12,3 +12,4 @@ __pycache__/
 .impeccable/config.local.json
 .claude/state/
 docs/*whatsapp*.txt
+dados/firms/brasil/
