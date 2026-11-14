@@ -126,6 +126,25 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
 .cres .grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,4vw,56px);margin-top:32px}
 .cres .fig h3{margin-bottom:14px}
 .cres .miss{font-size:19px;color:var(--ink2);max-width:60ch}
+.near{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px;max-width:720px}
+.near input{flex:1 1 240px}
+.near select{font:600 18px Figtree,sans-serif;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:999px;padding:12px 18px}
+.nres{margin-top:32px}
+.nres .sum{font-size:clamp(20px,1.6vw,24px);font-weight:800;max-width:48ch;line-height:1.35}
+.nres .grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,4vw,56px);margin-top:28px;align-items:start}
+.radar{width:100%;max-width:420px;height:auto;display:block}
+.flist{list-style:none;margin:0;padding:0}
+.flist li{display:grid;grid-template-columns:5.5em minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:14px 0;border-top:1px solid var(--line)}
+.flist li:first-child{border-top:0;padding-top:0}
+.flist .d{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums}
+.flist .w b{display:block;font-weight:800}
+.flist .w span{font-size:15px;color:var(--ink3)}
+.flist a{font-size:15px;font-weight:700;white-space:nowrap}
+.tint .btn.g{background:var(--card);box-shadow:inset 0 0 0 2px var(--line)}
+.tint .btn.g:hover{background:var(--brand-tint)}
+.stale{display:inline-block;background:var(--brand-tint);color:var(--brand-ink);font-weight:700;border-radius:8px;padding:4px 10px;margin-top:12px}
+@media (max-width:900px){.nres .grid{grid-template-columns:1fr}}
+@media (max-width:560px){.flist li{grid-template-columns:4.5em minmax(0,1fr)}.flist a{grid-column:2}}
 .steps{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3vw,48px)}
 .steps li{position:relative}
 .steps li+li::before{content:"";position:absolute;left:calc(-1 * clamp(24px,3vw,48px) + 6px);top:45px;width:calc(clamp(24px,3vw,48px) - 12px);border-top:2px dashed var(--line)}
@@ -160,7 +179,7 @@ section.s:not(.tint) .phones{background:var(--soft)}
       De Olho no Fogo
     </a>
     <nav aria-label="Seções">
-      <a href="#cidade">Sua cidade</a><a href="#epoca">Viu fogo?</a><a href="#foco">O que é foco</a><a href="#gestores">Para gestores</a><a href="#metodo">O método</a><a href="#dados">Dados</a>
+      <a href="#cidade">Sua cidade</a><a href="#agora">Focos agora</a><a href="#epoca">Viu fogo?</a><a href="#foco">O que é foco</a><a href="#gestores">Para gestores</a><a href="#metodo">O método</a><a href="#dados">Dados</a>
     </nav>
     <a class="btn p sm" href="/globo">Abrir o globo</a>
   </div>
@@ -240,7 +259,35 @@ section.s:not(.tint) .phones{background:var(--soft)}
   </div>
 </section>
 
-<section class="s tint" id="foco" aria-labelledby="h-f">
+<section class="s tint" id="agora" aria-labelledby="h-a">
+  <div class="wrap">
+    <h2 class="sh" id="h-a">Tem fogo perto agora?</h2>
+    <p class="sp" id="ag-lead">Focos que os satélites da NASA viram em Minas nas últimas 48 horas. Escolha um município, ou use a sua localização, para ver os mais próximos, com a distância e a hora em que o satélite passou.</p>
+    <form class="city near" id="ag-f" role="search" autocomplete="off">
+      <label for="ag-q" class="vh">Município ou base</label>
+      <input id="ag-q" list="city-l" placeholder="Município da base, ex.: Mariana" spellcheck="false">
+      <label for="ag-r" class="vh">Raio</label>
+      <select id="ag-r"><option value="10">até 10 km</option><option value="30" selected>até 30 km</option><option value="50">até 50 km</option><option value="100">até 100 km</option></select>
+      <button class="btn p" type="submit">Ver focos</button>
+    </form>
+    <button class="geo" id="ag-geo" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>Usar minha localização</button>
+    <div class="nres" id="ag-res" aria-live="polite"></div>
+    <div class="two w" style="margin-top:56px">
+      <ul class="list">
+        <li><b>Satélite não substitui o 193</b><span>Viu fogo, ligue. O foco aparece no mapa até umas 3 horas depois da passagem, e os satélites passam por Minas só algumas vezes por dia.</span></li>
+        <li><b>Nuvem e fumaça escondem fogo</b><span>Nenhum foco na lista não garante que não há fogo na área.</span></li>
+        <li><b>Foco não é incêndio confirmado</b><span>Pode ser queimada autorizada, fogo em lixo ou uma superfície muito quente. A posição tem erro de algumas centenas de metros.</span></li>
+      </ul>
+      <div>
+        <h3 class="h3">Receber aviso por e-mail</h3>
+        <p class="sp" style="margin-top:12px">O NASA FIRMS manda um e-mail de graça quando aparece foco numa área que você desenha, como a área de atendimento de uma brigada.</p>
+        <p style="margin-top:20px"><a class="btn g" href="https://firms.modaps.eosdis.nasa.gov/alerts/" rel="noopener">Cadastrar alerta no FIRMS</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="foco" aria-labelledby="h-f">
   <div class="wrap">
     <h2 class="sh" id="h-f">O que é um foco de calor?</h2>
     <p class="sp">É um ponto da Terra que um satélite viu mais quente que o entorno, no momento em que passou por cima. Quase sempre é fogo na vegetação, mas nem todo foco é um incêndio.</p>
@@ -263,7 +310,7 @@ section.s:not(.tint) .phones{background:var(--soft)}
   </div>
 </section>
 
-<section class="s" id="gestores" aria-labelledby="h-g">
+<section class="s tint" id="gestores" aria-labelledby="h-g">
   <div class="wrap">
     <h2 class="sh" id="h-g">Para quem cuida do território.</h2>
     <p class="sp">Defesa civil, brigadas, gestores de unidades de conservação e pesquisadores precisam saber se este mês está fora do normal, e onde. O globo e o calendário respondem isso para qualquer área de Minas.</p>
@@ -388,6 +435,7 @@ section.s:not(.tint) .phones{background:var(--soft)}
 <script src="/data/mg-clima.js"></script>
 <script src="/data/mg-mun-anual.js"></script>
 <script src="/data/mg-municipios.js"></script>
+<script src="/data/recentes.js"></script>
 <script>
 (function(){
 var V=window.MG_VAL,C=window.MG_CLIMA,$=function(id){return document.getElementById(id);};
@@ -559,6 +607,67 @@ function shareCard(){if(!CUR)return;var W=1080,H=1350,cv=document.createElement(
       if(navigator.canShare&&navigator.canShare({files:[file]}))navigator.share({files:[file],title:'De Olho no Fogo: '+CUR.nm,text:'O fogo em '+CUR.nm+', 2003 a 2025. Veja a sua cidade: '+link}).catch(function(){});
       else{var u=URL.createObjectURL(b),A=document.createElement('a');A.href=u;A.download=fn;document.body.appendChild(A);A.click();A.remove();setTimeout(function(){URL.revokeObjectURL(u);},4000);}},'image/png');};
   (document.fonts&&document.fonts.load?Promise.all([document.fonts.load('900 112px Figtree'),document.fonts.load('800 46px Figtree'),document.fonts.load('600 30px Figtree')]):Promise.resolve()).then(draw,draw);}
+})();
+</script>
+<script>
+/* ---------- focos agora (data/recentes.js, NASA FIRMS NRT, últimas 48 h) ---------- */
+(function(){
+var R=window.MG_RECENTES,MM=window.MG_MUN,MU=window.MG_MUN_ANUAL,$=function(id){return document.getElementById(id);};
+var sec=$('agora');if(!sec)return;
+if(!R||!MM){$('ag-res').innerHTML='<p class="miss">Os focos recentes não carregaram agora. Veja direto no <a href="https://firms.modaps.eosdis.nasa.gov/map/">mapa do NASA FIRMS</a>.</p>';$('ag-f').hidden=$('ag-geo').hidden=true;return;}
+var nf=function(v){return (+v).toLocaleString('pt-BR',{maximumFractionDigits:0});};
+var norm=function(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();};
+var esc=function(s){return String(s).replace(/[<>&"]/g,'');};
+var names={};Object.keys(MM.n).forEach(function(c){names[norm(MM.n[c])]=c;});
+var cen=null;function centro(code){/* centro do município = média dos centros das células de 0,1° */
+  if(!cen){cen={};Object.keys(MM.c).forEach(function(k){var c=MM.c[k],p=k.split(','),o=cen[c]||(cen[c]=[0,0,0]);o[0]+=(+p[0]+.5)*.1;o[1]+=(+p[1]+.5)*.1;o[2]++;});}
+  var o=cen[code];return o&&[o[0]/o[2],o[1]/o[2]];}
+var km=function(a,b,c,d){var r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return Math.sqrt(x*x+y*y)*6371;};
+var RUMO=['ao norte','a nordeste','a leste','a sudeste','ao sul','a sudoeste','a oeste','a noroeste'];
+var rumo=function(dx,dy){return RUMO[Math.round((Math.atan2(dx,dy)*180/Math.PI+360)%360/45)%8];};
+var now=Date.now(),gen=Date.parse(R.gerado.replace('Z',':00Z')),hrs=function(t){var h=(now-Date.parse(t.replace('Z',':00Z')))/36e5;return h<1?'há menos de 1 h':'há '+nf(h)+' h';};
+var loc=function(t){return new Date(t.replace('Z',':00Z')).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});};
+var F=R.f,MES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var stale=(now-gen)/36e5>6?'<span class="stale">Dados de '+loc(R.gerado)+', podem estar desatualizados.</span>':'';
+/* resumo do estado, antes de escolher a base */
+(function(){var cnt={};F.forEach(function(f){cnt[f[5]]=(cnt[f[5]]||0)+1;});var top=Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];}).slice(0,3);
+  $('ag-res').innerHTML='<p class="sum">'+(F.length?nf(F.length)+' focos em Minas nas últimas 48 horas'+(top.length?'. Mais focos em '+top.map(function(c){return esc(MM.n[c])+' ('+cnt[c]+')';}).join(', ')+'.':'.'):'Nenhum foco em Minas nas últimas 48 horas.')+'</p>'+
+    '<p class="note">Atualizado em '+loc(R.gerado)+' (horário de Brasília). Fonte: NASA FIRMS, focos em tempo quase real.</p>'+stale;})();
+function show(la,lo,label,code){var rk=+$('ag-r').value,near=[];
+  F.forEach(function(f){var d=km(la,lo,f[0],f[1]);if(d<=rk)near.push({f:f,d:d,dx:(f[1]-lo)*Math.cos(la*Math.PI/180)*111.32,dy:(f[0]-la)*110.57});});
+  /* agrupa detecções a até 1,5 km uma da outra (o mesmo fogo visto em várias passagens); o grupo fica na posição da mais recente */
+  var nf0=near.length;near.sort(function(a,b){return b.f[2]>a.f[2]?1:b.f[2]<a.f[2]?-1:0;});
+  var G=[];near.forEach(function(o){var g=G.filter(function(g){return km(g.f[0],g.f[1],o.f[0],o.f[1])<=1.5;})[0];
+    if(g){g.n++;g.first=o.f[2];g.s[o.f[3]]=1;}else G.push({f:o.f,d:o.d,dx:o.dx,dy:o.dy,n:1,first:o.f[2],s:(function(){var s={};s[o.f[3]]=1;return s;})()});});
+  near=G.sort(function(a,b){return a.d-b.d;});
+  var mes=new Date().getMonth(),ctx='';
+  if(code&&MU&&MU.m[code]){var n=MU.anos[1]-MU.anos[0]+1,avg=MU.m[code][mes]/n;ctx='<p class="note">Para comparar: em '+MES[mes]+', '+esc(MM.n[code])+' teve em média '+(avg<1?'menos de 1 foco':nf(avg)+' focos')+' no mês, de '+MU.anos[0]+' a '+MU.anos[1]+' (série harmonizada).</p>';}
+  var sum=near.length?'<p class="sum">'+nf(nf0)+(nf0>1?' focos':' foco')+' a até '+rk+' km de '+esc(label)+' nas últimas 48 horas'+(near.length<nf0?', em '+nf(near.length)+(near.length>1?' lugares':' lugar'):'')+'. O mais perto fica a '+nf(near[0].d)+' km '+rumo(near[0].dx,near[0].dy)+', em '+esc(MM.n[near[0].f[5]]||'—')+', visto pela última vez '+hrs(near[0].f[2])+'.</p>'
+    :'<p class="sum">Nenhum foco a até '+rk+' km de '+esc(label)+' nas últimas 48 horas.</p><p class="note">Lembre: nuvem e fumaça escondem fogo. Na dúvida, ligue 193.</p>';
+  /* radar: base no centro, círculo do raio, focos na posição real */
+  var S=420,c=S/2,sc=(c-24)/rk,dots=near.slice().reverse().map(function(o,i){var x=c+o.dx*sc,y=c-o.dy*sc,top=o===near[0];
+    return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(top?9:6)+'" fill="'+(top?'#C8102E':'#F7801E')+'" fill-opacity="'+(top?1:.75)+'" stroke="#fff" stroke-width="1.5"/>';}).join('');
+  var radar='<svg class="radar" viewBox="0 0 '+S+' '+S+'" role="img" aria-label="Mapa dos focos a até '+rk+' km de '+esc(label)+'">'+
+    '<circle cx="'+c+'" cy="'+c+'" r="'+(c-24)+'" fill="#FFFFFF" stroke="#DCE1E5" stroke-width="2"/><circle cx="'+c+'" cy="'+c+'" r="'+((c-24)/2)+'" fill="none" stroke="#EBEEF1" stroke-width="2" stroke-dasharray="4 6"/>'+
+    '<text x="'+c+'" y="16" text-anchor="middle" font-size="14" font-weight="700" fill="#575F66">N</text>'+
+    '<text x="'+(c+(c-24)/2+4)+'" y="'+(c-6)+'" font-size="13" fill="#575F66">'+(rk/2)+' km</text><text x="'+(S-28)+'" y="'+(c-6)+'" font-size="13" fill="#575F66" text-anchor="end">'+rk+' km</text>'+
+    dots+'<path d="M'+c+' '+(c-9)+'c-6 0-10 4-10 9 0 7 10 17 10 17s10-10 10-17c0-5-4-9-10-9z" fill="#E5004B" transform="translate(0,-8)"/><circle cx="'+c+'" cy="'+(c-8)+'" r="3.5" fill="#fff"/></svg>';
+  var list=near.slice(0,15).map(function(o){var f=o.f;return '<li><span class="d">'+(o.d<10?o.d.toFixed(1).replace('.',','):nf(o.d))+' km</span><span class="w"><b>'+esc(MM.n[f[5]]||'—')+', '+rumo(o.dx,o.dy)+'</b><span>'+(o.n>1?o.n+' detecções, a última em ':'')+loc(f[2])+' ('+hrs(f[2])+') · '+Object.keys(o.s).map(esc).join(', ')+'</span></span><a href="https://www.google.com/maps?q='+f[0]+','+f[1]+'" target="_blank" rel="noopener">Abrir no mapa</a></li>';}).join('');
+  $('ag-res').innerHTML=sum+(near.length?'<div class="grid"><div>'+radar+'</div><ol class="flist">'+list+'</ol></div>'+(near.length>15?'<p class="note">Mostrando os 15 lugares mais perto, de '+nf(near.length)+'.</p>':''):'')+ctx+
+    '<p class="note">Atualizado em '+loc(R.gerado)+' (horário de Brasília). Distâncias em linha reta a partir do '+(code?'centro do município':'ponto escolhido')+'.</p>'+stale;}
+var last=null;
+var go=function(){var q=norm($('ag-q').value),c=names[q];if(!c&&q){var k=Object.keys(names).filter(function(x){return x.indexOf(q)===0;})[0];c=k&&names[k];}
+  if(!c){$('ag-res').innerHTML='<p class="miss">Não achamos "'+esc($('ag-q').value)+'" entre os municípios de Minas. Confira a grafia ou use a sua localização.</p>';return;}
+  $('ag-q').value=MM.n[c];var p=centro(c);last=[p[0],p[1],MM.n[c],c];show.apply(null,last);};
+$('ag-f').addEventListener('submit',function(e){e.preventDefault();go();});
+$('ag-r').addEventListener('change',function(){if(last)show.apply(null,last);});
+var gb=$('ag-geo');
+if(!navigator.geolocation)gb.hidden=true;
+else gb.addEventListener('click',function(){gb.disabled=true;gb.lastChild.textContent='Procurando…';
+  navigator.geolocation.getCurrentPosition(function(pos){gb.disabled=false;gb.lastChild.textContent='Usar minha localização';
+    var la=pos.coords.latitude,lo=pos.coords.longitude;last=[la,lo,'você',null];show.apply(null,last);},
+  function(){gb.disabled=false;gb.lastChild.textContent='Usar minha localização';$('ag-res').insertAdjacentHTML('afterbegin','<p class="miss" style="margin-bottom:16px">Não conseguimos sua localização. Escreva o município da base acima.</p>');},
+  {timeout:10000,maximumAge:300000});});
 })();
 </script>
 </body>
