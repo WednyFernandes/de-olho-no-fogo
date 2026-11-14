@@ -23,3 +23,5 @@ cache/*.log
 dados/firms/exemplos/
 dados/gwis/
 cache/ee/
+cache/power-brasil/
+dados/risco/
