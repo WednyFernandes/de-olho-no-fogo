@@ -14,3 +14,9 @@ __pycache__/
 .claude/state/
 docs/*whatsapp*.txt
 dados/firms/brasil/
+dados/*_all_countries.zip
+cache/inpe-aq1km/
+.env*.local
+cache/firms-api/
+cache/harm/
+cache/*.log

@@ -7,26 +7,30 @@
 web
 
 ## Stack
-Framework chosen by the user over static HTML ("Astro/React" offered, no pick between the two). Delegated within that choice: Vite + React (single-page, globe-driven app; Astro adds nothing for a client-side globe). Existing mocks are single static HTML files using globe.gl from a CDN.
+Next.js 16 (App Router), React 19. The landing and globe pages are single static HTML files in `src/legacy/`, served by route handlers; `/metodo` and `/referencias` are React pages sharing `src/app/Casca.js` and `src/app/globals.css`. The globe uses globe.gl from a CDN. Data is generated offline by Python scripts (NumPy) into `public/data/`.
 
 ## Users
 Primary: jurors of the NASA Space Apps Challenge 2026 (they judge in minutes and from a ~3 minute video, so the value must read at once). Confirmed secondary direction by the team: the project should outlive the hackathon, aimed at fire managers, brigades, conservation-unit managers and researchers. Not confirmed as audiences: general public and press.
 
 ## Product Purpose
-"De Olho no Fogo" answers, for any area of interest, "is the fire activity here above normal for this time of year, and what lives or is protected here?". It harmonizes MODIS and VIIRS active-fire hotspots (the record is split across sensors that cannot be compared directly) into a burning-activity calendar, and places that on an interactive globe together with municipalities, conservation units and fauna records. Built for the Space Apps challenge "Harmonization of MODIS and VIIRS Hot Spots" (2026, Intermediate/Advanced; web application to harmonize the records into a burning activity calendar for early warning, responders, scientists and land managers). Success: a juror understands the harmonization and the regional value in one viewing, and the project can continue as a real tool afterwards.
+"De Olho no Fogo" harmonizes MODIS and VIIRS active-fire hot spots point by point, on the MODIS ruler: every NASA FIRMS detection of MODIS C6.1 (Terra + Aqua, 1 km) and VIIRS S-NPP (375 m), type 0, all confidence levels, goes to its local solar day and to its cell of the MODIS 1 km sinusoidal grid; occupied cells that are 8-neighbours on the same day merge into one harmonized focus, labelled seen by both sensors, MODIS only or VIIRS only. Hot spots that at MODIS scale can be the same fire, and repeated detections of one fire by different overpasses, count once. The product is worldwide: coverage is the whole world in 2025, plus Brazil from 2000 to 2025, the one country for which the long series was built. The globe shows the harmonized foci next to the raw detections of each sensor, a separate layer of fixed heat sources, and burn scars for Brazil. Built for the Space Apps challenge "Harmonization of MODIS and VIIRS Hot Spots" (2026, Intermediate/Advanced; web application to harmonize the records into a burning activity calendar for early warning, responders, scientists and land managers). Success: a juror understands in one viewing why the two records disagree and how each harmonized focus was formed, and the project can continue as a real tool afterwards.
 
 ## Positioning
-A burning-activity calendar tied to place: municipalities, conservation units (UCs) and species records on one globe, starting in Ouro Preto (MG), Brazil, rather than a generic global fire map. Local Brazilian framing (UCs, IBGE municipalities, ICMBio/IUCN status) is what a neighboring global product would not carry.
+A harmonization that can be inspected fire by fire: instead of a conversion factor applied to totals, each focus on the globe shows the cells it occupies and which sensor saw it, with the raw detections one click away. Global for 2025, with a 26-year comparable series for Brazil on the MODIS-alone ruler.
 
 ## Operating Context
-Team Space Uai, Ouro Preto local event. Event runs 14-15 Nov 2026; full challenge statements and datasets released 28 Oct 2026. Work in Portuguese (pt-BR). Existing artifacts: `app-calendario-do-fogo.html` (calendar, 5 tabs: Resumo, Calendário, Sensores e harmonização, Mapa, Método e dados) and `mock-olho-do-fogo-cientifico.html` (globe with tiles imagery, municipality/UC polygons, hotspot cells, fauna pins with photo modal).
+Team Space Uai (local event: Ouro Preto, Brazil). Event runs 14-15 Nov 2026; full challenge statements and datasets released 28 Oct 2026. Work in Portuguese (pt-BR). Routes: `/` (landing), `/globo`, `/metodo`, `/referencias`; the navigation has exactly these four links and there are no API routes. Earlier mocks are in `arquivo/`.
 
 ## Capabilities and Constraints
-- Globe (globe.gl) with satellite tile engine (Esri imagery, up to zoom 17), polygons for municipalities and conservation units, hotspot cells colored by FRP (MODIS ~1 km pixel, VIIRS ~375 m), fauna pins with real species photos (iNaturalist API) and profile modal, UC profile modal, species-richness hex layer (with sampling-bias warning), flat historical heat layer, GeoJSON export, link to the calendar app.
-- Fire data for Minas Gerais is real: NASA FIRMS yearly archives (MODIS C6.1 Terra+Aqua, VIIRS S-NPP 375 m), 2001–2025, harmonized and validated against INPE Programa Queimadas (reference satellite); climate context from NASA POWER. Areas outside MG and the "Semana" mode are simulated and labeled. Still illustrative in the globe: UC facts and species statuses; real sources identified: IBGE municipal meshes, CNUC/MMA and ICMBio for UCs, GBIF and iNaturalist for occurrences and photos, ICMBio SALVE / IUCN for threat status.
-- Species records show where a species was observed, not where it lives; keep the sampling-bias caveat. No species "fire sensitivity" dataset exists; do not invent one.
-- Calendar app does not yet accept an area passed from the globe.
-- Browser performance matters (a first heatmap implementation froze the page); must be responsive, with `prefers-reduced-motion` respected.
+- Globe (`/globo`, globe.gl, Esri imagery): layers Harmonizado / Só MODIS / Só VIIRS, fixed heat sources, burn scars; foci drawn with the shape of their merged 1 km cells; timeline year → month → day → hour. World for 2025; Brazil only for 2000–2024 (0.25° monthly grid, no points).
+- Harmonized data is real and generated by `scripts/harmonizar_global.py` into `public/data/harm/` (about 315 MB, about 8,460 files). World 2025: 3,502,268 MODIS + 17,014,675 VIIRS detections → 7,260,823 harmonized foci (12.4% both, 11.9% MODIS only, 75.6% VIIRS only). Brazil 2025: 231,955 + 845,682 → 359,392 foci. Source of every number: `public/data/harm/stats.json`.
+- Long series for Brazil: the ruler is the MODIS-alone foci. Before February 2012 the full total is an estimate, MODIS-alone foci × f(month) (2.62–3.74, calibrated on 2012–2021); leave-one-year-out median error 3.35% yearly, 6.38% monthly. Until June 2002 only Terra exists (order of magnitude only).
+- Fixed heat sources (FIRMS type 1 volcano, 2 static land source, 3 offshore) are a separate layer and never enter the foci: 31,780 sites worldwide in 2025, plus 256 suspect persistent sites (type 0 on ≥ 24 days over ≥ 8 months), which stay in the foci and are only flagged.
+- Burn scars: INPE AQ1km Collection 2 (MODIS, 1 km, provisional) for all Brazil, September 2002 to October 2026, by `scripts/cicatrizes_brasil.py`.
+- Limits to state wherever numbers appear: global coverage is 2025 only; hot spots are not burned area; type 0 only; NOAA-20 is not in the series; a fire crossing ±180° becomes two foci; scars count a 1 km pixel as fully burned.
+- No near-real-time data, no climate data, no risk model and no municipality, conservation-unit or fauna layers: the site shows archive data only (2025 worldwide, 2000–2025 for Brazil).
+- Retired on 2026-11-14 (moved to `arquivo/retirado-2026-11-14/`, none of it is in the product now): the `/focos` page and the factor APIs; the regional single-state prototype (`/calendario`, `/previsao`, `/api/recentes`, `/api/atualizar-focos`, `/api/risco`), which used a monthly conversion factor instead of the point-level method. An earlier globe with municipalities, conservation units and fauna pins is also only in `arquivo/`.
+- Browser performance matters (tiles are loaded on demand; never request a tile outside `manifest.json`); must be responsive, with `prefers-reduced-motion` respected.
 
 ## Brand Commitments
 - Name: "De Olho no Fogo" (replaces the working names "Olho do Fogo" and "Calendário do Fogo").
@@ -35,14 +39,14 @@ Team Space Uai, Ouro Preto local event. Event runs 14-15 Nov 2026; full challeng
 - No other binding visual constraint. The user rejected the earlier look as too game-like (the old tactical "FIRE WARS" style) and wants a scientific, interactive, unique identity.
 
 ## Evidence on Hand
-Mock files and screenshots in the project folder; real species photos load from iNaturalist at runtime (credit and license shown). No real FIRMS data, no real IBGE/CNUC polygons yet, no logo, no testimonials, no usage metrics. Do not fabricate any.
+Generated data and statistics in `public/data/harm/` with their contracts (`docs/dados-harmonizados.md`, `docs/dados-cicatrizes.md`); method and validation in `docs/metodo-harmonizacao.md`; sources in `/referencias`. No logo, no testimonials, no usage metrics. Do not fabricate any, and quote numbers only from `stats.json`.
 
 ## Product Principles
-1. Show the harmonization, not just the map: the MODIS-versus-VIIRS reconciliation is the product's reason to exist.
-2. Place first: every number belongs to a municipality, conservation unit or drawn area, and leads to the calendar for that area.
-3. Honest about uncertainty: label simulated data, and keep the observation-bias caveat on species.
+1. Show the harmonization, not just the map: the MODIS-versus-VIIRS reconciliation is the product's reason to exist, and every focus must be traceable to its detections.
+2. One ruler: counts are on the MODIS 1 km grid; never mix harmonized foci with raw detections without saying so.
+3. Honest about uncertainty: label estimates (Brazil before 2012) and provisional data (scars); the site uses no simulated data.
 4. Scientific, not gamified: nothing invented for drama (no fictional fire fronts, brigades or "risk scores" without a method).
 5. Legible to a non-specialist in seconds, deep for a specialist on demand.
 
 ## Accessibility & Inclusion
-Portuguese-first. Respect `prefers-reduced-motion`; keyboard-operable pins, modals with focus management; color must not be the only carrier of intensity or threat status. No further standard was specified.
+Portuguese-first (the method page is in English for the international jury). Respect `prefers-reduced-motion`; keyboard-operable controls, modals with focus management; color must not be the only carrier of sensor class or intensity. No further standard was specified.

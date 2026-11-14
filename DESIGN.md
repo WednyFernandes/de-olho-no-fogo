@@ -1,6 +1,6 @@
 ---
 name: De Olho no Fogo
-description: Harmonized MODIS + VIIRS fire record for Minas Gerais, read on white instrument surfaces with one magenta answer.
+description: Harmonized MODIS + VIIRS fire record for the whole world, read on white instrument surfaces with one magenta answer.
 colors:
   brand: "#E5004B"
   brand-ink: "#B80040"
@@ -142,7 +142,7 @@ components:
 
 Every surface is a measuring instrument laid on cool white: grey-white grounds, near-black ink, hairline rules, and one magenta that marks the answer or the next action. Colour is never decoration. Fire colours appear only where there is fire data, the two sensor colours only where a sensor is being named, and magenta only where the reader should look or click. Charts are drawn in SVG from the data itself, with annotations written onto the plot, so the evidence carries the page rather than imagery or illustration.
 
-The system runs at two densities that share one palette, one typeface and one set of colour roles. The tool surfaces (the calendar and the globe) are compact: 16px body, 10px-radius controls, 14px cards with a soft ambient shadow over a grey map ground. The editorial surface (the landing page) is generous: 18px body, Figtree 900 display, pill controls, and 24-28px rounded panels on white. A new surface picks one density and stays in it.
+The system runs at two densities that share one palette, one typeface and one set of colour roles. The tool surface (the globe) is compact: 16px body, 10px-radius controls, 14px cards with a soft ambient shadow over a grey map ground. The editorial surface (the landing page) is generous: 18px body, Figtree 900 display, pill controls, and 24-28px rounded panels on white. A new surface picks one density and stays in it.
 
 The look is deliberately scientific, not tactical: the earlier dark "game HUD" versions were rejected, and the light world is the incumbent.
 
@@ -164,7 +164,7 @@ A cool neutral field with one saturated voice and a small, strictly fenced set o
 - **Magenta Mist** (brand-tint): current nav tab, `::selection` background, red-family badges. The quiet form of the answer.
 
 ### Data encodings (not UI colours)
-- **Ember Yellow / Burn Orange / Fire Red** (fire-lo, fire-md, fire-hi): the fire ramp. Calendar heat cells, FRP-coloured hotspot cells, fire dots in diagrams, the flame in the logo mark. Low to high intensity in that order.
+- **Ember Yellow / Burn Orange / Fire Red** (fire-lo, fire-md, fire-hi): the fire ramp. FRP-coloured hotspot cells, fire dots in diagrams, the flame in the logo mark. Low to high intensity in that order.
 - **MODIS Violet** (modis): anything that is MODIS: its series, its 1 km pixel, its label.
 - **VIIRS Teal** (viirs): anything that is VIIRS: its series, its 375 m grid, its label.
 

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Risco de fogo em Minas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Risco diário de fogo em Minas Gerais a partir do clima do NASA POWER: vento, umidade do solo e do ar, temperatura, chuva e radiação solar.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: ferramenta (densidade "tool" do DESIGN.md): mapa + tabela do risco recente no topo, depois a prova
+   (quanto acerta), o que pesa no modelo, e as bases de área queimada para a próxima etapa. */
+:root{--brand:#E5004B;--brand-ink:#B80040;--brand-tint:#FFE8EF;--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--map:#E4E9EC;--card:#FFFFFF;--soft:#F3F5F7;--night:#E6EAED;
+  --warn-ink:#8A5A00;--warn-tint:#FFF3D6;--green-ink:#1F4D33;--green-tint:#F4F9F5;--r0:#9AA4AB;--r1:#FFC02E;--r2:#F7801E;--r3:#C8102E;--shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--map);color:var(--ink);font:16px/1.5 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-ink)}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+code{font-family:Consolas,"Cascadia Mono",monospace;font-size:.9em;background:var(--soft);padding:1px 6px;border-radius:6px;overflow-wrap:anywhere}
+.card{background:var(--card);border-radius:14px;box-shadow:var(--shadow)}
+.top{position:sticky;top:12px;z-index:1000;margin:12px;display:flex;align-items:center;gap:16px;padding:0 16px;min-height:56px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:800}
+.nav{display:flex;gap:0 4px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+@media (max-width:600px){.brand b{display:none}.top{gap:8px;padding:0 10px;margin:8px}.top .nav a{padding:10px 9px}.brand svg{flex:none}}
+.nav a{padding:10px 12px;border-radius:10px;color:var(--ink2);text-decoration:none;font-weight:600;font-size:14px}
+.nav a:hover{background:var(--soft)}
+.nav a[aria-current]{background:var(--brand-tint);color:var(--brand-ink)}
+.wrap{max-width:1280px;margin:0 auto;padding:12px 24px 40px;display:grid;gap:16px}
+h1{font-size:28px;font-weight:800;letter-spacing:-.015em;line-height:1.25;margin:8px 0 4px}
+h2{font-size:20px;font-weight:800;margin:0 0 4px}
+h3{font-size:17px;font-weight:700;margin:0 0 6px}
+.lead{color:var(--ink2);margin:0;max-width:86ch}
+.pad{padding:18px 20px}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700;white-space:nowrap}
+.badge.real{background:var(--green-tint);color:var(--green-ink)}
+.badge.warn{background:var(--warn-tint);color:var(--warn-ink)}
+.fx{display:inline-flex;align-items:center;gap:6px;font-weight:700;white-space:nowrap}
+.fx i{width:12px;height:12px;border-radius:50%;display:inline-block}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-size:13px;font-weight:600;color:var(--ink3);text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line2);vertical-align:top}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.b{font-weight:800}
+.tbl{overflow-x:auto}
+.duo{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:0}
+#map{height:520px;border-radius:14px 0 0 14px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.duo>*,.grid2>*,.grid3>*,.wrap>*{min-width:0}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.big{font-size:30px;font-weight:800;color:var(--brand-ink);letter-spacing:-.02em;line-height:1.1}
+.note{font-size:14px;color:var(--ink3);margin:8px 0 0;max-width:90ch}
+select{font:inherit;font-size:15px;min-height:42px;border:1px solid var(--line);border-radius:10px;padding:0 10px;background:var(--card);color:var(--ink)}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:Figtree,system-ui,sans-serif}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;color:var(--ink2);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+ul.falta{margin:6px 0 0;padding-left:20px;color:var(--ink2)}
+ul.falta li{margin:6px 0}
+.leaflet-container{background:var(--night);font:inherit}
+@media (max-width:1000px){.duo,.grid2,.grid3{grid-template-columns:minmax(0,1fr)}#map{border-radius:14px 14px 0 0;height:400px}}
+@media (max-width:700px){.wrap{padding:12px}}
+</style>
+</head>
+<body>
+<header class="top card">
+  <a class="brand" href="/" aria-label="De Olho no Fogo, página inicial"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true" style="width:32px"><rect width="48" height="48" rx="12" fill="#E5004B"/><path d="M6 25 Q24 7 42 25 Q24 43 6 25 Z" fill="#fff"/><path d="M24 14 C27 19 31 21 31 27 C31 31.5 27.8 34 24 34 C20.2 34 17 31.5 17 27.4 C17 24 19 22.5 20.4 20.6 C20.6 23 21.8 24.2 23 24.6 C22.4 21 23 17.5 24 14 Z" fill="#E5004B"/><rect x="21.8" y="27.4" width="4.4" height="4.4" fill="#fff"/></svg><b>De Olho no Fogo</b></a>
+  <nav class="nav" aria-label="Páginas"><a href="/">Início</a><a href="/globo">Globo</a><a href="/calendario">Calendário MG</a><a href="/metodo">Método</a><a href="/referencias">Referências</a></nav>
+</header>
+
+<div class="wrap">
+  <div>
+    <h1>Risco de fogo em Minas</h1>
+    <p class="lead">Um modelo simples lê o clima de cada dia (vento, umidade do solo e do ar, temperatura, chuva e radiação solar, do NASA POWER) e estima a chance de o satélite ver ao menos um foco numa área de uns 55 km. É a primeira versão: mostra o risco dos últimos dias com dado, não o de amanhã. <span class="badge real">✓ dados reais · NASA POWER e FIRMS</span></p>
+    <p class="note" id="aviso-mg" style="margin-top:12px;font-size:14px;color:var(--ink2);border-left:4px solid var(--brand);padding-left:12px"><b style="color:var(--ink)">Página regional de Minas Gerais, trabalho anterior do projeto.</b> O modelo foi treinado com as detecções do VIIRS S-NPP (um sensor só) e não usa a harmonização ponto a ponto, que hoje é o produto principal e está no <a href="/globo">globo</a>. Veja também o <a href="/calendario">Calendário MG</a> e o <a href="/metodo">Método</a>.</p>
+  </div>
+
+  <section class="card">
+    <div class="duo">
+      <div id="map" role="region" aria-label="Mapa do risco por ponto"></div>
+      <div class="pad">
+        <h2 id="tData">Risco mais recente</h2>
+        <p class="note" id="tNota" style="margin:0 0 8px">Buscando o clima recente no NASA POWER…</p>
+        <div class="tbl"><table id="tbRisco"></table></div>
+        <div class="legend" id="legFaixas"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card pad">
+    <h2>Quanto o modelo acerta</h2>
+    <p class="note" style="margin:0 0 12px">Treinado com 2012 a 2021 e testado em 2022 a 2025, anos que ele não viu. Cada linha de teste é um ponto num dia.</p>
+    <div class="grid3" id="kpis"></div>
+    <div class="tbl" style="margin-top:14px"><table id="tbFaixas"></table></div>
+    <p class="note">AUC é a chance de o modelo dar risco maior a um dia com fogo do que a um dia sem fogo: 0,5 é sorteio, 1 é perfeito. O modelo só de calendário sabe apenas a época do ano; a diferença é o que o clima do dia acrescenta.</p>
+  </section>
+
+  <section class="grid2">
+    <div class="card pad">
+      <h3>2025: risco previsto e focos observados</h3>
+      <label class="note" style="display:block;margin:0 0 8px">Ponto <select id="selPonto"></select></label>
+      <div id="ch2025"></div>
+      <div class="legend"><span><i style="width:20px;border-top:3px solid #E5004B;display:inline-block"></i>risco previsto (%)</span><span><i style="width:10px;height:12px;background:#F7801E;display:inline-block;border-radius:2px"></i>focos VIIRS no dia (escala em raiz)</span></div>
+      <p class="note">2025 está fora do treino. As barras são o que o satélite viu; a linha é o que o modelo dizia só com o clima.</p>
+    </div>
+    <div class="card pad">
+      <h3>O que pesa no modelo</h3>
+      <div id="chPesos"></div>
+      <p class="note">Peso de cada variável, todas na mesma escala. Para a direita aumenta o risco, para a esquerda diminui. As variáveis andam juntas (solo seco, ar seco e céu limpo vêm no mesmo dia), então o peso individual não é o efeito isolado de cada uma. <b>Radiação solar</b> pesa muito também porque céu limpo deixa o satélite enxergar: com nuvem há menos focos detectados, com ou sem fogo.</p>
+    </div>
+  </section>
+
+  <section class="card pad">
+    <h2>Bases de área queimada do Brasil</h2>
+    <p class="note" style="margin:0 0 10px">Foco é um pixel quente na hora da passagem; área queimada é a cicatriz medida depois. Estas são as bases para a próxima etapa do modelo, que troca o alvo "houve foco" por "quanto queimou".</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Base</th><th>Resolução</th><th>Período</th><th>Como acessar</th><th>Observação</th></tr></thead>
+      <tbody>
+        <tr><td class="b"><a href="https://brasil.mapbiomas.org/" target="_blank" rel="noopener">MapBiomas Fogo</a></td><td>30 m (Landsat)</td><td>1985–2025, anual e mensal</td><td>Google Earth Engine (<code>projects/mapbiomas-public/assets/brazil/fire/…</code>) e download no site</td><td>A mais detalhada para o Brasil. Traz também frequência de fogo e tamanho das cicatrizes.</td></tr>
+        <tr><td class="b"><a href="https://data.inpe.br/queimadas" target="_blank" rel="noopener">INPE AQ1km</a></td><td>1 km (MODIS)</td><td>desde 2002, mensal</td><td>Portal do Programa Queimadas do INPE; totais por bioma nos boletins Infoqueima</td><td>Produto oficial brasileiro, ainda em validação (versão provisória).</td></tr>
+        <tr><td class="b"><a href="https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MCD64A1" target="_blank" rel="noopener">NASA MCD64A1</a></td><td>500 m (MODIS)</td><td>desde 2000, mensal, com o dia da queima</td><td>Earth Engine (<code>MODIS/061/MCD64A1</code>) ou NASA Earthdata</td><td>Referência global da NASA. Dá o dia aproximado da queima, útil para cruzar com o clima diário.</td></tr>
+        <tr><td class="b"><a href="https://developers.google.com/earth-engine/datasets/catalog/ESA_CCI_FireCCI_5_1" target="_blank" rel="noopener">ESA FireCCI51</a></td><td>250 m (MODIS)</td><td>2001–2020, mensal</td><td>Earth Engine (<code>ESA/CCI/FireCCI/5_1</code>)</td><td>Boa para comparar com o MCD64A1; não cobre os anos recentes.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="card pad">
+    <h2>O que falta para virar previsão de verdade</h2>
+    <ul class="falta">
+      <li><b>Dias futuros.</b> O NASA POWER entrega o clima com cerca de 3 dias de atraso e não tem previsão. Para prever amanhã, o modelo precisa receber uma previsão do tempo (por exemplo o GEOS da NASA ou o GFS) com as mesmas variáveis.</li>
+      <li><b>Relevo e cobertura do solo.</b> Com 15 pontos não dá para aprender o efeito do lugar; a altitude aparece na tabela só como informação. Com o modelo por célula de poucos km, entram declividade (SRTM) e cobertura (MapBiomas), que vêm pelo Google Earth Engine. O script da cobertura já está pronto e espera o login no Earth Engine.</li>
+      <li><b>Área queimada como alvo.</b> Hoje o modelo prevê se haverá foco. Com o MapBiomas Fogo ou o MCD64A1, passa a prever quanto queima.</li>
+      <li><b>Ignição.</b> Quase todo fogo em Minas começa por ação humana. O clima diz quando a vegetação está pronta para queimar, não quem acende. Estradas, uso do solo e histórico de fogo ajudam nisso.</li>
+    </ul>
+    <p class="note">Código: <code>scripts/modelo_risco.py</code> (treino e teste), <code>src/lib/risco.js</code> e <code>/api/risco</code> (aplicação ao clima recente).</p>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="/data/mg-risco.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(i){return document.getElementById(i);},M=window.MG_RISCO;
+var COR=['#9AA4AB','#FFC02E','#F7801E','#C8102E'];
+var fmt=function(n,d){return n==null||isNaN(n)?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
+var fx=function(k){return '<span class="fx"><i style="background:'+COR[k]+'"></i>'+M.faixas_nome[k]+'</span>';};
+var dataBr=function(s){return s.split('-').reverse().join('/');};
+
+var map=L.map('map',{zoomControl:true}).setView([-18.6,-44.6],6);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:14,attribution:'Imagens: Esri, Maxar, Earthstar Geographics'}).addTo(map);
+var camada=L.layerGroup().addTo(map);
+$('legFaixas').innerHTML=M.faixas_nome.map(function(n,k){return fx(k);}).join('')+'<span>quadrado: área de 0,5° que o ponto representa</span>';
+
+fetch('/api/risco').then(function(r){return r.json();}).then(function(R){
+  var ok=R.pontos.filter(function(p){return p.dias.length;});
+  if(!ok.length){$('tNota').textContent='O NASA POWER não respondeu agora. Tente de novo em alguns minutos.';return;}
+  var ult=ok[0].dias[ok[0].dias.length-1].data;
+  $('tData').textContent='Risco em '+dataBr(ult);
+  $('tNota').textContent='Último dia com clima disponível no NASA POWER (o dado chega com uns 3 dias de atraso). Não é previsão para hoje.';
+  var linhas=ok.map(function(p){return {p:p,d:p.dias[p.dias.length-1]};}).sort(function(a,b){return b.d.risco-a.d.risco;});
+  $('tbRisco').innerHTML='<thead><tr><th>Região de</th><th>Risco</th><th class="n">Chance</th><th class="n">Solo</th><th class="n">Ar</th><th class="n">Vento</th><th class="n">Máx.</th><th class="n">Sem chuva</th><th class="n">Altitude</th></tr></thead><tbody>'+
+    linhas.map(function(x){var d=x.d;return '<tr><td class="b">'+x.p.nome+'</td><td>'+fx(d.faixa)+'</td><td class="n b">'+fmt(d.risco*100,0)+'%</td><td class="n">'+d.solo_pct+'%</td><td class="n">'+d.ur_pct+'%</td><td class="n">'+d.vento_kmh+' km/h</td><td class="n">'+fmt(d.tmax,0)+' °C</td><td class="n">'+d.dias_sem_chuva+(d.dias_sem_chuva>=60?'+':'')+' d</td><td class="n">'+fmt(x.p.altitude_m)+' m</td></tr>';}).join('')+'</tbody>';
+  camada.clearLayers();
+  linhas.forEach(function(x){var p=x.p,d=x.d,c=COR[d.faixa];
+    L.rectangle([[p.lat-.25,p.lon-.25],[p.lat+.25,p.lon+.25]],{color:c,weight:1.5,fillColor:c,fillOpacity:.35}).bindPopup('<b>'+p.nome+'</b><br>'+M.faixas_nome[d.faixa]+' · '+fmt(d.risco*100,0)+'% de chance de foco<br>Solo '+d.solo_pct+'% · ar '+d.ur_pct+'% · vento '+d.vento_kmh+' km/h<br>'+d.dias_sem_chuva+' dias sem chuva · '+fmt(d.chuva30_mm)+' mm em 30 dias').addTo(camada);});
+}).catch(function(e){$('tNota').textContent='Não deu para buscar o risco recente: '+e.message;});
+
+/* quanto acerta */
+var T=M.teste,F=T.faixas;
+$('kpis').innerHTML=[[fmt(T.auc,2),'AUC do modelo com clima, no teste ('+T.anos[0]+'–'+T.anos[1]+')'],[fmt(T.auc_calendario,2),'AUC de um modelo que só sabe a época do ano'],[fmt(F[3].freq*100,0)+'%','dos dias classificados como "Muito alto" tiveram foco, contra '+fmt(F[0].freq*100,0)+'% dos dias "Baixo"']].map(function(x){return '<div><div class="big">'+x[0]+'</div><div class="note" style="margin:2px 0 0">'+x[1]+'</div></div>';}).join('');
+$('tbFaixas').innerHTML='<thead><tr><th>Faixa de risco</th><th class="n">Chance prevista</th><th class="n">Parte dos dias</th><th class="n">Dias com foco</th><th class="n">Parte de todos os focos</th></tr></thead><tbody>'+
+  F.map(function(f,k){var a=k?M.limites[k-1]:0,b=k<3?M.limites[k]:1;return '<tr><td>'+fx(k)+'</td><td class="n">'+fmt(a*100,0)+'% a '+fmt(b*100,0)+'%</td><td class="n">'+fmt(f.parte_dos_dias*100,0)+'%</td><td class="n b">'+fmt(f.freq*100,0)+'%</td><td class="n">'+fmt(f.parte_dos_focos*100,0)+'%</td></tr>';}).join('')+'</tbody>';
+
+/* 2025 por ponto */
+$('selPonto').innerHTML=M.pontos.map(function(p,i){return '<option value="'+i+'">'+p.nome+' (AUC '+fmt(p.auc,2)+')</option>';}).join('');
+function ch2025(){var p=M.pontos[+$('selPonto').value],r=p.risco2025,f=p.focos2025,n=r.length,W=640,H=260,l=40,rr=40,t=10,b=24,mf=Math.max.apply(null,f)||1;
+  var X=function(i){return l+i/(n-1)*(W-l-rr);},Y=function(v){return t+(H-t-b)*(1-v/100);},Yf=function(v){return (H-t-b)*Math.sqrt(v/mf);},g='';
+  [0,25,50,75,100].forEach(function(v){g+='<line x1="'+l+'" x2="'+(W-rr)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#EBEEF1"/><text x="'+(l-6)+'" y="'+(Y(v)+4)+'" font-size="12" fill="#575F66" text-anchor="end">'+v+'%</text>';});
+  g+='<text x="'+(W-rr+6)+'" y="'+(t+10)+'" font-size="12" fill="#8A5A00">'+fmt(mf)+'</text><text x="'+(W-rr+6)+'" y="'+(t+24)+'" font-size="11" fill="#8A5A00">focos</text>';
+  ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'].forEach(function(m,k){var i=Math.round((Date.UTC(2025,k,15)-Date.UTC(2025,0,1))/864e5);g+='<text x="'+X(i)+'" y="'+(H-6)+'" font-size="12" fill="#575F66" text-anchor="middle">'+m+'</text>';});
+  var bw=(W-l-rr)/n;f.forEach(function(v,i){if(v)g+='<rect x="'+(X(i)-bw/2).toFixed(1)+'" y="'+(H-b-Yf(v)).toFixed(1)+'" width="'+Math.max(bw,1.2).toFixed(1)+'" height="'+Yf(v).toFixed(1)+'" fill="#F7801E" fill-opacity=".8"/>';});
+  g+='<path d="'+r.map(function(v,i){return (i?'L':'M')+X(i).toFixed(1)+','+Y(v).toFixed(1);}).join('')+'" fill="none" stroke="#E5004B" stroke-width="2"/>';
+  $('ch2025').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Risco previsto e focos observados em 2025">'+g+'</svg>';}
+$('selPonto').onchange=ch2025;$('selPonto').value=String(M.pontos.findIndex(function(p){return p.id==='ouro';}));ch2025();
+
+/* pesos */
+(function(){var it=M.vars.map(function(v,i){return [M.nomes[v],M.coef[i]];}).filter(function(x){return x[0].indexOf('Época')<0;}).sort(function(a,b){return Math.abs(b[1])-Math.abs(a[1]);});
+  var W=640,rh=30,H=it.length*rh+6,L=250,mx=Math.max.apply(null,it.map(function(x){return Math.abs(x[1]);})),c=L+(W-L-60)/2,sc=(W-L-60)/2/mx,g='<line x1="'+c+'" x2="'+c+'" y1="0" y2="'+H+'" stroke="#DCE1E5"/>';
+  it.forEach(function(x,k){var y=k*rh+4,w=Math.abs(x[1])*sc,pos=x[1]>0;g+='<text x="'+(L-10)+'" y="'+(y+16)+'" font-size="14" fill="#22262A" text-anchor="end">'+x[0]+'</text><rect x="'+(pos?c:c-w)+'" y="'+y+'" width="'+Math.max(w,1.5)+'" height="20" rx="4" fill="'+(pos?'#C8102E':'#4F575E')+'"/><text x="'+(pos?c+w+6:c-w-6)+'" y="'+(y+15)+'" font-size="13" fill="#4F575E" text-anchor="'+(pos?'start':'end')+'">'+(pos?'+':'−')+fmt(Math.abs(x[1]),2)+'</text>';});
+  $('chPesos').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Peso de cada variável no modelo">'+g+'</svg>';})();
+})();
+</script>
+</body>
+</html>

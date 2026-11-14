@@ -1,4 +1,4 @@
-const LINKS = [['/', 'Início'], ['/globo', 'Globo'], ['/calendario', 'Calendário'], ['/metodo', 'Método']];
+const LINKS = [['/', 'Início'], ['/globo', 'Globo'], ['/metodo', 'Método'], ['/referencias', 'Referências']];
 
 export default function Casca({ aqui, children }) {
   return (
@@ -15,7 +15,7 @@ export default function Casca({ aqui, children }) {
         </div>
       </header>
       <main>{children}</main>
-      <footer><div className="wrap">Space Uai · NASA Space Apps Challenge 2026 · Ouro Preto, MG</div></footer>
+      <footer><div className="wrap">Space Uai · NASA Space Apps Challenge 2026</div></footer>
     </>
   );
 }

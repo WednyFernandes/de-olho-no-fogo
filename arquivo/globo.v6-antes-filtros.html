@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>De Olho no Fogo · globo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
+<style>
+:root{--brand:#E5004B;--brand-ink:#B80040;--brand-tint:#FFE8EF;--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--map:#E4E9EC;--card:#FFFFFF;--soft:#F3F5F7;--night:#E6EAED;--green:#2E8B57;--green-ink:#1F4D33;--green-tint:#F4F9F5;--warn-ink:#8A5A00;--warn-tint:#FFF3D6;--fire-lo:#FFC02E;--fire-md:#F7801E;--fire-hi:#C8102E;--modis:#6B4FA0;--viirs:#00727F;--scar:#4A3326;--fix:#2B6CB0;--shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10);--tlh:168px}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--map);color:var(--ink);font:15px/1.45 Figtree,system-ui,sans-serif;overflow:hidden}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--brand-ink)}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.card{background:var(--card);border-radius:14px;box-shadow:var(--shadow)}
+.ib{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ib:hover{border-color:#C5CDD3}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:#EEF1F3;font-size:13px;white-space:nowrap}
+.pill.real{background:var(--green-tint);color:var(--green-ink);font-weight:700}
+.pill.warn{background:var(--warn-tint);color:var(--warn-ink);font-weight:700}
+.h2{font-size:15px;font-weight:700;margin:0}
+.muted{font-size:12px;color:var(--ink3)}
+.num{font-variant-numeric:tabular-nums}
+
+#globe{position:fixed;inset:0;cursor:grab}
+#globe:active{cursor:grabbing}
+#globe:focus-visible{outline:3px solid var(--brand);outline-offset:-3px}
+
+.top{position:fixed;left:16px;right:16px;top:12px;height:56px;z-index:20;display:flex;align-items:center;gap:12px;padding:0 10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand b{font-weight:800;font-size:17px;letter-spacing:-.01em;white-space:nowrap}
+.nav{display:flex;gap:2px}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;color:var(--ink2);text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap}
+.nav a[aria-current]{background:var(--brand-tint);color:var(--brand-ink)}
+.nav a:hover{background:var(--soft);color:var(--ink)}
+.search{display:flex;align-items:center;gap:8px;padding:0 12px 0 14px;position:relative}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;min-height:44px;font-size:14px}
+.top .search{flex:0 1 250px;margin-left:auto;background:var(--soft);border-radius:10px;min-height:44px}
+.top .search:focus-within{outline:3px solid var(--brand);outline-offset:2px}
+.tbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border:0;border-radius:10px;background:transparent;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap}
+.tbtn:hover,.tbtn[aria-expanded="true"]{background:var(--soft)}
+.tbtn svg{color:var(--brand)}
+
+.status{position:fixed;left:50%;top:78px;transform:translateX(-50%);z-index:12;display:flex;align-items:center;gap:8px;max-width:min(560px,calc(100vw - 700px));padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.94);box-shadow:var(--shadow);font-size:13px;line-height:1.3;color:var(--ink2)}
+.status b{color:var(--ink)}
+.status button{border:0;background:none;padding:0 2px;color:var(--brand-ink);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.spin{flex:none;width:14px;height:14px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--brand);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.side{position:fixed;right:16px;top:80px;width:300px;max-height:calc(100dvh - 96px - var(--tlh));z-index:15;display:flex;flex-direction:column;gap:10px;overflow:auto;padding-bottom:2px}
+.side:not(.open){display:none}
+.blk{padding:12px 14px}
+.seg{display:flex;padding:3px;gap:2px;background:var(--soft);border-radius:10px}
+.seg button{flex:1;min-height:40px;padding:0 8px;border:0;border-radius:8px;background:transparent;font-size:13px;font-weight:600;color:var(--ink2);white-space:nowrap}
+.seg button:hover{background:var(--line2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button[disabled]{opacity:.45;cursor:not-allowed}
+.layers label{display:flex;align-items:center;gap:10px;min-height:44px;font-size:14px;cursor:pointer;border-top:1px solid var(--line2)}
+.layers label:first-of-type{border-top:0}
+.layers input{width:18px;height:18px;margin:0;accent-color:var(--brand)}
+.layers .sw{margin-left:auto;flex:none}
+.lg{font-size:13px;color:var(--ink2);line-height:1.4}
+.lg p{margin:6px 0 0}
+.lg h3{margin:12px 0 4px;font-size:13px;color:var(--ink)}
+.lg h3:first-child{margin-top:0}
+.lg ul{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:5px}
+.lg li{display:flex;align-items:center;gap:8px}
+.lg li svg{flex:none}
+.ramp{height:10px;border-radius:5px;margin-top:6px}
+.rampl{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);margin-top:3px}
+.side .foot{font-size:12px;color:var(--ink3);line-height:1.4;padding:2px 4px 0;margin:0}
+
+.mapctl{position:fixed;right:16px;top:80px;z-index:12;display:flex;flex-direction:column;gap:8px}
+body.has-side .mapctl{right:328px}
+.mapctl .zoom{display:flex;flex-direction:column;overflow:hidden}
+.mapctl .zoom button{min-width:44px;min-height:44px;border:0;background:var(--card);font-size:20px;font-weight:600}
+.mapctl .zoom button+button{border-top:1px solid var(--line2)}
+.mapctl .ib{border:0}
+
+.insight{position:fixed;left:16px;top:80px;width:330px;max-height:calc(100dvh - 96px - var(--tlh));overflow:auto;z-index:13;padding:10px 14px 12px}
+.inh{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.inh .ib{min-width:36px;min-height:36px;border:0}
+.insight.min .inb{display:none}
+.insight.min .inh svg{transform:rotate(180deg)}
+.inb{font-size:13px;line-height:1.45;color:var(--ink2)}
+.inb p{margin:6px 0}
+.inb b{color:var(--ink)}
+.inb h3{margin:12px 0 4px;font-size:13px;color:var(--ink)}
+.inb .when{font-size:15px;font-weight:800;color:var(--ink);margin:0 0 6px}
+.flow{display:grid;gap:4px;margin:6px 0}
+.flow div{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:6px 10px;border-radius:10px;background:var(--soft)}
+.flow div b{font-size:15px;font-weight:800}
+.flow .res{background:var(--brand-tint)}
+.flow .res b{color:var(--brand-ink);font-size:18px}
+.flow .arrow{background:none;padding:0 10px;justify-content:center;font-size:12px;color:var(--ink3)}
+.stack{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:8px 0 6px;background:var(--soft)}
+.stack i{display:block;height:100%}
+.cls{list-style:none;margin:0;padding:0;display:grid;gap:3px}
+.cls li{display:flex;align-items:center;gap:8px}
+.cls li span:last-child{margin-left:auto;font-weight:700;color:var(--ink)}
+.sq{display:inline-block;width:12px;height:12px;border-radius:3px;flex:none}
+.jump{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.jump button{font-size:12.5px;font-weight:600;min-height:34px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.jump button:hover{border-color:var(--ink3)}
+.passes{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}
+.passes li{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:8px;background:var(--soft);font-size:12.5px}
+.passes li.on{background:var(--green-tint);color:var(--green-ink)}
+.passes li.now{background:var(--warn-tint);color:var(--warn-ink)}
+.passes li b{margin-left:auto;font-weight:700;color:inherit}
+
+.tl{position:fixed;left:16px;right:16px;bottom:12px;max-width:1180px;margin:0 auto;z-index:14;padding:8px 12px 10px}
+.tlh{display:flex;align-items:center;gap:8px}
+.tlh .play{flex:none;min-width:40px;min-height:40px;border-radius:50%;background:var(--brand);border-color:var(--brand)}
+.tlh .play:hover{background:var(--brand-ink)}
+.tlt{flex:1 1 160px;min-width:0;line-height:1.25}
+.tlt b,.tlt span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tlt b{font-size:13px}
+.tlt span{font-size:12.5px;color:var(--ink2)}
+.tl .seg{flex:none}
+.tl .seg button{min-height:34px;padding:0 12px}
+.ysel{flex:none;display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink2)}
+.ysel select{min-height:40px;padding:0 8px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:13px;font-weight:700}
+.tlplot{position:relative;margin-top:6px;height:78px}
+.tlplot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.tlplot svg text{font:11px Figtree,sans-serif;fill:var(--ink3)}
+.tlplot input{position:absolute;z-index:1;left:0;top:0;width:100%;height:62px;margin:0;-webkit-appearance:none;appearance:none;background:transparent;cursor:ew-resize}
+.tlplot input:focus-visible{outline:none}
+.tlplot input::-webkit-slider-runnable-track{height:62px;background:transparent}
+.tlplot input::-moz-range-track{height:62px;background:transparent}
+.tlplot input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:62px;background:transparent;border:0}
+.tlplot input::-moz-range-thumb{width:20px;height:62px;background:transparent;border:0}
+.tlplot input:focus-visible+svg .knob{stroke:var(--brand);stroke-width:4}
+.tll{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin-top:2px;min-height:17px}
+.tll span{display:inline-flex;align-items:center;gap:5px}
+
+.hcard{position:fixed;left:362px;top:80px;z-index:16;width:330px;max-width:calc(100vw - 16px);padding:12px 14px}
+.hcard[hidden]{display:none}
+.hcard .hh{display:flex;align-items:flex-start;gap:10px}
+.hcard .hh div{flex:1;min-width:0}
+.hcard .hh b{display:block;font-size:15px}
+.hcard .hh .ib{min-width:36px;min-height:36px;border:0;margin:-4px -6px 0 0}
+.hcard dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:10px 0 0;font-size:13px}
+.hcard dt{color:var(--ink3)}
+.hcard dd{margin:0;font-variant-numeric:tabular-nums}
+.hcard p{margin:8px 0 0;font-size:12.5px;color:var(--ink2)}
+.fatal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;z-index:5}
+
+@media (max-width:1320px){.top .pill{display:none}}
+@media (max-width:1100px){.status{max-width:calc(100vw - 32px);top:auto;bottom:calc(var(--tlh) + 20px)}}
+@media (max-width:900px){
+ :root{--tlh:204px}
+ .top{left:8px;right:8px;top:8px;gap:8px;padding:0 6px}
+ .nav{position:fixed;left:8px;right:8px;top:68px;height:44px;padding:0 4px;background:var(--card);border-radius:12px;box-shadow:var(--shadow);overflow-x:auto;z-index:19}
+ .nav a{min-height:40px;margin:2px 0;padding:0 10px;font-size:13px}
+ .brand b,.tbtn .lbl{display:none}
+ .top .search{flex:1 1 auto;margin-left:0}
+ .mapctl,body.has-side .mapctl{right:8px;top:168px}
+ .side{left:0;right:0;top:auto;bottom:0;width:auto;max-height:78dvh;padding:12px;background:var(--map);border-radius:18px 18px 0 0;box-shadow:0 -6px 24px rgba(31,26,23,.18);z-index:30}
+ .tl{left:8px;right:8px;bottom:8px;padding:8px 10px}
+ .tlh{flex-wrap:wrap}
+ .tlt{flex-basis:calc(100% - 56px);order:-1}
+ .tlh .play{order:-2}
+ .tl .seg{flex:1}
+ .tl .seg button{padding:0 6px}
+ .ysel select{min-height:40px;padding:0 4px}
+ .insight{left:8px;right:64px;top:120px;width:auto;max-height:calc(100dvh - 140px - var(--tlh))}
+ .status{bottom:calc(var(--tlh) + 26px);font-size:12px}
+ .hcard{left:8px;top:120px}
+ .tll{display:none}
+ .tlplot{height:70px}
+}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}}
+</style>
+</head>
+<body class="has-side">
+<header class="top card">
+  <a class="brand" href="/" aria-label="De Olho no Fogo, página inicial"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#E5004B"/><path d="M6 25 Q24 7 42 25 Q24 43 6 25 Z" fill="#fff"/><path d="M24 14 C27 19 31 21 31 27 C31 31.5 27.8 34 24 34 C20.2 34 17 31.5 17 27.4 C17 24 19 22.5 20.4 20.6 C20.6 23 21.8 24.2 23 24.6 C22.4 21 23 17.5 24 14 Z" fill="#E5004B"/><rect x="21.8" y="27.4" width="4.4" height="4.4" fill="#fff"/></svg><b>De Olho no Fogo</b></a>
+  <nav class="nav" aria-label="Páginas"><a href="/">Início</a><a href="/globo" aria-current="page">Globo</a><a href="/metodo">Método</a><a href="/referencias">Referências</a></nav>
+  <form class="search" id="fq" role="search">
+    <label for="q" class="sr">Ir para uma coordenada: latitude, longitude</label>
+    <input id="q" type="search" placeholder="Ir para lat, long  (ex.: -12.6, -48.2)" autocomplete="off" inputmode="text">
+    <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+  </form>
+  <button type="button" class="tbtn" id="btnLayers" aria-controls="side" aria-expanded="true"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6l8-4 8 4-8 4-8-4zM2 10l8 4 8-4M2 14l8 4 8-4"/></svg><span class="lbl">Camadas</span><span class="sr">e legenda</span></button>
+  <span class="pill">NASA FIRMS · MODIS C6.1 + VIIRS S-NPP</span>
+</header>
+
+<div id="globe" role="application" tabindex="0" aria-roledescription="globo" aria-label="Globo interativo com os focos de calor harmonizados. Setas giram, mais e menos aproximam."></div>
+
+<div class="status" id="status" role="status" aria-live="polite"><span class="spin" aria-hidden="true"></span><span>Carregando os dados…</span></div>
+
+<div class="mapctl">
+  <div class="zoom card"><button type="button" id="zin" aria-label="Aproximar">+</button><button type="button" id="zout" aria-label="Afastar">−</button></div>
+  <button class="ib card" id="gall" aria-label="Visão global" title="Visão global"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="8"/><path d="M2 10h16M10 2c3 3 3 13 0 16M10 2c-3 3-3 13 0 16"/></svg></button>
+</div>
+
+<aside class="side open" id="side" aria-label="Camadas e legenda">
+  <div class="blk card">
+    <h2 class="h2" id="ly-f" style="margin-bottom:8px">Camada de fogo</h2>
+    <div class="seg" role="group" aria-labelledby="ly-f" id="segLayer"><button type="button" data-layer="h" aria-pressed="true">Harmonizado</button><button type="button" data-layer="m" aria-pressed="false">Só MODIS</button><button type="button" data-layer="v" aria-pressed="false">Só VIIRS</button></div>
+    <p class="muted" id="layerNote" style="margin:8px 0 0"></p>
+  </div>
+  <div class="blk card layers" role="group" aria-labelledby="ly-t">
+    <h2 class="h2" id="ly-t" style="margin-bottom:2px">Outras camadas</h2>
+    <label><input type="checkbox" id="ckFix" checked>Fontes fixas de calor<svg class="sw" width="22" height="18" aria-hidden="true"><path d="M11 2l7 7-7 7-7-7z" fill="#fff" stroke="#2B6CB0" stroke-width="1.8"/></svg></label>
+    <label><input type="checkbox" id="ckScar">Cicatrizes de queimada (Brasil)<svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="18" height="12" rx="2" fill="#4A3326" fill-opacity=".65"/></svg></label>
+    <div id="scarOpt" hidden style="padding:4px 0 2px"><div class="seg" role="group" aria-label="Período das cicatrizes"><button type="button" data-scar="1" aria-pressed="true">Acumulado no ano</button><button type="button" data-scar="0" aria-pressed="false">Só no mês</button></div></div>
+  </div>
+  <div class="seg card" role="group" aria-label="Fundo do mapa" style="background:var(--card);flex:none"><button type="button" data-base="gray" aria-pressed="true">Mapa</button><button type="button" data-base="topo" aria-pressed="false">Relevo</button><button type="button" data-base="sat" aria-pressed="false">Satélite</button></div>
+  <section class="blk card" aria-labelledby="lg-t">
+    <h2 class="h2" id="lg-t" style="margin-bottom:6px">Legenda</h2>
+    <div class="lg" id="legend"></div>
+  </section>
+  <p class="foot">Dados: NASA FIRMS · MODIS C6.1 + VIIRS S-NPP. Cicatrizes: INPE (AQ1km). Mapa de fundo: Esri.<br>Space Uai · NASA Space Apps Challenge 2026</p>
+</aside>
+
+<section class="insight card" id="insight" aria-labelledby="in-t">
+  <div class="inh"><h2 class="h2" id="in-t">Leitura</h2><button type="button" class="ib" id="inMin" aria-expanded="true" aria-controls="inBody" aria-label="Recolher leitura"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 10l5-5 5 5"/></svg></button></div>
+  <div class="inb" id="inBody"></div>
+</section>
+
+<section class="tl card" id="tl" aria-labelledby="tl-t">
+  <div class="tlh">
+    <button type="button" class="ib play" id="tlPlay" aria-label="Reproduzir"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" fill="#fff"><path id="tlIco" d="M5 3l10 6-10 6z"/></svg></button>
+    <div class="tlt"><b id="tl-t">Linha do tempo</b><span id="tlRange" class="num"></span></div>
+    <label class="ysel"><span class="sr">Ano e área coberta</span><select id="selAno" aria-label="Ano e área coberta"></select></label>
+    <div class="seg" role="group" aria-label="Escala de tempo" id="segScale"><button type="button" data-scale="ano" aria-pressed="false">Ano</button><button type="button" data-scale="mes" aria-pressed="true">Mês</button><button type="button" data-scale="dia" aria-pressed="false">Dia</button><button type="button" data-scale="hora" aria-pressed="false">Hora</button></div>
+  </div>
+  <div class="tlplot" id="tlPlot">
+    <input type="range" id="tlR" min="1" max="12" step="1" value="8" aria-label="Posição na linha do tempo">
+    <svg id="tlSvg" aria-hidden="true"></svg>
+  </div>
+  <div class="tll" id="tlLeg"></div>
+</section>
+
+<section class="hcard card" id="hcard" aria-label="Detalhe do ponto clicado" hidden></section>
+<div class="sr" id="live" aria-live="polite"></div>
+
+<script src="https://unpkg.com/globe.gl@2.45.0/dist/globe.gl.min.js"></script>
+<script>
+(function(){
+'use strict';
+/* ───────── constantes ───────── */
+var D='/data/harm/';
+var REDUCED=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var R_M=6371007.181,CEL=926.625,RAD=Math.PI/180,GR=100;
+var A_PTS=.15;   /* abaixo desta altitude (raios do globo) carrega os blocos de pontos */
+var A_BLOB=.032; /* abaixo desta, desenha a forma real dos focos */
+var CAP_FOCOS=14000,CAP_CEL=110000,MAX_FETCH=4,MAX_TILES=40;
+var C={brand:'#E5004B',modis:'#6B4FA0',viirs:'#00727F',ambos:'#F7801E',ambosLn:'#8E1A0A',scar:'#4A3326',ink:'#22262A',soft:'#DCE1E5'};
+var MES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var MESC=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+var TILES={gray:['https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/',16],topo:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/',17],sat:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/',17]};
+var HOME={lat:-6,lng:-18,altitude:2.3};
+var LNOME={h:'focos harmonizados',m:'detecções MODIS (1 km)',v:'detecções VIIRS (375 m)'};
+var LKEY={h:'focos',m:'brutoM',v:'brutoV'};
+var FIXT={0:'Suspeita de fonte fixa',1:'Vulcão ativo',2:'Fonte fixa em terra',3:'Fonte fixa no mar (offshore)'};
+var PASSES=[[0,240,'S-NPP e Aqua','madrugada, ~01:30'],[510,690,'Terra','manhã, ~10:30'],[690,930,'Aqua e S-NPP','início da tarde, ~13:30'],[1170,1380,'Terra','noite, ~22:30']];
+
+/* ───────── estado ───────── */
+var S={layer:'h',fix:true,scar:false,scarAc:true,year:2025,month:8,day:15,min:1440,scale:'mes',base:'gray'};
+var MAN,ST,BD=null,CST=null,FIX={},globe,gEl=document.getElementById('globe');
+var alt=HOME.altitude,T3={},U={},meshes={},playing=null;
+var $=function(id){return document.getElementById(id);};
+var nf=function(n){return Math.round(n).toLocaleString('pt-BR');};
+var pct=function(a,b){return b?(100*a/b).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%':'–';};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+var hhmm=function(m){m=Math.min(1439,m);return String(m/60|0).padStart(2,'0')+':'+String(m%60).padStart(2,'0');};
+var dim=function(y,m){return new Date(y,m,0).getDate();};
+var doy=function(y,m,d){return Math.round((Date.UTC(y,m-1,d)-Date.UTC(y,0,1))/864e5);};
+var is25=function(){return S.year===2025;};
+var frp=function(c){return c?Math.exp(c/20)-1:0;};
+function say(t){$('live').textContent=t;}
+function getJSON(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(u+' '+r.status);return r.json();});}
+function getBuf(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(u+' '+r.status);return r.arrayBuffer();});}
+function fatal(msg){gEl.innerHTML='<div class="fatal"><p>'+msg+'</p></div>';$('status').hidden=true;}
+
+/* ───────── three.js: classes tiradas do pacote do globe.gl (uma instância só) ───────── */
+function up(Cl,meth){for(;;){var P=Object.getPrototypeOf(Cl);if(!P||!P.prototype||typeof P.prototype[meth]!=='function')return Cl;Cl=P;}}
+function grabThree(){
+ globe.scene().traverse(function(o){
+  if(!o.isMesh)return;
+  if(!T3.Mesh)T3.Mesh=up(o.constructor,'updateMorphTargets');
+  if(o.geometry&&!T3.BG)T3.BG=up(o.geometry.constructor,'setAttribute');
+  var a=o.geometry&&o.geometry.attributes&&o.geometry.attributes.position;
+  if(a&&a.isBufferAttribute&&!T3.BA)T3.BA=up(a.constructor,'setUsage');
+  if(o.material&&o.material.isShaderMaterial&&!T3.SM){var M=o.material.constructor;try{for(;;){var P=Object.getPrototypeOf(M);if(!P||!P.prototype)break;var t=new P();if(!t.isShaderMaterial)break;M=P;}}catch(e){}T3.SM=M;}
+ });
+ return T3.Mesh&&T3.BG&&T3.BA&&T3.SM;
+}
+var GLSL_COMMON='const float GR=100.0;const float RAD=0.017453292519943295;const float KMU=0.015696108;\n'+
+ 'vec3 ll(float lon,float lat){float la=lat*RAD;float lo=lon*RAD;float c=cos(la);return vec3(GR*c*sin(lo),GR*sin(la),GR*c*cos(lo));}\n'+
+ 'bool hid(vec3 p){return dot(p,cameraPosition)<GR*GR*1.0004;}\n';
+var OFF='gl_Position=vec4(2.0,2.0,2.0,1.0);';
+function mkMat(vs,fs,un){return new T3.SM({uniforms:un,vertexShader:GLSL_COMMON+vs,fragmentShader:fs,transparent:true,depthTest:false,depthWrite:false});}
+function instGeom(attrs,n){
+ var g=new T3.BG();
+ g.setAttribute('position',new T3.BA(new Float32Array([-1,-1,0,1,-1,0,1,1,0,-1,1,0]),3));
+ g.setIndex([0,1,2,0,2,3]);
+ Object.keys(attrs).forEach(function(k){var a=new T3.BA(attrs[k][0],attrs[k][1]);a.isInstancedBufferAttribute=true;a.meshPerAttribute=1;g.setAttribute(k,a);});
+ g.isInstancedBufferGeometry=true;g.instanceCount=n;return g;
+}
+function mkMesh(geom,mat,order){var m=new T3.Mesh(geom,mat);m.frustumCulled=false;m.renderOrder=order;m.raycast=function(){};m.matrixAutoUpdate=false;globe.scene().add(m);return m;}
+function kill(m){if(!m)return;globe.scene().remove(m);m.geometry.dispose();m.material.dispose();}
+function rgb(h){return [parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)/255,parseInt(h.slice(5,7),16)/255];}
+
+/* ───────── shaders ───────── */
+/* pontos de um bloco: x,y,t direto do arquivo (u16), filtrados por faixa de índice (dia) e minuto */
+var VS_PT=[
+'attribute float aX;attribute float aY;attribute float aT;',
+'#ifdef FOCO',
+'attribute float aN;attribute float aNM;attribute float aNV;',
+'#endif',
+'uniform vec2 uOrigin;uniform vec2 uRange;uniform float uMin;uniform vec2 uView;uniform float uKm;uniform float uMinPx;',
+'varying vec2 vUV;varying float vPx;varying float vK;',
+'void main(){',
+' float id=float(gl_InstanceID);',
+' float lon=uOrigin.x+(aX+0.5)*7.62939453125e-5;float lat=uOrigin.y+(aY+0.5)*7.62939453125e-5;',
+' vec3 p=ll(lon,lat);',
+' if(id<uRange.x||id>=uRange.y||mod(aT,2048.0)>uMin||hid(p)){'+OFF+'return;}',
+' vec4 c=projectionMatrix*modelViewMatrix*vec4(p,1.0);',
+' float pxu=projectionMatrix[1][1]*uView.y*0.5/c.w;',
+'#ifdef FOCO',
+' float km=sqrt(max(aN,1.0))*1.13;vK=(aNM>0.5&&aNV>0.5)?0.0:(aNV<0.5?1.0:2.0);',
+'#else',
+' float km=uKm;vK=floor(aT/8192.0);',
+'#endif',
+' float d=max(uMinPx,km*KMU*pxu);vPx=d;vUV=position.xy;',
+' c.xy+=position.xy*(d+2.0)/uView*c.w;gl_Position=c;',
+'}'].join('\n');
+var FS_FOCO=[
+'uniform vec3 uC0;uniform vec3 uC0l;uniform vec3 uC1;uniform vec3 uC2;varying vec2 vUV;varying float vPx;varying float vK;',
+'void main(){',
+' float r=length(vUV)*(vPx+2.0)*0.5;float R0=vPx*0.5;float a=clamp(R0-r+0.5,0.0,1.0);if(a<=0.0)discard;',
+' float ring=clamp(r-(R0-max(1.3,vPx*0.14))+0.5,0.0,1.0);',
+' vec3 col=vK<0.5?uC0:(vK<1.5?uC1:uC2);vec3 ln=vK<0.5?uC0l:col;float fa=vK<0.5?0.9:0.3;',
+' gl_FragColor=vec4(mix(col,ln,ring),a*mix(fa,1.0,ring));',
+'}'].join('\n');
+var FS_RAW=[
+'uniform vec3 uC;varying vec2 vUV;varying float vPx;varying float vK;',
+'void main(){',
+' vec2 q=abs(vUV)*(vPx+2.0)*0.5;float e=vPx*0.5-max(q.x,q.y);float a=clamp(e+0.5,0.0,1.0);if(a<=0.0)discard;',
+' float ring=vPx>9.0?1.0-clamp(e-1.0,0.0,1.0):0.0;',
+' gl_FragColor=vec4(uC*(1.0-0.25*ring),a*mix(0.5+0.06*vK,1.0,ring));',
+'}'].join('\n');
+/* grade de 0,25° */
+var VS_GRID=[
+'attribute float aGX;attribute float aGY;attribute float aC;uniform float uCap;varying float vT;',
+'void main(){',
+' vec2 cn=position.xy*0.5+0.5;float lon=aGX*0.25-180.0;float lat=aGY*0.25-90.0;',
+' if(aC<0.5||hid(ll(lon+0.125,lat+0.125))){'+OFF+'return;}',
+' vT=clamp(log(1.0+aC)/log(1.0+uCap),0.0,1.0);',
+' gl_Position=projectionMatrix*modelViewMatrix*vec4(ll(lon+cn.x*0.25,lat+cn.y*0.25),1.0);',
+'}'].join('\n');
+var FS_GRID=[
+'uniform vec3 uR0;uniform vec3 uR1;uniform vec3 uR2;uniform float uAlpha;varying float vT;',
+'void main(){vec3 c=vT<0.5?mix(uR0,uR1,vT*2.0):mix(uR1,uR2,vT*2.0-1.0);gl_FragColor=vec4(c,(0.5+0.42*vT)*uAlpha);}'].join('\n');
+/* marcadores (fontes fixas e seleção): forma desenhada no fragment shader */
+var VS_MK=[
+'attribute vec2 aLL;attribute float aTp;uniform vec2 uView;uniform float uPx;varying vec2 vP;varying float vTp;varying float vH;',
+'void main(){',
+' vec3 p=ll(aLL.x,aLL.y);if(hid(p)){'+OFF+'return;}',
+' vec4 c=projectionMatrix*modelViewMatrix*vec4(p,1.0);',
+' float h=uPx*0.5+3.0;vP=position.xy*h;vTp=aTp;vH=uPx*0.5;',
+' c.xy+=position.xy*h*2.0/uView*c.w;gl_Position=c;',
+'}'].join('\n');
+var FS_MK=[
+'uniform float uA;varying vec2 vP;varying float vTp;varying float vH;',
+'void main(){',
+' vec2 q=abs(vP);float d;vec3 col;float sw=max(1.1,vH*0.3);',
+' if(vTp>8.5){d=length(vP)-vH;col=vec3(0.898,0.0,0.294);float a=clamp(0.5-abs(d+1.5)+1.5,0.0,1.0);float ha=clamp(0.5-abs(d+1.5)+3.0,0.0,1.0);if(ha<=0.0)discard;gl_FragColor=vec4(mix(vec3(1.0),col,a),ha);return;}',
+' if(vTp<0.5){d=(q.x+q.y-vH)*0.7071;col=vec3(0.133,0.149,0.165);}',
+' else if(vTp<1.5){d=max(q.x*0.866+vP.y*0.5,-vP.y-vH*0.55)-vH*0.5;col=vec3(0.118,0.165,0.353);}',
+' else if(vTp<2.5){d=(q.x+q.y-vH)*0.7071;col=vec3(0.169,0.424,0.690);}',
+' else{d=max(q.x,q.y)-vH*0.78;col=vec3(0.055,0.588,0.780);}',
+' float hw=min(1.6,vH*0.4);float halo=clamp(hw-d,0.0,1.0);if(halo<=0.0)discard;',
+' float inside=clamp(0.5-d,0.0,1.0);float core=clamp(0.5-(d+sw),0.0,1.0);',
+' vec3 c=mix(vec3(1.0),col,inside-core);float a=mix(0.85,1.0,inside);a=mix(a,0.6,core);',
+' if(vTp<0.5&&length(vP)<max(1.3,vH*0.26)){c=col;a=1.0;}',
+' gl_FragColor=vec4(c,a*uA);',
+'}'].join('\n');
+/* cicatrizes: corridas de células de 0,01° */
+var VS_SCAR=[
+'attribute float aX;attribute float aY;attribute float aN;attribute float aM;uniform vec3 uG;uniform float uLo;uniform float uHi;uniform float uAc;uniform vec2 uView;',
+'void main(){',
+' float on=uAc>0.5?step(0.5,mod(aM,uHi)):step(0.5,mod(floor(aM/uLo),2.0));',
+' float lonC=uG.x+(aX-0.5+aN*0.5)*uG.z;float latC=uG.y+aY*uG.z;vec3 pc=ll(lonC,latC);',
+' if(on<0.5||hid(pc)){'+OFF+'return;}',
+' vec4 cc=projectionMatrix*modelViewMatrix*vec4(pc,1.0);',
+' vec4 c=projectionMatrix*modelViewMatrix*vec4(ll(lonC+position.x*aN*0.5*uG.z,latC+position.y*0.5*uG.z),1.0);',
+' vec2 d=(c.xy/c.w-cc.xy/cc.w)*uView*0.5;d=sign(position.xy)*max(abs(d),vec2(0.55));',
+' gl_Position=vec4((cc.xy/cc.w+d/(uView*0.5))*cc.w,cc.z,cc.w);',
+'}'].join('\n');
+var FS_SCAR='uniform vec4 uC;void main(){gl_FragColor=uC;}';
+/* forma real dos focos: campo suavizado sobre as células + limiar (bolha) ou célula única */
+var VS_DET=[
+'attribute float aF;attribute vec2 aUV;attribute float aD;uniform float uMin;varying float vF;varying vec2 vUV;varying float vK;',
+'void main(){',
+' float mn=mod(aD,2048.0);if(mn>uMin||hid(position)){'+OFF+'return;}',
+' vF=aF;vUV=aUV;vK=floor(aD/2048.0);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);',
+'}'].join('\n');
+var FS_DET=[
+'uniform vec3 uC0;uniform vec3 uC0l;uniform vec3 uC1;uniform vec3 uC2;uniform float uThr;varying float vF;varying vec2 vUV;varying float vK;',
+'void main(){',
+' float e;',
+' if(vF>1.5){vec2 d=min(vUV,1.0-vUV);vec2 w=max(fwidth(vUV),vec2(1e-6));e=min(d.x/w.x,d.y/w.y);}',
+' else{e=(vF-uThr)/max(fwidth(vF),1e-6);}',
+' if(e<=0.0)discard;',
+' float ring=1.0-smoothstep(1.4,2.4,e);',
+' vec3 col=vK<0.5?uC0:(vK<1.5?uC1:uC2);vec3 ln=vK<0.5?uC0l:col;float fa=vK<0.5?0.82:0.26;',
+' gl_FragColor=vec4(mix(col,ln,ring),clamp(e,0.0,1.0)*mix(fa,1.0,ring));',
+'}'].join('\n');
+
+/* ───────── grade ───────── */
+var grades=new Map(),gridKey='';
+function lerGrade(ano){
+ if(grades.has(ano))return grades.get(ano);
+ var p=getBuf(D+'grade/'+ano+'.bin').then(function(buf){
+  var dv=new DataView(buf);if(dv.getUint32(0,true)!==0x47464f44||dv.getUint16(4,true)!==1)throw new Error('grade inválida');
+  var mes=new Uint32Array(buf,12,13),n=mes[12];
+  var c16=function(k){return new Uint16Array(buf,64+4*n+2*n*k,n);};
+  var g={ano:ano,mes:mes,n:n,idx:new Uint32Array(buf,64,n),h:c16(0),hm:c16(1),m:c16(2),v:c16(3),frpM:new Uint8Array(buf,64+12*n,n),frpV:new Uint8Array(buf,64+13*n,n)};
+  g.gx=new Uint16Array(n);g.gy=new Uint16Array(n);
+  for(var i=0;i<n;i++){g.gx[i]=g.idx[i]%1440;g.gy[i]=g.idx[i]/1440|0;}
+  return g;});
+ grades.set(ano,p);
+ if(grades.size>4){var k=grades.keys().next().value;if(k!==ano)grades.delete(k);}
+ return p;
+}
+var gridCur=null;
+function updGrid(){
+ var y=S.year,key=y+'|'+(S.scale==='ano'?'a':S.month)+'|'+S.layer;
+ if(key===gridKey)return;gridKey=key;
+ lerGrade(y).then(function(g){
+  if(key!==gridKey)return;
+  var gx,gy,cc,n;
+  if(S.scale==='ano'){
+   var acc=new Uint32Array(1440*720),col=g[S.layer],i;
+   for(i=0;i<g.n;i++)acc[g.idx[i]]+=col[i];
+   n=0;for(i=0;i<acc.length;i++)if(acc[i])n++;
+   gx=new Uint16Array(n);gy=new Uint16Array(n);cc=new Float32Array(n);var k=0;
+   for(i=0;i<acc.length;i++)if(acc[i]){gx[k]=i%1440;gy[k]=i/1440|0;cc[k++]=acc[i];}
+  }else{
+   var a=g.mes[S.month-1],b=g.mes[S.month];n=b-a;
+   gx=g.gx.subarray(a,b);gy=g.gy.subarray(a,b);cc=g[S.layer].subarray(a,b);
+  }
+  var geom=instGeom({aGX:[gx,1],aGY:[gy,1],aC:[cc,1]},n);
+  if(!meshes.grid){
+   U.gCap={value:300};U.gR0={value:[1,1,1]};U.gR1={value:[1,1,1]};U.gR2={value:[1,1,1]};U.gAlpha={value:1};
+   meshes.grid=mkMesh(geom,mkMat(VS_GRID,FS_GRID,{uCap:U.gCap,uR0:U.gR0,uR1:U.gR1,uR2:U.gR2,uAlpha:U.gAlpha}),6);
+  }else{meshes.grid.geometry.dispose();meshes.grid.geometry=geom;}
+  var r=RAMP[S.layer];U.gR0.value=rgb(r[0]);U.gR1.value=rgb(r[1]);U.gR2.value=rgb(r[2]);U.gCap.value=gridCap();
+  gridCur=g;updVis();
+ }).catch(function(e){console.error(e);});
+}
+var RAMP={h:['#FFD45E','#F7801E','#C8102E'],m:['#D9CCF0','#8E6FC4','#3F2470'],v:['#BFE6EA','#2A9AA6','#004C55']};
+function gridCap(){var c={h:300,m:300,v:1500}[S.layer];return S.scale==='ano'?c*4:c;}
+function cellStats(lat,lng){
+ var g=gridCur;if(!g||g.ano!==S.year)return null;
+ var idx=Math.floor((lat+90)*4)*1440+Math.floor((((lng+180)%360+360)%360)*4),o={h:0,hm:0,m:0,v:0,fm:0,fv:0};
+ var m0=S.scale==='ano'?1:S.month,m1=S.scale==='ano'?12:S.month;
+ for(var m=m0;m<=m1;m++){var lo=g.mes[m-1],hi=g.mes[m]-1;
+  while(lo<=hi){var md=(lo+hi)>>1;if(g.idx[md]<idx)lo=md+1;else if(g.idx[md]>idx)hi=md-1;else{o.h+=g.h[md];o.hm+=g.hm[md];o.m+=g.m[md];o.v+=g.v[md];o.fm=Math.max(o.fm,g.frpM[md]);o.fv=Math.max(o.fv,g.frpV[md]);break;}}}
+ return o;
+}
+
+/* ───────── blocos de pontos (5°) ───────── */
+var tiles=new Map(),tileSets={},queue=[],active=0,wanted=[],wantedSet=new Set(),tick=0;
+function tileSet(m){var k='2025-'+String(m).padStart(2,'0');if(!tileSets[k])tileSets[k]=new Set(MAN.anos['2025'].tiles[k]||[]);return tileSets[k];}
+function parseTile(buf,tx,ty){
+ var dv=new DataView(buf);
+ if(dv.getUint32(0,true)!==0x48464f44||dv.getUint16(4,true)!==2)throw new Error('bloco inválido');
+ var h=new Uint32Array(buf,12,8),nH=h[0],nM=h[1],nV=h[2],bytesC=h[3],offH=h[4],offM=h[5],offV=h[6],offC=h[7];
+ var dia=function(i){return new Uint32Array(buf,48+128*i,32);};
+ var u16=function(off,n,k){return new Uint16Array(buf,off+2*n*k,n);};
+ var u8=function(off,n,k){return new Uint8Array(buf,off+10*n+n*k,n);};
+ var T={lon0:tx*5-180,lat0:ty*5-90,q:5/65536,dias:dv.getUint8(11),
+  H:{n:nH,dia:dia(0),x:u16(offH,nH,0),y:u16(offH,nH,1),t0:u16(offH,nH,2),t1:u16(offH,nH,3),ncel:u16(offH,nH,4),nM:u8(offH,nH,0),nV:u8(offH,nH,1),frpM:u8(offH,nH,2),frpV:u8(offH,nH,3)},
+  M:{n:nM,dia:dia(1),x:u16(offM,nM,0),y:u16(offM,nM,1),t:u16(offM,nM,2)},
+  V:{n:nV,dia:dia(2),x:u16(offV,nV,0),y:u16(offV,nV,1),t:u16(offV,nV,2)},
+  C:new DataView(buf,offC,bytesC)};
+ /* onde começa a lista de células de cada foco */
+ var cOff=new Uint32Array(nH),p=0,cdv=T.C,t1=T.H.t1;
+ for(var i=0;i<nH;i++){if(t1[i]&2048){cOff[i]=p;if(t1[i]&4096)p+=8+6*cdv.getUint32(p+4,true);else p+=5+3*cdv.getUint8(p+4);}else cOff[i]=0xFFFFFFFF;}
+ T.H.cOff=cOff;return T;
+}
+function viewBox(mg){
+ var v=globe.pointOfView(),cam=globe.camera(),hl=v.altitude*Math.tan(cam.fov*RAD/2)/RAD*(mg||1.1),hw=hl*cam.aspect/Math.max(.15,Math.cos(v.lat*RAD));
+ return {lat0:v.lat-hl,lat1:v.lat+hl,lon0:v.lng-hw,lon1:v.lng+hw,lat:v.lat,lng:v.lng};
+}
+function modePts(){return is25()&&S.scale!=='ano'&&alt<A_PTS;}
+function modeBlob(){return modePts()&&S.layer==='h'&&alt<A_BLOB;}
+function updTiles(){
+ wanted=[];wantedSet=new Set();
+ if(modePts()){
+  var b=viewBox(),set=tileSet(S.month),mm=String(S.month).padStart(2,'0');
+  var x0=Math.floor((b.lon0+180)/5),x1=Math.floor((b.lon1+180)/5),y0=Math.max(0,Math.floor((b.lat0+90)/5)),y1=Math.min(35,Math.floor((b.lat1+90)/5));
+  for(var x=x0;x<=x1;x++)for(var y=y0;y<=y1;y++){var tx=((x%72)+72)%72,id=tx+'_'+y;
+   if(set.has(id)){var k=mm+'/'+id,dx=(tx*5-177.5)-b.lng,dy=(y*5-87.5)-b.lat;wanted.push({k:k,tx:tx,ty:y,d:dx*dx+dy*dy});wantedSet.add(k);}}
+  wanted.sort(function(a,c){return a.d-c.d;});
+  queue=wanted.filter(function(w){return !tiles.has(w.k);});
+  pump();
+ }else queue=[];
+ tick++;
+ wanted.forEach(function(w){var t=tiles.get(w.k);if(t)t.used=tick;});
+ syncTiles();
+}
+function pump(){
+ while(active<MAX_FETCH&&queue.length){(function(w){
+  var t={k:w.k,st:'load',used:tick,m:{}};tiles.set(w.k,t);active++;
+  getBuf(D+'pts/2025-'+w.k+'.bin').then(function(buf){t.T=parseTile(buf,w.tx,w.ty);t.st='ok';})
+   .catch(function(e){console.error(e);t.st='err';})
+   .then(function(){active--;pump();syncTiles();if(S.scale==='hora')drawTL();});
+ })(queue.shift());}
+ status();
+}
+function rangeOf(sec){return (S.scale==='dia'||S.scale==='hora')?[sec.dia[S.day-1],sec.dia[S.day]]:[0,sec.n];}
+function tileMesh(t,L){
+ if(t.m[L])return t.m[L];
+ var T=t.T,sec=L==='h'?T.H:(L==='m'?T.M:T.V);if(!sec.n)return null;
+ var un={uOrigin:{value:[T.lon0,T.lat0]},uRange:{value:[0,sec.n]},uMin:U.min,uView:U.view},geom,mat;
+ if(L==='h'){
+  geom=instGeom({aX:[sec.x,1],aY:[sec.y,1],aT:[sec.t0,1],aN:[sec.ncel,1],aNM:[sec.nM,1],aNV:[sec.nV,1]},sec.n);
+  un.uKm={value:1};un.uMinPx=U.pxH;un.uC0={value:rgb(C.ambos)};un.uC0l={value:rgb(C.ambosLn)};un.uC1={value:rgb(C.modis)};un.uC2={value:rgb(C.viirs)};
+  mat=mkMat('#define FOCO\n'+VS_PT,FS_FOCO,un);
+ }else{
+  geom=instGeom({aX:[sec.x,1],aY:[sec.y,1],aT:[sec.t,1]},sec.n);
+  un.uKm={value:L==='m'?1:.375};un.uMinPx=L==='m'?U.pxM:U.pxV;un.uC={value:rgb(L==='m'?C.modis:C.viirs)};
+  mat=mkMat(VS_PT,FS_RAW,un);
+ }
+ return (t.m[L]=mkMesh(geom,mat,7));
+}
+function syncTiles(){
+ var pts=modePts(),hideH=detailOn();
+ tiles.forEach(function(t,k){
+  if(t.st!=='ok')return;
+  var vis=pts&&wantedSet.has(k);
+  ['h','m','v'].forEach(function(L){
+   var on=vis&&S.layer===L&&!(L==='h'&&hideH),m=on?tileMesh(t,L):t.m[L];
+   if(!m)return;m.visible=on;
+   if(on){var sec=L==='h'?t.T.H:(L==='m'?t.T.M:t.T.V),r=rangeOf(sec);m.material.uniforms.uRange.value=r;m.geometry.instanceCount=r[1];}
+  });
+ });
+ if(tiles.size>MAX_TILES){
+  var old=[];tiles.forEach(function(t,k){if(t.st==='ok'&&!wantedSet.has(k))old.push(t);});
+  old.sort(function(a,b){return a.used-b.used;});
+  for(var i=0;i<old.length&&tiles.size>MAX_TILES;i++){['h','m','v'].forEach(function(L){kill(old[i].m[L]);});tiles.delete(old[i].k);}
+ }
+ updVis();status();
+ if(modeBlob())schedDetail();
+}
+function loadedAll(){for(var i=0;i<wanted.length;i++){var t=tiles.get(wanted[i].k);if(!t||t.st==='load')return false;}return true;}
+function eachTile(f){wanted.forEach(function(w){var t=tiles.get(w.k);if(t&&t.st==='ok')f(t.T);});}
+
+/* ───────── forma real dos focos ───────── */
+var det={mesh:null,ok:false,over:false,key:'',timer:0};
+function detailOn(){return modeBlob()&&det.ok&&det.mesh;}
+function schedDetail(){clearTimeout(det.timer);det.timer=setTimeout(buildDetail,140);}
+function Buf(Ty,n){this.a=new Ty(n);this.n=0;this.Ty=Ty;}
+Buf.prototype.need=function(k){if(this.n+k>this.a.length){var b=new this.Ty(Math.max(this.a.length*2,this.n+k));b.set(this.a.subarray(0,this.n));this.a=b;}};
+var scrA=new Float32Array(4096),scrB=new Float32Array(4096),scrI=new Int32Array(4096);
+function buildDetail(){
+ if(!modeBlob()){if(det.mesh)det.mesh.visible=false;det.ok=false;det.key='';syncVisOnly();return;}
+ var b=viewBox(1.45),sel=[],cells=0,over=false,sig=[S.month,S.scale,S.day,b.lat.toFixed(3),b.lng.toFixed(3),alt.toFixed(4)].join('|');
+ eachTile(function(T){var H=T.H,r=rangeOf(H);sig+='|'+T.lon0+','+T.lat0;
+  for(var i=r[0];i<r[1]&&!over;i++){var lon=T.lon0+(H.x[i]+.5)*T.q,lat=T.lat0+(H.y[i]+.5)*T.q;
+   if(lon<b.lon0||lon>b.lon1||lat<b.lat0||lat>b.lat1)continue;
+   sel.push(T,i);cells+=H.ncel[i];if(sel.length/2>CAP_FOCOS||cells>CAP_CEL)over=true;}});
+ if(sig===det.key)return;det.key=sig;det.over=over;
+ if(over){det.ok=false;if(det.mesh)det.mesh.visible=false;syncVisOnly();return;}
+ var P=new Buf(Float32Array,sel.length*60+1024),A=new Buf(Float32Array,sel.length*80+1024),I=new Buf(Uint32Array,sel.length*60+1024),nv=0;
+ var K=3,PAD=2,THR=.36,RC=CEL/R_M;
+ function vert(u,v,f,uu,vv,d){var la=v*RC,lo=u*RC/Math.cos(la),c=Math.cos(la);P.need(3);A.need(4);
+  P.a[P.n++]=GR*c*Math.sin(lo);P.a[P.n++]=GR*Math.sin(la);P.a[P.n++]=GR*c*Math.cos(lo);
+  A.a[A.n++]=f;A.a[A.n++]=uu;A.a[A.n++]=vv;A.a[A.n++]=d;return nv++;}
+ function cell(l,c,d){var a=vert(c,l,2,0,0,d),e=vert(c+1,l,2,1,0,d),f=vert(c+1,l+1,2,1,1,d),g=vert(c,l+1,2,0,1,d);I.need(6);I.a[I.n++]=a;I.a[I.n++]=e;I.a[I.n++]=f;I.a[I.n++]=a;I.a[I.n++]=f;I.a[I.n++]=g;}
+ for(var s=0;s<sel.length;s+=2){
+  var T=sel[s],i=sel[s+1],H=T.H,cls=(H.nM[i]&&H.nV[i])?0:(H.nV[i]?2:1),d=(H.t0[i]&2047)+2048*cls;
+  if(!(H.t1[i]&2048)){var la=(T.lat0+(H.y[i]+.5)*T.q)*RAD,lo=(T.lon0+(H.x[i]+.5)*T.q)*RAD;cell(Math.floor(la/RC),Math.floor(lo*Math.cos(la)/RC),d);continue;}
+  var dv=T.C,p=H.cOff[i],wide=H.t1[i]&4096,l0=dv.getInt16(p,true),c0=dv.getInt16(p+2,true),n=wide?dv.getUint32(p+4,true):dv.getUint8(p+4),q0=p+(wide?8:5),st=wide?6:3,k,w=0,h=0;
+  for(k=0;k<n;k++){var q=q0+k*st,dl=wide?dv.getUint16(q,true):dv.getUint8(q),dc=wide?dv.getUint16(q+2,true):dv.getUint8(q+1),cp=(wide?dv.getUint16(q+4,true):dv.getUint8(q+2))+1;if(dl+1>h)h=dl+1;if(dc+cp>w)w=dc+cp;}
+  if(n===1&&w===1){cell(l0,c0,d);continue;}
+  var sw=w*K+2*PAD,sh=h*K+2*PAD,ns=sw*sh,nn=(sw+1)*(sh+1),x,y,o;
+  if(scrA.length<ns){scrA=new Float32Array(ns*2);scrB=new Float32Array(ns*2);}
+  if(scrI.length<nn)scrI=new Int32Array(nn*2);
+  scrA.fill(0,0,ns);
+  for(k=0;k<n;k++){q=q0+k*st;dl=wide?dv.getUint16(q,true):dv.getUint8(q);dc=wide?dv.getUint16(q+2,true):dv.getUint8(q+1);cp=(wide?dv.getUint16(q+4,true):dv.getUint8(q+2))+1;
+   for(y=dl*K+PAD;y<dl*K+PAD+K;y++)scrA.fill(1,y*sw+dc*K+PAD,y*sw+(dc+cp)*K+PAD);}
+  /* desfoque 3×3 duas vezes: arredonda cantos e funde células vizinhas */
+  for(var pass=0;pass<2;pass++){
+   for(y=0;y<sh;y++)for(x=0;x<sw;x++){o=y*sw+x;scrB[o]=(scrA[o]+(x>0?scrA[o-1]:0)+(x<sw-1?scrA[o+1]:0))/3;}
+   for(y=0;y<sh;y++)for(x=0;x<sw;x++){o=y*sw+x;scrA[o]=(scrB[o]+(y>0?scrB[o-sw]:0)+(y<sh-1?scrB[o+sw]:0))/3;}
+  }
+  /* valor nos nós = média das 4 subcélulas em volta */
+  var W1=sw+1;
+  for(y=0;y<=sh;y++)for(x=0;x<=sw;x++){var sum=0;if(x>0&&y>0)sum+=scrA[(y-1)*sw+x-1];if(x<sw&&y>0)sum+=scrA[(y-1)*sw+x];if(x>0&&y<sh)sum+=scrA[y*sw+x-1];if(x<sw&&y<sh)sum+=scrA[y*sw+x];scrB[y*W1+x]=sum/4;}
+  scrI.fill(-1,0,nn);
+  for(y=0;y<sh;y++)for(x=0;x<sw;x++){
+   var n0=y*W1+x,n1=n0+1,n2=n0+W1,n3=n2+1,f0=scrB[n0],f1=scrB[n1],f2=scrB[n2],f3=scrB[n3];
+   if(f0<THR&&f1<THR&&f2<THR&&f3<THR)continue;
+   if(scrI[n0]<0)scrI[n0]=vert(c0+(x-PAD)/K,l0+(y-PAD)/K,f0,.5,.5,d);
+   if(scrI[n1]<0)scrI[n1]=vert(c0+(x+1-PAD)/K,l0+(y-PAD)/K,f1,.5,.5,d);
+   if(scrI[n2]<0)scrI[n2]=vert(c0+(x-PAD)/K,l0+(y+1-PAD)/K,f2,.5,.5,d);
+   if(scrI[n3]<0)scrI[n3]=vert(c0+(x+1-PAD)/K,l0+(y+1-PAD)/K,f3,.5,.5,d);
+   I.need(6);I.a[I.n++]=scrI[n0];I.a[I.n++]=scrI[n1];I.a[I.n++]=scrI[n3];I.a[I.n++]=scrI[n0];I.a[I.n++]=scrI[n3];I.a[I.n++]=scrI[n2];
+  }
+ }
+ var g=new T3.BG(),att=A.a.subarray(0,A.n),f32=new Float32Array(nv),uv=new Float32Array(nv*2),dd=new Float32Array(nv);
+ for(var j=0;j<nv;j++){f32[j]=att[4*j];uv[2*j]=att[4*j+1];uv[2*j+1]=att[4*j+2];dd[j]=att[4*j+3];}
+ g.setAttribute('position',new T3.BA(P.a.slice(0,P.n),3));g.setAttribute('aF',new T3.BA(f32,1));g.setAttribute('aUV',new T3.BA(uv,2));g.setAttribute('aD',new T3.BA(dd,1));
+ g.setIndex(new T3.BA(I.a.slice(0,I.n),1));
+ if(!det.mesh)det.mesh=mkMesh(g,mkMat(VS_DET,FS_DET,{uMin:U.min,uThr:{value:THR},uC0:{value:rgb(C.ambos)},uC0l:{value:rgb(C.ambosLn)},uC1:{value:rgb(C.modis)},uC2:{value:rgb(C.viirs)}}),8);
+ else{det.mesh.geometry.dispose();det.mesh.geometry=g;}
+ det.ok=true;det.n=sel.length/2;syncVisOnly();
+}
+function syncVisOnly(){
+ var hideH=detailOn();
+ tiles.forEach(function(t,k){if(t.st!=='ok')return;var on=modePts()&&wantedSet.has(k)&&S.layer==='h'&&!hideH;var m=on?tileMesh(t,'h'):t.m.h;if(m){m.visible=on;if(on){var r=rangeOf(t.T.H);m.material.uniforms.uRange.value=r;m.geometry.instanceCount=r[1];}}});
+ updVis();status();legend();
+}
+function updVis(){
+ var pts=modePts();
+ if(meshes.grid){meshes.grid.visible=!pts||!loadedAll();U.gAlpha.value=pts?.35:1;}
+ if(det.mesh)det.mesh.visible=!!detailOn();
+ if(meshes.fix)meshes.fix.visible=S.fix;
+ if(meshes.scar)meshes.scar.visible=S.scar&&meshes.scar.userData.ano===S.year;
+}
+
+/* ───────── fontes fixas ───────── */
+var fixKey='',fixList=[];
+function updFix(){
+ if(!S.fix){updVis();return;}
+ var src=is25()?'fixas-2025.json':'fixas-brasil.json',key=src+'|'+S.year;
+ if(key===fixKey){updVis();return;}fixKey=key;
+ (FIX[src]||(FIX[src]=getJSON(D+src))).then(function(j){
+  if(key!==fixKey)return;
+  var y=S.year,br=!is25(),L=[];
+  j.sitios.forEach(function(s){if(!br||(s[6]<=y&&s[7]>=y))L.push({lat:s[0],lon:s[1],tp:s[2],dias:s[3],sen:s[4],n:s[5],a0:s[6],a1:s[7],br:br});});
+  j.suspeitas.forEach(function(s){if(!br||(s[7]<=y&&s[8]>=y))L.push({lat:s[0],lon:s[1],tp:0,dias:s[3],sen:s[4],n:s[5],meses:s[6],a0:s[7],a1:s[8],anos:s[9],br:br});});
+  fixList=L;
+  var ll=new Float32Array(L.length*2),tp=new Float32Array(L.length);
+  L.forEach(function(s,i){ll[2*i]=s.lon;ll[2*i+1]=s.lat;tp[i]=s.tp;});
+  var geom=instGeom({aLL:[ll,2],aTp:[tp,1]},L.length);
+  if(!meshes.fix)meshes.fix=mkMesh(geom,mkMat(VS_MK,FS_MK,{uView:U.view,uPx:U.pxFix,uA:U.aFix}),9);
+  else{meshes.fix.geometry.dispose();meshes.fix.geometry=geom;}
+  updVis();legend();
+ }).catch(function(e){console.error(e);});
+}
+/* ───────── cicatrizes ───────── */
+var scarKey='',scarInfo=null;
+function updScar(){
+ $('scarOpt').hidden=!S.scar;
+ if(!S.scar){updVis();return;}
+ if(!CST){CST=getJSON(D+'cicatrizes/stats.json');}
+ CST.then(function(st){
+  scarInfo=st;
+  if(st.anos.indexOf(S.year)<0){updVis();legend();return;}
+  setScarU();
+  var key='y'+S.year;if(key===scarKey){updVis();legend();return;}scarKey=key;
+  return getBuf(D+'cicatrizes/br-'+S.year+'.bin').then(function(buf){
+   if(key!==scarKey)return;
+   var dv=new DataView(buf);if(dv.getUint32(0,true)!==0x42434943||dv.getUint16(4,true)!==1)throw new Error('cicatrizes: formato desconhecido');
+   var ny=dv.getUint16(14,true),nr=dv.getUint32(40,true),lin=new Uint16Array(buf,48,ny),run=new Uint32Array(buf,48+2*ny,nr);
+   var ax=new Uint16Array(nr),ay=new Uint16Array(nr),an=new Uint16Array(nr),am=new Uint16Array(nr),k=0;
+   for(var y=0;y<ny;y++)for(var f=k+lin[y];k<f;k++){var r=run[k];ax[k]=r>>>20;ay[k]=y;an[k]=((r>>>12)&255)+1;am[k]=r&4095;}
+   var geom=instGeom({aX:[ax,1],aY:[ay,1],aN:[an,1],aM:[am,1]},nr);
+   U.sG.value=[dv.getFloat64(16,true),dv.getFloat64(24,true),dv.getFloat64(32,true)];
+   if(!meshes.scar)meshes.scar=mkMesh(geom,mkMat(VS_SCAR,FS_SCAR,{uG:U.sG,uLo:U.sLo,uHi:U.sHi,uAc:U.sAc,uView:U.view,uC:{value:[.29,.20,.15,.62]}}),5);
+   else{meshes.scar.geometry.dispose();meshes.scar.geometry=geom;}
+   meshes.scar.userData.ano=S.year;updVis();legend();
+  });
+ }).catch(function(e){console.error(e);});
+}
+function setScarU(){var m=S.scale==='ano'?12:S.month;U.sAc.value=(S.scale==='ano'||S.scarAc)?1:0;U.sLo.value=Math.pow(2,m-1);U.sHi.value=Math.pow(2,m);}
+
+/* ───────── números da seleção ───────── */
+function brM(y,m){var B=ST.brasil.mensal,i=y-2000,k=m-1,med=!!B.completo_medido[i][k];
+ return {brutoM:B.deteccoes_modis[i][k],brutoV:B.deteccoes_viirs[i][k],medido:med,focos:med?B.completo[i][k]:B.focos_modis[i][k],focosM:B.focos_modis[i][k],est:med?null:B.completo[i][k],ambos:med?B.ambos[i][k]:0,soM:med?B.so_modis[i][k]:B.focos_modis[i][k],soV:med?B.so_viirs[i][k]:0,terra:!!B.so_terra[i][k]};}
+function brY(y){var o={brutoM:0,brutoV:0,focos:0,focosM:0,est:0,ambos:0,soM:0,soV:0,nMed:0,nMes:0},ms=MAN.anos[y].meses;
+ ms.forEach(function(m){var r=brM(y,m);o.brutoM+=r.brutoM;o.brutoV+=r.brutoV;o.focos+=r.focos;o.focosM+=r.focosM;o.est+=r.medido?r.focos:r.est;o.ambos+=r.ambos;o.soM+=r.soM;o.soV+=r.soV;o.nMes++;if(r.medido)o.nMed++;});
+ o.medido=o.nMed===o.nMes;if(o.medido)o.est=null;return o;}
+function val(o,L){return L==='h'?o.focos:(L==='m'?o.brutoM:o.brutoV);}
+function nums(){
+ var y=S.year,sc=S.scale,G=ST.global_2025,o;
+ if(y===2025){
+  var pick=function(src,i){var r={};['focos','ambos','soM','soV','brutoM','brutoV'].forEach(function(k){r[k]=i==null?src[k]:src[k][i];});r.medido=true;return r;};
+  o=sc==='ano'?pick(G.totais):(sc==='mes'?pick(G.mensal,S.month-1):pick(G.diario,doy(y,S.month,S.day)));o.onde='mundo';
+ }else{
+  if(sc==='ano')o=brY(y);else if(sc==='mes'||!BD)o=brM(y,S.month);
+  else{var d=BD.anos[y],i=doy(y,S.month,S.day);o={focos:d.focos[i],ambos:d.ambos[i],soM:d.soM[i],soV:d.soV[i],brutoM:d.brutoM[i],brutoV:d.brutoV[i],medido:y>2012||(y===2012&&S.month>1),est:null};}
+  o.onde='Brasil';
+ }
+ return o;
+}
+function quando(){var y=S.year;return S.scale==='ano'?String(y):(S.scale==='mes'?MES[S.month-1]+' de '+y:S.day+' de '+MES[S.month-1]+' de '+y);}
+
+/* ───────── leitura ───────── */
+function leitura(){
+ var o=nums(),h='',y=S.year,tot=o.ambos+o.soM+o.soV;
+ h+='<p class="when">'+quando()+' · '+o.onde+'</p>';
+ if(S.scale==='hora')h+='<p class="muted">Números do dia inteiro. O mapa mostra o que os satélites já tinham visto até '+(S.min>=1440?'o fim do dia':hhmm(S.min))+'.</p>';
+ if(S.scale==='dia'&&y<2025&&!BD)h+='<p class="muted">Carregando a série diária… por enquanto, números do mês.</p>';
+ h+='<div class="flow"><div><span><span class="sq" style="background:'+C.modis+'"></span> Detecções MODIS (1 km)</span><b class="num">'+nf(o.brutoM)+'</b></div>'+
+  '<div><span><span class="sq" style="background:'+C.viirs+'"></span> Detecções VIIRS (375 m)</span><b class="num">'+(y<2012?'sem VIIRS':nf(o.brutoV))+'</b></div>'+
+  '<div class="arrow">↓ juntando o que é o mesmo fogo</div>'+
+  '<div class="res"><span>'+(o.medido?'Focos harmonizados':'Focos (só MODIS)')+'</span><b class="num">'+nf(o.focos)+'</b></div></div>';
+ if(o.medido&&tot){
+  h+='<div class="stack" role="img" aria-label="Quem viu cada foco"><i style="width:'+100*o.ambos/tot+'%;background:'+C.ambos+'"></i><i style="width:'+100*o.soM/tot+'%;background:'+C.modis+'"></i><i style="width:'+100*o.soV/tot+'%;background:'+C.viirs+'"></i></div>'+
+   '<ul class="cls num"><li><span class="sq" style="background:'+C.ambos+'"></span>vistos pelos dois sensores<span>'+pct(o.ambos,tot)+'</span></li><li><span class="sq" style="background:'+C.modis+'"></span>só pelo MODIS<span>'+pct(o.soM,tot)+'</span></li><li><span class="sq" style="background:'+C.viirs+'"></span>só pelo VIIRS<span>'+pct(o.soV,tot)+'</span></li></ul>'+
+   '<p>Cada foco junta, em média, <b>'+((o.brutoM+o.brutoV)/Math.max(1,o.focos)).toLocaleString('pt-BR',{maximumFractionDigits:1})+' detecções</b>. Somar MODIS + VIIRS direto contaria o mesmo fogo várias vezes.</p>';
+ }else if(y<2025&&!o.medido){
+  h+='<p>'+(y<2012||(y===2012&&S.scale!=='ano')?'Nesta data só o MODIS existia (o VIIRS começa em 2012).':'Parte deste ano ainda não tinha VIIRS.')+' O mapa mostra os focos medidos pelo MODIS.'+(o.est?' Se os dois sensores estivessem no ar, a estimativa seria de <b class="num">~'+nf(o.est)+' focos</b> (fator calibrado em 2012–2021; é uma estimativa, não uma medida).':'')+'</p>';
+ }
+ if(S.scale==='hora')h+=passesHTML();
+ if(y===2025&&S.scale!=='hora'){var bz=ST.brasil.ano_2025.totais;if(S.scale==='ano')h+='<p class="muted">No Brasil, em 2025: '+nf(bz.focos)+' focos harmonizados.</p>';}
+ h+='<h3>Como juntamos</h3><p>Cada detecção cai numa célula da grade de 1 km do MODIS. Células vizinhas com fogo no mesmo <b>dia solar local</b> (o dia contado pelo sol do lugar, não pelo relógio de Greenwich) viram <b>um foco só</b>, não importa qual satélite viu nem quantas vezes. Assim, vários pixels do VIIRS (375 m) e um do MODIS (1 km) sobre a mesma queimada contam uma vez. <a href="/metodo">Ver o método</a></p>';
+ h+='<h3>Onde olhar</h3><div class="jump"><button type="button" data-go="-12.6,-48.2,.07,2025,9">Tocantins, Brasil</button><button type="button" data-go="-7.2,23.6,.07,2025,7">R. D. do Congo</button><button type="button" data-go="-19.5,-57.2,.07,2025,8">Pantanal</button></div>';
+ $('inBody').innerHTML=h;
+}
+function passesHTML(){
+ var t=S.min,h='<h3>Quem já passou até '+(t>=1440?'o fim do dia':hhmm(t))+'</h3><ul class="passes">';
+ PASSES.forEach(function(p){var st=t>=p[1]?'on':(t>p[0]?'now':'');h+='<li class="'+st+'"><span>'+p[2]+' <span class="muted">· '+p[3]+'</span></span><b>'+(st==='on'?'já passou':(st==='now'?'passando':'ainda não'))+'</b></li>';});
+ return h+'</ul><p class="muted">Hora solar local: 12:00 é o sol a pino no lugar. Cada satélite cruza o mesmo ponto mais ou menos na mesma hora solar, de dia e de noite.</p>';
+}
+
+/* ───────── legenda ───────── */
+function legend(){
+ var h='',L=S.layer,pts=modePts(),r=RAMP[L];
+ if(!pts){
+  var cap=gridCap();
+  h+='<h3>'+(L==='h'?'Focos harmonizados':(L==='m'?'Detecções MODIS':'Detecções VIIRS'))+' por célula</h3><p style="margin:0">Células de 0,25° (cerca de 28 km), '+(S.scale==='ano'?'no ano':'no mês')+'.</p>'+
+   '<div class="ramp" style="background:linear-gradient(90deg,'+r.join(',')+')"></div><div class="rampl num"><span>1</span><span>'+nf(Math.sqrt(cap+1))+'</span><span>'+nf(cap)+' ou mais</span></div>';
+  if(is25()&&S.scale!=='ano')h+='<p>Aproxime para ver cada foco.</p>';
+  else if(is25())h+='<p>Para ver cada foco de perto, escolha a escala Mês, Dia ou Hora.</p>';
+  else h+='<p>De 2000 a 2024 só há dados do Brasil, e só nesta grade. O detalhe ponto a ponto existe para 2025.</p>';
+ }else if(L==='h'){
+  h+='<h3>Foco harmonizado: quem viu</h3><ul>'+
+   '<li><svg width="26" height="16" aria-hidden="true"><rect x="2" y="2" width="22" height="12" rx="6" fill="'+C.ambos+'" stroke="'+C.ambosLn+'" stroke-width="1.6"/></svg>os dois sensores (cheio)</li>'+
+   '<li><svg width="26" height="16" aria-hidden="true"><rect x="2" y="2" width="22" height="12" rx="6" fill="'+C.modis+'" fill-opacity=".28" stroke="'+C.modis+'" stroke-width="1.8"/></svg>só MODIS (vazado, roxo)</li>'+
+   '<li><svg width="26" height="16" aria-hidden="true"><rect x="2" y="2" width="22" height="12" rx="6" fill="'+C.viirs+'" fill-opacity=".28" stroke="'+C.viirs+'" stroke-width="1.8"/></svg>só VIIRS (vazado, verde-azulado)</li></ul>';
+  if(detailOn())h+='<p><b>Forma real.</b> Mancha arredondada = células de 1 km vizinhas fundidas num foco. Quadradinho = foco de uma célula só (1 km²).</p>';
+  else if(modeBlob()&&det.over)h+='<p>Há focos demais nesta tela para desenhar as formas: aproxime mais ou escolha a escala Dia.</p>';
+  else h+='<p>Cada círculo é um foco; o tamanho cresce com o número de células de 1 km. Aproxime mais para ver a forma real.</p>';
+ }else{
+  h+='<h3>'+(L==='m'?'Detecções MODIS, sem juntar':'Detecções VIIRS, sem juntar')+'</h3><ul><li><svg width="26" height="16" aria-hidden="true"><rect x="'+(L==='m'?6:10)+'" y="'+(L==='m'?1:5)+'" width="'+(L==='m'?14:6)+'" height="'+(L==='m'?14:6)+'" fill="'+C[L==='m'?'modis':'viirs']+'" fill-opacity=".7"/></svg>'+(L==='m'?'pixel de ~1 km (Terra e Aqua)':'pixel de ~375 m (S-NPP)')+'</li></ul><p>De perto, cada quadrado tem o tamanho aproximado do pixel do sensor. Mais opaco = fogo mais intenso (FRP). Troque para a outra camada para comparar a resolução.</p>';
+ }
+ if(S.fix){
+  h+='<h3>Fontes fixas de calor</h3><ul>'+
+   '<li><svg width="18" height="18" aria-hidden="true"><path d="M9 2l7 7-7 7-7-7z" fill="#fff" stroke="#2B6CB0" stroke-width="2"/></svg>fonte fixa em terra (indústria, queima de gás)</li>'+
+   '<li><svg width="18" height="18" aria-hidden="true"><rect x="3" y="3" width="12" height="12" fill="#fff" stroke="#0E96C7" stroke-width="2"/></svg>no mar (offshore)</li>'+
+   '<li><svg width="18" height="18" aria-hidden="true"><path d="M9 2.5l7 12.5H2z" fill="#fff" stroke="#1E2A5A" stroke-width="2"/></svg>vulcão ativo</li>'+
+   '<li><svg width="18" height="18" aria-hidden="true"><path d="M9 2l7 7-7 7-7-7z" fill="#fff" stroke="#22262A" stroke-width="2"/><circle cx="9" cy="9" r="2" fill="#22262A"/></svg>suspeita: “fogo” no mesmo lugar o ano todo</li></ul>'+
+   '<p>Não são queimadas. O FIRMS marca as três primeiras; a suspeita é nossa (24 dias ou mais, em 8 meses ou mais) e continua contada nos focos.</p>';
+ }
+ if(S.scar){
+  h+='<h3>Cicatrizes de queimada</h3><ul><li><svg width="26" height="16" aria-hidden="true"><rect x="2" y="3" width="22" height="10" fill="'+C.scar+'" fill-opacity=".65"/></svg>área queimada (pixel de 1 km)</li></ul>';
+  if(scarInfo&&scarInfo.anos.indexOf(S.year)<0)h+='<p><b>Sem cicatrizes para '+S.year+'.</b> A série do INPE começa em setembro de 2002.</p>';
+  else{var per=S.scale==='ano'?'no ano inteiro de '+S.year:((S.scarAc?'de janeiro a ':'só em ')+MES[S.month-1]+' de '+S.year),ar='';
+   if(scarInfo&&scarInfo.por_ano[S.year]){var cm=scarInfo.por_ano[S.year].celulas_mes,s=0,m1=S.scale==='ano'?12:S.month,m0=(S.scale==='ano'||S.scarAc)?1:S.month;for(var m=m0;m<=m1;m++)s+=cm[m-1]||0;ar=' Cerca de <b class="num">'+nf(s)+' km²</b> (1 km² por pixel, a conta do INPE; soma dos meses).';}
+   h+='<p>Mostrando o que queimou '+per+'.'+ar+'</p>';}
+  h+='<p>Fonte: INPE, produto AQ1km (MODIS, 1 km). Só Brasil. Dado provisório: um pixel conta como todo queimado, então a área fica acima da de mapas mais finos.</p>';
+ }
+ $('legend').innerHTML=h;
+ $('layerNote').textContent=L==='h'?'O produto principal: MODIS e VIIRS juntos, cada fogo contado uma vez.':(L==='m'?'Detecções brutas do MODIS (Terra e Aqua), pixel de 1 km.':'Detecções brutas do VIIRS (S-NPP), pixel de 375 m.'+(S.year<2012?' Não existe antes de 2012.':''));
+}
+
+/* ───────── status ───────── */
+function status(){
+ var el=$('status'),h='',pts=modePts();
+ if(!MAN){return;}
+ if(pts){
+  var tot=wanted.length,ok=0;wanted.forEach(function(w){var t=tiles.get(w.k);if(t&&t.st!=='load')ok++;});
+  if(tot&&ok<tot)h='<span class="spin" aria-hidden="true"></span><span>Carregando pontos: <b>'+ok+' de '+tot+'</b> blocos…</span>';
+  else if(!tot)h='<span>Nenhuma detecção nesta área em '+MES[S.month-1]+' de 2025.</span>';
+  else if(S.layer==='h')h='<span><b>'+(detailOn()?'Forma real dos focos':(modeBlob()&&det.over?'Focos demais para desenhar as formas (aproxime ou use Dia)':'Focos, um círculo cada'))+'</b> · '+(S.scale==='mes'?MES[S.month-1]+' inteiro':S.day+' de '+MESC[S.month-1]+(S.scale==='hora'&&S.min<1440?', até '+hhmm(S.min):''))+'</span>';
+  else h='<span><b>'+(S.layer==='m'?'Pixels MODIS (1 km)':'Pixels VIIRS (375 m)')+'</b> · '+(S.scale==='mes'?MES[S.month-1]+' inteiro':S.day+' de '+MESC[S.month-1]+(S.scale==='hora'&&S.min<1440?', até '+hhmm(S.min):''))+'</span>';
+ }else if(!is25()){
+  h='<span><b>'+S.year+' · só Brasil</b> · grade de 0,25°. Detalhe ponto a ponto só em 2025.'+(S.scale==='dia'?' O mapa mostra o mês; as barras, os dias.':'')+'</span>';
+ }else if(S.scale==='ano'){
+  h='<span><b>2025 · mundo</b> · ano inteiro, grade de 0,25°.</span><button type="button" data-set-scale="mes">Ver por mês</button>';
+ }else{
+  h='<span><b>Visão geral</b> · '+MES[S.month-1]+' de 2025, grade de 0,25°.'+(S.scale!=='mes'?' Aproxime para ver o dia.':' Aproxime para ver cada foco.')+'</span>';
+ }
+ if(el.dataset.h!==h){el.dataset.h=h;el.innerHTML=h;}
+}
+
+/* ───────── linha do tempo ───────── */
+var tlM=null,horaCache={k:'',v:null};
+function horaHist(){
+ var ks=[S.month,S.day];eachTile(function(T){ks.push(T.lon0,T.lat0);});var k=ks.join(',');
+ if(horaCache.k===k)return horaCache.v;
+ var m=new Float64Array(24),v=new Float64Array(24),any=false;
+ eachTile(function(T){[[T.M,m],[T.V,v]].forEach(function(p){var sec=p[0],a=sec.dia[S.day-1],b=sec.dia[S.day];for(var i=a;i<b;i++){p[1][((sec.t[i]&2047)/60)|0]++;any=true;}});});
+ horaCache={k:k,v:any?{m:m,v:v,local:true}:null};return horaCache.v;
+}
+function tlModel(){
+ var L=S.layer,y=S.year,col=L==='h'?C.brand:(L==='m'?C.modis:C.viirs),M={bars:[],ticks:[],leg:''},i,o;
+ if(S.scale==='ano'){
+  M.min=2000;M.max=2025;M.step=1;M.val=y;
+  for(i=2000;i<=2025;i++){o=brY(i);M.bars.push({a:i-.4,b:i+.4,v:val(o,L),c:(L==='h'&&!o.medido)?C.modis:col,on:i===y});}
+  [2000,2005,2010,2015,2020,2025].forEach(function(t){M.ticks.push([t,String(t)]);});
+  M.title='Brasil, ano a ano · '+LNOME[L];
+  M.leg=L==='h'?'<span><svg width="12" height="12" aria-hidden="true"><rect width="12" height="12" rx="2" fill="'+C.brand+'"/></svg>MODIS + VIIRS harmonizados (2012 em diante)</span><span><svg width="12" height="12" aria-hidden="true"><rect width="12" height="12" rx="2" fill="'+C.modis+'"/></svg>só MODIS (antes de 2012, ou ano misto)</span>':'';
+  M.leg+='<span>Barras: série do Brasil. No globo: <b>2025 · mundo</b>; <b>2000–2024 · Brasil</b>.</span>';
+  M.sub=y+(y===2025?' · mundo no globo':' · só Brasil')+' · '+nf(val(brY(y),L))+' '+(L==='h'?'focos':'detecções')+' no Brasil';
+ }else if(S.scale==='mes'){
+  var ms=MAN.anos[y].meses;M.min=ms[0];M.max=ms[ms.length-1];M.step=1;M.val=S.month;
+  ms.forEach(function(m){var r=y===2025?ST.global_2025.mensal[LKEY[L]][m-1]:null,q=r==null?brM(y,m):null;M.bars.push({a:m-.4,b:m+.4,v:r==null?val(q,L):r,c:(q&&L==='h'&&!q.medido)?C.modis:col,on:m===S.month});M.ticks.push([m,MESC[m-1]]);});
+  M.title=(y===2025?'Mundo':'Brasil')+', mês a mês em '+y+' · '+LNOME[L];
+  M.sub=MES[S.month-1]+' de '+y+' · '+nf(val(nums(),L))+' '+(L==='h'?'focos':'detecções');
+  if(y<2012&&L==='h')M.leg='<span><svg width="12" height="12" aria-hidden="true"><rect width="12" height="12" rx="2" fill="'+C.modis+'"/></svg>antes de 2012: focos medidos só com o MODIS</span>';
+ }else if(S.scale==='dia'){
+  var nd=dim(y,S.month),d0=doy(y,S.month,1),src=y===2025?ST.global_2025.diario[LKEY[L]]:(BD?BD.anos[y][LKEY[L]]:null);
+  M.min=1;M.max=nd;M.step=1;M.val=S.day;
+  for(i=1;i<=nd;i++)M.bars.push({a:i-.4,b:i+.4,v:src?src[d0+i-1]:0,c:col,on:i===S.day});
+  [1,5,10,15,20,25,nd].forEach(function(t){M.ticks.push([t,String(t)]);});
+  M.title=(y===2025?'Mundo':'Brasil')+', dia a dia em '+MES[S.month-1]+' de '+y+' · '+LNOME[L];
+  M.sub=S.day+' de '+MES[S.month-1]+' · '+(src?nf(src[d0+S.day-1])+' '+(L==='h'?'focos':'detecções'):'carregando…');
+  if(y<2025)M.leg='<span>O mapa mostra o mês inteiro: o detalhe por dia no globo só existe em 2025.</span>';
+ }else{
+  M.min=0;M.max=1440;M.step=10;M.val=S.min;
+  var hh=horaHist(),G=ST.global_2025.hora_local;
+  for(i=0;i<24;i++){var vm=hh?hh.m[i]:G.Terra[i]+G.Aqua[i],vv=hh?hh.v[i]:G['S-NPP'][i];
+   M.bars.push({a:i*60+4,b:i*60+56,v:vm+vv,v2:vm,c:C.viirs,c2:C.modis,on:false,dim:i*60>=S.min});}
+  for(i=0;i<=24;i+=3)M.ticks.push([i*60,i+'h']);
+  M.title='Hora solar local em '+S.day+' de '+MES[S.month-1]+' de 2025 · '+(hh?'detecções na área carregada do mapa':'padrão do ano no mundo (aproxime para ver o dia)');
+  M.sub='até '+(S.min>=1440?'o fim do dia':hhmm(S.min))+' · passagens: '+PASSES.filter(function(p){return S.min>=p[1];}).length+' de 4';
+  M.leg='<span><svg width="12" height="12" aria-hidden="true"><rect width="12" height="12" rx="2" fill="'+C.modis+'"/></svg>MODIS (Terra ~10:30 e ~22:30; Aqua ~13:30 e ~01:30)</span><span><svg width="12" height="12" aria-hidden="true"><rect width="12" height="12" rx="2" fill="'+C.viirs+'"/></svg>VIIRS (S-NPP ~13:30 e ~01:30)</span>';
+  M.marks=[[90,'01:30'],[630,'10:30'],[810,'13:30'],[1350,'22:30']];
+ }
+ return M;
+}
+function drawTL(){
+ if(!ST)return;
+ var M=tlM=tlModel(),R=$('tlR'),svg=$('tlSvg'),W=$('tlPlot').clientWidth||600,Hh=60,pad=S.scale==='hora'?10:Math.max(10,Math.min(60,W/(M.bars.length||1)/2));
+ R.style.left=(pad-10)+'px';R.style.width=(W-2*pad+20)+'px';
+ R.min=M.min;R.max=M.max;R.step=M.step;R.value=M.val;
+ var txt=S.scale==='ano'?String(S.year)+(S.year===2025?', mundo':', só Brasil'):(S.scale==='hora'?'até '+hhmm(S.min):quando());
+ R.setAttribute('aria-valuetext',txt);
+ var X=function(v){return M.max===M.min?W/2:pad+(v-M.min)/(M.max-M.min)*(W-2*pad);},mx=1;
+ M.bars.forEach(function(b){if(b.v>mx)mx=b.v;});
+ var h='<line x1="0" y1="'+Hh+'" x2="'+W+'" y2="'+Hh+'" stroke="'+C.soft+'"/>';
+ (M.marks||[]).forEach(function(m){h+='<line x1="'+X(m[0])+'" y1="8" x2="'+X(m[0])+'" y2="'+Hh+'" stroke="#9AA4AD" stroke-dasharray="2 3"/><text x="'+X(m[0])+'" y="7" text-anchor="middle">'+m[1]+'</text>';});
+ M.bars.forEach(function(b){
+  var x0=X(b.a),x1=X(b.b),bw=Math.max(1.5,x1-x0),bh=b.v>0?Math.max(2,(Hh-12)*b.v/mx):0,op=b.dim?.3:(b.on||S.scale==='hora'?1:.5);
+  h+='<rect x="'+x0.toFixed(1)+'" y="'+(Hh-bh).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+bh.toFixed(1)+'" rx="'+Math.min(3,bw/2)+'" fill="'+b.c+'" opacity="'+op+'"/>';
+  if(b.v2){var b2=(Hh-12)*b.v2/mx;h+='<rect x="'+x0.toFixed(1)+'" y="'+(Hh-b2).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+b2.toFixed(1)+'" fill="'+b.c2+'" opacity="'+op+'"/>';}
+ });
+ var kx=X(M.val);
+ h+='<line class="knob" x1="'+kx+'" y1="2" x2="'+kx+'" y2="'+Hh+'" stroke="'+C.ink+'" stroke-width="2"/><circle cx="'+kx+'" cy="'+Hh+'" r="5" fill="'+C.ink+'"/>';
+ M.ticks.forEach(function(t){h+='<text x="'+X(t[0])+'" y="'+(Hh+14)+'" text-anchor="middle"'+(t[0]===M.val&&S.scale!=='hora'?' style="fill:#22262A;font-weight:700"':'')+'>'+t[1]+'</text>';});
+ svg.setAttribute('viewBox','0 0 '+W+' 78');svg.innerHTML=h;
+ $('tl-t').textContent=M.title;$('tlRange').textContent=M.sub;$('tlLeg').innerHTML=M.leg||'';
+ $('selAno').value=String(S.year);
+ document.querySelectorAll('[data-scale]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.scale===S.scale);if(b.dataset.scale==='hora'){b.disabled=!is25();b.title=is25()?'':'A hora de cada detecção só está disponível para 2025';}});
+}
+function setFromSlider(v){
+ if(S.scale==='ano')S.year=v;else if(S.scale==='mes')S.month=v;else if(S.scale==='dia')S.day=v;else S.min=v;
+ apply();
+}
+function stopPlay(){if(playing){clearInterval(playing);playing=null;$('tlIco').setAttribute('d','M5 3l10 6-10 6z');$('tlPlay').setAttribute('aria-label','Reproduzir');}}
+function play(){
+ if(playing){stopPlay();return;}
+ $('tlIco').setAttribute('d','M4 3h4v12H4zM10 3h4v12h-4z');$('tlPlay').setAttribute('aria-label','Pausar');
+ var stp=S.scale==='hora'?(REDUCED?60:20):1,ms=S.scale==='hora'?(REDUCED?900:160):(REDUCED?1600:(S.scale==='dia'?650:1000));
+ if(S.scale==='hora'&&S.min>=1440){S.min=0;apply();}
+ playing=setInterval(function(){var M=tlM,v=M.val+stp;if(v>M.max){if(S.scale==='hora'){stopPlay();return;}v=M.min;}setFromSlider(v);},ms);
+}
+
+/* ───────── aplicar estado ───────── */
+function clampState(){
+ var a=MAN.anos[S.year],ms=a.meses;
+ if(ms.indexOf(S.month)<0)S.month=ms[ms.length-1];
+ if(S.scale==='hora'&&!is25())S.scale='dia';
+ S.day=Math.max(1,Math.min(dim(S.year,S.month),S.day));
+ if(S.scale==='dia'&&!is25()&&!BD)loadBD();
+}
+function loadBD(){if(loadBD.p)return;loadBD.p=getJSON(D+'brasil-diario.json').then(function(j){BD=j;drawTL();leitura();}).catch(function(e){console.error(e);});}
+function apply(){
+ clampState();if(globe)alt=globe.pointOfView().altitude;
+ U.min.value=S.scale==='hora'?S.min:5000;
+ updGrid();updTiles();updFix();updScar();if(S.scar)setScarU();
+ if(modeBlob())schedDetail();else if(det.mesh){det.ok=false;det.key='';}
+ updVis();drawTL();leitura();legend();status();
+}
+var raf=0,lastMode='';
+function onView(){
+ if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+  alt=globe.pointOfView().altitude;
+  U.pxFix.value=alt>1.2?3.2:(alt>.4?5.5:(alt>.08?10:13));U.aFix.value=alt>1.2?.55:1;
+  U.pxH.value=alt>.08?3.6:4.6;U.pxM.value=alt>.08?2.6:3;U.pxV.value=alt>.08?2:2.4;
+  var md=(modePts()?'p':'g')+(modeBlob()?'b':'');
+  if(modePts()||md!==lastMode)updTiles();
+  if(md!==lastMode){lastMode=md;if(!modeBlob()&&det.mesh){det.ok=false;det.key='';}updVis();legend();status();}
+ });
+}
+
+/* ───────── clique: detalhe ───────── */
+function card(title,sub,rows,note,ll){
+ var h='<div class="hh"><div><b>'+title+'</b><span class="muted">'+sub+'</span></div><button type="button" class="ib" id="hcX" aria-label="Fechar"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div><dl>';
+ rows.forEach(function(r){h+='<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>';});
+ h+='</dl>'+(note?'<p>'+note+'</p>':'');
+ var el=$('hcard');el.innerHTML=h;el.hidden=false;$('hcX').onclick=hideCard;
+ if(ll){var g=instGeom({aLL:[new Float32Array([ll[1],ll[0]]),2],aTp:[new Float32Array([9]),1]},1);
+  if(!meshes.sel)meshes.sel=mkMesh(g,mkMat(VS_MK,FS_MK,{uView:U.view,uPx:{value:30},uA:{value:1}}),10);else{meshes.sel.geometry.dispose();meshes.sel.geometry=g;}meshes.sel.visible=true;}
+ say(title+'. '+sub);
+}
+function hideCard(){$('hcard').hidden=true;if(meshes.sel)meshes.sel.visible=false;}
+function dayOf(sec,i){for(var d=1;d<=31;d++)if(i<sec.dia[d])return d;return 31;}
+function member(T,i,l,c){
+ var H=T.H,dv=T.C,p=H.cOff[i],wide=H.t1[i]&4096,l0=dv.getInt16(p,true),c0=dv.getInt16(p+2,true),n=wide?dv.getUint32(p+4,true):dv.getUint8(p+4),q=p+(wide?8:5),st=wide?6:3;
+ for(var k=0;k<n;k++,q+=st){var dl=wide?dv.getUint16(q,true):dv.getUint8(q),dc=wide?dv.getUint16(q+2,true):dv.getUint8(q+1),cp=(wide?dv.getUint16(q+4,true):dv.getUint8(q+2))+1;if(l0+dl===l&&c>=c0+dc&&c<c0+dc+cp)return true;}
+ return false;
+}
+function pick(lat,lng){
+ var cam=globe.camera(),degPx=2*alt*Math.tan(cam.fov*RAD/2)/RAD/gEl.clientHeight,cs=Math.max(.15,Math.cos(lat*RAD)),best=null,bd=1e9,tol;
+ if(S.fix&&fixList.length){tol=degPx*(U.pxFix.value/2+5);
+  fixList.forEach(function(s){var dx=(s.lon-lng)*cs,dy=s.lat-lat;if(Math.abs(dx)>tol||Math.abs(dy)>tol)return;var d=Math.hypot(dx,dy);if(d<bd){bd=d;best=s;}});
+  if(best&&bd<tol){showFix(best);return;}}
+ if(modePts()){
+  var L=S.layer,la=lat*RAD,cl=Math.floor(R_M*la/CEL),cc=Math.floor(R_M*lng*RAD*Math.cos(la)/CEL),hit=null;bd=1e9;
+  eachTile(function(T){var sec=L==='h'?T.H:(L==='m'?T.M:T.V),r=rangeOf(sec),tt=L==='h'?sec.t0:sec.t;
+   for(var i=r[0];i<r[1];i++){if(S.scale==='hora'&&(tt[i]&2047)>S.min)continue;
+    var lon=T.lon0+(sec.x[i]+.5)*T.q,lt=T.lat0+(sec.y[i]+.5)*T.q,dx=(lon-lng)*cs,dy=lt-lat;
+    if(Math.abs(dx)>.6||Math.abs(dy)>.6)continue;
+    var d=Math.hypot(dx,dy),rad=(L==='h'?Math.sqrt(sec.ncel[i])*.0052:(L==='m'?.0055:.0022))+degPx*5;
+    if(L==='h'&&(sec.t1[i]&2048)&&member(T,i,cl,cc))d=d*1e-3;else if(d>rad)continue;
+    if(d<bd){bd=d;hit=[T,i];}}});
+  if(hit){if(L==='h')showFoco(hit[0],hit[1]);else showRaw(hit[0],hit[1],L);return;}
+  hideCard();return;
+ }
+ var o=cellStats(lat,lng);
+ if(o&&(o.h||o.m||o.v)){
+  var gl=Math.floor(lat*4)/4,gn=Math.floor(lng*4)/4;
+  card('Célula de 0,25° (cerca de 28 km)',quando()+' · '+(is25()?'mundo':'Brasil'),[['Focos harmonizados','<b>'+nf(o.h)+'</b>'+(o.hm&&S.year>=2012?' ('+nf(o.hm)+' com MODIS)':'')],['Detecções MODIS',nf(o.m)],['Detecções VIIRS',S.year<2012?'sem VIIRS':nf(o.v)],['Maior FRP',(o.fm?'MODIS '+nf(frp(o.fm))+' MW':'')+(o.fm&&o.fv?' · ':'')+(o.fv?'VIIRS '+nf(frp(o.fv))+' MW':'')||'–'],['Canto sudoeste',gl.toFixed(2)+', '+gn.toFixed(2)]],is25()&&S.scale!=='ano'?'Aproxime para ver cada foco desta célula.':'',[gl+.125,gn+.125]);
+ }else hideCard();
+}
+function showFoco(T,i){
+ var H=T.H,lat=T.lat0+(H.y[i]+.5)*T.q,lon=T.lon0+(H.x[i]+.5)*T.q,t0=H.t0[i],t1=H.t1[i],d=dayOf(H,i),sat=[],nM=H.nM[i],nV=H.nV[i],nc=H.ncel[i];
+ if(t0&2048)sat.push('Terra');if(t0&4096)sat.push('Aqua');if(t0&8192)sat.push('S-NPP');
+ var cls=nM&&nV?['Visto pelos dois sensores',C.ambos]:(nM?['Só o MODIS viu',C.modis]:['Só o VIIRS viu',C.viirs]);
+ var per=(t0&16384?'de dia':'')+((t0&16384)&&(t0&32768)?' e ':'')+(t0&32768?'à noite':'');
+ card('Foco harmonizado','<span class="sq" style="background:'+cls[1]+';vertical-align:-1px"></span> '+cls[0],[
+  ['Data (local)',d+' de '+MES[S.month-1]+' de 2025'],
+  ['Hora solar local',(t0&2047)===(t1&2047)?hhmm(t0&2047):hhmm(t0&2047)+' às '+hhmm(t1&2047)+' (primeira e última detecção)'],
+  ['Satélites',sat.join(', ')+(per?' · '+per:'')],
+  ['Tamanho','<b>'+nf(nc)+(nc===1?' célula':' células')+' de 1 km</b> (≈ '+nf(nc)+' km² na régua do MODIS)'],
+  ['Detecções','MODIS '+(nM>=255?'255 ou mais':nM)+' · VIIRS '+(nV>=255?'255 ou mais':nV)],
+  ['Maior FRP',(nM?'MODIS '+frp(H.frpM[i]).toLocaleString('pt-BR',{maximumFractionDigits:1})+' MW':'')+(nM&&nV?' · ':'')+(nV?'VIIRS '+frp(H.frpV[i]).toLocaleString('pt-BR',{maximumFractionDigits:1})+' MW':'')],
+  ['Centro',lat.toFixed(4)+', '+lon.toFixed(4)]],
+  'FRP é a potência radiativa do fogo (a “força” da chama vista do espaço), em megawatts. '+(nc>1?'A mancha é a união das células de 1 km vizinhas com detecção no dia.':'Foco de uma célula: o quadrado é a célula de 1 km da grade do MODIS.'),[lat,lon]);
+}
+function showRaw(T,i,L){
+ var sec=L==='m'?T.M:T.V,t=sec.t[i],lat=T.lat0+(sec.y[i]+.5)*T.q,lon=T.lon0+(sec.x[i]+.5)*T.q,fc=['menos de 2','2 a 5','5 a 10','10 a 20','20 a 50','50 a 100','100 a 500','500 ou mais'][t>>13];
+ card(L==='m'?'Detecção MODIS':'Detecção VIIRS',L==='m'?'pixel de ~1 km · satélite '+(t&4096?'Aqua':'Terra'):'pixel de ~375 m · satélite S-NPP',[
+  ['Data (local)',dayOf(sec,i)+' de '+MES[S.month-1]+' de 2025'],['Hora solar local',hhmm(t&2047)+(t&2048?' (passagem noturna)':' (passagem diurna)')],['FRP',fc+' MW'],['Posição',lat.toFixed(4)+', '+lon.toFixed(4)]],
+  'Detecção bruta, antes de juntar. Troque para “Harmonizado” para ver a que foco ela pertence.',[lat,lon]);
+}
+function showFix(s){
+ var sen={1:'MODIS',2:'VIIRS',3:'MODIS e VIIRS'}[s.sen]||'–',rows=[['Tipo','<b>'+FIXT[s.tp]+'</b>']];
+ if(s.tp===0){rows.push([s.br?'Dias no ano mais ativo':'Dias com detecção em 2025',nf(s.dias)],['Meses com detecção',nf(s.meses)+' de 12'],['Células de 1 km',nf(s.n)]);if(s.br)rows.push(['Período',s.a0+'–'+s.a1+' ('+s.anos+(s.anos===1?' ano':' anos')+' no critério)']);}
+ else{rows.push([s.br?'Dias com detecção ('+s.a0+(s.a1!==s.a0?'–'+s.a1:'')+')':'Dias com detecção em 2025',nf(s.dias)],['Detecções',nf(s.n)]);}
+ rows.push(['Sensores',sen],['Posição',s.lat.toFixed(4)+', '+s.lon.toFixed(4)]);
+ card('Fonte fixa de calor',s.tp===0?'marcada por nós, não pelo FIRMS':'classificada pelo FIRMS',rows,s.tp===0?'O FIRMS trata como fogo em vegetação, mas “queimar” no mesmo quilômetro o ano inteiro sugere indústria, queima de gás ou siderurgia. Continua contada nos focos; aqui só avisamos.':'Calor que não é queimada: fica fora da contagem de focos.',[s.lat,s.lon]);
+}
+
+/* ───────── globo ───────── */
+function setBase(){var b=TILES[S.base];globe.globeTileEngineMaxLevel(b[1]).globeTileEngineUrl(function(x,y,l){return b[0]+l+'/'+y+'/'+x;});}
+function fly(lat,lng,a,ms){globe.pointOfView({lat:lat,lng:lng,altitude:a},REDUCED?0:ms);}
+function zoomBy(f){var v=globe.pointOfView();fly(v.lat,v.lng,Math.max(.004,Math.min(4,v.altitude*f)),450);}
+function initGlobe(){
+ if(typeof Globe==='undefined'){fatal('Não foi possível carregar o globo. Verifique a conexão com a internet.');return;}
+ globe=Globe()(gEl).width(gEl.clientWidth).height(gEl.clientHeight).backgroundColor('#E4E9EC')
+  .globeImageUrl('https://unpkg.com/three-globe@2.30.0/example/img/earth-blue-marble.jpg').atmosphereColor('#A9BFCF').atmosphereAltitude(.14)
+  .onGlobeClick(function(p){if(p&&isFinite(p.lat))pick(p.lat,p.lng);})
+  .onZoom(onView);
+ setBase();
+ var c=globe.controls();c.autoRotate=false;c.minDistance=100.4;c.enableDamping=!REDUCED;
+ globe.pointOfView(HOME);
+ U.view={value:[gEl.clientWidth,gEl.clientHeight]};U.min={value:5000};U.pxFix={value:3.2};U.aFix={value:.55};U.pxH={value:3.6};U.pxM={value:2.6};U.pxV={value:2};
+ U.sG={value:[-74,-34,.01]};U.sLo={value:1};U.sHi={value:4096};U.sAc={value:1};
+ if(window.ResizeObserver)new ResizeObserver(function(){globe.width(gEl.clientWidth).height(gEl.clientHeight);U.view.value=[gEl.clientWidth,gEl.clientHeight];drawTL();onView();}).observe(gEl);
+ var tries=0;(function wait(){
+  if(grabThree()){try{apply();onView();}catch(e){console.error(e);fatal('Erro ao desenhar os dados no globo.');}return;}
+  if(++tries>80){fatal('Seu navegador não conseguiu iniciar o desenho 3D (WebGL).');return;}
+  setTimeout(wait,100);})();
+}
+
+/* ───────── interface ───────── */
+function press(sel,attr,v){document.querySelectorAll(sel).forEach(function(b){b.setAttribute('aria-pressed',b.dataset[attr]===String(v));});}
+document.querySelectorAll('[data-layer]').forEach(function(b){b.onclick=function(){S.layer=b.dataset.layer;press('[data-layer]','layer',S.layer);hideCard();apply();say('Camada: '+b.textContent);};});
+document.querySelectorAll('[data-base]').forEach(function(b){b.onclick=function(){S.base=b.dataset.base;press('[data-base]','base',S.base);if(globe)setBase();};});
+document.querySelectorAll('[data-scar]').forEach(function(b){b.onclick=function(){S.scarAc=b.dataset.scar==='1';press('[data-scar]','scar',S.scarAc?1:0);apply();};});
+document.querySelectorAll('[data-scale]').forEach(function(b){b.onclick=function(){setScale(b.dataset.scale);};});
+function setScale(sc){stopPlay();if(sc==='hora'&&!is25())return;S.scale=sc;if(sc==='hora')S.min=1440;hideCard();apply();say('Escala: '+sc);}
+$('ckFix').onchange=function(){S.fix=this.checked;apply();};
+$('ckScar').onchange=function(){S.scar=this.checked;apply();if(S.scar&&globe&&alt>1.2&&is25())say('Cicatrizes só existem para o Brasil.');};
+$('selAno').onchange=function(){stopPlay();S.year=+this.value;hideCard();apply();};
+$('tlR').addEventListener('input',function(){stopPlay();setFromSlider(+this.value);});
+$('tlPlay').onclick=play;
+$('zin').onclick=function(){zoomBy(.5);};$('zout').onclick=function(){zoomBy(2);};
+$('gall').onclick=function(){fly(HOME.lat,HOME.lng,HOME.altitude,1400);};
+$('inMin').onclick=function(){var m=$('insight').classList.toggle('min');this.setAttribute('aria-expanded',!m);this.setAttribute('aria-label',m?'Abrir leitura':'Recolher leitura');};
+$('btnLayers').onclick=function(){var o=$('side').classList.toggle('open');document.body.classList.toggle('has-side',o);this.setAttribute('aria-expanded',o);};
+$('status').addEventListener('click',function(e){var b=e.target.closest('[data-set-scale]');if(b)setScale(b.dataset.setScale);});
+$('inBody').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(!b)return;var p=b.dataset.go.split(',').map(Number);stopPlay();S.year=p[3];S.month=p[4];if(S.scale==='ano')S.scale='mes';apply();fly(p[0],p[1],p[2],1800);});
+$('fq').addEventListener('submit',function(e){
+ e.preventDefault();var s=$('q').value.trim(),m=s.match(/-?\d+(?:[.,]\d+)?/g);
+ if(m&&m.length===4&&s.indexOf('.')<0)m=[m[0]+'.'+m[1].replace('-',''),m[2]+'.'+m[3].replace('-','')];
+ if(m&&m.length>=2&&/[,;\s]/.test(s)){var la=parseFloat(String(m[0]).replace(',','.')),lo=parseFloat(String(m[1]).replace(',','.'));
+  if(Math.abs(la)<=90&&Math.abs(lo)<=180){fly(la,lo,Math.min(alt,.06),1600);say('Indo para '+la+', '+lo);return;}}
+ say('Digite latitude e longitude, por exemplo: -12.6, -48.2');$('q').setAttribute('aria-invalid','true');setTimeout(function(){$('q').removeAttribute('aria-invalid');},1500);
+});
+gEl.addEventListener('keydown',function(e){if(!globe)return;var v=globe.pointOfView(),d=Math.min(10,v.altitude*14),m={ArrowLeft:[0,-d],ArrowRight:[0,d],ArrowUp:[d,0],ArrowDown:[-d,0]}[e.key];
+ if(m){e.preventDefault();fly(Math.max(-85,Math.min(85,v.lat+m[0])),v.lng+m[1],v.altitude,250);}else if(e.key==='+'||e.key==='='){e.preventDefault();zoomBy(.6);}else if(e.key==='-'||e.key==='_'){e.preventDefault();zoomBy(1.6);}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')hideCard();});
+if(window.innerWidth<=900){$('side').classList.remove('open');document.body.classList.remove('has-side');$('btnLayers').setAttribute('aria-expanded','false');$('insight').classList.add('min');$('inMin').setAttribute('aria-expanded','false');}
+
+/* ───────── início ───────── */
+Promise.all([getJSON(D+'manifest.json'),getJSON(D+'stats.json')]).then(function(r){
+ MAN=r[0];ST=r[1];
+ var sel=$('selAno'),h='<optgroup label="Mundo inteiro (grade e pontos)"><option value="2025">2025 · mundo</option></optgroup><optgroup label="Só Brasil (grade)">';
+ for(var y=2024;y>=2000;y--)if(MAN.anos[y])h+='<option value="'+y+'">'+y+' · Brasil</option>';
+ sel.innerHTML=h+'</optgroup>';
+ var q=new URLSearchParams(location.search),n=function(k){return q.has(k)?parseFloat(q.get(k)):NaN;};
+ if(MAN.anos[n('ano')])S.year=n('ano');if(n('mes')>=1&&n('mes')<=12)S.month=n('mes');if(n('dia')>=1)S.day=n('dia');
+ if(['ano','mes','dia','hora'].indexOf(q.get('escala'))>=0)S.scale=q.get('escala');if(['h','m','v'].indexOf(q.get('camada'))>=0){S.layer=q.get('camada');press('[data-layer]','layer',S.layer);}
+ if(isFinite(n('lat'))&&isFinite(n('lng')))HOME0={lat:n('lat'),lng:n('lng'),altitude:isFinite(n('alt'))?n('alt'):.06};
+ initGlobe();if(HOME0&&globe)globe.pointOfView(HOME0);
+ setTimeout(loadBD,2500);
+}).catch(function(e){console.error(e);fatal('Não foi possível carregar os dados harmonizados. Recarregue a página.');});
+var HOME0=null;
+window.__dof={S:S,apply:apply,build:buildDetail,tiles:tiles,det:det,meshes:meshes,U:U,T3:T3,globe:function(){return globe;}};
+})();
+</script>
+</body>
+</html>

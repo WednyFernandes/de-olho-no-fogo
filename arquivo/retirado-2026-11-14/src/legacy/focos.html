@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Focos do FIRMS: antes e depois</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Os CSVs do NASA FIRMS de 2025 no Brasil, separados por sensor, filtrados, antes e depois da harmonização, foco a foco.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: ferramenta (densidade "tool" do DESIGN.md): barra de filtros à esquerda, área de trabalho à direita
+   com resumo antes × depois, mapa + painel do foco, gráficos e as tabelas dos CSVs. Violeta = MODIS, petróleo = VIIRS. */
+:root{--brand:#E5004B;--brand-ink:#B80040;--brand-tint:#FFE8EF;--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--map:#E4E9EC;--card:#FFFFFF;--soft:#F3F5F7;--night:#E6EAED;
+  --warn-ink:#8A5A00;--warn-tint:#FFF3D6;--green-ink:#1F4D33;--green-tint:#F4F9F5;--modis:#6B4FA0;--snpp:#00727F;--noaa:#5FB3BC;--shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--map);color:var(--ink);font:16px/1.5 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-ink)}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+.num{font-variant-numeric:tabular-nums}
+code{font-family:Consolas,"Cascadia Mono",monospace;font-size:.9em;background:var(--soft);padding:1px 6px;border-radius:6px}
+.card{background:var(--card);border-radius:14px;box-shadow:var(--shadow)}
+.top{position:sticky;top:12px;z-index:1000;margin:12px;display:flex;align-items:center;gap:16px;padding:0 16px;min-height:56px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:800}
+.nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.nav a{padding:10px 12px;border-radius:10px;color:var(--ink2);text-decoration:none;font-weight:600;font-size:14px}
+.nav a:hover{background:var(--soft)}
+.nav a[aria-current]{background:var(--brand-tint);color:var(--brand-ink)}
+.wrap{max-width:1440px;margin:0 auto;padding:12px 24px 40px}
+h1{font-size:28px;font-weight:800;letter-spacing:-.015em;line-height:1.25;margin:8px 0 4px}
+h2{font-size:20px;font-weight:800;margin:0 0 4px}
+h3{font-size:17px;font-weight:700;margin:0 0 6px}
+.lead{color:var(--ink2);margin:0 0 16px;max-width:90ch}
+.layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;align-items:start}
+.side{position:sticky;top:84px;padding:18px 20px;display:grid;gap:16px;max-height:calc(100vh - 100px);overflow:auto}
+.main{display:grid;gap:16px;min-width:0}
+.pad{padding:18px 20px}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:6px}
+legend,.lab{font-size:13px;font-weight:600;color:var(--ink3);margin-bottom:4px;padding:0}
+select{font:inherit;font-size:15px;min-height:42px;border:1px solid var(--line);border-radius:10px;padding:0 10px;background:var(--card);color:var(--ink);width:100%}
+.ck{display:flex;align-items:center;gap:8px;font-size:15px;cursor:pointer}
+.ck input{width:18px;height:18px;accent-color:var(--ink)}
+.sw{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+button,.btn{font:inherit;font-size:15px;font-weight:700;min-height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:0 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+button:hover,.btn:hover{border-color:var(--ink3)}
+button.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+button.pri:hover{background:var(--brand-ink)}
+.seg{display:inline-flex;background:var(--soft);border-radius:10px;padding:3px;gap:2px}
+.seg button{min-height:36px;border:0;background:transparent;color:var(--ink2);font-size:14px;padding:0 12px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.status{font-size:14px;color:var(--ink3)}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700}
+.badge.warn{background:var(--warn-tint);color:var(--warn-ink)}
+.badge.real{background:var(--green-tint);color:var(--green-ink)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-size:13px;font-weight:600;color:var(--ink3);text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line2);vertical-align:top}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.b{font-weight:800}
+.tbl{overflow-x:auto}
+.mapgrid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:0}
+#map{height:560px;border-radius:14px 0 0 14px}
+.foco{padding:18px 20px;border-left:1px solid var(--line2);max-height:560px;overflow:auto}
+.vazio{color:var(--ink3);font-size:15px}
+.passo{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;margin:10px 0}
+.passo .n{width:28px;height:28px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-size:13px;font-weight:800}
+.passo.fim .n{border-color:var(--brand);background:var(--brand-tint);color:var(--brand-ink)}
+.passo p{margin:3px 0 0;font-size:14px;color:var(--ink2)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:13.5px;margin:8px 0 4px}
+.kv dt{color:var(--ink3)}
+.kv dd{margin:0;font-variant-numeric:tabular-nums}
+.res{font-size:22px;font-weight:800;color:var(--brand-ink);letter-spacing:-.01em}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.grid2>*,.main>*,.mapgrid>*{min-width:0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;color:var(--ink2);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.ln{width:20px;height:0;border-top:3px solid currentColor;display:inline-block}
+.tabs{display:flex;gap:4px;margin:8px 0 10px;flex-wrap:wrap}
+.note{font-size:14px;color:var(--ink3);margin:8px 0 0}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:Figtree,system-ui,sans-serif}
+.leaflet-container{background:var(--night);font:inherit}
+.carregando{opacity:.55;transition:opacity .2s}
+@media (max-width:1100px){.layout{grid-template-columns:minmax(0,1fr)}.side{position:static;max-height:none}.mapgrid{grid-template-columns:minmax(0,1fr)}#map{border-radius:14px 14px 0 0;height:440px}.foco{border-left:0;border-top:1px solid var(--line2);max-height:none}}
+@media (max-width:700px){.wrap{padding:12px}.grid2{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top card">
+  <a class="brand" href="/" aria-label="De Olho no Fogo, página inicial"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true" style="width:32px"><rect width="48" height="48" rx="12" fill="#E5004B"/><path d="M6 25 Q24 7 42 25 Q24 43 6 25 Z" fill="#fff"/><path d="M24 14 C27 19 31 21 31 27 C31 31.5 27.8 34 24 34 C20.2 34 17 31.5 17 27.4 C17 24 19 22.5 20.4 20.6 C20.6 23 21.8 24.2 23 24.6 C22.4 21 23 17.5 24 14 Z" fill="#E5004B"/><rect x="21.8" y="27.4" width="4.4" height="4.4" fill="#fff"/></svg>De Olho no Fogo</a>
+  <nav class="nav" aria-label="Seções"><a href="/globo">Globo</a><a href="/calendario?view=calendario">Calendário</a><a href="/focos" aria-current="page">Focos</a><a href="/previsao">Risco</a><a href="/calendario?view=metodo">Método e dados</a></nav>
+</header>
+
+<div class="wrap">
+  <h1>Focos do FIRMS: antes e depois</h1>
+  <p class="lead">Os três CSVs da NASA de 2025 no Brasil (MODIS, VIIRS S-NPP e VIIRS NOAA-20), separados e filtrados. Compare a contagem bruta com a harmonizada e clique num foco para ver, passo a passo, como ele entra em cada método. <span class="badge real">✓ dados reais · NASA FIRMS</span></p>
+
+  <div class="layout">
+    <form class="side card" id="filtros" autocomplete="off">
+      <div class="row2">
+        <label><span class="lab">Mês</span><select id="mes"></select></label>
+        <label><span class="lab">Dia</span><select id="dia"></select></label>
+      </div>
+      <fieldset><legend>Sensores (um CSV cada)</legend>
+        <label class="ck"><input type="checkbox" name="sensores" value="modis" checked><i class="sw" style="background:var(--modis)"></i>MODIS (Terra + Aqua)</label>
+        <label class="ck"><input type="checkbox" name="sensores" value="viirs-snpp" checked><i class="sw" style="background:var(--snpp)"></i>VIIRS S-NPP</label>
+        <label class="ck"><input type="checkbox" name="sensores" value="viirs-jpss1" checked><i class="sw" style="background:var(--noaa)"></i>VIIRS NOAA-20</label>
+      </fieldset>
+      <fieldset><legend>Confiança</legend>
+        <label class="ck"><input type="checkbox" name="conf" value="0" checked>Baixa <span class="status">(MODIS &lt; 30, VIIRS l)</span></label>
+        <label class="ck"><input type="checkbox" name="conf" value="1" checked>Nominal <span class="status">(30–79, n)</span></label>
+        <label class="ck"><input type="checkbox" name="conf" value="2" checked>Alta <span class="status">(≥ 80, h)</span></label>
+      </fieldset>
+      <fieldset><legend>Tipo do foco</legend>
+        <label class="ck"><input type="checkbox" name="tipo" value="0" checked>0 · vegetação</label>
+        <label class="ck"><input type="checkbox" name="tipo" value="1">1 · vulcão</label>
+        <label class="ck"><input type="checkbox" name="tipo" value="2">2 · fonte fixa (indústria, gás)</label>
+        <label class="ck"><input type="checkbox" name="tipo" value="3">3 · sobre a água</label>
+      </fieldset>
+      <fieldset><legend>Passagem</legend>
+        <div class="row2"><label class="ck"><input type="checkbox" name="dn" value="D" checked>Dia</label><label class="ck"><input type="checkbox" name="dn" value="N" checked>Noite</label></div>
+      </fieldset>
+      <label><span class="lab">Região (IBGE)</span><select id="regiao"><option>Brasil</option><option>Norte</option><option>Nordeste</option><option>Centro-Oeste</option><option selected>Sudeste</option><option>Sul</option></select></label>
+      <label class="ck"><input type="checkbox" id="usarMapa">Só a área visível no mapa</label>
+      <label><span class="lab">Pontos no mapa (máximo)</span><select id="limite"><option>2000</option><option selected>5000</option><option>10000</option><option>20000</option></select></label>
+      <button type="submit" class="pri">Aplicar filtros</button>
+      <a class="btn" id="baixar" href="#">Baixar CSV filtrado</a>
+      <p class="status" id="status">Carregando…</p>
+    </form>
+
+    <div class="main" id="main">
+      <section class="card pad">
+        <h2>Antes e depois da harmonização</h2>
+        <p class="note" id="periodo" style="margin:0 0 10px"></p>
+        <div class="tbl"><table id="tbResumo"></table></div>
+        <p class="note">Antes: focos como estão nos CSVs. <b>Método por focos</b>: cada foco × fator do mês, na escala do VIIRS S-NPP (<code>scripts/harmonizar_brasil.py</code>). <b>Método por células</b>: quadrados de 25 km com fogo no mês × fator da região e do mês, na escala do MODIS (método da equipe; fatores calibrados em 2012–2021).</p>
+      </section>
+
+      <section class="card">
+        <div class="mapgrid">
+          <div id="map" role="region" aria-label="Mapa dos focos filtrados"></div>
+          <aside class="foco" id="foco" aria-live="polite"><h2>Como este foco é harmonizado</h2><p class="vazio">Clique num foco no mapa. Aparecem a linha dele no CSV e as contas dos dois métodos.</p></aside>
+        </div>
+        <div class="pad" style="padding-top:10px">
+          <div class="seg" id="segVista" role="group" aria-label="O que o mapa mostra" style="margin-bottom:8px;flex-wrap:wrap">
+            <button type="button" data-v="bruto" aria-pressed="true">Antes: focos brutos</button>
+            <button type="button" data-v="focos" aria-pressed="false">Depois: focos harmonizados</button>
+            <button type="button" data-v="celulas" aria-pressed="false">Depois: células harmonizadas</button>
+          </div>
+          <div class="legend" id="legMapa"></div>
+          <p class="note" id="notaVista"></p>
+        </div>
+      </section>
+
+      <section class="grid2">
+        <div class="card pad"><h3>Antes: focos brutos por dia</h3><p class="note" style="margin:0 0 6px">Cada sensor na sua própria régua.</p><div id="chAntes"></div><div class="legend" id="legAntes"></div></div>
+        <div class="card pad"><h3>Depois: na escala do VIIRS S-NPP</h3><p class="note" style="margin:0 0 6px">Método por focos: MODIS e NOAA-20 multiplicados pelo fator do mês.</p><div id="chDepois"></div><div class="legend" id="legDepois"></div></div>
+      </section>
+
+      <section class="card pad">
+        <h2>Método por células, por região</h2>
+        <p class="note" style="margin:0 0 10px" id="avisoCel"></p>
+        <div class="tbl"><table id="tbCel"></table></div>
+        <p class="note">Células S-NPP × fator(região, mês) = células MODIS-equivalentes. Os fatores são os da conciliação da equipe, calibrados em 2012–2021, antes da deriva de órbita do MODIS. Por isso a diferença para as células MODIS observadas em 2025 é erro de verdade, não ajuste nos mesmos dados. A faixa usa a margem da região no teste que esconde um ano inteiro.</p>
+      </section>
+
+      <section class="card pad" id="foco-nao-e-incendio">
+        <h2>Foco de calor não é incêndio</h2>
+        <p class="note" style="margin:0 0 10px;font-size:15px;color:var(--ink2)">Cada ponto desta página é um <b>foco</b>: um pixel que um algoritmo marcou como quente demais na hora em que o satélite passou. Um incêndio é o evento no chão. A relação entre os dois não é de um para um.</p>
+        <div class="grid2">
+          <div>
+            <h3>Por que a contagem de focos não conta incêndios</h3>
+            <ul style="margin:0;padding-left:20px;font-size:15px;color:var(--ink2)">
+              <li><b>Um incêndio gera muitos focos.</b> Ele acende vários pixels e é visto de novo a cada passagem, por dias.</li>
+              <li><b>Um fogo pequeno ou rápido pode não gerar nenhum,</b> se estiver sob nuvem ou apagar antes de o satélite passar.</li>
+              <li><b>Nem todo foco é fogo em vegetação.</b> Solo exposto, areia, telhado metálico e o reflexo do Sol na água enganam o detector de dia; indústrias e queima de gás acendem sempre no mesmo lugar.</li>
+              <li><b>A contagem depende de quem conta:</b> do tamanho do pixel, do horário da passagem e também das regras do algoritmo.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>O quanto o algoritmo pesa</h3>
+            <p style="margin:0 0 8px;font-size:15px;color:var(--ink2)">Nunes (2026) reescreveu o detector do VIIRS de Schroeder et al. (2014) e o rodou sobre o Brasil, nas mesmas passagens do NOAA-20 usadas pelo BDQueimadas do INPE, em sete dias de outubro de 2026.</p>
+            <div class="tbl"><table>
+              <thead><tr><th>Mesmas imagens, dois algoritmos</th><th class="n">Focos</th><th class="n">Razão</th></tr></thead>
+              <tbody>
+                <tr><td>Algoritmo próprio, sem os filtros diurnos</td><td class="n">96.377</td><td class="n b">1,79×</td></tr>
+                <tr><td>BDQueimadas (INPE)</td><td class="n">53.699</td><td class="n">1</td></tr>
+                <tr><td>Só passagens de dia</td><td class="n">—</td><td class="n b">2,15×</td></tr>
+                <tr><td>Só passagens de noite</td><td class="n">—</td><td class="n b">1,03×</td></tr>
+              </tbody>
+            </table></div>
+            <p class="note">As duas contagens sobem e descem juntas de um dia para o outro (correlação de 0,97), mas o nível muda quase pelo dobro só por causa dos filtros. O teste de contexto do detector descarta 99,8% dos pixels candidatos numa cena. O próprio autor avisa que o estudo cobre sete dias e um satélite, e que não mede o acerto das detecções.</p>
+          </div>
+        </div>
+        <h3 style="margin-top:14px">Como este site chega mais perto do incêndio</h3>
+        <ul style="margin:0;padding-left:20px;font-size:15px;color:var(--ink2)">
+          <li><b>Filtros:</b> só o tipo "vegetação" e sem confiança baixa, que é onde ficam os alarmes falsos de dia.</li>
+          <li><b>Células:</b> contar quadrados de 25 km com fogo, em vez de focos, tira o efeito de um mesmo incêndio acender muitos pixels.</li>
+          <li><b>Eventos:</b> no globo, focos a até cerca de 1,6 km e 2 dias uns dos outros são agrupados num provável incêndio.</li>
+          <li><b>Cicatrizes:</b> a área queimada do INPE, no mapa do calendário, mostra o que o fogo deixou no chão.</li>
+        </ul>
+        <p class="note">Fontes: NUNES, R. P. O. Algoritmo de detecção de incêndios usando dados do sensor VIIRS. <i>Derecho y Cambio Social</i>, v. 23, n. 100, 2026. <a href="https://doi.org/10.54899/dcs.v23i100.153" target="_blank" rel="noopener">doi:10.54899/dcs.v23i100.153</a>. SCHROEDER, W. et al. The New VIIRS 375 m active fire detection data product. <i>Remote Sensing of Environment</i>, v. 143, 2014. <a href="https://doi.org/10.1016/j.rse.2013.12.008" target="_blank" rel="noopener">doi:10.1016/j.rse.2013.12.008</a>.</p>
+      </section>
+
+      <section class="card pad">
+        <h2>Os CSVs, separados</h2>
+        <div class="tabs seg" id="tabsCsv" role="group" aria-label="Sensor"></div>
+        <div class="tbl"><table id="tbCsv"></table></div>
+        <p class="note" id="notaCsv"></p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(i){return document.getElementById(i);};
+var MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var NOME={'modis':'MODIS','viirs-snpp':'VIIRS S-NPP','viirs-jpss1':'VIIRS NOAA-20'};
+var COR={'modis':'#6B4FA0','viirs-snpp':'#00727F','viirs-jpss1':'#5FB3BC'};
+var S=['modis','viirs-snpp','viirs-jpss1'];
+var KM_GRAU=111.32,LADO=25;
+var fmt=function(n,d){return n==null||isNaN(n)?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+var dados=null,csvSel='modis',sel=null;
+
+/* filtros */
+$('mes').innerHTML='<option value="0">Ano todo</option>'+MESES.map(function(m,i){return '<option value="'+(i+1)+'"'+(i===8?' selected':'')+'>'+m[0].toUpperCase()+m.slice(1)+'</option>';}).join('');
+$('dia').innerHTML='<option value="0">Mês inteiro</option>'+Array.from({length:31},function(_,i){return '<option>'+(i+1)+'</option>';}).join('');
+function marcados(nome){return Array.prototype.filter.call(document.querySelectorAll('input[name="'+nome+'"]'),function(i){return i.checked;}).map(function(i){return i.value;});}
+function query(){
+  var p=new URLSearchParams({mes:$('mes').value,dia:$('mes').value==='0'?'0':$('dia').value,sensores:marcados('sensores').join(','),conf:marcados('conf').join(','),
+    tipo:marcados('tipo').join(','),dn:marcados('dn').join(','),regiao:$('regiao').value,limite:$('limite').value});
+  if($('usarMapa').checked){var b=map.getBounds();p.set('bbox',[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()].map(function(v){return v.toFixed(4);}).join(','));}
+  return p;
+}
+
+/* mapa */
+var map=L.map('map',{preferCanvas:true,zoomControl:true}).setView([-19.5,-46],6);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:17,attribution:'Imagens: Esri, Maxar, Earthstar Geographics'}).addTo(map);
+var camada=L.layerGroup().addTo(map),destaque=L.layerGroup().addTo(map);
+var vista='bruto';
+
+function limitesCelula(ci,cj){var la0=ci*LADO/KM_GRAU,la1=(ci+1)*LADO/KM_GRAU,c=Math.cos((la0+la1)/2*Math.PI/180);return [[la0,cj*LADO/(KM_GRAU*c)],[la1,(cj+1)*LADO/(KM_GRAU*c)]];}
+
+function carregar(e){
+  if(e)e.preventDefault();
+  var q=query();$('baixar').href='/api/focos?'+q.toString()+'&formato=csv';
+  $('status').textContent='Buscando focos… (a primeira busca lê os CSVs e leva alguns segundos)';$('main').classList.add('carregando');
+  fetch('/api/focos?'+q.toString()).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.erro||('HTTP '+r.status));return j;});})
+    .then(function(j){dados=j;sel=null;desenhar();$('status').textContent=fmt(j.totalPontos)+' focos passaram no filtro'+(j.amostrado?'; o mapa mostra uma amostra de '+fmt(j.pontos.length):'')+'.';})
+    .catch(function(err){$('status').textContent='Não deu para buscar os focos: '+err.message;})
+    .finally(function(){$('main').classList.remove('carregando');});
+}
+$('filtros').addEventListener('submit',carregar);
+$('mes').addEventListener('change',function(){$('dia').disabled=$('mes').value==='0';});
+
+function desenhar(){
+  var d=dados,A=d.antes,DF=d.depois.focos;
+  $('periodo').textContent='Período: '+d.periodo[0].split('-').reverse().join('/')+(d.periodo[1]!==d.periodo[0]?' a '+d.periodo[1].split('-').reverse().join('/'):'')+' · região: '+$('regiao').value+($('usarMapa').checked?' · só a área do mapa':'');
+  var linhas=S.map(function(s){var ativo=d.filtro.sensores.indexOf(s)>=0;var f=A.totalFiltro[s],h=DF.total[s];
+    return '<tr><td><i class="sw" style="background:'+COR[s]+';margin-right:6px"></i>'+NOME[s]+'</td><td class="n">'+fmt(A.totalBruto[s])+'</td><td class="n b">'+(ativo?fmt(f):'—')+'</td><td class="n">'+(ativo?fmt(A.celulasAtivas[s]):'—')+'</td><td class="n">'+(ativo&&f?fmt(h/f,3):'—')+'</td><td class="n b" style="color:var(--brand-ink)">'+(ativo?fmt(h):'—')+'</td></tr>';}).join('');
+  $('tbResumo').innerHTML='<thead><tr><th>Sensor</th><th class="n">Brasil no período</th><th class="n">Depois do filtro</th><th class="n">Células 25 km × mês</th><th class="n">Fator médio</th><th class="n">Depois · escala S-NPP</th></tr></thead><tbody>'+linhas+'</tbody>';
+
+  desenharMapa();
+  $('foco').innerHTML='<h2>Como este foco é harmonizado</h2><p class="vazio">Clique num foco no mapa. Aparecem a linha dele no CSV e as contas dos dois métodos.</p>';
+
+  grafico('chAntes','legAntes',A.diario,d);grafico('chDepois','legDepois',DF.diario,d);
+
+  var DC=d.depois.celulas;$('avisoCel').innerHTML=DC.aviso?'<span class="badge warn">'+esc(DC.aviso)+'</span>':'Filtro igual ao da calibração (tipo 0, todas as confianças).';
+  $('tbCel').innerHTML='<thead><tr><th>Região</th><th class="n">Células S-NPP</th><th class="n">MODIS-equivalente</th><th class="n">Faixa</th><th class="n">Células MODIS observadas</th><th class="n">Diferença</th></tr></thead><tbody>'+
+    DC.porRegiao.map(function(r){var df=r.celulasModis?(r.modisEquivalente/r.celulasModis-1):NaN;return '<tr><td>'+(r.regiao==='fora'?'Fora das regiões (borda)':r.regiao)+'</td><td class="n">'+fmt(r.celulasViirs)+'</td><td class="n b" style="color:var(--brand-ink)">'+fmt(r.modisEquivalente)+'</td><td class="n">'+fmt(r.min)+'–'+fmt(r.max)+' (±'+fmt(r.incerteza*100,0)+'%)</td><td class="n">'+fmt(r.celulasModis)+'</td><td class="n">'+(isNaN(df)?'—':(df>=0?'+':'')+fmt(df*100,1)+'%')+'</td></tr>';}).join('')+'</tbody>';
+
+  tabsCsv();tabelaCsv();
+}
+
+/* mapa: antes (focos brutos), depois por focos (cada ponto com seu peso S-NPP) e depois por células (quadrados de 25 km) */
+function desenharMapa(){
+  var d=dados;camada.clearLayers();destaque.clearLayers();
+  var selo='<span><i class="sw" style="background:transparent;border:2px solid #E5004B;border-radius:2px"></i>célula de 25 km escolhida </span>';
+  if(vista==='bruto'){
+    d.pontos.forEach(function(p,k){L.circleMarker([p.lat,p.lon],{radius:p.s==='modis'?4.5:3,color:'#fff',weight:.6,fillColor:COR[p.s],fillOpacity:.9}).on('click',function(){escolher(k);}).addTo(camada);});
+    $('legMapa').innerHTML=S.map(function(s){return '<span><i class="sw" style="background:'+COR[s]+'"></i>'+NOME[s]+'</span>';}).join('')+selo;
+    $('notaVista').textContent='Cada ponto é uma linha do CSV, na cor do sensor. Um ponto MODIS e um ponto VIIRS não valem o mesmo.';
+  }else if(vista==='focos'){
+    d.pontos.forEach(function(p,k){var f=p.fatorFocos||1;L.circleMarker([p.lat,p.lon],{radius:2.6*Math.sqrt(f),color:COR[p.s],weight:1.2,fillColor:'#E5004B',fillOpacity:.55}).on('click',function(){escolher(k);}).addTo(camada);});
+    $('legMapa').innerHTML='<span><i class="sw" style="background:#E5004B"></i>foco harmonizado: a área do círculo é o peso em focos S-NPP</span>'+S.map(function(s){return '<span><i class="sw" style="background:transparent;border:2px solid '+COR[s]+'"></i>borda: veio do '+NOME[s]+'</span>';}).join('');
+    $('notaVista').textContent='Todos os pontos na mesma régua (VIIRS S-NPP). Um foco MODIS vira um círculo maior porque vale vários focos S-NPP no mês; os do S-NPP valem 1 e os do NOAA-20 quase 1.';
+  }else{
+    var n=0;d.celulas.forEach(function(c){var eq=c[5],b=limitesCelula(c[0],c[1]);
+      var r=L.rectangle(b,eq>0?{color:c[2]?'#6B4FA0':'#E5004B',weight:c[2]?1.4:.5,fillColor:'#E5004B',fillOpacity:Math.min(.85,.18+.55*eq)}:{color:'#6B4FA0',weight:1.4,fill:true,fillOpacity:.04,dashArray:'3 3'});
+      r.bindPopup('<b>Célula '+c[0]+';'+c[1]+'</b> · '+esc(c[6]==='fora'?'fora das regiões':c[6])+'<br>Focos no filtro: '+fmt(c[2])+' MODIS · '+fmt(c[3])+' S-NPP · '+fmt(c[4])+' NOAA-20<br>'+(eq>0?'Depois: <b>'+fmt(eq,3)+'</b> célula MODIS-equivalente (S-NPP × fator da região e do mês)':'Sem foco S-NPP: não entra no harmonizado')+'<br>MODIS observou fogo aqui: <b>'+(c[2]?'sim':'não')+'</b>');
+      r.addTo(camada);n++;});
+    $('legMapa').innerHTML='<span><i class="sw" style="background:#E5004B;border-radius:2px;opacity:.75"></i>célula com fogo no S-NPP: quanto mais forte, maior o valor MODIS-equivalente</span><span><i class="sw" style="background:transparent;border:2px solid #6B4FA0;border-radius:2px"></i>borda violeta: o MODIS também viu fogo</span><span><i class="sw" style="background:transparent;border:2px dashed #6B4FA0;border-radius:2px"></i>tracejada: só o MODIS viu</span>';
+    $('notaVista').textContent=fmt(n)+' células de 25 km. O harmonizado é a soma dos valores das células preenchidas; compare com o número de células de borda violeta, que é o que o MODIS observou. Clique numa célula para ver a conta. Com o ano todo, o valor soma os meses.';
+  }
+}
+Array.prototype.forEach.call($('segVista').querySelectorAll('button'),function(b){b.onclick=function(){vista=b.dataset.v;Array.prototype.forEach.call($('segVista').querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',x===b);});if(dados)desenharMapa();};});
+
+/* gráfico diário (linhas) */
+function grafico(id,leg,serie,d){
+  var ss=S.filter(function(s){return d.filtro.sensores.indexOf(s)>=0;}),n=serie[S[0]].length;
+  if(n<2){$(id).innerHTML='<p class="note">Período de um dia: veja os totais na tabela acima.</p>';$(leg).innerHTML='';return;}
+  var W=640,H=240,l=52,r=8,t=10,b=26,mx=0;ss.forEach(function(s){serie[s].forEach(function(v){if(v>mx)mx=v;});});mx=mx||1;
+  var mg=Math.pow(10,Math.floor(Math.log10(mx))),nf=mx/mg;mx=(nf<=1?1:nf<=2?2:nf<=5?5:10)*mg;
+  var X=function(i){return l+i/(n-1)*(W-l-r);},Y=function(v){return t+(H-t-b)*(1-v/mx);},g='';
+  for(var k=0;k<=4;k++){var v=mx*k/4;g+='<line x1="'+l+'" x2="'+(W-r)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#EBEEF1"/><text x="'+(l-6)+'" y="'+(Y(v)+4)+'" font-size="12" fill="#575F66" text-anchor="end">'+fmt(v)+'</text>';}
+  var d0=new Date(d.periodo[0]+'T00:00:00Z');for(var i=0;i<n;i++){var dt=new Date(d0.getTime()+i*864e5);if(n<=45?(i%7===0):(dt.getUTCDate()===1))g+='<text x="'+X(i)+'" y="'+(H-6)+'" font-size="12" fill="#575F66" text-anchor="middle">'+(n<=45?dt.getUTCDate()+'/'+(dt.getUTCMonth()+1):MESES[dt.getUTCMonth()].slice(0,3))+'</text>';}
+  ss.forEach(function(s){g+='<path d="'+serie[s].map(function(v,i){return (i?'L':'M')+X(i).toFixed(1)+','+Y(v).toFixed(1);}).join('')+'" fill="none" stroke="'+COR[s]+'" stroke-width="2.2"'+(s==='viirs-jpss1'?' stroke-dasharray="5 4"':'')+'/>';});
+  $(id).innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Focos por dia por sensor">'+g+'</svg>';
+  $(leg).innerHTML=ss.map(function(s){return '<span style="color:'+COR[s]+'"><i class="ln"'+(s==='viirs-jpss1'?' style="border-top-style:dashed"':'')+'></i><span style="color:#4F575E">'+NOME[s]+'</span></span>';}).join('');
+}
+
+/* foco escolhido: o caminho nos dois métodos */
+function escolher(k){
+  var p=dados.pontos[k];sel=k;destaque.clearLayers();
+  L.rectangle(limitesCelula(p.cel[0],p.cel[1]),{color:'#E5004B',weight:2,fill:false,dashArray:'5 4'}).addTo(destaque);
+  L.circleMarker([p.lat,p.lon],{radius:8,color:'#E5004B',weight:3,fill:false}).addTo(destaque);
+  var nc=p.naCelula,mesN=MESES[p.mes-1],ehSnpp=p.s==='viirs-snpp',ehModis=p.s==='modis';
+  var confTxt=p.s==='modis'?p.conf+' ('+['baixa','nominal','alta'][p.classe]+')':p.conf+' ('+['baixa','nominal','alta'][p.classe]+')';
+  var h='<h2>Como este foco é harmonizado</h2>'+
+    '<h3 style="margin-top:10px"><i class="sw" style="background:'+COR[p.s]+';margin-right:6px"></i>'+NOME[p.s]+' · '+esc(p.sat)+'</h3>'+
+    '<dl class="kv"><dt>latitude, longitude</dt><dd>'+p.lat.toFixed(4)+', '+p.lon.toFixed(4)+'</dd><dt>acq_date, acq_time</dt><dd>'+p.data.split('-').reverse().join('/')+' · '+p.hora.slice(0,2)+':'+p.hora.slice(2)+' UTC ('+(p.dn==='D'?'dia':'noite')+')</dd>'+
+    '<dt>confidence</dt><dd>'+confTxt+'</dd><dt>type</dt><dd>'+p.tipo+' · '+['vegetação','vulcão','fonte fixa','água'][p.tipo]+'</dd><dt>frp</dt><dd>'+fmt(p.frp,1)+' MW</dd><dt>brilho</dt><dd>'+fmt(p.brilho,1)+' K</dd><dt>pixel (scan × track)</dt><dd>'+fmt(p.scan,2)+' × '+fmt(p.track,2)+' km = '+fmt(p.scan*p.track,2)+' km²</dd></dl>';
+  // método por focos
+  var ff=p.fatorFocos;
+  h+='<h3 style="margin-top:16px">Método por focos → escala S-NPP</h3>'+
+    passo(1,'Mês do foco: '+mesN,'O fator depende do sensor e do mês do calendário.')+
+    passo(2,ehSnpp?'S-NPP é a referência':'Fator de '+NOME[p.s]+' em '+mesN+': '+fmt(ff,4),ehSnpp?'Não muda: 1 foco = 1 foco S-NPP.':(ehModis?'Quantos focos S-NPP o VIIRS vê para cada foco MODIS nesse mês (Brasil, 2025).':'NOAA-20 e S-NPP têm o mesmo instrumento; o teste escolheu um fator único para o ano.'))+
+    passo(3,'Este foco vale '+fmt(ff,ehSnpp?0:2)+' foco'+(ff===1?'':'s')+' S-NPP','Somando todos os focos assim, a contagem fica comparável à do S-NPP.',true);
+  // método por células
+  var fc=p.fatorCelulas,n=ehModis?nc.modis:ehSnpp?nc.snpp:nc.noaa20;
+  h+='<h3 style="margin-top:16px">Método por células → escala MODIS</h3>'+
+    passo(1,'Célula de 25 km: '+p.cel[0]+';'+p.cel[1]+' · região '+esc(p.reg==='fora'?'fora (borda)':p.reg),'O contorno vermelho no mapa. Em '+mesN+', depois do filtro, ela tem '+fmt(nc.modis)+' foco'+(nc.modis===1?'':'s')+' MODIS, '+fmt(nc.snpp)+' S-NPP e '+fmt(nc.noaa20)+' NOAA-20.')+
+    passo(2,'Conta como 1 célula ativa no mês','Não importa quantos focos caiam nela: 1 ou '+fmt(Math.max(nc.modis,nc.snpp,nc.noaa20))+' contam igual. É isso que tira o efeito do tamanho do pixel.');
+  if(ehModis)h+=passo(3,'MODIS já está na escala de chegada','A célula conta 1 célula MODIS observada. Este foco divide essa célula com os outros '+fmt(n-1)+': vale 1/'+fmt(n)+' = '+fmt(1/n,3)+' célula.',true);
+  else if(ehSnpp)h+=passo(3,'Fator '+esc(p.origemFatorCelulas)+', '+mesN+': '+fmt(fc,4),'A célula S-NPP vale '+fmt(fc,3)+' célula MODIS-equivalente.')+passo(4,'Este foco vale '+fmt(fc,3)+' ÷ '+fmt(n)+' = '+fmt(fc/n,4)+' célula MODIS','A célula é dividida entre os '+fmt(n)+' focos S-NPP dela no mês.',true);
+  else h+=passo(3,'NOAA-20 não entra neste método','Os fatores foram calibrados com o S-NPP. Pela mesma regra, a célula valeria '+fmt(fc,3)+' célula MODIS, e este foco '+fmt(fc/n,4)+'.',true);
+  $('foco').innerHTML=h;$('foco').scrollTop=0;
+}
+function passo(n,t,p,fim){return '<div class="passo'+(fim?' fim':'')+'"><span class="n">'+n+'</span><div><b>'+t+'</b><p>'+p+'</p></div></div>';}
+
+/* tabelas dos CSVs */
+function tabsCsv(){
+  var ss=S.filter(function(s){return dados.filtro.sensores.indexOf(s)>=0;});if(ss.indexOf(csvSel)<0)csvSel=ss[0]||'modis';
+  $('tabsCsv').innerHTML=ss.map(function(s){var n=dados.pontos.filter(function(p){return p.s===s;}).length;return '<button type="button" data-s="'+s+'" aria-pressed="'+(s===csvSel)+'">'+NOME[s]+' ('+fmt(n)+')</button>';}).join('');
+  Array.prototype.forEach.call($('tabsCsv').querySelectorAll('button'),function(b){b.onclick=function(){csvSel=b.dataset.s;tabsCsv();tabelaCsv();};});
+}
+function tabelaCsv(){
+  var rows=dados.pontos.map(function(p,k){return [p,k];}).filter(function(x){return x[0].s===csvSel;}),mostra=rows.slice(0,200);
+  $('tbCsv').innerHTML='<thead><tr><th>latitude</th><th>longitude</th><th>acq_date</th><th>acq_time</th><th>satellite</th><th>confidence</th><th>type</th><th class="n">frp</th><th>daynight</th><th class="n">scan × track</th><th>célula · região</th><th class="n">S-NPP eq.</th><th class="n">células MODIS eq.</th></tr></thead><tbody>'+
+    mostra.map(function(x){var p=x[0],n=p.s==='modis'?p.naCelula.modis:p.s==='viirs-snpp'?p.naCelula.snpp:p.naCelula.noaa20,ce=p.s==='modis'?1/n:p.fatorCelulas/n;
+      return '<tr data-k="'+x[1]+'" style="cursor:pointer"><td class="num">'+p.lat.toFixed(4)+'</td><td class="num">'+p.lon.toFixed(4)+'</td><td>'+p.data+'</td><td>'+p.hora+'</td><td>'+esc(p.sat)+'</td><td>'+esc(p.conf)+'</td><td>'+p.tipo+'</td><td class="n">'+fmt(p.frp,1)+'</td><td>'+p.dn+'</td><td class="n">'+fmt(p.scan,2)+' × '+fmt(p.track,2)+'</td><td>'+p.cel.join(';')+' · '+esc(p.reg)+'</td><td class="n">'+fmt(p.fatorFocos,3)+'</td><td class="n">'+fmt(ce,4)+'</td></tr>';}).join('')+'</tbody>';
+  Array.prototype.forEach.call($('tbCsv').querySelectorAll('tr[data-k]'),function(tr){tr.onclick=function(){var p=dados.pontos[+tr.dataset.k];if(vista==='celulas'){$('segVista').querySelector('button').click();}map.setView([p.lat,p.lon],Math.max(map.getZoom(),10));escolher(+tr.dataset.k);$('map').scrollIntoView({behavior:'smooth',block:'center'});};});
+  $('notaCsv').textContent='Mostrando '+fmt(mostra.length)+' de '+fmt(rows.length)+' linhas deste sensor na amostra do mapa. Clique numa linha para ver o foco no mapa. O CSV completo do filtro sai em "Baixar CSV filtrado", com as colunas originais do FIRMS e as da harmonização.';
+}
+
+carregar();
+})();
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// ponytail: landing, globo e calendário seguem como HTML puro (src/legacy); componentizar só se o projeto continuar
+// ponytail: landing e globo seguem como HTML puro (src/legacy); componentizar só se o projeto continuar
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
