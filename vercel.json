@@ -1,0 +1,3 @@
+{
+  "crons": [{ "path": "/api/atualizar-focos", "schedule": "30 9 * * *" }]
+}

@@ -19,3 +19,9 @@ npm run build    # Next.js; todas as páginas saem estáticas (pronto para a Ver
 - `docs/metodo-harmonizacao.md` — método e validação (vira a página `/metodo`)
 - `scripts/` — Python que gera os arquivos de `public/data/`; `cache/power/` guarda o download do NASA POWER
 - `arquivo/` — versões antigas e capturas, fora do site
+
+## Atualização automática (Vercel)
+
+- `/api/recentes`: focos das últimas 48 h em MG, buscados no FIRMS e guardados em cache por 1 h. A landing carrega daqui. Se o FIRMS cair inteiro, serve `public/data/recentes.js`.
+- `/api/atualizar-focos`: cron diário (`vercel.json`, 09:30 UTC) que acumula os focos de MG no Vercel Blob, um arquivo por mês (`focos-mg/AAAA-MM.json`). O FIRMS público só guarda 7 dias; esse acúmulo é o que vai permitir comparar o mês corrente com a mediana.
+- Para ligar: publicar na Vercel, criar um Blob store no projeto (cria `BLOB_READ_WRITE_TOKEN`) e definir a variável `CRON_SECRET`.
