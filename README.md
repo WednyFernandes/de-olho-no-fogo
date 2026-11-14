@@ -14,6 +14,41 @@ npm run build    # Next.js 16
 
 Antes de mexer em código do Next, leia `AGENTS.md`.
 
+## Depois do `git pull`: o que baixar
+
+O site roda logo depois do pull: os dados que ele lê (`public/data/harm/`, ~315 MB) estão no git. Basta `npm install` e `npm run dev`.
+
+O que **não** está no git (por tamanho ou por ser segredo) e só é preciso para **regerar os dados** ou usar o Earth Engine:
+
+| O quê | Para quê | Como obter | Tamanho | Vai para |
+|---|---|---|---|---|
+| Python 3 + NumPy | todos os scripts | `python -m pip install numpy` | — | — |
+| FIRMS anual do Brasil, MODIS 2000–2025 e VIIRS 2012–2025 | série do Brasil, células-dia de 5 km | `python scripts/baixar_firms.py` | ~530 MB | `dados/firms/brasil/` |
+| FIRMS anual "all countries": MODIS 2000–2025, VIIRS S-NPP 2012–2025, VIIRS NOAA-20 2018–2025 | harmonização global (hoje o site usa só 2025; os outros anos estão baixados para expandir) | `python scripts/baixar_firms_global.py` (retoma se cair; `--listar` mostra o que falta) | ~9,8 GB | `dados/*_all_countries.zip` |
+| INPE AQ1km Coleção 2, mensal, set/2002 em diante | cicatrizes | baixado sozinho por `python scripts/cicatrizes_brasil.py` | ~190 MB | `cache/inpe-aq1km/` |
+| Cache da harmonização | só acelera a regeração | recriado por `python scripts/harmonizar_global.py` | ~2,1 GB | `cache/harm/` |
+| `.env.local` | variáveis locais | criar à mão (ver abaixo) | — | raiz do projeto |
+| Credencial do Earth Engine | camada de cobertura do solo (em construção) | `earthengine authenticate` com a conta que tem acesso ao projeto | — | `~/.config/earthengine/` |
+
+`.env.local` (nunca vai para o git):
+
+```
+EE_PROJECT=spaceuai          # projeto do Google Cloud registrado no Earth Engine
+```
+
+`FIRMS_MAP_KEY` só era usada pelas páginas regionais retiradas e por `scripts/atualizar_2026.py`.
+
+Ordem para regerar tudo do zero:
+
+```
+python -m pip install numpy
+python scripts/baixar_firms.py
+python scripts/baixar_firms_global.py
+python scripts/harmonizar_global.py
+python scripts/cicatrizes_brasil.py
+python scripts/celulas_dia_5km.py
+```
+
 ## Rotas
 
 | Rota | O que é | Onde está |
