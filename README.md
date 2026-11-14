@@ -36,6 +36,8 @@ O que **não** está no git (por tamanho ou por ser segredo) e só é preciso pa
 EE_PROJECT=spaceuai          # projeto do Google Cloud registrado no Earth Engine
 ```
 
+NASA POWER (clima): não precisa baixar. O site atual não usa; só os scripts do protótipo regional (`clima_power.py`, `clima_diario_power.py`, `modelo_risco.py`) usavam, e o download deles já está no git em `cache/power/`, `cache/power-diario/` e `cache/power-risco/`. Se rodar algum desses scripts, ele baixa sozinho o que faltar, sem chave.
+
 `FIRMS_MAP_KEY` só era usada pelas páginas regionais retiradas e por `scripts/atualizar_2026.py`.
 
 Ordem para regerar tudo do zero:
