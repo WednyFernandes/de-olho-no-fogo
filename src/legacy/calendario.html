@@ -197,6 +197,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--ink3);fo
     <label class="f">Dia central<input type="number" id="mapDay" min="1" max="366" style="width:110px"></label>
     <label class="f">Ano<select id="mapYear" style="min-width:110px"></select></label>
     <label class="f">Janela<span class="seg" id="segWin"><button data-k="0">1 dia</button><button data-k="3" class="on">7 dias</button><button data-k="7">15 dias</button><button data-k="15">31 dias</button></span></label>
+    <button id="btnPtsCsv">Baixar focos (CSV)</button>
     <button id="btnGeo">Baixar focos (GeoJSON)</button>
     <button id="btnUseView" title="Usa a área visível no mapa como nova área de interesse (dados simulados)">Usar área visível</button>
   </div>
@@ -347,7 +348,7 @@ function makeReal(aoi){if(!GPOS)gIndex();var b=aoi.bbox,c=G.cell,inB=G.cells.map
     gScan(I,0,last,function(d,ci,n,f){if(!inB[ci]||E[I][d]<0)return;DS.cnt[I][d]+=n;DS.frp[I][d]+=f;tot+=n;});});
   DS.nTot=tot;return DS;}
 function realPts(DS,i0,i1){var out=[],c=G.cell;['M','V'].forEach(function(I){gScan(I,Math.max(0,i0),i1,function(d,ci,n,f){if(!DS.inB[ci])return;var x=G.cells[ci];
-  out.push({lat:(x[0]+.5)*c,lng:(x[1]+.5)*c,i:d,inst:I,sat:(I==='M'?'Terra/Aqua':'S-NPP')+' · '+n+(n===1?' foco':' focos')+' na célula de ~11 km',frp:f/n,conf:'—',t:'',dn:''});});});return out;}
+  out.push({lat:(x[0]+.5)*c,lng:(x[1]+.5)*c,i:d,inst:I,sat:(I==='M'?'Terra/Aqua':'S-NPP')+' · '+n+(n===1?' foco':' focos')+' na célula de ~11 km',frp:f/n,n:n,conf:'—',t:'',dn:''});});});return out;}
 
 /* ---------- CSV FIRMS ---------- */
 function parseCsv(texts){
@@ -666,6 +667,14 @@ function exportJson(){
     periodo_critico_mediano:{inicio_doy:ST.C.c10,meio_doy:ST.C.c50,fim_doy:ST.C.c90,pico_doy:ST.C.peak}};
   download('calendario-do-fogo-parametros.json',JSON.stringify(o,null,2),'application/json');
 }
+function exportPtsCsv(){ /* todos os focos da área e da janela do mapa (sem a amostra de 3.000 pontos) */
+  var DS=ST.ds,y=+$('mapYear').value||ST.selY,doy=+$('mapDay').value||ST.selDoy||1,ci=idxOf(y,doy),i0=ci-ST.win,i1=ci+ST.win;
+  var pts=DS.synthetic?synthPts(DS,i0,i1):DS.real?realPts(DS,i0,i1):DS.rows.filter(function(r){return r.i>=i0&&r.i<=i1;});
+  var iso=function(i){var d=new Date(T0+i*DAY);return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate());};
+  var rows=['data,sensor,latitude,longitude,focos,frp_medio_mw,confianca,origem'];
+  pts.sort(function(a,b){return a.i-b.i;}).forEach(function(p){rows.push([iso(p.i),p.inst==='M'?'MODIS':'VIIRS',p.lat.toFixed(4),p.lng.toFixed(4),p.n||1,(Math.round((p.frp||0)*10)/10),p.conf==='—'?'':p.conf,DS.synthetic?'simulado':DS.real?'NASA FIRMS (centro da celula de 0.1 grau)':'FIRMS (CSV carregado)'].join(','));});
+  download('focos-'+(DS.id||'area')+'-'+iso(Math.max(i0,0))+'-a-'+iso(Math.min(i1,DS.asOf))+'.csv',rows.join('\n'),'text/csv');
+}
 function exportGeo(){
   var f=ST.mapPts.map(function(p){return {type:'Feature',geometry:{type:'Point',coordinates:[p.lng,p.lat]},properties:{sensor:p.inst==='M'?'MODIS':'VIIRS',plataforma:p.sat,data:dstr(p.i),frp:Math.round(p.frp*10)/10,confianca:p.conf,simulado:!!ST.ds.synthetic}};});
   download('focos.geojson',JSON.stringify({type:'FeatureCollection',features:f}),'application/geo+json');
@@ -723,7 +732,7 @@ seg('segSm',function(k){ST.sm=+k;reanalyze();renderAll();});
 seg('segRef',function(k){ST.ref=k;recompute();renderAll();});
 seg('segWin',function(k){ST.win=+k;pressed();renderMap();});
 $('mapDay').addEventListener('change',renderMap);$('mapYear').addEventListener('change',renderMap);
-$('btnCsv').onclick=exportCsv;$('btnJson').onclick=exportJson;$('btnGeo').onclick=exportGeo;
+$('btnCsv').onclick=exportCsv;$('btnJson').onclick=exportJson;$('btnGeo').onclick=exportGeo;$('btnPtsCsv').onclick=exportPtsCsv;
 $('btnGoCal').onclick=function(){setView('calendario');};
 $('btnCopy').onclick=function(){var t=ST.summary||'';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){$('copied').textContent='Resumo copiado.';},function(){$('copied').textContent='Não consegui copiar automaticamente. Selecione e copie: '+t;});};
 $('btnUseView').onclick=function(){initMap();var b=map.getBounds(),bb=[b.getSouth(),b.getWest(),b.getNorth(),b.getEast()],area=Math.abs((bb[2]-bb[0])*111*(bb[3]-bb[1])*111*Math.cos((bb[0]+bb[2])/2*Math.PI/180));

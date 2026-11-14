@@ -44,3 +44,20 @@ Usamos IA como assistente de desenvolvimento, e dizemos isso abertamente.
 - [ ] Vídeo de demonstração (item 2)
 - [ ] Lista de dados com links: NASA FIRMS (MODIS C6.1, VIIRS S-NPP 375 m), NASA POWER (chuva, umidade e temperatura mensais), INPE Programa Queimadas (validação), malhas e localidades do IBGE (item 4)
 - [ ] Atualizar o Summary com o clima. Frase sugerida (EN): "Each month comes with its weather context from NASA POWER: in Minas Gerais, drier dry seasons had more fire (r = −0.65 with rain, detrended), shown as association, not cause." (PT): "Cada mês vem com o contexto do tempo, do NASA POWER: em Minas, estações secas com menos chuva tiveram mais fogo (r = −0,65 com a chuva, sem tendência), apresentado como associação, não causa."
+
+## Recursos oficiais do desafio (aba Resources, publicada em 13/11/2026)
+
+A aba lista um único recurso: **FIRMS NASA EARTHDATA: Fire Information for Resource Management System** (https://www.earthdata.nasa.gov/data/tools/firms). É exatamente a base do projeto. O enunciado não mudou em relação a 28/10.
+
+## Como cada pedido do enunciado é atendido (para o Project Details)
+
+| O enunciado pede | Onde está no De Olho no Fogo |
+|---|---|
+| Harmonizar MODIS e VIIRS para que o sensor de origem deixe de importar | Fator mês a mês na sobreposição 2012–2025; validação contra o INPE (salto de 2012 cai de 4,39× para 1,14×, r = 0,98) |
+| Calendário de queima do início dos anos 2000 até hoje | /calendario: um ano por linha, um dia por coluna, 2001–2025 |
+| Selecionar região e intervalo de datas | Áreas prontas, área visível no mapa, busca por município ou lat/long no globo; dia central e janela de 1 a 31 dias no mapa |
+| Quais meses e anos queimam mais; mês atual contra a mediana histórica | Leitura do globo ("set/2024: 1,4× a mediana de setembro, percentil 75"); períodos críticos no calendário; ranking de municípios |
+| Anomalias contra médias de vários anos | Modo "Fora do normal" do calendário (percentil de cada dia contra os outros anos) e teste de tendência Mann-Kendall |
+| Rampas de cor acessíveis | Rampa sequencial amarelo→laranja→vermelho escuro, com o número escrito ao lado; cor nunca é o único portador da informação |
+| CSV dos focos de uma busca | /calendario → Mapa → "Baixar focos (CSV)" (área e janela escolhidas); série diária harmonizada em CSV; série mensal de MG como dado aberto |
+| Mapa interativo, desenhar área ou digitar lat/long | Globo com busca por lat/long e áreas; "Usar área visível" no mapa do calendário |

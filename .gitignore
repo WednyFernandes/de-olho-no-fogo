@@ -11,3 +11,4 @@ __pycache__/
 .impeccable/build/
 .impeccable/config.local.json
 .claude/state/
+docs/*whatsapp*.txt

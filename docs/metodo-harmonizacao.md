@@ -57,4 +57,4 @@ python scripts/validar_harmonizacao.py minas_gerais.csv
 
 `python scripts/clima_power.py` downloads NASA POWER once (cached in `cache/power/`) and rebuilds `public/data/mg-clima.js`.
 
-Sources: NASA FIRMS (https://firms.modaps.eosdis.nasa.gov), NASA POWER (https://power.larc.nasa.gov), INPE Programa Queimadas (https://data.inpe.br/queimadas), IBGE (malhas territoriais).
+Sources: NASA FIRMS (https://www.earthdata.nasa.gov/data/tools/firms, the resource listed by the challenge; archive downloads at https://firms.modaps.eosdis.nasa.gov), NASA POWER (https://power.larc.nasa.gov), INPE Programa Queimadas (https://data.inpe.br/queimadas), IBGE (malhas territoriais).
