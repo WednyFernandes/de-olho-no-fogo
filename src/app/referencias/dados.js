@@ -92,6 +92,16 @@ export const SECOES = [
         acesso: 'API (execução do script)',
         onde: 'scripts/cicatrizes_brasil.py',
       },
+      {
+        nome: 'Natural Earth v5.1.2, fronteiras 1:10m (países e estados/províncias)',
+        uso: 'Camada opcional "Limites" do globo: linhas de fronteira terrestre entre países (ne_10m_admin_0_boundary_lines_land) e entre estados/províncias (ne_10m_admin_1_states_provinces_lines), simplificadas (Douglas-Peucker, 0,01°) em public/data/limites/paises.bin e estados.bin.',
+        url: 'https://www.naturalearthdata.com/',
+        links: [['Repositório (GeoJSON)', 'https://github.com/nvkelso/natural-earth-vector/tree/v5.1.2/geojson']],
+        acesso: 'Arquivo baixado',
+        onde: 'scripts/limites.py, public/data/limites/, src/legacy/globo.html',
+        licenca: 'Domínio público.',
+        citacao: 'Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com.',
+      },
     ],
   },
   {
@@ -127,6 +137,21 @@ export const SECOES = [
         onde: 'src/legacy/globo.html',
         licenca: 'Dados © colaboradores do OpenStreetMap, ODbL 1.0.',
         citacao: 'Crédito mostrado na busca: © OpenStreetMap (Nominatim).',
+      },
+      {
+        nome: 'Nominatim (OpenStreetMap), contorno dos lugares',
+        uso: 'Contorno do lugar escolhido na busca e da "Região marcada" do globo (endpoint lookup com polygon_geojson e polygon_threshold de 0,001° a 0,05° conforme o tamanho), pelo mesmo limitador de 1 pedido por segundo e cache da busca; sem contorno, usa o retângulo do lugar.',
+        url: 'https://nominatim.org/release-docs/latest/api/Lookup/',
+        acesso: 'API em tempo real',
+        onde: 'src/legacy/globo.html',
+        licenca: 'Dados © colaboradores do OpenStreetMap, ODbL 1.0.',
+      },
+      {
+        nome: 'IBGE, API de malhas territoriais (v3), municípios por estado',
+        uso: 'Camada "Limites" do globo, nível Municípios (Brasil): malha municipal de cada UF em qualidade mínima, pedida só para os estados na tela quando o mapa está bem aproximado, com cache de até 8 estados; as caixas das UFs (public/data/limites/uf-br.json) vieram da malha nacional por UF.',
+        url: 'https://servicodados.ibge.gov.br/api/docs/malhas?versao=3',
+        acesso: 'API em tempo real',
+        onde: 'src/legacy/globo.html, public/data/limites/uf-br.json',
       },
       {
         nome: 'NASA Blue Marble (textura do globo)',
