@@ -67,7 +67,7 @@ const EX = { m: 10, v: 61, f: 7 }; // same place and day on our globe, 2 Sep 202
 // =====================================================================
 {
   const s = slide(t('Cover', 'Capa'), 'DARK');
-  s.addImage({ path: IMG('hero-globe-f.png'), x: 7.0, y: 0.9, w: 5.8, h: 5.8 * 880 / 960, altText: t('Our globe: fires over South America, August 2025.', 'Nosso globo: fogo na América do Sul, agosto de 2025.') });
+  s.addImage({ path: IMG('hero-nomoon-f.png'), x: 7.0, y: 0.85, w: 5.8, h: 5.8, altText: t('Our globe: fires over South America, August 2025.', 'Nosso globo: fogo na América do Sul, agosto de 2025.') });
   s.addImage({ path: IMG('logo.png'), x: M, y: 0.55, w: 0.6, h: 0.6, altText: 'De Olho no Fogo' });
   dT(s, 'De Olho no Fogo', { x: M + 0.75, y: 0.55, w: 5, h: 0.6, fontSize: 26, bold: true, valign: 'middle' });
   dT(s, t('The same fire, counted only once.', 'O mesmo fogo, contado uma vez só.'), { x: M, y: 1.45, w: 6.3, h: 1.9, fontFace: THEME.headFontFace, fontSize: 44 });
