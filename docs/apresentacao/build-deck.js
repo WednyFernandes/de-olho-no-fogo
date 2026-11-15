@@ -80,54 +80,107 @@ const EX = { m: 10, v: 61, f: 7 }; // same place and day on our globe, 2 Sep 202
 }
 
 // =====================================================================
-// 2. PROBLEM: two satellites that don't talk to each other (light)
+// 2. PROBLEM: fire needs location -> satellites -> two data that don't match (light)
 // =====================================================================
+// chain of the whole idea, used on slides 2 and 3
+const CHAIN = t([
+  ['Fires', 'hurt people, nature and wildlife'],
+  ['Where is the fire?', 'only satellites see it all, every day'],
+  ['2 satellites, 2 data', "MODIS and VIIRS don't match"],
+  ['Harmonize', 'one precise count of each fire'],
+  ['+ other data', 'weather, vegetation, people nearby'],
+  ['Predict', 'where fire may spread'],
+  ['Less impact', 'act before it grows'],
+], [
+  ['Queimadas', 'atingem pessoas, natureza e animais'],
+  ['Onde está o fogo?', 'só satélites veem tudo, todo dia'],
+  ['2 satélites, 2 dados', 'MODIS e VIIRS não batem'],
+  ['Harmonizar', 'uma contagem precisa de cada fogo'],
+  ['+ outros dados', 'tempo, vegetação, pessoas perto'],
+  ['Prever', 'para onde o fogo pode ir'],
+  ['Menos impacto', 'agir antes de crescer'],
+]);
+const ICON = ['ic-forest.png', 'ic-sat.png', 'ic-sat.png', 'ic-globe.png', 'ic-cloud.png', 'ic-chart.png', 'ic-people.png'];
+// node: style 'p' = problem (dark ink), 's' = solution (ember), 'g' = greyed
+const node = (s, i, x, y, w, h, style, big) => {
+  const fill = style === 'p' ? K.ink : style === 's' ? K.brand : K.soft;
+  const txt = style === 'g' ? K.ink2 : K.white;
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.16, fill: { color: fill }, line: { color: style === 'g' ? K.line : fill, width: 0.75 }, objectName: 'Step ' + (i + 1) });
+  T(s, [{ text: CHAIN[i][0], options: { bold: true, fontSize: big ? 20 : 15, color: txt, breakLine: true } }, { text: CHAIN[i][1], options: { fontSize: big ? 15 : 12, color: style === 'g' ? K.ink2 : 'F4F6F9' } }],
+    { x: x + 0.22, y: y + 0.1, w: w - 0.44, h: h - 0.2, valign: 'middle' });
+};
+const arrow = (s, x, y, w, h, color, dir) => s.addShape(dir === 'down' ? pres.shapes.DOWN_ARROW : pres.shapes.RIGHT_ARROW, { x, y, w, h, fill: { color }, line: { type: 'none' } });
+
 {
   const s = slide(t('Problem', 'Problema'), 'LIGHT');
-  s.addText(t("The problem: two satellites that don't talk to each other", 'O problema: dois satélites que não conversam entre si'), { placeholder: 'title', fontSize: 28 });
-  T(s, t('Same place, same day (central Brazil, 2 September 2025):', 'Mesmo lugar, mesmo dia (Brasil central, 2 de setembro de 2025):'), { x: M, y: 1.3, w: W - 2 * M, h: 0.45, fontSize: 18, color: K.ink2 });
-  const iw = 5.2, ih = iw * 1228 / 1843, iy = 1.85, ix2 = W - M - iw;
-  pic(s, 'L-mod.png', M, iy, iw, ih, t('MODIS detections only (purple squares).', 'Só as detecções do MODIS (quadrados roxos).'));
+  s.addText(t('The problem: locating fire with two satellites that disagree', 'O problema: localizar o fogo com satélites que discordam'), { placeholder: 'title', fontSize: 26 });
+  // problem part of the chain
+  const nw = 3.65, nh = 1.15, ny = 1.4, ag = (W - 2 * M - 3 * nw) / 2;
+  [0, 1, 2].forEach(i => {
+    const x = M + i * (nw + ag);
+    node(s, i, x, ny, nw, nh, 'p', true);
+    if (i < 2) arrow(s, x + nw + 0.08, ny + nh / 2 - 0.18, ag - 0.16, 0.36, K.ink2);
+  });
+  // evidence: MODIS vs VIIRS, same place and day
+  const iw = 4.1, ih = iw * 1228 / 1843, iy = 2.85, ix1 = M + 0.9, ix2 = W - M - 0.9 - iw;
+  pic(s, 'L-mod.png', ix1, iy, iw, ih, t('MODIS detections only (purple squares).', 'Só as detecções do MODIS (quadrados roxos).'));
   pic(s, 'L-vii.png', ix2, iy, iw, ih, t('VIIRS detections only (teal squares).', 'Só as detecções do VIIRS (quadrados verde-azulados).'));
-  T(s, [{ text: 'MODIS: ', options: { bold: true, color: K.modis } }, { text: t(`${EX.m} detections`, `${EX.m} detecções`), options: { bold: true } },
-    { text: t(' · 1 km pixel · since 2000', ' · pixel de 1 km · desde 2000'), options: { color: K.ink2 } }], { x: M, y: iy + ih + 0.1, w: iw, h: 0.45, fontSize: 16 });
-  T(s, [{ text: 'VIIRS: ', options: { bold: true, color: K.viirs } }, { text: t(`${EX.v} detections`, `${EX.v} detecções`), options: { bold: true } },
-    { text: t(' · 375 m pixel · since 2012', ' · pixel de 375 m · desde 2012'), options: { color: K.ink2 } }], { x: ix2, y: iy + ih + 0.1, w: iw, h: 0.45, fontSize: 16 });
-  box(s, M, 6.0, W - 2 * M, 0.75, K.ink, 'Problem statement');
+  T(s, t('Same place,\nsame day', 'Mesmo lugar,\nmesmo dia'), { x: ix1 + iw, y: iy + ih / 2 - 0.5, w: ix2 - ix1 - iw, h: 1.0, fontSize: 16, bold: true, color: K.ink2, align: 'center', valign: 'middle' });
+  T(s, [{ text: 'MODIS: ', options: { bold: true, color: K.modis } }, { text: t(`${EX.m} detections`, `${EX.m} detecções`), options: { bold: true } }, { text: t(' · 1 km pixel', ' · pixel de 1 km'), options: { color: K.ink2 } }], { x: ix1, y: iy + ih + 0.08, w: iw, h: 0.4, fontSize: 16 });
+  T(s, [{ text: 'VIIRS: ', options: { bold: true, color: K.viirs } }, { text: t(`${EX.v} detections`, `${EX.v} detecções`), options: { bold: true } }, { text: t(' · 375 m pixel', ' · pixel de 375 m'), options: { color: K.ink2 } }], { x: ix2, y: iy + ih + 0.08, w: iw, h: 0.4, fontSize: 16 });
+  box(s, M, 6.15, W - 2 * M, 0.6, K.brandTint, 'Statement');
   T(s, t('Adding them counts the same fire many times. Using only one loses fires or loses history.', 'Somar os dois conta o mesmo fogo várias vezes. Usar um só perde fogo ou perde história.'),
-    { x: M + 0.35, y: 6.0, w: W - 2 * M - 0.7, h: 0.75, fontSize: 19, bold: true, color: K.white, valign: 'middle' });
-  s.addText(t(`World, 2025: ${fmt(G.brutoM)} MODIS detections and ${fmt(G.brutoV)} VIIRS detections (NASA FIRMS, stats.json). Screenshots of our globe, “MODIS” and “VIIRS” layers; plain background.`,
-    `Mundo, 2025: ${fmt(G.brutoM)} detecções do MODIS e ${fmt(G.brutoV)} do VIIRS (NASA FIRMS, stats.json). Capturas do nosso globo, camadas “MODIS” e “VIIRS”; fundo liso.`), { placeholder: 'src' });
-  s.addNotes(t(`The NASA challenge is a real problem: two satellites that watch fire but do not talk to each other. Look at the same place on the same day. MODIS, with 1 km pixels and data since 2000, made ${EX.m} detections. VIIRS, with 375 m pixels and data since 2012, made ${EX.v}. Which is right? If we add them, we count the same fire many times. If we use only one, we lose small fires or lose 12 years of history. In the whole world in 2025, MODIS made ${fmt(G.brutoM)} detections and VIIRS ${fmt(G.brutoV)}.`,
-    `O desafio da NASA é um problema real: dois satélites que observam o fogo, mas não conversam entre si. Veja o mesmo lugar, no mesmo dia. O MODIS, com pixel de 1 km e dados desde 2000, fez ${EX.m} detecções. O VIIRS, com pixel de 375 m e dados desde 2012, fez ${EX.v}. Qual está certo? Se somarmos, contamos o mesmo fogo várias vezes. Se usarmos só um, perdemos fogo pequeno ou perdemos 12 anos de história. No mundo inteiro em 2025, o MODIS fez ${fmt(G.brutoM)} detecções e o VIIRS ${fmt(G.brutoV)}.`));
+    { x: M + 0.3, y: 6.15, w: W - 2 * M - 0.6, h: 0.6, fontSize: 17, bold: true, color: K.brandInk, valign: 'middle' });
+  s.addText(t(`Brazil burned 12,700,000 hectares in 2025 (MapBiomas). World 2025: ${fmt(G.brutoM)} MODIS and ${fmt(G.brutoV)} VIIRS detections (stats.json). Screenshots: our globe, 2 September 2025, central Brazil.`,
+    `O Brasil queimou 12.700.000 hectares em 2025 (MapBiomas). Mundo 2025: ${fmt(G.brutoM)} detecções do MODIS e ${fmt(G.brutoV)} do VIIRS (stats.json). Capturas: nosso globo, 2 de setembro de 2025, Brasil central.`), { placeholder: 'src' });
+  s.addNotes(t(`Fires hurt people, nature and wildlife — Brazil alone burned 12.7 million hectares in 2025. To act, we first need to know where the fire is, and only satellites see the whole country every day. But NASA has two satellites with two different records. Same place, same day: MODIS saw ${EX.m} detections, VIIRS saw ${EX.v}. Adding them counts the same fire many times; using only one loses small fires or loses history.`,
+    `As queimadas atingem pessoas, natureza e animais — só o Brasil queimou 12,7 milhões de hectares em 2025. Para agir, primeiro é preciso saber onde está o fogo, e só os satélites veem o país inteiro todo dia. Mas a NASA tem dois satélites, com dois registros diferentes. Mesmo lugar, mesmo dia: o MODIS viu ${EX.m} detecções, o VIIRS viu ${EX.v}. Somar conta o mesmo fogo várias vezes; usar um só perde fogo pequeno ou perde história.`));
 }
 
 // =====================================================================
-// 3. SOLUTION: harmonization (light)
+// 3. SOLUTION: harmonize -> precision -> cross with other data -> predict -> less impact (light)
 // =====================================================================
 {
   const s = slide(t('Solution', 'Solução'), 'LIGHT');
-  s.addText(t('The solution: harmonization — each fire counted once', 'A solução: harmonização — cada fogo contado uma vez'), { placeholder: 'title', fontSize: 28 });
-  const iw = 4.75, ih = iw * 1228 / 1843, iy = 1.45, ix2 = W - M - iw;
-  pic(s, 'L-raw.png', M, iy, iw, ih, t('Before: MODIS and VIIRS detections together.', 'Antes: detecções do MODIS e do VIIRS juntas.'));
-  pic(s, 'L-harm.png', ix2, iy, iw, ih, t('After: harmonized fires, each drawn once.', 'Depois: fogos harmonizados, cada um desenhado uma vez.'));
-  T(s, '→', { x: M + iw, y: iy + ih / 2 - 0.45, w: ix2 - M - iw, h: 0.9, fontSize: 48, bold: true, color: K.brand, align: 'center', valign: 'middle' });
-  T(s, [{ text: t('Before: ', 'Antes: '), options: { bold: true } }, { text: t(`${EX.m + EX.v} detections`, `${EX.m + EX.v} detecções`) }], { x: M, y: iy + ih + 0.1, w: iw, h: 0.45, fontSize: 20 });
-  T(s, t(`After: ${EX.f} fires`, `Depois: ${EX.f} fogos`), { x: ix2, y: iy + ih + 0.1, w: iw, h: 0.45, fontSize: 20, bold: true, color: K.brandInk });
-  const steps = t([['Same day', 'the local day of each place'], ['Same 1 km square', 'the MODIS map grid, for both'], ['Touching = 1 fire', 'and we note who saw it']],
-    [['Mesmo dia', 'o dia local de cada lugar'], ['Mesmo quadrado de 1 km', 'a grade do MODIS, para os dois'], ['Encostados = 1 fogo', 'e marcamos quem viu']]);
-  const sw = (W - 2 * M - 2 * 0.3) / 3;
-  steps.forEach(([a, b], i) => {
-    const x = M + i * (sw + 0.3);
-    box(s, x, 5.2, sw, 1.45, K.soft, 'Step ' + (i + 1));
-    s.addShape(pres.shapes.OVAL, { x: x + 0.25, y: 5.42, w: 0.55, h: 0.55, fill: { color: K.brand }, line: { type: 'none' } });
-    T(s, String(i + 1), { x: x + 0.25, y: 5.42, w: 0.55, h: 0.55, fontSize: 20, bold: true, color: K.white, align: 'center', valign: 'middle' });
-    T(s, [{ text: a, options: { bold: true, fontSize: 17, breakLine: true } }, { text: b, options: { fontSize: 15, color: K.ink2 } }], { x: x + 0.95, y: 5.32, w: sw - 1.1, h: 1.2, valign: 'middle' });
+  s.addText(t('The solution: harmonize for precision, then predict', 'A solução: harmonizar para ter precisão, e então prever'), { placeholder: 'title', fontSize: 28 });
+  // row 1: problem (greyed), row 2: solution (ember)
+  const g1 = 0.4, w1 = (W - 2 * M - 2 * g1) / 3, h1 = 0.85, y1 = 1.35;
+  [0, 1, 2].forEach(i => {
+    const x = M + i * (w1 + g1);
+    node(s, i, x, y1, w1, h1, 'g', false);
+    if (i < 2) arrow(s, x + w1 + 0.06, y1 + h1 / 2 - 0.13, g1 - 0.12, 0.26, K.line);
   });
-  s.addText(t(`Our globe, same place and day (2 September 2025, central Brazil): ${EX.m} MODIS + ${EX.v} VIIRS detections → ${EX.f} harmonized hotspots. Plain background.`,
-    `Nosso globo, mesmo lugar e dia (2 de setembro de 2025, Brasil central): ${EX.m} detecções do MODIS + ${EX.v} do VIIRS → ${EX.f} focos harmonizados. Fundo liso.`), { placeholder: 'src' });
-  s.addNotes(t(`Our solution is harmonization. Every detection goes to the local day of its place and to a 1 km map square, the same squares for both satellites. Squares with fire that touch on the same day become one fire, and we note who saw it: both, only MODIS or only VIIRS. In this example, ${EX.m + EX.v} detections become ${EX.f} fires. Now it no longer matters which satellite saw the fire.`,
-    `Nossa solução é a harmonização. Cada detecção vai para o dia local do seu lugar e para um quadrado de 1 km do mapa, os mesmos quadrados para os dois satélites. Quadrados com fogo que se encostam no mesmo dia viram um fogo só, e marcamos quem viu: os dois, só o MODIS ou só o VIIRS. Neste exemplo, ${EX.m + EX.v} detecções viram ${EX.f} fogos. Agora não importa mais qual satélite viu o fogo.`));
+  
+  const g2 = 0.3, w2 = (W - 2 * M - 3 * g2) / 4, h2 = 1.4, y2 = 2.75;
+  { // connector: from the last problem box back to the first solution box
+    const xa = M + 2 * (w1 + g1) + w1 / 2, xb = M + w2 / 2, ym = y1 + h1 + 0.2, ln = { color: K.brand, width: 3 };
+    s.addShape(pres.shapes.LINE, { x: xa, y: y1 + h1, w: 0, h: ym - y1 - h1, line: ln });
+    s.addShape(pres.shapes.LINE, { x: xb, y: ym, w: xa - xb, h: 0, line: ln });
+    arrow(s, xb - 0.18, ym, 0.36, y2 - ym - 0.03, K.brand, 'down');
+  }
+  [3, 4, 5, 6].forEach((i, k) => {
+    const x = M + k * (w2 + g2);
+    node(s, i, x, y2, w2, h2, k === 3 ? 'p' : 's', true);
+    if (k < 3) arrow(s, x + w2 + 0.04, y2 + h2 / 2 - 0.16, g2 - 0.08, 0.32, K.brand);
+  });
+  // flip order visually: row 2 runs right-to-left from the down arrow? keep left-to-right for reading; mark start
+  T(s, t('SOLUTION', 'SOLUÇÃO'), { x: M + w2 / 2 + 0.3, y: y1 + h1 + 0.28, w: 3, h: 0.25, fontSize: 12, bold: true, color: K.brandInk });
+  // evidence of the harmonization
+  const iw = 2.95, ih = iw * 1228 / 1843, iy = 4.5, ix2 = M + iw + 0.5;
+  pic(s, 'L-raw.png', M, iy, iw, ih, t('Before: MODIS and VIIRS detections together.', 'Antes: detecções do MODIS e do VIIRS juntas.'));
+  pic(s, 'L-harm.png', ix2, iy, iw, ih, t('After: harmonized fires.', 'Depois: fogos harmonizados.'));
+  arrow(s, M + iw + 0.1, iy + ih / 2 - 0.15, 0.3, 0.3, K.brand);
+  T(s, [{ text: t('Before: ', 'Antes: '), options: { bold: true } }, { text: t(`${EX.m + EX.v} detections`, `${EX.m + EX.v} detecções`) }], { x: M, y: iy + ih + 0.04, w: iw, h: 0.3, fontSize: 13 });
+  T(s, t(`After: ${EX.f} fires`, `Depois: ${EX.f} fogos`), { x: ix2, y: iy + ih + 0.04, w: iw, h: 0.3, fontSize: 13, bold: true, color: K.brandInk });
+  const rx = ix2 + iw + 0.45, rw = W - M - rx;
+  box(s, rx, iy, rw, ih + 0.34, K.soft, 'How');
+  T(s, [{ text: t('How we harmonize', 'Como harmonizamos'), options: { bold: true, color: K.brandInk, breakLine: true } },
+    { text: t('Same local day · same 1 km map square · touching squares = 1 fire, and we note who saw it.', 'Mesmo dia local · mesmo quadrado de 1 km · quadrados encostados = 1 fogo, e marcamos quem viu.') }],
+    { x: rx + 0.3, y: iy + 0.1, w: rw - 0.6, h: ih + 0.14, fontSize: 15, valign: 'middle' });
+  s.addText(t(`Harmonization is built (world 2025, Brazil 2000–2025). Prediction is in development (prototype in Minas Gerais). Example: ${EX.m} MODIS + ${EX.v} VIIRS detections → ${EX.f} harmonized hotspots, 2 September 2025.`,
+    `A harmonização está pronta (mundo 2025, Brasil 2000–2025). A previsão está em desenvolvimento (protótipo em Minas Gerais). Exemplo: ${EX.m} detecções do MODIS + ${EX.v} do VIIRS → ${EX.f} focos harmonizados, 2 de setembro de 2025.`), { placeholder: 'src' });
+  s.addNotes(t(`Our solution follows this chain. For precision, we harmonize the two satellites: each fire counted once, with who saw it — here ${EX.m + EX.v} detections become ${EX.f} fires. That precise record is the base for prediction: we cross the harmonized fires with other data — weather, vegetation, people nearby — to estimate where fire may spread, so agencies can act before it grows and reduce the impact.`,
+    `Nossa solução segue esta cadeia. Para ter precisão, harmonizamos os dois satélites: cada fogo contado uma vez, com quem viu — aqui ${EX.m + EX.v} detecções viram ${EX.f} fogos. Esse registro preciso é a base da previsão: cruzamos os fogos harmonizados com outros dados — tempo, vegetação, pessoas perto — para estimar para onde o fogo pode ir, e os órgãos poderem agir antes de ele crescer e diminuir o impacto.`));
 }
 
 // =====================================================================
