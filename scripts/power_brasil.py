@@ -18,6 +18,7 @@ Download: endpoint de ponto (8 parâmetros, 2000–2025 num pedido só, CSV), no
 """
 
 import gzip
+import http.client
 import json
 import os
 import sys
@@ -107,7 +108,7 @@ def baixar(c, tent=6):
             if e.code not in (429, 500, 502, 503, 504):
                 raise
             log(f"  HTTP {e.code} em {c['lat']},{c['lon']} (tentativa {k + 1}); espera {espera} s")
-        except (urllib.error.URLError, TimeoutError, ConnectionError, ValueError) as e:
+        except (urllib.error.URLError, http.client.HTTPException, OSError, ValueError) as e:
             log(f"  erro {e!r} em {c['lat']},{c['lon']} (tentativa {k + 1}); espera {espera} s")
         time.sleep(espera)
         espera = min(espera * 2, 600)

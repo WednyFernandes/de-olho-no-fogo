@@ -48,6 +48,19 @@ a{color:var(--brand-ink)}
 .search input{flex:1;min-width:0;border:0;outline:0;background:transparent;min-height:44px;font-size:14px}
 .top .search{flex:0 1 250px;margin-left:auto;background:var(--soft);border-radius:10px;min-height:44px}
 .top .search:focus-within{outline:3px solid var(--brand);outline-offset:2px}
+.qlist{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:60;margin:0;padding:4px;list-style:none;background:var(--card,#fff);color:var(--ink,#22262A);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.22);max-height:min(60vh,340px);overflow:auto}
+.qlist li{padding:8px 10px;border-radius:8px;cursor:pointer;line-height:1.25;font-size:14px}
+.qlist li small{display:block;color:var(--ink3,#6B7177);font-size:12px}
+.qlist li[aria-selected="true"],.qlist li:hover{background:var(--soft,#EEF1F3)}
+.qlist .cred{cursor:default;font-size:11px;color:var(--ink3,#6B7177);padding:4px 10px}
+.qlist .cred:hover{background:none}
+.qmsg{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:60;background:var(--card,#fff);color:var(--ink,#22262A);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.22);padding:8px 12px;font-size:13px}
+.rng{display:flex!important;justify-content:space-between;font-size:13px;min-height:0!important;padding:0!important}
+#soloOp{width:100%;accent-color:var(--brand,#D4410B)}
+.solul{grid-template-columns:1fr 1fr}
+.solul li{font-size:12px}
+#lcTip{position:fixed;z-index:55;pointer-events:none;display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:rgba(20,22,25,.88);color:#fff;font-size:12px;line-height:1.2;white-space:nowrap;transform:translate(14px,14px)}
+#lcTip i{width:11px;height:11px;border-radius:3px;border:1px solid rgba(255,255,255,.7);flex:none}
 .tbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border:0;border-radius:10px;background:transparent;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap}
 .tbtn:hover,.tbtn[aria-expanded="true"]{background:var(--soft)}
 .tbtn svg{color:var(--brand)}
@@ -246,8 +259,10 @@ body.clean .mapctl{right:16px}
   <a class="brand" href="/" aria-label="De Olho no Fogo, página inicial"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#D4410B"/><path d="M16 4C17.8 8.6 23.5 11.4 23.5 18.6 23.5 23.3 20.2 27 16 27S8.5 23.3 8.5 18.9C8.5 15.2 10.6 13 12.2 11.1 12.4 13.6 13.5 15 14.9 15.4 14.2 11.6 14.7 7.6 16 4Z" fill="#fff"/><path d="M11 20.6Q16 16.2 21 20.6 16 25 11 20.6Z" fill="#D4410B"/><circle cx="16" cy="20.6" r="1.9" fill="#FFC02E"/></svg><b>De Olho no Fogo</b></a>
   <nav class="nav" aria-label="Páginas"><a href="/">Início</a><a href="/globo" aria-current="page">Globo</a><a href="/metodo">Método</a><a href="/referencias">Referências</a><a href="/time">Time</a></nav>
   <form class="search" id="fq" role="search">
-    <label for="q" class="sr">Ir para uma coordenada: latitude, longitude</label>
-    <input id="q" type="search" placeholder="Ir para lat, long  (ex.: -12.6, -48.2)" autocomplete="off" inputmode="text">
+    <label for="q" class="sr">Buscar lugar (cidade, estado, país) ou coordenada: latitude, longitude</label>
+    <input id="q" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="qList" aria-describedby="qMsg" placeholder="Cidade, estado, país ou lat, long" autocomplete="off" spellcheck="false" enterkeyhint="search">
+    <ul id="qList" class="qlist" role="listbox" aria-label="Lugares encontrados" hidden></ul>
+    <div id="qMsg" class="qmsg" role="status" aria-live="polite" hidden></div>
     <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
   </form>
   <button type="button" class="tbtn" id="btnLayers" aria-controls="side" aria-expanded="true"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6l8-4 8 4-8 4-8-4zM2 10l8 4 8-4M2 14l8 4 8-4"/></svg><span class="lbl">Camadas</span><span class="sr">e legenda</span></button>
@@ -282,15 +297,17 @@ body.clean .mapctl{right:16px}
     <label><input type="checkbox" id="ckFix">Fontes fixas de calor<svg class="sw" width="22" height="18" aria-hidden="true"><path d="M11 2l7 7-7 7-7-7z" fill="#fff" stroke="#2B6CB0" stroke-width="1.8"/></svg></label>
     <label><input type="checkbox" id="ckScar">Cicatrizes de queimada (Brasil) <span class="ext" title="Dado de outra fonte (INPE), adicional ao desafio">extra · INPE</span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="18" height="12" rx="2" fill="#4A3326" fill-opacity=".65"/></svg></label>
     <div id="scarOpt" hidden style="padding:4px 0 2px"><div class="seg" role="group" aria-label="Período das cicatrizes"><button type="button" data-scar="1" aria-pressed="true">Desde janeiro</button><button type="button" data-scar="0" aria-pressed="false">Só no período</button></div></div>
+    <label><input type="checkbox" id="ckSolo">Cobertura do solo <span class="ext" title="Dado de outra fonte (NASA MODIS MCD12Q1), adicional ao desafio">extra · MODIS</span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="9" height="12" fill="#31CC31"/><rect x="11" y="3" width="9" height="6" fill="#FAEF73"/><rect x="11" y="9" width="9" height="6" fill="#4783B5"/></svg></label>
+    <div id="soloOpt" class="lg" hidden style="padding:2px 0 6px"><label class="rng" for="soloOp">Opacidade <output id="soloOpV" for="soloOp">55%</output></label><input type="range" id="soloOp" min="0.1" max="1" step="0.05" value="0.55"><p class="muted" style="margin:6px 0 4px">Classe IGBP do MODIS MCD12Q1 (500 m), ano de 2024, via NASA GIBS. Passe o mouse (ou toque) no globo para ver a classe.</p><ul id="soloUl" class="solul"></ul><p class="muted" style="margin:6px 0 0;font-size:11px">Cobertura do solo: NASA MODIS MCD12Q1 v061 (Friedl e Sulla-Menashe, 2022), imagens NASA GIBS.</p></div>
     <label><input type="checkbox" id="ckGrid">Grade de densidade (~28 km)<svg class="sw" width="22" height="18" aria-hidden="true"><rect x="3" y="2" width="7" height="7" fill="#F7801E"/><rect x="11" y="2" width="7" height="7" fill="#FFD45E"/><rect x="3" y="10" width="7" height="7" fill="#FFD45E"/><rect x="11" y="10" width="7" height="7" fill="#C8102E"/></svg></label>
     
     
   </div>
   
   
-  <div class="blk card"><h2 class="h2" id="ly-b" style="margin-bottom:8px">Fundo do mapa</h2><div class="seg" role="group" aria-labelledby="ly-b"><button type="button" data-base="gray" aria-pressed="true">Mapa</button><button type="button" data-base="topo" aria-pressed="false">Relevo</button><button type="button" data-base="sat" aria-pressed="false">Satélite</button><button type="button" data-base="solo" aria-pressed="false">Cobertura do solo <span class="ext">extra</span></button></div><div id="soloLeg" class="lg" hidden><p class="muted" style="margin:8px 0 4px">Cobertura do solo em 2020 (MODIS MCD12C1, classe IGBP mais comum em 0,05°). Usada no teste do fator por tipo de vegetação.</p><ul id="soloUl"></ul></div></div>
+  <div class="blk card"><h2 class="h2" id="ly-b" style="margin-bottom:8px">Fundo do mapa</h2><div class="seg" role="group" aria-labelledby="ly-b"><button type="button" data-base="gray" aria-pressed="true">Mapa</button><button type="button" data-base="topo" aria-pressed="false">Relevo</button><button type="button" data-base="sat" aria-pressed="false">Satélite</button></div></div>
   <details class="blk card fx layers"><summary class="h2">Efeitos visuais</summary><label><input type="checkbox" id="ckFlame" checked>Chama nos focos</label><label><input type="checkbox" id="ckEmber" checked>Brasa nas cicatrizes</label></details>
-  <p class="foot">Dados: NASA FIRMS · MODIS C6.1 + VIIRS S-NPP. Cicatrizes: INPE (AQ1km). Mapa de fundo: Esri.<br>Space Uai · NASA Space Apps Challenge 2026</p>
+  <p class="foot">Dados: NASA FIRMS · MODIS C6.1 + VIIRS S-NPP. Cicatrizes: INPE (AQ1km). Mapa de fundo: Esri. Busca: © OpenStreetMap (Nominatim).<br>Space Uai · NASA Space Apps Challenge 2026</p>
 </aside>
 
 <section class="insight card" id="insight" aria-labelledby="in-t">
@@ -326,6 +343,7 @@ body.clean .mapctl{right:16px}
 
 <section class="hcard card" id="hcard" aria-label="Detalhe do ponto clicado" hidden></section>
 <div class="sr" id="live" aria-live="polite"></div>
+<div id="lcTip" hidden aria-hidden="true"><i></i><span></span></div>
 
 <script src="https://unpkg.com/globe.gl@2.45.0/dist/globe.gl.min.js"></script>
 <script>
@@ -344,8 +362,9 @@ var LCOL={h:C.brand,m:C.modis,v:C.viirs};
 var MES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 var MESC=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 var EB='https://server.arcgisonline.com/ArcGIS/rest/services/';
-var TILES={gray:[EB+'Canvas/World_Light_Gray_Base/MapServer/tile/',16],topo:[EB+'World_Topo_Map/MapServer/tile/',17],sat:[EB+'World_Imagery/MapServer/tile/',17],solo:['/data/harm/cobertura-2020.png',0]};
+var TILES={gray:[EB+'Canvas/World_Light_Gray_Base/MapServer/tile/',16],topo:[EB+'World_Topo_Map/MapServer/tile/',17],sat:[EB+'World_Imagery/MapServer/tile/',17]};
 var HOME={lat:-6,lng:-18,altitude:2.3};
+var LC={on:false,op:.55,pend:false};
 var LNOME={h:'focos harmonizados',m:'detecções MODIS',v:'detecções VIIRS'};
 var LCURTO={h:'focos',m:'det. MODIS',v:'det. VIIRS'};
 var LKEY={h:'focos',m:'brutoM',v:'brutoV'};
@@ -1466,7 +1485,7 @@ function writeURL(){
  q.push('lat='+v.lat.toFixed(4),'lng='+v.lng.toFixed(4),'alt='+v.altitude.toFixed(4),'de='+iso(S.d0),'ate='+iso(S.d1));
  if(!winFull())q.push('hora='+hhmm(S.h0)+'-'+hhmm(S.h1));
  q.push('camada='+(actL().join(',')||'nenhuma'));
- if(S.fix)q.push('fixas=1');if(S.scar)q.push('cic=1');if(S.base!=='gray')q.push('base='+S.base);if(!S.fxF)q.push('chama=0');if(!S.fxE)q.push('brasa=0');if(S.grid)q.push('grade=1');
+ if(S.fix)q.push('fixas=1');if(S.scar)q.push('cic=1');if(S.base!=='gray')q.push('base='+S.base);if(LC.on){q.push('solo=1');if(Math.abs(LC.op-.55)>.01)q.push('solo_op='+LC.op.toFixed(2));}if(!S.fxF)q.push('chama=0');if(!S.fxE)q.push('brasa=0');if(S.grid)q.push('grade=1');
  if(S.acum){q.push('acum=1','acum_ini='+(ymd(S.ac0).d===1?iso(S.ac0).slice(0,7):iso(S.ac0)));}
  try{history.replaceState(null,'',location.pathname+'?'+q.join('&'));}catch(e){}
 }
@@ -1494,6 +1513,7 @@ function onView(){
   if(md!==lastMode){lastMode=md;if(!modeBlob()&&det.mesh){det.ok=false;det.key='';}updVis();legend();status();if(tlM&&tlM.unit==='hora')drawTL();}
   if(meshes.grid&&!GF){var ga=gridAlpha();U.gAlpha.value=ga;meshes.grid.visible=!!gridLayer()&&ga>.01;}
   if(S.scar)schedScar();
+  lcView();
   schedCount();schedURL();
  });
 }
@@ -1580,8 +1600,6 @@ function sweepBase(){
 function fino(te){if(te&&!te.__fino){te.__fino=1;te.thresholds=te.thresholds.map(function(_,i){return 16/Math.pow(2,i);});return true;}return false;} /* um nível a mais de detalhe: o padrão fica borrado de perto */
 function setBase(){
  var b=TILES[S.base],te=tileEngine();
- $('soloLeg').hidden=S.base!=='solo';
- if(S.base==='solo'){if(te)te.clearTiles();globe.globeTileEngineUrl(null).globeImageUrl(b[0]);if(U.halo)U.halo.value=0;return;}
  globe.globeImageUrl('https://unpkg.com/three-globe@2.30.0/example/img/earth-blue-marble.jpg');
  if(te){fino(te);te.clearTiles();}
  globe.globeTileEngineMaxLevel(b[1]).globeTileEngineUrl(function(x,y,l){return b[0]+l+'/'+y+'/'+x;});
@@ -1606,7 +1624,7 @@ function initGlobe(){
  if(window.ResizeObserver)new ResizeObserver(function(){globe.width(gEl.clientWidth).height(gEl.clientHeight);U.view.value=[gEl.clientWidth,gEl.clientHeight];drawTL();onView();}).observe(gEl);
  if(window.ResizeObserver)new ResizeObserver(function(){drawTL();}).observe($('tlPlot'));
  var tries=0;(function wait(){
-  if(grabThree()){try{var te=tileEngine();if(fino(te))te.updatePov(globe.camera());apply();onView();}catch(e){console.error(e);fatal('Erro ao desenhar os dados no globo.');}return;}
+  if(grabThree()){try{var te=tileEngine();if(fino(te))te.updatePov(globe.camera());apply();onView();if(LC.pend){LC.pend=false;EXT_OK.solo=true;lcSet(true);}}catch(e){console.error(e);fatal('Erro ao desenhar os dados no globo.');}return;}
   if(++tries>80){fatal('Seu navegador não conseguiu iniciar o desenho 3D (WebGL).');return;}
   setTimeout(wait,100);})();
 }
@@ -1614,7 +1632,7 @@ function initGlobe(){
 /* ───────── interface ───────── */
 function press(sel,attr,v){document.querySelectorAll(sel).forEach(function(b){b.setAttribute('aria-pressed',b.dataset[attr]===String(v));});}
 document.querySelectorAll('[data-layer]').forEach(function(b){b.onclick=function(){var L=b.dataset.layer;S.lay[L]=!S.lay[L];hideCard();apply();say(b.textContent.trim()+(S.lay[L]?': ligado':': desligado'));};});
-document.querySelectorAll('[data-base]').forEach(function(b){b.onclick=function(){if(b.dataset.base==='solo'&&S.base!=='solo'&&!EXT_OK.solo){extConfirm('solo',function(){b.onclick();});return;}S.base=b.dataset.base;press('[data-base]','base',S.base);if(globe){setBase();schedURL();}say('Fundo do mapa: '+b.textContent);};});
+document.querySelectorAll('[data-base]').forEach(function(b){b.onclick=function(){S.base=b.dataset.base;press('[data-base]','base',S.base);if(globe){setBase();schedURL();}say('Fundo do mapa: '+b.textContent);};});
 document.querySelectorAll('[data-scar]').forEach(function(b){b.onclick=function(){S.scarAc=b.dataset.scar==='1';press('[data-scar]','scar',S.scarAc?1:0);apply();};});
 $('tlF').addEventListener('click',function(e){var b=e.target.closest('[data-pre]');if(b&&!b.disabled)preset(b.dataset.pre);});
 $('ckFix').onchange=function(){S.fix=this.checked;apply();};
@@ -1654,13 +1672,6 @@ $('btClean').onclick=function(){panClean(!document.body.classList.contains('clea
 document.addEventListener('keydown',function(e){if((e.key==='h'||e.key==='H')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)){e.preventDefault();panClean(!document.body.classList.contains('clean'));}});
 $('status').addEventListener('click',function(e){var b=e.target.closest('[data-pre]');if(b)preset(b.dataset.pre);});
 $('inBody').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(!b)return;var p=b.dataset.go.split(',').map(Number);stopPlay();S.d0=dn(p[3],p[4],1);S.d1=dn(p[3],p[4],dim(p[3],p[4]));S.ac0=S.d0;apply();fly(p[0],p[1],p[2],1800);});
-$('fq').addEventListener('submit',function(e){
- e.preventDefault();var s=$('q').value.trim(),m=s.match(/-?\d+(?:[.,]\d+)?/g);
- if(m&&m.length===4&&s.indexOf('.')<0)m=[m[0]+'.'+m[1].replace('-',''),m[2]+'.'+m[3].replace('-','')];
- if(m&&m.length>=2&&/[,;\s]/.test(s)){var la=parseFloat(String(m[0]).replace(',','.')),lo=parseFloat(String(m[1]).replace(',','.'));
-  if(Math.abs(la)<=90&&Math.abs(lo)<=180){fly(la,lo,Math.min(alt,.06),1600);say('Indo para '+la+', '+lo);return;}}
- say('Digite latitude e longitude, por exemplo: -12.6, -48.2');$('q').setAttribute('aria-invalid','true');setTimeout(function(){$('q').removeAttribute('aria-invalid');},1500);
-});
 gEl.addEventListener('keydown',function(e){if(!globe)return;var v=globe.pointOfView(),d=Math.min(10,v.altitude*14),m={ArrowLeft:[0,-d],ArrowRight:[0,d],ArrowUp:[d,0],ArrowDown:[-d,0]}[e.key];
  if(m){e.preventDefault();fly(Math.max(-85,Math.min(85,v.lat+m[0])),v.lng+m[1],v.altitude,250);}else if(e.key==='+'||e.key==='='){e.preventDefault();zoomBy(.6);}else if(e.key==='-'||e.key==='_'){e.preventDefault();zoomBy(1.6);}});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')hideCard();});
@@ -1685,6 +1696,7 @@ Promise.all([getJSON(D+'manifest.json'),getJSON(D+'stats.json')]).then(function(
  var hw=/^(\d\d):(\d\d)-(\d\d):(\d\d)$/.exec(q.get('hora')||'');if(hw){S.h0=(+hw[1])*60+(+hw[2]);S.h1=(+hw[3])*60+(+hw[4]);}
  if(q.has('camada')){var cs=q.get('camada').split(/[,\s+]+/);S.lay={h:cs.indexOf('h')>=0,m:cs.indexOf('m')>=0,v:cs.indexOf('v')>=0};}
  if(TILES[q.get('base')]){S.base=q.get('base');press('[data-base]','base',S.base);}
+ if(q.get('solo')==='1'||q.get('base')==='solo'){LC.pend=true;if(isFinite(n('solo_op')))LC.op=Math.max(.1,Math.min(1,n('solo_op')));}
  if(q.get('fixas')==='1'){S.fix=true;$('ckFix').checked=true;}
  if(q.get('cic')==='1'){S.scar=true;$('ckScar').checked=true;}
  if(q.get('chama')==='0'){S.fxF=false;$('ckFlame').checked=false;}
@@ -1756,8 +1768,155 @@ function updSats(force){
   if(pts.length>1)paths.push({pts:pts,c:SATCOR[S1.n]});});
  globe.htmlElementsData(on).pathsData(paths);
 }
-fetch('/data/harm/cobertura-classes.json').then(function(r){return r.json();}).then(function(j){
- var h='';Object.keys(j.classes).forEach(function(k){if(k==='17'||k==='15')return;var c=j.classes[k];h+='<li><span class="sq" style="background:'+c.cor+'"></span>'+c.nome+'</li>';});$('soloUl').innerHTML=h;}).catch(function(){});
+/* ───────── cobertura do solo: camada sobreposta (MODIS MCD12Q1 500 m, NASA GIBS, ladrilhos Web Mercator) ───────── */
+var LC_YEAR='2024-01-01',LC_ZMAX=8,LC_CAP=56,LC_FETCH=6,LC_CACHE=220,LC_R=100.02;
+function lcURL(z,y,x){return 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual/default/'+LC_YEAR+'/GoogleMapsCompatible_Level8/'+z+'/'+y+'/'+x+'.png';}
+/* paleta oficial do GIBS (MODIS_IGBP_Land_Cover_Type.xml) e nomes IGBP em português */
+var LC_CL=[[1,[33,138,33],'Floresta perene de coníferas'],[2,[49,204,49],'Floresta tropical perene (latifoliada)'],[3,[152,204,49],'Floresta decídua de coníferas'],[4,[150,250,150],'Floresta decídua latifoliada'],[5,[141,186,141],'Floresta mista'],[6,[186,141,141],'Arbustal fechado'],[7,[245,222,179],'Arbustal aberto'],[8,[218,235,157],'Savana arborizada'],[9,[255,213,0],'Savana / cerrado'],[10,[240,185,103],'Pastagem / Campo'],[11,[71,131,181],'Área úmida'],[12,[250,239,115],'Agricultura'],[13,[255,0,0],'Área urbana'],[14,[153,147,86],'Mosaico agricultura e vegetação'],[15,[255,255,255],'Neve e gelo'],[16,[191,191,189],'Solo exposto'],[17,[134,202,227],'Água'],[255,[100,100,100],'Sem classificação']];
+LC.meshes={};LC.cache={};LC.order=[];LC.load={};LC.nload=0;LC.want={};LC.vt=0;
+(function(){var h='';LC_CL.forEach(function(c){if(c[0]===255)return;h+='<li><span class="sq" style="background:rgb('+c[1].join(',')+');box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)"></span>'+c[2]+'</li>';});$('soloUl').innerHTML=h;})();
+function lcClass(r,g,b){var best=null,bd=1e9;LC_CL.forEach(function(c){var d=(c[1][0]-r)*(c[1][0]-r)+(c[1][1]-g)*(c[1][1]-g)+(c[1][2]-b)*(c[1][2]-b);if(d<bd){bd=d;best=c;}});return bd<1200?best:null;}
+function lcTileXY(lat,lng,z){var n=1<<z,la=Math.max(-85.05,Math.min(85.05,lat))*RAD,x=(((lng+180)/360)%1+1)%1*n,y=(1-Math.log(Math.tan(la)+1/Math.cos(la))/Math.PI)/2*n;return [Math.floor(x),Math.min(n-1,Math.max(0,Math.floor(y))),x,y];}
+/* um ladrilho = um pedaço de esfera com UV em Mercator; sem teste de profundidade (sem paralaxe de perto), escondido atrás do horizonte no shader */
+function lcMesh(z,x,y,tex){
+ var seg=z<=3?32:(z<=5?16:8),n=1<<z,pos=[],uv=[],idx=[],i,j;
+ for(j=0;j<=seg;j++){var f=j/seg,la=Math.atan(Math.sinh(Math.PI*(1-2*(y+f)/n)))/RAD;
+  for(i=0;i<=seg;i++){var lo=(x+i/seg)/n*360-180,c=globe.getCoords(la,lo,LC_R/100-1);pos.push(c.x,c.y,c.z);uv.push(i/seg,1-f);}}
+ for(j=0;j<seg;j++)for(i=0;i<seg;i++){var a=j*(seg+1)+i,b=a+seg+1;idx.push(a,b,a+1,b,b+1,a+1);}
+ var g=new T3.BG();g.setAttribute('position',new T3.BA(new Float32Array(pos),3));g.setAttribute('uv',new T3.BA(new Float32Array(uv),2));g.setIndex(idx);g.computeBoundingSphere();
+ var m=new T3.SM({uniforms:{map:{value:tex},uOp:{value:LC.op}},
+  vertexShader:'varying vec2 vUv;varying vec3 vP;void main(){vUv=uv;vec4 w=modelMatrix*vec4(position,1.0);vP=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}',
+  fragmentShader:'uniform sampler2D map;uniform float uOp;varying vec2 vUv;varying vec3 vP;void main(){if(dot(vP,cameraPosition)<10000.0*1.0004)discard;vec4 c=texture2D(map,vUv);if(c.a<0.5)discard;gl_FragColor=vec4(c.rgb,uOp);}',
+  transparent:true,depthTest:false,depthWrite:false});
+ var me=new T3.Mesh(g,m);me.renderOrder=-20+z;me.frustumCulled=false;return me;
+}
+function lcDrop(k){var m=LC.meshes[k];if(!m)return;globe.scene().remove(m);m.geometry.dispose();m.material.dispose();delete LC.meshes[k];}
+function lcEvict(){var tries=LC.order.length;while(LC.order.length>LC_CACHE&&tries-->0){var k=LC.order.shift();if(LC.meshes[k]||LC.want[k]||/^2\//.test(k)){LC.order.push(k);continue;}var c=LC.cache[k];if(c&&c.tex)c.tex.dispose();delete LC.cache[k];}}
+function lcFetch(k){
+ if(LC.cache[k]||LC.load[k]||LC.nload>=LC_FETCH)return;
+ var p=k.split('/').map(Number),im=new Image();LC.load[k]=1;LC.nload++;im.crossOrigin='anonymous';
+ im.onload=function(){LC.nload--;delete LC.load[k];var data=null;try{var cv=document.createElement('canvas');cv.width=im.width;cv.height=im.height;var cx=cv.getContext('2d',{willReadFrequently:true});cx.drawImage(im,0,0);data=cx.getImageData(0,0,im.width,im.height).data;}catch(e){}
+  var Tx=grabTex(),tex=null;if(Tx){tex=new Tx(im);tex.magFilter=1003;tex.minFilter=1003;tex.generateMipmaps=false;tex.needsUpdate=true;}
+  LC.cache[k]={data:data,w:im.width,tex:tex};LC.order.push(k);lcEvict();lcSync();};
+ im.onerror=function(){LC.nload--;delete LC.load[k];LC.cache[k]={bad:1};LC.order.push(k);lcSync();};
+ im.src=lcURL(p[0],p[1],p[2]);
+}
+/* quais ladrilhos a câmera vê: amostra a tela com toGlobeCoords e escolhe o nível pela altitude */
+function lcWanted(){
+ var v=globe.pointOfView(),z=Math.max(2,Math.min(LC_ZMAX,Math.round(3+Math.log2(2.3/Math.max(.002,v.altitude))))),W=gEl.clientWidth,H=gEl.clientHeight,pts=[];
+ if(v.altitude<1.4){for(var i=0;i<=10;i++)for(var j=0;j<=10;j++){var p=globe.toGlobeCoords(W*i/10,H*j/10);if(p&&isFinite(p.lat))pts.push(p);}}
+ for(;;){var w={},nw=0;
+  if(v.altitude>=1.4||pts.length<4){z=2;for(var a=0;a<4;a++)for(var b=0;b<4;b++){w['2/'+b+'/'+a]=1;nw++;}return w;}
+  pts.forEach(function(p){var t=lcTileXY(p.lat,p.lng,z),n=1<<z;for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){var yy=t[1]+dy;if(yy<0||yy>=n)continue;var k=z+'/'+yy+'/'+(((t[0]+dx)%n)+n)%n;if(!w[k]){w[k]=1;nw++;}}});
+  if(nw<=LC_CAP||z<=2)return w;z--;}
+}
+function lcSync(){
+ if(!globe||!T3.Mesh)return;var sc=globe.scene();
+ if(!LC.on){Object.keys(LC.meshes).forEach(lcDrop);return;}
+ var all=true;
+ Object.keys(LC.want).forEach(function(k){var c=LC.cache[k];if(!c){all=false;lcFetch(k);return;}if(c.bad||!c.tex)return;
+  if(!LC.meshes[k]){var p=k.split('/').map(Number);LC.meshes[k]=lcMesh(p[0],p[2],p[1],c.tex);sc.add(LC.meshes[k]);}});
+ /* os ladrilhos antigos ficam até os novos chegarem (sem buraco), ou somem depois de 4 s */
+ if(all||performance.now()-LC.vt>4000)Object.keys(LC.meshes).forEach(function(k){if(!LC.want[k])lcDrop(k);});
+ else{clearTimeout(LC.st);LC.st=setTimeout(lcSync,4100);}
+ /* o nível 2 (mundo inteiro, 16 ladrilhos) fica no cache para a leitura do tipo sob o mouse */
+ for(var a=0;a<4;a++)for(var b=0;b<4;b++)if(!LC.cache['2/'+b+'/'+a])lcFetch('2/'+b+'/'+a);
+}
+function lcView(){if(!LC.on||!globe)return;if(!LC.tipT)$('lcTip').hidden=true;clearTimeout(LC.t);LC.t=setTimeout(function(){LC.want=lcWanted();LC.vt=performance.now();lcSync();},220);}
+function lcOpacity(v){LC.op=v;Object.keys(LC.meshes).forEach(function(k){LC.meshes[k].material.uniforms.uOp.value=v;});$('soloOpV').textContent=Math.round(v*100)+'%';$('soloOp').value=v;}
+function lcSet(on){LC.on=on;$('ckSolo').checked=on;$('soloOpt').hidden=!on;if(!on)lcTip(null);if(globe){if(on){LC.want=lcWanted();LC.vt=performance.now();}lcSync();schedURL();}}
+$('ckSolo').onchange=function(){var me=this;if(me.checked&&!EXT_OK.solo){me.checked=false;extConfirm('solo',function(){lcSet(true);say('Cobertura do solo: ligada');});return;}lcSet(me.checked);say('Cobertura do solo: '+(me.checked?'ligada':'desligada'));};
+$('soloOp').oninput=function(){lcOpacity(+this.value);schedURL();};
+lcOpacity(LC.op);
+/* tipo de cobertura sob o ponteiro: lê o pixel do ladrilho mais detalhado já carregado */
+function lcAt(lat,lng){for(var z=LC_ZMAX;z>=0;z--){var t=lcTileXY(lat,lng,z),c=LC.cache[z+'/'+t[1]+'/'+t[0]];if(c&&c.data){var px=Math.min(c.w-1,Math.floor((t[2]-t[0])*c.w)),py=Math.min(c.w-1,Math.floor((t[3]-t[1])*c.w)),o=(py*c.w+px)*4;if(c.data[o+3]<128)return {nada:1};return lcClass(c.data[o],c.data[o+1],c.data[o+2])||{nada:1};}}return null;}
+function lcTip(e){var el=$('lcTip');if(!e||!globe){el.hidden=true;return;}
+ var r=gEl.getBoundingClientRect(),p=globe.toGlobeCoords(e.x-r.left,e.y-r.top);if(!p||!isFinite(p.lat)){el.hidden=true;return;}
+ var c=lcAt(p.lat,p.lng);if(!c){el.hidden=true;return;}
+ el.querySelector('i').style.background=c.nada?'transparent':'rgb('+c[1].join(',')+')';el.querySelector('span').textContent=c.nada?'Sem dado de cobertura':c[2];
+ el.hidden=false;el.style.left=Math.max(0,Math.min(e.x,window.innerWidth-el.offsetWidth-24))+'px';el.style.top=Math.min(e.y,window.innerHeight-44)+'px';}
+(function(){var pend=null,rq=0,down=null,tt=0;
+ function go(){rq=0;if(pend&&LC.on){LC.tipT=1;lcTip(pend);setTimeout(function(){LC.tipT=0;},0);}}
+ gEl.addEventListener('pointermove',function(e){if(!LC.on||e.pointerType==='touch')return;pend={x:e.clientX,y:e.clientY};if(!rq)rq=requestAnimationFrame(go);},{passive:true});
+ gEl.addEventListener('pointerleave',function(){pend=null;lcTip(null);});
+ gEl.addEventListener('pointerdown',function(e){down={x:e.clientX,y:e.clientY};},{passive:true});
+ gEl.addEventListener('pointerup',function(e){if(!LC.on||e.pointerType==='mouse'||!down)return;if(Math.abs(e.clientX-down.x)+Math.abs(e.clientY-down.y)>10)return;lcTip({x:e.clientX,y:e.clientY});clearTimeout(tt);tt=setTimeout(function(){lcTip(null);},3000);},{passive:true});
+})();
+
+/* ───────── busca: coordenadas (sem rede) e lugares (Nominatim/OpenStreetMap) ───────── */
+var GEO={cache:{},last:0,busy:false,q:'',res:[],act:-1,t:0,mt:0,seq:0};
+function geoMsg(t){var m=$('qMsg');clearTimeout(GEO.mt);if(!t){m.hidden=true;m.textContent='';return;}m.textContent=t;m.hidden=false;GEO.mt=setTimeout(function(){m.hidden=true;},6000);}
+function parseOne(t){
+ var neg=/^\s*-/.test(t)||/[SWO]/.test(t),ax=/[NS]/.test(t)?'lat':(/[EWLO]/.test(t)?'lng':null),nums=t.replace(/(\d),(\d)/g,'$1.$2').match(/\d+(?:\.\d+)?/g);
+ if(!nums||nums.length>3)return null;
+ if(nums.length>1&&(+nums[1]>=60||(nums[2]&&+nums[2]>=60)))return null;
+ var v=+nums[0]+(nums[1]?+nums[1]/60:0)+(nums[2]?+nums[2]/3600:0);return {v:neg?-v:v,ax:ax};}
+function parseCoord(s){
+ var t=String(s).toUpperCase().replace(/[º˚]/g,'°').replace(/[′’‘´]/g,"'").replace(/[″“”]/g,'"').replace(/''/g,'"').replace(/\s+/g,' ').trim();
+ if(!t||!/\d/.test(t)||!/^[ \d.,;:°'"+\-NSEWLO]+$/.test(t))return null;
+ var parts=null,keep=function(x){return /\d/.test(x);};
+ if(/[NSEWLO]/.test(t)){
+  if(/[NSEWLO]$/.test(t))parts=t.split(/(?<=[NSEWLO])[ ,;]*/).filter(keep);
+  else parts=t.split(/[ ,;]*(?=[NSEWLO])/).filter(keep);}
+ else if(t.indexOf(';')>=0)parts=t.split(';');
+ else if(t.split(/, /).length===2)parts=t.split(/, /);
+ else if(/°/.test(t))parts=t.split(/(?<=["'°]) (?=[+\-]?\d)/);
+ else if(t.split(' ').length===2)parts=t.split(' ');
+ else if(t.indexOf('.')>=0)parts=t.split(',');
+ else{var c=t.split(',');if(c.length===2)parts=c;else if(c.length===4)parts=[c[0]+','+c[1],c[2]+','+c[3]];}
+ if(!parts||parts.length!==2)return null;
+ var a=parseOne(parts[0]),b=parseOne(parts[1]);if(!a||!b)return null;
+ if(a.ax==='lng'||b.ax==='lat'){var x=a;a=b;b=x;}
+ if(!isFinite(a.v)||!isFinite(b.v)||Math.abs(a.v)>90||Math.abs(b.v)>180)return null;return {lat:a.v,lng:b.v};}
+var GTIPO={city:'cidade',town:'cidade',village:'vila',municipality:'município',hamlet:'povoado',suburb:'bairro',neighbourhood:'bairro',city_district:'distrito',state:'estado',province:'província',region:'região',state_district:'região',county:'condado',country:'país',continent:'continente',island:'ilha',archipelago:'arquipélago',peak:'pico',river:'rio',lake:'lago',national_park:'parque',protected_area:'área protegida',administrative:'divisão administrativa'};
+function geoTipo(r){return GTIPO[r.addresstype]||GTIPO[r.type]||(r.category==='boundary'?'divisão administrativa':'lugar');}
+/* altitude da câmera pelo tamanho da caixa do lugar: país longe, estado no meio, cidade perto */
+function geoAlt(r){var b=(r.boundingbox||[]).map(Number);if(b.length<4||!b.every(isFinite))return .06;var la=(b[0]+b[1])/2,sp=Math.max(b[1]-b[0],Math.abs(b[3]-b[2])*Math.cos(la*RAD));return Math.max(.012,Math.min(2.5,sp*.03));}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function geoClose(){$('qList').hidden=true;$('q').setAttribute('aria-expanded','false');$('q').removeAttribute('aria-activedescendant');GEO.act=-1;}
+function geoShow(res){
+ GEO.res=res;GEO.act=-1;var ul=$('qList');
+ if(!res.length){geoClose();return;}
+ ul.innerHTML=res.map(function(r,i){var a=r.address||{},tp=geoTipo(r),ctry=a.country&&tp!=='país'?', '+a.country:'',st=a.state&&/cidade|vila|município|povoado|bairro|distrito/.test(tp)?' · '+a.state:'';
+  return '<li role="option" id="qo'+i+'" aria-selected="false" data-i="'+i+'">'+esc(r.name||String(r.display_name).split(',')[0])+'<small>'+esc(tp+st+ctry)+'</small></li>';}).join('')+'<li class="cred" role="presentation">Busca: © OpenStreetMap (Nominatim)</li>';
+ ul.hidden=false;$('q').setAttribute('aria-expanded','true');}
+function geoAct(i){var li=$('qList').querySelectorAll('[role=option]');if(!li.length)return;GEO.act=(i+li.length)%li.length;li.forEach(function(x,j){x.setAttribute('aria-selected',j===GEO.act);});$('q').setAttribute('aria-activedescendant','qo'+GEO.act);li[GEO.act].scrollIntoView({block:'nearest'});}
+function geoPick(r){geoClose();geoMsg('');var la=+r.lat,lo=+r.lon;if(!isFinite(la)||!isFinite(lo))return;$('q').value=r.name||String(r.display_name).split(',')[0];hideCard();GEO.lastFly={lat:la,lng:lo,altitude:geoAlt(r),nome:r.display_name};fly(la,lo,geoAlt(r),1800);say('Indo para '+(r.display_name||r.name));}
+/* Nominatim: no máximo 1 pedido por segundo, um de cada vez, só depois de uma pausa na digitação ou no Enter, com cache em memória */
+function geoFetch(q,cb){
+ var k=q.toLowerCase();if(GEO.cache[k]){cb(GEO.cache[k]);return;}
+ if(GEO.busy||Date.now()-GEO.last<1100){clearTimeout(GEO.wt);GEO.wt=setTimeout(function(){geoFetch(q,cb);},Math.max(150,1100-(Date.now()-GEO.last)));return;}
+ GEO.busy=true;GEO.last=Date.now();
+ fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=6&accept-language=pt-BR&q='+encodeURIComponent(q))
+  .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+  .then(function(j){GEO.busy=false;GEO.last=Date.now();GEO.cache[k]=Array.isArray(j)?j:[];cb(GEO.cache[k]);})
+  .catch(function(e){GEO.busy=false;GEO.last=Date.now();cb(null,e);});}
+function geoQuery(q,go){
+ var seq=++GEO.seq;GEO.q=q;
+ geoFetch(q,function(res){if(seq!==GEO.seq)return;
+  if(!res){geoClose();geoMsg('A busca de lugares não respondeu. Tente de novo em instantes ou digite lat, long (ex.: -12.6, -48.2).');return;}
+  if(!res.length){geoClose();geoMsg('Nada encontrado para “'+q+'”. Tente outro nome ou lat, long.');return;}
+  geoMsg('');if(go)geoPick(res[0]);else geoShow(res);});}
+$('q').addEventListener('input',function(){
+ var s=this.value.trim();clearTimeout(GEO.t);geoMsg('');
+ if(s.length<3||parseCoord(s)||/^[\s\d.,;:°'"+\-]+$/.test(s)){GEO.seq++;geoClose();return;}
+ GEO.t=setTimeout(function(){geoQuery(s,false);},650);});
+$('q').addEventListener('keydown',function(e){
+ var open=!$('qList').hidden;
+ if(e.key==='ArrowDown'){e.preventDefault();if(open)geoAct(GEO.act+1);else if(GEO.res.length&&GEO.q===this.value.trim()){geoShow(GEO.res);geoAct(0);}}
+ else if(e.key==='ArrowUp'&&open){e.preventDefault();geoAct(GEO.act-1);}
+ else if(e.key==='Escape'){if(open){e.preventDefault();e.stopPropagation();geoClose();}else if(this.value){this.value='';geoMsg('');}}
+ else if(e.key==='Enter'&&open&&GEO.act>=0){e.preventDefault();geoPick(GEO.res[GEO.act]);}});
+$('qList').addEventListener('mousedown',function(e){e.preventDefault();});
+$('qList').addEventListener('click',function(e){var li=e.target.closest('[data-i]');if(li)geoPick(GEO.res[+li.dataset.i]);});
+$('q').addEventListener('blur',function(){setTimeout(geoClose,150);});
+$('fq').addEventListener('submit',function(e){
+ e.preventDefault();var s=$('q').value.trim();clearTimeout(GEO.t);if(!s)return;
+ var c=parseCoord(s);
+ if(c){geoClose();geoMsg('');hideCard();GEO.lastFly={lat:c.lat,lng:c.lng,altitude:Math.min(alt,.06)};fly(c.lat,c.lng,Math.min(alt,.06),1600);say('Indo para '+c.lat.toFixed(4)+', '+c.lng.toFixed(4));return;}
+ if(/\d/.test(s)&&/^[\s\d.,;:°'"+\-NSEWLOnsewlo]+$/.test(s)){geoMsg('Coordenada não reconhecida. Use, por exemplo: -12.6, -48.2 ou 12°36\'S 48°12\'W.');$('q').setAttribute('aria-invalid','true');setTimeout(function(){$('q').removeAttribute('aria-invalid');},1500);return;}
+ if(s.length<2){geoMsg('Digite o nome de uma cidade, estado ou país.');return;}
+ geoQuery(s,true);});
 function initSats(){
  if(!globe)return;
  globe.htmlLat('lat').htmlLng('lng').htmlAltitude('alt').htmlElement(function(d){return d.el;}).htmlTransitionDuration(0);
@@ -1768,14 +1927,14 @@ function initSats(){
  globe.controls().addEventListener('end',function(){if(!SATON)return;SATLON=globe.pointOfView().lng;updSats(true);});
 }
 
-window.__dof={S:S,SEL:function(){return SEL;},PL:PL,apply:apply,build:buildDetail,buildScar:buildScar,tiles:tiles,det:det,SB:SB,SC:SC,VC:VC,meshes:meshes,U:U,T3:T3,FR:FR,fps:fpsInfo,dn:dn,ymd:ymd,model:function(){return tlM;},grid:function(){return gridCur;},wanted:function(){return wanted;},setBase:setBase,play:togglePlay,count:countView,nums:nums,modes:function(){return {pts:modePts(),blob:modeBlob(),detail:!!detailOn(),scarBlob:!!(scarBlobMode()&&SB.ok),alt:alt,loop:FR.on};},globe:function(){return globe;}};
+window.__dof={S:S,SEL:function(){return SEL;},PL:PL,apply:apply,build:buildDetail,buildScar:buildScar,tiles:tiles,det:det,SB:SB,SC:SC,VC:VC,meshes:meshes,U:U,T3:T3,FR:FR,fps:fpsInfo,dn:dn,ymd:ymd,model:function(){return tlM;},grid:function(){return gridCur;},wanted:function(){return wanted;},setBase:setBase,play:togglePlay,count:countView,nums:nums,modes:function(){return {pts:modePts(),blob:modeBlob(),detail:!!detailOn(),scarBlob:!!(scarBlobMode()&&SB.ok),alt:alt,loop:FR.on};},globe:function(){return globe;},LC:LC,lcSet:lcSet,lcAt:lcAt,parseCoord:parseCoord,geoAlt:geoAlt,GEO:GEO};
 })();
 </script>
 <dialog id="extDlg" aria-labelledby="extT"><div class="eb"><h2 id="extT"></h2><div id="extB"></div></div><div class="ea"><button type="button" id="extNo">Cancelar</button><button type="button" class="pri" id="extYes">Ativar camada</button></div></dialog>
 <script>
 var EXT_OK={},EXT_TXT={
  cic:{t:'Cicatrizes de queimada: dado de outra fonte',f:'INPE, produto AQ1km (Coleção 2): área queimada mensal estimada com o MODIS a 1 km, só para o Brasil, de setembro de 2002 em diante. É um produto provisório.'},
- solo:{t:'Cobertura do solo: dado de outra fonte',f:'NASA MODIS MCD12C1 (2020): classe de cobertura do solo mais comum em cada quadrado de 0,05°, no sistema IGBP. Usada no teste do fator por tipo de vegetação.'}};
+ solo:{t:'Cobertura do solo: dado de outra fonte',f:'NASA MODIS MCD12Q1 v061 (Friedl e Sulla-Menashe, 2022): classe de cobertura do solo do sistema IGBP a 500 m, ano de 2024, servida em ladrilhos pelo NASA GIBS. Desenhada por cima do fundo do mapa, com opacidade ajustável.'}};
 function extConfirm(k,ok){var d=document.getElementById('extDlg'),x=EXT_TXT[k];
  document.getElementById('extT').textContent=x.t;
  document.getElementById('extB').innerHTML='<p>Esta camada não faz parte dos dados do desafio. Ela vem de outra fonte e é um adicional para dar contexto:</p><p><b>'+x.f+'</b></p><p>A base do projeto continua sendo a harmonização dos focos MODIS e VIIRS (NASA FIRMS) e a sua visualização. Esta camada só se soma a ela.</p>';
