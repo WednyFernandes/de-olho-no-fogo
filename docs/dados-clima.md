@@ -11,7 +11,7 @@ Scripts: `scripts/power_brasil.py` (download) e `scripts/tabela_risco_brasil.py`
 - Endpoint **regional**: 1 parâmetro por pedido, caixa de até 10° × 10°, até 366 dias. Devolve as células nativas
   (centros a cada 0,5° em lat e 0,625° em lon, limites inclusivos): 357 células × 366 dias em ~3,2 s.
   Para o Brasil seriam ~16 caixas × 8 parâmetros × 26 anos ≈ 3.300 pedidos (~4 h) e ~7 GB de JSON (com mar e vizinhos).
-  O de ponto dá 2.454 pedidos e ~430 MB em gzip, por isso foi o escolhido.
+  O de ponto dá 2.454 pedidos e ~405 MB em gzip, por isso foi o escolhido.
 - A documentação não publica limite numérico; responde 429 quando há excesso. O script é sequencial, pausa 0,5 s,
   repete com espera crescente (10 s → 600 s) em 429/5xx/erro de rede e usa um User-Agent genérico.
 

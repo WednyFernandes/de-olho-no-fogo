@@ -108,6 +108,7 @@ body.has-side .mapctl{right:328px}
 .insight{position:fixed;left:16px;top:80px;width:330px;max-height:calc(100dvh - 96px - var(--tlh));overflow:auto;z-index:13;padding:10px 14px 12px}
 .inh{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .inh .ib{min-width:36px;min-height:36px;border:0}
+.inh .xbtn{margin-left:auto}
 .insight.min .inb{display:none}
 .insight.min .inh svg{transform:rotate(180deg)}
 .inb{font-size:13px;line-height:1.45;color:var(--ink2)}
@@ -251,6 +252,53 @@ body.clean .mapctl{right:16px}
 #extDlg .ea{display:flex;gap:8px;justify-content:flex-end;padding:0 22px 20px;flex-wrap:wrap}
 #extDlg .ea button{font:inherit;font-weight:600;border-radius:10px;padding:10px 16px;cursor:pointer;border:1px solid var(--line,#DCE1E5);background:var(--card,#fff);color:inherit}
 #extDlg .ea .pri{background:var(--brand,#E5004B);border-color:var(--brand,#E5004B);color:#fff}
+/* ───────── acessibilidade ───────── */
+.xbtn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
+.xbtn:hover{border-color:var(--ink3)}
+.adlg{border:0;border-radius:16px;padding:0;width:min(440px,calc(100% - 24px));max-height:calc(100dvh - 24px);background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.adlg::backdrop{background:rgba(10,12,14,.5)}
+.adlg .ah{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 12px 4px 16px}
+.adlg .ah h2{font-size:17px;margin:0}
+.adlg .ab{padding:4px 16px 16px;font-size:14px;line-height:1.5}
+.adlg .ab p{margin:6px 0}
+.adlg fieldset{border:0;margin:12px 0 4px;padding:0;min-width:0}
+.adlg legend,.adlg h3{font-weight:700;font-size:14px;margin:12px 0 4px;padding:0}
+.opt{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 10px;border:1.5px solid var(--line);border-radius:10px;margin-top:6px;cursor:pointer}
+.opt input{width:20px;height:20px;margin:0;accent-color:var(--brand)}
+.opt:has(input:checked){border-color:var(--ink);background:var(--soft)}
+.opt small{color:var(--ink3);font-size:12px}
+.psw{margin-left:auto;display:flex;gap:3px;flex:none}.psw i{display:block;width:14px;height:14px;border-radius:3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+.arow{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.abtn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:14px;color:var(--ink)}
+.abtn:hover{border-color:var(--ink3)}
+.abtn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.abtn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--card)}
+.xlist{margin:6px 0 0;padding-left:20px}.xlist li{margin:6px 0}
+#tbDlg{position:fixed;z-index:40;top:80px;right:16px;bottom:16px;left:auto;margin:0;width:min(820px,calc(100vw - 32px));max-height:none;display:none;flex-direction:column}
+#tbDlg[open]{display:flex}
+#tbDlg .ab{flex:1;min-height:0;display:flex;flex-direction:column;padding-bottom:10px}
+.tbf{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 8px}
+.tbf input,.tbf select{min-height:44px;padding:0 8px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-size:13px}
+.tbf input{flex:1 1 160px;min-width:0}
+.tbw{flex:1;min-height:120px;overflow:auto;border:1px solid var(--line2);border-radius:10px}
+.tbw table{border-collapse:collapse;font-size:13px;width:100%;font-variant-numeric:tabular-nums}
+.tbw caption{caption-side:top;text-align:left;font-size:12.5px;color:var(--ink2);padding:8px 10px;line-height:1.4}
+.tbw th,.tbw td{padding:6px 8px;border-bottom:1px solid var(--line2);text-align:left;white-space:nowrap}
+.tbw th{position:sticky;top:0;background:var(--card);z-index:1}
+.tbw th button{border:0;background:none;padding:0 2px;min-height:36px;font-weight:700;font-size:13px;color:var(--ink);cursor:pointer;text-align:left}
+.tbw th[aria-sort="descending"] button::after{content:' ▼'}.tbw th[aria-sort="ascending"] button::after{content:' ▲'}
+.tbw tbody tr{cursor:pointer}.tbw tbody tr:hover{background:var(--soft)}
+.tbw tbody tr.on{background:var(--brand-tint);box-shadow:inset 4px 0 0 var(--brand)}
+.tbw tbody tr:focus-visible{outline:3px solid var(--brand);outline-offset:-3px}
+.tbp{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-top:8px;font-size:13px;flex-wrap:wrap}
+@media (max-width:900px){#tbDlg{top:auto;left:0;right:0;bottom:0;width:100%;height:86dvh;border-radius:16px 16px 0 0}}
+/* alto contraste: interface escura, texto claro (contraste ≥ 4,5:1), contornos brancos no mapa */
+html[data-pal="ac"]{--ink:#FFFFFF;--ink2:#E6EAEE;--ink3:#C9D1D9;--line:#8A949E;--line2:#3A424A;--card:#0E1114;--soft:#20262C;--map:#0E1114;--brand-tint:#3B1D0E;--brand-ink:#FFB38A;--green-tint:#0F2A1A;--green-ink:#9BE3B5;--warn-tint:#33270A;--warn-ink:#FFD27A;--shadow:0 0 0 2px #FFFFFF}
+html[data-pal="ac"] .status{background:var(--card)}
+html[data-pal="ac"] .seg button[aria-pressed="true"],html[data-pal="ac"] .chip[aria-pressed="true"],html[data-pal="ac"] #btClean[aria-pressed="true"]{color:#000}
+html[data-pal="ac"] :focus-visible{outline-color:#FFD400}
+html[data-pal="ac"] .lchip i{background:#0E1114}
+html[data-pal="ac"] .card,html[data-pal="ac"] .adlg{outline:2px solid #FFFFFF}
 </style>
 </head>
 <body class="has-side">
@@ -266,6 +314,7 @@ body.clean .mapctl{right:16px}
     <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
   </form>
   <button type="button" class="tbtn" id="btnLayers" aria-controls="side" aria-expanded="true"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6l8-4 8 4-8 4-8-4zM2 10l8 4 8-4M2 14l8 4 8-4"/></svg><span class="lbl">Camadas</span><span class="sr">e legenda</span></button>
+  <button type="button" class="tbtn" id="btA11y" aria-haspopup="dialog" aria-controls="a11yDlg" aria-label="Acessibilidade: narração, cores, tabela e explicação"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="3.6" r="1.6" fill="currentColor" stroke="none"/><path d="M3.5 7.2c4.3 1.2 8.7 1.2 13 0M10 8.3v4.4M10 12.7l-3 5M10 12.7l3 5"/></svg><span class="lbl" aria-hidden="true">Acessibilidade</span></button>
   <span class="pill">NASA FIRMS · MODIS C6.1 + VIIRS S-NPP</span>
 </header>
 
@@ -311,7 +360,7 @@ body.clean .mapctl{right:16px}
 </aside>
 
 <section class="insight card" id="insight" aria-labelledby="in-t">
-  <div class="inh"><h2 class="h2" id="in-t">Leitura</h2><button type="button" class="ib" id="inMin" aria-expanded="true" aria-controls="inBody" aria-label="Recolher leitura"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 10l5-5 5 5"/></svg></button></div>
+  <div class="inh"><h2 class="h2" id="in-t">Leitura</h2><button type="button" class="xbtn" id="btExp" aria-haspopup="dialog" aria-controls="expDlg">Explicar os dados</button><button type="button" class="ib" id="inMin" aria-expanded="true" aria-controls="inBody" aria-label="Recolher leitura"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 10l5-5 5 5"/></svg></button></div>
   <div class="inb" id="inBody"></div>
 </section>
 
@@ -345,6 +394,37 @@ body.clean .mapctl{right:16px}
 <div class="sr" id="live" aria-live="polite"></div>
 <div id="lcTip" hidden aria-hidden="true"><i></i><span></span></div>
 
+<dialog id="a11yDlg" class="adlg" aria-labelledby="a11yT">
+ <div class="ah"><h2 id="a11yT">Acessibilidade</h2><button type="button" class="ib" data-close aria-label="Fechar acessibilidade"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>
+ <div class="ab">
+  <div id="ttsBox"><h3>Narração</h3><p class="muted" style="margin:0">Lê em voz alta o ponto selecionado no mapa (se houver) e o resumo do período.</p>
+   <div class="arow"><button type="button" class="abtn pri" id="ttsGo" data-tts>Ouvir</button><button type="button" class="abtn" id="ttsStop">Parar</button></div></div>
+  <p id="ttsNo" class="muted" hidden>Seu navegador não tem leitura em voz alta (Web Speech API).</p>
+  <fieldset><legend>Cores do mapa</legend>
+   <label class="opt"><input type="radio" name="pal" value="padrao">Padrão<span class="psw" aria-hidden="true"><i style="background:#F7801E"></i><i style="background:#6B4FA0"></i><i style="background:#00727F"></i></span></label>
+   <label class="opt"><input type="radio" name="pal" value="dalt"><span>Daltonismo <small>(Okabe-Ito, viridis)</small></span><span class="psw" aria-hidden="true"><i style="background:#E69F00"></i><i style="background:#0072B2"></i><i style="background:#009E73"></i></span></label>
+   <label class="opt"><input type="radio" name="pal" value="ac"><span>Alto contraste <small>(fundo escuro, contornos)</small></span><span class="psw" aria-hidden="true"><i style="background:#FFA000"></i><i style="background:#2F6BFF"></i><i style="background:#00B386"></i></span></label>
+  </fieldset>
+  <h3>Outras formas de ver</h3>
+  <div class="arow"><button type="button" class="abtn" id="btTab" aria-haspopup="dialog" aria-controls="tbDlg">Ver como tabela</button><button type="button" class="abtn" id="btExp2" aria-haspopup="dialog" aria-controls="expDlg">Explicar os dados</button></div>
+ </div>
+</dialog>
+<dialog id="expDlg" class="adlg" aria-labelledby="expT">
+ <div class="ah"><h2 id="expT">Explicando os dados</h2><button type="button" class="ib" data-close aria-label="Fechar explicação"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>
+ <div class="ab"><ul class="xlist" id="expList"></ul>
+  <div class="arow"><button type="button" class="abtn pri" id="expTts" data-tts>Ouvir</button><button type="button" class="abtn" data-close>Fechar</button></div>
+  <p class="muted">Frases montadas a partir dos mesmos números da Leitura e de stats.json; nada é inventado.</p></div>
+</dialog>
+<dialog id="tbDlg" class="adlg" aria-labelledby="tbT">
+ <div class="ah"><h2 id="tbT">Tabela do que está no mapa</h2><button type="button" class="ib" data-close aria-label="Fechar tabela"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>
+ <div class="ab">
+  <div class="tbf"><label class="sr" for="tbQ">Filtrar por data, hora ou coordenada</label><input id="tbQ" type="search" placeholder="Filtrar: data, hora ou coordenada" autocomplete="off">
+   <label class="sr" for="tbCls">Classe</label><select id="tbCls"><option value="">Todas as classes</option><option value="ambos">Vista pelos dois</option><option value="soM">Só MODIS</option><option value="soV">Só VIIRS</option></select>
+   <label class="sr" for="tbTipo">Tipo</label><select id="tbTipo"><option value="">Todos os tipos</option><option value="h">Foco harmonizado</option><option value="m">Detecção MODIS</option><option value="v">Detecção VIIRS</option></select></div>
+  <div class="tbw" id="tbW"></div>
+  <div class="tbp"><span id="tbInfo" class="num" aria-live="polite"></span><span class="arow" style="margin:0"><button type="button" class="abtn" id="tbPrev">Anterior</button><button type="button" class="abtn" id="tbNext">Próxima</button></span></div>
+ </div>
+</dialog>
 <script src="https://unpkg.com/globe.gl@2.45.0/dist/globe.gl.min.js"></script>
 <script>
 (function(){
@@ -578,18 +658,18 @@ var VS_SCAR=[
 ' vec2 d=(c.xy/c.w-cc.xy/cc.w)*uView*0.5;d=sign(position.xy)*max(abs(d),vec2(0.55));',
 ' gl_Position=vec4((cc.xy/cc.w+d/(uView*0.5))*cc.w,cc.z,cc.w);',
 '}'].join('\n');
-var FS_SCAR='uniform float uRc;uniform float uHalo;void main(){vec3 c=mix(vec3(0.45,0.36,0.30),vec3(0.20,0.13,0.10),uRc);c=mix(c,vec3(0.95,0.55,0.25),0.35*uHalo);gl_FragColor=vec4(c,0.28+0.4*uRc+0.15*uHalo);}';
+var FS_SCAR='uniform vec3 uSc0;uniform vec3 uSc1;uniform float uRc;uniform float uHalo;void main(){vec3 c=mix(uSc0,uSc1,uRc);c=mix(c,vec3(0.95,0.55,0.25),0.35*uHalo);gl_FragColor=vec4(c,0.28+0.4*uRc+0.15*uHalo);}';
 /* cicatrizes acumuladas de muitos anos: uma textura com 1 bit por ano em cada célula */
 var VS_SPATCH='attribute vec2 aUV;varying vec2 vUv;varying vec3 vP;void main(){vUv=aUV;vP=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}';
 var FS_SPATCH=[
-'uniform sampler2D uTex;uniform int uYM;uniform float uCurY;uniform float uHalo;varying vec2 vUv;varying vec3 vP;',
+'uniform vec3 uSc0;uniform vec3 uSc1;uniform sampler2D uTex;uniform int uYM;uniform float uCurY;uniform float uHalo;varying vec2 vUv;varying vec3 vP;',
 'void main(){',
 ' if(dot(vP,cameraPosition)<10004.0)discard;',
 ' vec4 t=texture2D(uTex,vUv)*255.0+0.5;int m=(int(t.r)|(int(t.g)<<8)|(int(t.b)<<16)|(int(t.a)<<24))&uYM;',
 ' if(m==0)discard;',
 ' float last=0.0;float cnt=0.0;for(int i=0;i<25;i++){if(((m>>i)&1)==1){last=float(i);cnt+=1.0;}}',
 ' float rc=clamp(1.0-(uCurY-last)/8.0,0.12,1.0);',
-' vec3 c=mix(vec3(0.45,0.36,0.30),vec3(0.20,0.13,0.10),rc);c=mix(c,vec3(0.95,0.55,0.25),0.35*uHalo);',
+' vec3 c=mix(uSc0,uSc1,rc);c=mix(c,vec3(0.95,0.55,0.25),0.35*uHalo);',
 ' gl_FragColor=vec4(c,min(0.92,0.28+0.4*rc+0.07*min(cnt-1.0,4.0)+0.15*uHalo));',
 '}'].join('\n');
 /* forma real dos focos: campo suavizado sobre as células + limiar (bolha) ou célula única; chama por ruído */
@@ -867,9 +947,10 @@ function countView(){
  VC.o=o;renderVC();
 }
 function renderVC(){
- var el=$('inView');if(!el)return;var o=VC.o;
- if(!o){el.hidden=true;return;}
+ var el=$('inView');if(!el){a11yView();return;}var o=VC.o;
+ if(!o){el.hidden=true;a11yView();return;}
  el.hidden=false;
+ a11yView();
  el.innerHTML='<b>Nesta tela</b> <span class="muted">(área visível do mapa'+(winFull()?'':', só '+fmtWin())+')</span><br><span class="num">'+nf(o.m)+' det. MODIS · '+nf(o.v)+' det. VIIRS → <b>'+nf(o.h)+' focos</b></span>';
 }
 
@@ -992,7 +1073,7 @@ function scarRunMesh(o){
  var nr=o.nr,run=o.run,ax=new Uint16Array(nr),ay=new Uint16Array(nr),an=new Uint16Array(nr),am=new Uint16Array(nr),k=0;
  for(var y=0;y<o.ny;y++)for(var f=o.start[y+1];k<f;k++){var r=run[k];ax[k]=r>>>20;ay[k]=y;an[k]=((r>>>12)&255)+1;am[k]=r&4095;}
  o.uMask={value:4095};o.uRc={value:1};
- o.mesh=mkMesh(instGeom({aX:[ax,1],aY:[ay,1],aN:[an,1],aM:[am,1]},nr),mkMat(VS_SCAR,FS_SCAR,{uG:{value:o.g},uMask:o.uMask,uRc:o.uRc,uView:U.view,uHalo:U.halo}),5);
+ o.mesh=mkMesh(instGeom({aX:[ax,1],aY:[ay,1],aN:[an,1],aM:[am,1]},nr),mkMat(VS_SCAR,FS_SCAR,{uG:{value:o.g},uMask:o.uMask,uRc:o.uRc,uView:U.view,uHalo:U.halo,uSc0:U.sc0,uSc1:U.sc1}),5);
  return o.mesh;
 }
 /* o que mostrar: anos nas pontas como corridas com máscara de meses; anos do meio (inteiros) pela textura de bits */
@@ -1047,7 +1128,7 @@ function finishTex(mask){
  for(j=0;j<=N;j++)for(i=0;i<=N;i++){var lon=(-74.005+40*i/N)*RAD,lat=(-34.005+40*j/N)*RAD,c=Math.cos(lat);P[3*k]=GR*c*Math.sin(lon);P[3*k+1]=GR*Math.sin(lat);P[3*k+2]=GR*c*Math.cos(lon);UV[2*k]=i/N;UV[2*k+1]=j/N;k++;}
  for(j=0;j<N;j++)for(i=0;i<N;i++){var a=j*(N+1)+i;I.push(a,a+1,a+N+2,a,a+N+2,a+N+1);}
  var g=new T3.BG();g.setAttribute('position',new T3.BA(P,3));g.setAttribute('aUV',new T3.BA(UV,2));g.setIndex(I);
- SC.U={uTex:{value:SC.texLo},uYM:{value:0},uCurY:{value:0},uHalo:U.halo};
+ SC.U={uTex:{value:SC.texLo},uYM:{value:0},uCurY:{value:0},uHalo:U.halo,uSc0:U.sc0,uSc1:U.sc1};
  SC.patch=mkMesh(g,new T3.SM({uniforms:SC.U,vertexShader:VS_SPATCH,fragmentShader:FS_SPATCH,transparent:true,depthTest:false,depthWrite:false}),4);
  SC.patch.visible=false;SC.texSt='ok';scarVis();status();legend();
 }
@@ -1526,9 +1607,9 @@ function card(title,sub,rows,note,ll){
  var el=$('hcard');el.innerHTML=h;el.hidden=false;$('hcX').onclick=hideCard;
  if(ll){var g=instGeom({aLL:[new Float32Array([ll[1],ll[0]]),2],aTp:[new Float32Array([9]),1]},1);
   if(!meshes.sel)meshes.sel=mkMesh(g,mkMat(VS_MK,FS_MK,{uView:U.view,uPx:{value:30},uA:{value:1}}),12);else{meshes.sel.geometry.dispose();meshes.sel.geometry=g;}meshes.sel.visible=true;}
- say(title+'. '+sub);
+ say(title+'. '+sub);a11ySel();
 }
-function hideCard(){$('hcard').hidden=true;if(meshes.sel)meshes.sel.visible=false;}
+function hideCard(){$('hcard').hidden=true;if(meshes.sel)meshes.sel.visible=false;if(SELP){SELP=null;a11ySel();}}
 function dayOf(sec,i){for(var d=1;d<=31;d++)if(i<sec.dia[d])return d;return 31;}
 function member(T,i,l,c){
  var H=T.H,dv=T.C,p=H.cOff[i],wide=H.t1[i]&4096,l0=dv.getInt16(p,true),c0=dv.getInt16(p+2,true),n=wide?dv.getUint32(p+4,true):dv.getUint8(p+4),q=p+(wide?8:5),st=wide?6:3;
@@ -1556,6 +1637,7 @@ function pick(lat,lng){
  var o=anyLay()?cellStats(lat,lng):null;
  if(o&&(o.h||o.m||o.v)){
   var gl=Math.floor(lat*4)/4,gn=Math.floor(lng*4)/4,ms=gridCur.ms,noV=ms[ms.length-1][0]<2012;
+  SELP={k:'cel',lat:gl+.125,lon:gn+.125,o:o,ms:ms};
   card('Célula de 0,25° (cerca de 28 km)',(ms.length===1?MES[ms[0][1]-1]+' de '+ms[0][0]:MESC[ms[0][1]-1]+' de '+ms[0][0]+' a '+MESC[ms[ms.length-1][1]-1]+' de '+ms[ms.length-1][0])+' · '+(SEL.w25?'mundo':'Brasil'),[['Focos harmonizados','<b>'+nf(o.h)+'</b>'+(o.hm&&!noV?' ('+nf(o.hm)+' com MODIS)':'')],['Detecções MODIS',nf(o.m)],['Detecções VIIRS',noV?'sem VIIRS':nf(o.v)],['Maior FRP',(o.fm?'MODIS '+nf(frp(o.fm))+' MW':'')+(o.fm&&o.fv?' · ':'')+(o.fv?'VIIRS '+nf(frp(o.fv))+' MW':'')||'–'],['Canto sudoeste',gl.toFixed(2)+', '+gn.toFixed(2)]],'A grade soma meses inteiros.'+(SEL.w25&&ptsRange()?' Aproxime para ver cada foco desta célula.':''),[gl+.125,gn+.125]);
  }else hideCard();
 }
@@ -1564,6 +1646,7 @@ function showFoco(T,i){
  if(t0&2048)sat.push('Terra');if(t0&4096)sat.push('Aqua');if(t0&8192)sat.push('S-NPP');
  var cls=nM&&nV?['Visto pelos dois sensores',C.ambos]:(nM?['Só o MODIS viu',C.modis]:['Só o VIIRS viu',C.viirs]);
  var per=(t0&16384?'de dia':'')+((t0&16384)&&(t0&32768)?' e ':'')+(t0&32768?'à noite':'');
+ SELP={k:'foco',L:'h',T:T,i:i,lat:lat,lon:lon};
  card('Foco harmonizado','<span class="sq" style="background:'+cls[1]+';vertical-align:-1px"></span> '+cls[0],[
   ['Data (local)',d+' de '+MES[T.mo-1]+' de 2025'],
   ['Hora solar local',(t0&2047)===(t1&2047)?hhmm(t0&2047):hhmm(t0&2047)+' às '+hhmm(t1&2047)+' (primeira e última detecção)'],
@@ -1576,6 +1659,7 @@ function showFoco(T,i){
 }
 function showRaw(T,i,L){
  var sec=L==='m'?T.M:T.V,t=sec.t[i],lat=T.lat0+(sec.y[i]+.5)*T.q,lon=T.lon0+(sec.x[i]+.5)*T.q,fc=['menos de 2','2 a 5','5 a 10','10 a 20','20 a 50','50 a 100','100 a 500','500 ou mais'][t>>13];
+ SELP={k:'raw',L:L,T:T,i:i,lat:lat,lon:lon};
  card(L==='m'?'Detecção MODIS':'Detecção VIIRS',L==='m'?'pixel de ~1 km · satélite '+(t&4096?'Aqua':'Terra'):'pixel de ~375 m · satélite S-NPP',[
   ['Data (local)',dayOf(sec,i)+' de '+MES[T.mo-1]+' de 2025'],['Hora solar local',hhmm(t&2047)+(t&2048?' (passagem noturna)':' (passagem diurna)')],['FRP',fc+' MW'],['Posição',lat.toFixed(4)+', '+lon.toFixed(4)]],
   'Detecção bruta, antes de juntar. Ligue “Harmonizado” para ver a que foco ela pertence.',[lat,lon]);
@@ -1585,6 +1669,7 @@ function showFix(s){
  if(s.tp===0){rows.push([s.br?'Dias no ano mais ativo':'Dias com detecção em 2025',nf(s.dias)],['Meses com detecção',nf(s.meses)+' de 12'],['Células de 1 km',nf(s.n)]);if(s.br)rows.push(['Período',s.a0+'–'+s.a1+' ('+s.anos+(s.anos===1?' ano':' anos')+' no critério)']);}
  else{rows.push([s.br?'Dias com detecção ('+s.a0+(s.a1!==s.a0?'–'+s.a1:'')+')':'Dias com detecção em 2025',nf(s.dias)],['Detecções',nf(s.n)]);}
  rows.push(['Sensores',sen],['Posição',s.lat.toFixed(4)+', '+s.lon.toFixed(4)]);
+ SELP={k:'fix',s:s,lat:s.lat,lon:s.lon};
  card('Fonte fixa de calor',s.tp===0?'marcada por nós, não pelo FIRMS':'classificada pelo FIRMS',rows,s.tp===0?'O FIRMS trata como fogo em vegetação, mas “queimar” no mesmo quilômetro o ano inteiro sugere indústria, queima de gás ou siderurgia. Continua contada nos focos; aqui só avisamos.':'Calor que não é queimada: fica fora da contagem de focos.',[s.lat,s.lon]);
 }
 
@@ -1605,7 +1690,7 @@ function setBase(){
  globe.globeTileEngineMaxLevel(b[1]).globeTileEngineUrl(function(x,y,l){return b[0]+l+'/'+y+'/'+x;});
  te=te||tileEngine();
  if(te){fino(te);te.updatePov(globe.camera());[700,2200,5000].forEach(function(ms){setTimeout(sweepBase,ms);});}
- if(U.halo)U.halo.value=S.base==='sat'?1:0;
+ if(U.halo)U.halo.value=(S.base==='sat'||PALN==='ac')?1:0;
 }
 function fly(lat,lng,a,ms){globe.pointOfView({lat:lat,lng:lng,altitude:a},REDUCED?0:ms);}
 function zoomBy(f){var v=globe.pointOfView();fly(v.lat,v.lng,Math.max(.004,Math.min(4,v.altitude*f)),450);}
@@ -1617,7 +1702,7 @@ function initGlobe(){
   .onGlobeClick(function(p){if(p&&isFinite(p.lat))pick(p.lat,p.lng);})
   .onZoom(onView);
  U.view={value:[gEl.clientWidth,gEl.clientHeight]};U.pxFix={value:3.2};U.aFix={value:.55};U.pxH={value:3.6};U.pxM={value:2.6};U.pxV={value:2};
- U.tr={value:[0,1e9]};U.win={value:[0,1440]};U.cur={value:[1e9,0,0]};U.rec={value:-1e9};U.time={value:12.3};U.halo={value:0};U.multi={value:0};U.fxF={value:1};U.fxE={value:1};
+ U.tr={value:[0,1e9]};U.win={value:[0,1440]};U.cur={value:[1e9,0,0]};U.rec={value:-1e9};U.time={value:12.3};U.halo={value:0};U.multi={value:0};U.fxF={value:1};U.fxE={value:1};U.sc0={value:PALS[PALN].sc[0]};U.sc1={value:PALS[PALN].sc[1]};
  setBase();
  var c=globe.controls();c.autoRotate=false;c.minDistance=100.4;c.enableDamping=!REDUCED;
  globe.pointOfView(HOME);
@@ -1927,7 +2012,235 @@ function initSats(){
  globe.controls().addEventListener('end',function(){if(!SATON)return;SATLON=globe.pointOfView().lng;updSats(true);});
 }
 
-window.__dof={S:S,SEL:function(){return SEL;},PL:PL,apply:apply,build:buildDetail,buildScar:buildScar,tiles:tiles,det:det,SB:SB,SC:SC,VC:VC,meshes:meshes,U:U,T3:T3,FR:FR,fps:fpsInfo,dn:dn,ymd:ymd,model:function(){return tlM;},grid:function(){return gridCur;},wanted:function(){return wanted;},setBase:setBase,play:togglePlay,count:countView,nums:nums,modes:function(){return {pts:modePts(),blob:modeBlob(),detail:!!detailOn(),scarBlob:!!(scarBlobMode()&&SB.ok),alt:alt,loop:FR.on};},globe:function(){return globe;},LC:LC,lcSet:lcSet,lcAt:lcAt,parseCoord:parseCoord,geoAlt:geoAlt,GEO:GEO};
+/* ───────── acessibilidade: paletas, narração, tabela e explicação (só apresentação; números são os mesmos da página) ───────── */
+/* paletas: a mesma categoria tem a mesma cor em mapa, legenda, chips, barras da linha do tempo e da Leitura */
+var PALS={
+ padrao:{nome:'Padrão',ambos:'#F7801E',ambosLn:'#8E1A0A',modis:'#6B4FA0',viirs:'#00727F',h:'#D4410B',hx:'#F7B38F',
+  ramp:{h:['#FFD45E','#F7801E','#C8102E'],m:['#D9CCF0','#8E6FC4','#3F2470'],v:['#BFE6EA','#2A9AA6','#004C55']},sc:[[0.45,0.36,0.30],[0.20,0.13,0.10]]},
+ /* Okabe-Ito para satélites e classes (laranja, azul, verde-azulado: sem par vermelho×verde); densidade em viridis; cicatriz em cinza neutro */
+ dalt:{nome:'Daltonismo',ambos:'#E69F00',ambosLn:'#6B4500',modis:'#0072B2',viirs:'#009E73',h:'#E69F00',hx:'#F3CF7A',
+  ramp:{h:['#FDE725','#21918C','#440154'],m:['#C6DBEF','#0072B2','#08306B'],v:['#C2EBDD','#009E73','#00452F']},sc:[[0.62,0.60,0.58],[0.28,0.27,0.26]]},
+ ac:{nome:'Alto contraste',ambos:'#FFA000',ambosLn:'#000000',modis:'#2F6BFF',viirs:'#00B386',h:'#FFA000',hx:'#FFD27A',
+  ramp:{h:['#FFF07A','#FF8C00','#C00000'],m:['#DCE6FF','#2F6BFF','#001E7A'],v:['#C8FFF0','#00B386','#004D3A']},sc:[[0.55,0.45,0.38],[0.12,0.08,0.06]]}
+};
+/* reservadas para camadas que ainda não existem no site (diferença MODIS − VIIRS: divergente PuOr; risco: ordenada cividis) */
+var PAL_FUTURO={puor:['#B35806','#F1A340','#FEE0B6','#F7F7F7','#D8DAEB','#998EC3','#542788'],cividis:['#00224E','#35456C','#666970','#948E77','#C8B866','#FEE838']};
+var PALN='padrao',SELP=null;
+try{var pn0=localStorage.getItem('dof.paleta');if(PALS[pn0])PALN=pn0;}catch(e){}
+function setPal(n,save){
+ if(!PALS[n])n='padrao';PALN=n;var p=PALS[n],de=document.documentElement;
+ C.ambos=p.ambos;C.ambosLn=p.ambosLn;C.modis=p.modis;C.viirs=p.viirs;C.hx=p.hx;LCOL.h=p.h;LCOL.m=p.modis;LCOL.v=p.viirs;
+ ['h','m','v'].forEach(function(L){RAMP[L]=p.ramp[L].slice();});
+ de.dataset.pal=n;de.style.setProperty('--modis',p.modis);de.style.setProperty('--viirs',p.viirs);
+ de.style.setProperty('--fire-lo',p.ramp.h[0]);de.style.setProperty('--fire-md',p.ramp.h[1]);de.style.setProperty('--fire-hi',p.ramp.h[2]);
+ document.querySelectorAll('[data-layer]').forEach(function(b){b.style.setProperty('--lc',LCOL[b.dataset.layer]);});
+ document.querySelectorAll('input[name="pal"]').forEach(function(r){r.checked=r.value===n;});
+ if(U.sc0){U.sc0.value=p.sc[0];U.sc1.value=p.sc[1];}
+ if(U.halo)U.halo.value=(S.base==='sat'||n==='ac')?1:0;
+ var foco=function(u){if(!u||!u.uC0)return;u.uC0.value=rgb(C.ambos);u.uC0l.value=rgb(C.ambosLn);u.uC1.value=rgb(C.modis);u.uC2.value=rgb(C.viirs);};
+ tiles.forEach(function(t){if(t.m.h)foco(t.m.h.material.uniforms);if(t.m.m)t.m.m.material.uniforms.uC.value=rgb(C.modis);if(t.m.v)t.m.v.material.uniforms.uC.value=rgb(C.viirs);});
+ if(det.mesh)foco(det.mesh.material.uniforms);
+ if(gridCur&&U.gR0){var r=RAMP[gridCur.L];U.gR0.value=rgb(r[0]);U.gR1.value=rgb(r[1]);U.gR2.value=rgb(r[2]);}
+ if(save){try{localStorage.setItem('dof.paleta',n);}catch(e){}}
+ if(ST&&MAN){legend();leitura();drawTL();if(!$('hcard').hidden&&SELP)reshowSel();}
+ if(TB.open)tbRender();
+ kick();
+}
+function reshowSel(){var s=SELP;if(!s)return;if(s.k==='foco')showFoco(s.T,s.i);else if(s.k==='raw')showRaw(s.T,s.i,s.L);}
+
+/* ── números e datas falados ── */
+function fNum(n){n=Math.round(n);if(n<0)return 'menos '+fNum(-n);if(n<1000)return String(n);var o=[],mi=Math.floor(n/1e6),k=Math.floor(n%1e6/1000),r=n%1000;
+ if(mi)o.push(mi+(mi===1?' milhão':' milhões'));if(k)o.push(k+' mil');if(r)o.push(String(r));return o.join(' ');}
+function fDec(x){return x.toLocaleString('pt-BR',{maximumFractionDigits:1});}
+function fPct(a,b){return b?fDec(100*a/b)+' por cento':'';}
+function fData(d){var a=ymd(d);return a.d+' de '+MES[a.m-1]+' de '+a.y;}
+function fPer(d0,d1){var a=ymd(d0),b=ymd(d1);if(d0===d1)return fData(d0);if(a.y===b.y)return a.d+' de '+MES[a.m-1]+' a '+b.d+' de '+MES[b.m-1]+' de '+b.y;return fData(d0)+' a '+fData(d1);}
+function fHora(m){m=Math.round(m)%1440;var h=m/60|0,mi=m%60;return h+(h===1?' hora':' horas')+(mi?' e '+mi+' minutos':'');}
+var FALA={n:fNum,p:fPct,per:fPer},TELA={n:nf,p:pct,per:function(a,b){return fmtSel(a,b);}};
+var SATN={Terra:'Terra (MODIS)',Aqua:'Aqua (MODIS)','S-NPP':'S-NPP (VIIRS)'};
+var CLSN={ambos:'vista pelos dois sensores',soM:'só MODIS',soV:'só VIIRS'};
+function satsOf(t0){var a=[];if(t0&2048)a.push('Terra');if(t0&4096)a.push('Aqua');if(t0&8192)a.push('S-NPP');return a;}
+function juntar(a){return a.length<2?a.join(''):a.slice(0,-1).join(', ')+' e '+a[a.length-1];}
+function lcNome(lat,lon){if(!LC.on)return '';var c=lcAt(lat,lon);return c&&!c.nada?c[2]:'';}
+
+/* ── narração (Web Speech API) ── */
+var TTS={ok:typeof window.speechSynthesis!=='undefined'&&typeof window.SpeechSynthesisUtterance!=='undefined',voice:null,on:false,last:''};
+function ttsVoice(){try{var v=speechSynthesis.getVoices()||[];TTS.voice=v.filter(function(x){return /^pt[-_]BR/i.test(x.lang);})[0]||v.filter(function(x){return /^pt/i.test(x.lang);})[0]||null;}catch(e){}}
+if(TTS.ok){ttsVoice();try{speechSynthesis.addEventListener('voiceschanged',ttsVoice);}catch(e){speechSynthesis.onvoiceschanged=ttsVoice;}}
+function ttsUI(on){TTS.on=on;document.querySelectorAll('[data-tts]').forEach(function(b){b.textContent=on?'Parar':'Ouvir';b.setAttribute('aria-pressed',on?'true':'false');});}
+function falar(txt){
+ if(!TTS.ok||!txt)return;speechSynthesis.cancel();TTS.last=txt;
+ /* frases curtas em fila: alguns navegadores cortam falas longas */
+ var parts=txt.match(/[^.!?]+[.!?]*/g)||[txt],n=parts.length;
+ parts.forEach(function(t,i){var u=new SpeechSynthesisUtterance(t.trim());u.lang='pt-BR';if(TTS.voice)u.voice=TTS.voice;
+  if(i===n-1)u.onend=function(){ttsUI(false);};u.onerror=function(){ttsUI(false);};speechSynthesis.speak(u);});
+ ttsUI(true);
+}
+function calar(){if(TTS.ok)speechSynthesis.cancel();ttsUI(false);}
+function narrSel(){
+ var s=SELP,F=FALA,t=[];if(!s)return '';
+ if(s.k==='foco'){var T=s.T,i=s.i,H=T.H,t0=H.t0[i],t1=H.t1[i],nM=H.nM[i],nV=H.nV[i],nc=H.ncel[i],cls=nM&&nV?'ambos':(nM?'soM':'soV'),fm=Math.max(nM?frp(H.frpM[i]):0,nV?frp(H.frpV[i]):0);
+  t.push('Foco selecionado: detectado em '+dayOf(H,i)+' de '+MES[T.mo-1]+' de 2025, às '+fHora(t0&2047)+((t0&2047)!==(t1&2047)?' até '+fHora(t1&2047):'')+', hora solar local.');
+  t.push('Satélites: '+juntar(satsOf(t0).map(function(n){return SATN[n];}))+'. Classe: '+CLSN[cls]+'.');
+  t.push(F.n(nc)+(nc===1?' célula de 1 quilômetro, cerca de 1 quilômetro quadrado.':' células de 1 quilômetro, cerca de '+F.n(nc)+' quilômetros quadrados.'));
+  t.push('Detecções: '+(nM>=255?'255 ou mais':F.n(nM))+' do MODIS e '+(nV>=255?'255 ou mais':F.n(nV))+' do VIIRS.');
+  if(fm>0)t.push('Potência radiativa máxima: '+fDec(fm)+' megawatts.');
+ }else if(s.k==='raw'){var sec=s.L==='m'?s.T.M:s.T.V,tt=sec.t[s.i];
+  t.push('Detecção '+(s.L==='m'?'MODIS':'VIIRS')+' selecionada: '+dayOf(sec,s.i)+' de '+MES[s.T.mo-1]+' de 2025, às '+fHora(tt&2047)+', hora solar local. Satélite '+(s.L==='m'?(tt&4096?'Aqua':'Terra'):'S-NPP')+'.');
+  t.push('Potência radiativa: de '+['0 a 2','2 a 5','5 a 10','10 a 20','20 a 50','50 a 100','100 a 500','500 ou mais'][tt>>13]+' megawatts.');
+ }else if(s.k==='cel'){var o=s.o,ms=s.ms;
+  t.push('Célula de 0,25 grau selecionada, cerca de 28 quilômetros. '+(ms.length===1?MES[ms[0][1]-1]+' de '+ms[0][0]:'de '+MES[ms[0][1]-1]+' de '+ms[0][0]+' a '+MES[ms[ms.length-1][1]-1]+' de '+ms[ms.length-1][0])+'.');
+  t.push(F.n(o.h)+' focos harmonizados, '+F.n(o.m)+' detecções MODIS e '+F.n(o.v)+' detecções VIIRS.');
+  var fx=Math.max(o.fm?frp(o.fm):0,o.fv?frp(o.fv):0);if(fx>0)t.push('Maior potência radiativa: '+fNum(fx)+' megawatts.');
+ }else if(s.k==='fix'){t.push('Fonte fixa de calor selecionada: '+FIXT[s.s.tp]+'. Não é queimada.');}
+ var lc=lcNome(s.lat,s.lon);if(lc)t.push('Cobertura do solo no ponto: '+lc+'.');
+ t.push('Município e risco de fogo: dado indisponível neste site.');
+ return t.join(' ');
+}
+function narrPer(){
+ var o=nums(),F=FALA,t=[],tot=o.ambos+o.soM+o.soV,noV=S.d1<dn(2012,1,20);
+ t.push('Período: '+F.per(SEL.e0,S.d1)+(winFull()?'':', só entre '+fHora(S.h0)+' e '+fHora(S.h1)+' de hora solar')+'. Região: '+(o.onde==='mundo'?'mundo inteiro':'Brasil')+'.');
+ t.push(anyLay()?'Camadas ligadas: '+juntar(actL().map(function(L){return LNOME[L];}))+'.':'Nenhuma camada de fogo ligada.');
+ t.push((o.medido?F.n(o.focos)+' focos harmonizados':F.n(o.focos)+' focos medidos só com o MODIS')+', a partir de '+F.n(o.brutoM)+' detecções MODIS'+(noV?'; ainda não havia VIIRS.':' e '+F.n(o.brutoV)+' detecções VIIRS.'));
+ if(o.medido&&tot)t.push(F.p(o.ambos,tot)+' vistos pelos dois sensores, '+F.p(o.soM,tot)+' só pelo MODIS e '+F.p(o.soV,tot)+' só pelo VIIRS.');
+ if(VC.o)t.push('Na área visível do mapa: '+F.n(VC.o.h)+' focos, '+F.n(VC.o.m)+' detecções MODIS e '+F.n(VC.o.v)+' detecções VIIRS.');
+ return t.join(' ');
+}
+function narrar(){var s=narrSel(),p=narrPer();return (s?s+' ':'')+'Resumo. '+p;}
+
+/* ── explicação em linguagem simples (frases-modelo; só números já carregados) ── */
+function cap1(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+function media(a){var s=0,n=0;a.forEach(function(v){if(v!=null&&isFinite(v)){s+=v;n++;}});return n?s/n:null;}
+function explicar(F){
+ F=F||TELA;var o=nums(),L=[],w=o.onde==='mundo',onde=w?'no mundo':'no Brasil',a=SEL.ea,b=SEL.b,tot=o.ambos+o.soM+o.soV,B=ST.brasil,G=ST.global_2025,y=b.y;
+ var mes=a.y===b.y&&a.m===b.m&&a.d===1&&b.d===dim(b.y,b.m),ano=a.y===b.y&&a.m===1&&a.d===1&&b.m===12&&b.d===31;
+ L.push(cap1(F.per(SEL.e0,S.d1))+', '+onde+': '+F.n(o.focos)+(o.medido?' focos harmonizados':(o.misto?' focos (parte medida só com o MODIS)':' focos medidos só com o MODIS'))+'.');
+ if(o.focos>0&&o.brutoM+o.brutoV>0)L.push('Eles vêm de '+F.n(o.brutoM)+' detecções MODIS'+(o.brutoV?' e '+F.n(o.brutoV)+' detecções VIIRS':'')+'. O mesmo fogo é visto várias vezes; em média '+fDec((o.brutoM+o.brutoV)/o.focos)+' detecções viram 1 foco.');
+ if(o.medido&&tot)L.push(F.p(o.ambos,tot)+' dos focos foram vistos pelos dois sensores, '+F.p(o.soM,tot)+' só pelo MODIS e '+F.p(o.soV,tot)+' só pelo VIIRS.');
+ if(mes&&w&&G&&G.mensal){var M=G.mensal.focos,v=M[a.m-1],rk=1+M.filter(function(x){return x>v;}).length;
+  L.push(cap1(MES[a.m-1])+' de 2025 teve '+F.n(v)+' focos no mundo, '+(rk===1?'o mês com mais focos do ano.':'o '+rk+'º maior mês do ano.'));}
+ else if(mes&&!w&&B.mensal&&B.mensal.completo[a.y-2000]){var cm=B.mensal.completo,vv=cm[a.y-2000][a.m-1],med=!!B.mensal.completo_medido[a.y-2000][a.m-1],nm=[];for(var yy=2003;yy<=2022;yy++)nm.push(cm[yy-2000]&&cm[yy-2000][a.m-1]);var nn=media(nm);
+  if(vv!=null&&nn){var df=100*(vv/nn-1);L.push(cap1(MES[a.m-1])+' de '+a.y+' teve '+(med?'':'cerca de ')+F.n(vv)+' focos no Brasil'+(med?'':' (estimativa)')+', '+fDec(Math.abs(df))+(F===FALA?' por cento ':'% ')+(df>=0?'acima':'abaixo')+' da média de '+MES[a.m-1]+' em 2003–2022 ('+F.n(nn)+').');}}
+ if(a.y===b.y){
+  if(w&&G&&G.mensal&&y===2025){var M2=G.mensal.focos,im=M2.indexOf(Math.max.apply(null,M2));if(!(mes&&a.m-1===im))L.push('Em 2025, o mês com mais focos no mundo foi '+MES[im]+' ('+F.n(M2[im])+').');}
+  else if(!w&&B.mensal&&B.mensal.completo[y-2000]&&MAN.anos[y]){var row=B.mensal.completo[y-2000],ib=-1;MAN.anos[y].meses.forEach(function(m){if(ib<0||row[m-1]>row[ib])ib=m-1;});if(ib>=0&&!(mes&&a.m-1===ib))L.push('Em '+y+', o mês com mais focos no Brasil foi '+MES[ib]+' ('+F.n(row[ib])+(B.mensal.completo_medido[y-2000][ib]?'':', estimativa')+').');}
+ }
+ if(ano&&!w&&Array.isArray(B.anual)){var an=B.anual.filter(function(r){return r.ano===y;})[0],nor=media(B.anual.filter(function(r){return r.ano>=2003&&r.ano<=2022;}).map(function(r){return r.completo;}));
+  if(an&&nor&&an.meses_com_dado===12){var d2=100*(an.completo/nor-1);L.push(y+' teve '+F.n(an.completo)+' focos no Brasil'+(an.meses_medidos<12?' (estimativa em parte do ano)':'')+', '+fDec(Math.abs(d2))+(F===FALA?' por cento ':'% ')+(d2>=0?'acima':'abaixo')+' da normal de 2003–2022 (média de '+F.n(nor)+' por ano).');}}
+ L.push('Um foco é fogo ativo visto do espaço, não área queimada. No Brasil, antes de 2012 o total é estimativa, porque só havia o MODIS.');
+ return L;
+}
+function expAbrir(){var L=explicar(TELA);$('expList').innerHTML=L.map(function(s){return '<li>'+esc(s)+'</li>';}).join('');abrir('expDlg');}
+
+/* ── tabela ── */
+var TB={open:false,rows:[],mode:'',page:0,k:'frp',dir:-1,timer:0,info:'',sum:0};
+var FRPM=[1,3.5,7.5,15,35,75,300,600],FRPT=['< 2','2–5','5–10','10–20','20–50','50–100','100–500','≥ 500'];
+function tbCollect(){
+ var rows=[],mode='',b,full=winFull();
+ if(modePts()){
+  if(!wanted.length)return {mode:'vazio',rows:rows};
+  if(!loadedAll())return {mode:'load',rows:rows};
+  b=viewBox(1);mode='pts';
+  eachTile(function(T){['h','m','v'].forEach(function(L){if(!S.lay[L])return;var s=secOf(T,L),r=rangeOf(s,T.mo),dd=1;
+   for(var i=r[0];i<r[1];i++){var lat=T.lat0+(s.y[i]+.5)*T.q;if(lat<b.lat0||lat>b.lat1)continue;var lon=T.lon0+(s.x[i]+.5)*T.q,dl=((lon-b.lng)%360+540)%360-180;if(dl<-b.hw||dl>b.hw)continue;
+    if(!full&&!(inWin(s.t[i]&2047)||(L==='h'&&inWin(s.t1[i]&2047))))continue;
+    while(dd<31&&i>=s.dia[dd])dd++;
+    var data='2025-'+p2(T.mo)+'-'+p2(dd),o={L:L,T:T,i:i,lat:lat,lon:lon,data:data};
+    if(L==='h'){var t0=s.t0[i],t1=s.t1[i],nM=s.nM[i],nV=s.nV[i];o.hora=hhmm(t0&2047)+((t0&2047)!==(t1&2047)?'–'+hhmm(t1&2047):'');o.sat=juntar(satsOf(t0));o.cls=nM&&nV?'ambos':(nM?'soM':'soV');o.cel=s.ncel[i];o.nm=nM;o.nv=nV;o.frp=Math.max(nM?frp(s.frpM[i]):0,nV?frp(s.frpV[i]):0);o.frpT=fDec(o.frp);}
+    else{var tt=s.t[i];o.hora=hhmm(tt&2047);o.sat=L==='m'?(tt&4096?'Aqua':'Terra'):'S-NPP';o.cls='';o.cel=null;o.nm=null;o.nv=null;o.frp=FRPM[tt>>13];o.frpT=FRPT[tt>>13];}
+    rows.push(o);}});});
+ }else if(gridCur&&gridLayer()){
+  var G=gridCur,K=G.L;b=viewBox(1);mode='grid';
+  for(var k=0;k<G.n;k++){var c=G[K][k];if(!c)continue;var la=G.gy[k]*.25-89.875;if(la<b.lat0||la>b.lat1)continue;var lo=G.gx[k]*.25-179.875,d2=((lo-b.lng)%360+540)%360-180;if(d2<-b.hw||d2>b.hw)continue;
+   rows.push({grid:1,lat:la,lon:lo,c:c,h:G.h[k],m:G.m[k],v:G.v[k],frp:Math.max(G.fm[k]?frp(G.fm[k]):0,G.fv[k]?frp(G.fv[k]):0),fm:G.fm[k],fv:G.fv[k]});}
+ }else mode=anyLay()?'load':'nenhuma';
+ return {mode:mode,rows:rows};
+}
+function tbCols(){
+ if(TB.mode==='grid'){var K=gridCur.L;return [['lat','Latitude (centro)'],['lon','Longitude (centro)'],['c',K==='h'?'Focos harmonizados':(K==='m'?'Detecções MODIS':'Detecções VIIRS')],['h','Focos'],['m','Detecções MODIS'],['v','Detecções VIIRS'],['frp','FRP máx (MW)']];}
+ var c=[['tipo','Tipo'],['data','Data'],['hora','Hora local'],['sat','Satélites'],['cls','Classe'],['cel','Células (≈ km²)'],['nm','Detecções MODIS'],['nv','Detecções VIIRS'],['frp','FRP máx (MW)'],['lat','Latitude'],['lon','Longitude']];
+ if(LC.on)c.push(['lc','Cobertura do solo']);return c;
+}
+var TIPO={h:'Foco harmonizado',m:'Detecção MODIS',v:'Detecção VIIRS'},CLSC={ambos:'Vista pelos dois',soM:'Só MODIS',soV:'Só VIIRS'};
+function tbCell(r,k){
+ if(r[k]==null&&k!=='tipo'&&k!=='lc')return '—';
+ switch(k){case 'tipo':return TIPO[r.L];case 'cls':return r.cls?CLSC[r.cls]:'—';case 'lat':case 'lon':return r[k].toFixed(TB.mode==='grid'?3:4);
+  case 'frp':return TB.mode==='grid'?(r.frp?nf(r.frp):'—'):(r.frp?r.frpT:'—');case 'lc':return lcNome(r.lat,r.lon)||'—';
+  case 'data':var q=r.data.split('-');return q[2]+'/'+q[1]+'/'+q[0];case 'cel':case 'nm':case 'nv':case 'c':case 'h':case 'm':case 'v':return r[k]>=255&&(k==='nm'||k==='nv')?'255+':nf(r[k]);}
+ return esc(r[k]);
+}
+function tbFiltered(){
+ var q=$('tbQ').value.trim().toLowerCase().replace(',','.'),cl=$('tbCls').value,tp=$('tbTipo').value;
+ return TB.rows.filter(function(r){
+  if(TB.mode==='pts'){if(tp&&r.L!==tp)return false;if(cl&&r.cls!==cl)return false;}
+  if(!q)return true;var hay=(r.data?r.data+' '+r.data.split('-').reverse().join('/')+' '+r.hora+' ':'')+r.lat.toFixed(4)+' '+r.lon.toFixed(4)+' '+r.lat.toFixed(4)+', '+r.lon.toFixed(4);
+  return q.split(/\s+/).every(function(w){return hay.indexOf(w)>=0;});});
+}
+function tbSort(){var k=TB.k,d=TB.dir;TB.rows.sort(function(a,b){var x=a[k],y=b[k];if(k==='tipo'){x=a.L;y=b.L;}if(x==null)x=-1e12;if(y==null)y=-1e12;if(x<y)return -d;if(x>y)return d;return (b.frp||0)-(a.frp||0);});TB.rows.forEach(function(r,i){r._i=i;});}
+function isSelRow(r){return SELP&&((SELP.T&&r.T===SELP.T&&r.i===SELP.i&&r.L===SELP.L)||(SELP.k==='cel'&&r.grid&&Math.abs(r.lat-SELP.lat)<1e-6&&Math.abs(r.lon-SELP.lon)<1e-6));}
+function tbRender(toSel){
+ if(!TB.open)return;var F=tbFiltered(),cols=tbCols(),n=F.length,pages=Math.max(1,Math.ceil(n/50));
+ if(toSel&&SELP){for(var j=0;j<n;j++)if(isSelRow(F[j])){TB.page=Math.floor(j/50);break;}}
+ TB.page=Math.max(0,Math.min(pages-1,TB.page));
+ var cap,per=fmtSel(SEL.e0,S.d1)+(winFull()?'':', '+fmtWin()+' (hora solar)');
+ if(TB.mode==='pts')cap='O que está desenhado na área visível do mapa: '+per+', '+juntar(actL().map(function(L){return LNOME[L];}))+'. '+nf(TB.rows.length)+' linhas'+(VC.o?' (contagem “Nesta tela”: '+actL().map(function(L){return nf(VC.o[L])+' '+LCURTO[L];}).join(' · ')+')':'')+'. Ordenado por intensidade (FRP); risco ainda não calculado. “—” = não se aplica a este tipo (detecções brutas não têm classe, células nem contagens; o FRP delas vem em faixas).';
+ else if(TB.mode==='grid')cap='Visão de longe: o mapa mostra só o resumo por célula de 0,25° (cerca de 28 km), meses inteiros, '+(SEL.w25?'mundo':'só Brasil')+'. Uma linha por célula na área visível aproximada: '+nf(TB.rows.length)+' células, somando '+nf(TB.sum)+' '+(gridCur.L==='h'?'focos':'detecções')+'. Aproxime (2025, até 3 meses) para ver cada foco. Ordenado por FRP; risco ainda não calculado. “—” = sem dado.';
+ else cap=TB.mode==='load'?'Carregando os dados desta área…':(TB.mode==='nenhuma'?'Nenhuma camada de fogo ligada.':'Nenhuma detecção nesta área.');
+ var h='<table><caption>'+esc(cap)+'</caption><thead><tr>';
+ cols.forEach(function(c){var so=TB.k===c[0]?(TB.dir<0?'descending':'ascending'):'none';h+='<th scope="col" aria-sort="'+so+'">'+(c[0]==='lc'?esc(c[1]):'<button type="button" data-k="'+c[0]+'">'+esc(c[1])+'</button>')+'</th>';});
+ h+='</tr></thead><tbody>';
+ F.slice(TB.page*50,TB.page*50+50).forEach(function(r,j){h+='<tr tabindex="0" data-r="'+r._i+'"'+(isSelRow(r)?' class="on" aria-selected="true"':'')+'>';cols.forEach(function(c){h+='<td>'+tbCell(r,c[0])+'</td>';});h+='</tr>';});
+ h+='</tbody></table>';
+ var w=$('tbW'),st=w.scrollTop;w.innerHTML=h;if(!toSel)w.scrollTop=st;else{var on=w.querySelector('tr.on');if(on)on.scrollIntoView({block:'nearest'});}
+ $('tbInfo').textContent=n?('Linhas '+nf(TB.page*50+1)+'–'+nf(Math.min(n,TB.page*50+50))+' de '+nf(n)+' · página '+(TB.page+1)+' de '+pages):'Nenhuma linha.';
+ $('tbPrev').disabled=TB.page<=0;$('tbNext').disabled=TB.page>=pages-1;
+ $('tbCls').disabled=$('tbTipo').disabled=TB.mode!=='pts';
+}
+function tbSync(){if(!TB.open)return;var r=tbCollect();TB.rows=r.rows;TB.mode=r.mode;TB.sum=0;if(r.mode==='grid')r.rows.forEach(function(x){TB.sum+=x.c;});
+ if(r.mode==='grid'&&['tipo','data','hora','sat','cls','cel','nm','nv'].indexOf(TB.k)>=0){TB.k='frp';TB.dir=-1;}if(r.mode==='pts'&&['c','h','m','v'].indexOf(TB.k)>=0){TB.k='frp';TB.dir=-1;}
+ tbSort();tbRender(true);}
+function a11yView(){if(!TB.open)return;clearTimeout(TB.timer);TB.timer=setTimeout(tbSync,300);}
+function a11ySel(){if(TB.open)tbRender(true);}
+function tbGo(r){
+ if(!r)return;var a=globe?globe.pointOfView().altitude:alt;
+ if(r.grid){fly(r.lat,r.lon,a,900);pick(r.lat,r.lon);return;}
+ if(r.L==='h')showFoco(r.T,r.i);else showRaw(r.T,r.i,r.L);
+ fly(r.lat,r.lon,a,900);
+}
+
+/* ── diálogos ── */
+var dlgVolta={};
+function abrir(id){var d=$(id);if(d.open)return;dlgVolta[id]=document.activeElement;
+ if(id==='tbDlg'){d.show();TB.open=true;tbSync();setTimeout(function(){$('tbQ').focus();},0);}
+ else{if(d.showModal)d.showModal();else d.setAttribute('open','');var f=d.querySelector('input:checked,[data-tts]:not([hidden]),button');setTimeout(function(){if(f)f.focus();},0);}}
+function fechar(id){var d=$(id);if(d.open)d.close();}
+['a11yDlg','expDlg','tbDlg'].forEach(function(id){var d=$(id);
+ d.addEventListener('close',function(){if(id==='tbDlg')TB.open=false;var v=dlgVolta[id];if(v&&v.focus&&document.contains(v))v.focus();});
+ d.addEventListener('click',function(e){if(e.target.closest('[data-close]'))fechar(id);});
+ d.addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();e.stopPropagation();fechar(id);}});});
+$('btA11y').onclick=function(){abrir('a11yDlg');};
+$('btExp').onclick=function(e){e.stopPropagation();expAbrir();};
+$('btExp2').onclick=function(){fechar('a11yDlg');expAbrir();};
+$('btTab').onclick=function(){fechar('a11yDlg');abrir('tbDlg');};
+document.querySelectorAll('input[name="pal"]').forEach(function(r){r.onchange=function(){if(r.checked){setPal(r.value,true);say('Cores: '+PALS[r.value].nome);}};});
+if(!TTS.ok){$('ttsBox').hidden=true;$('ttsNo').hidden=false;$('expTts').hidden=true;}
+$('ttsGo').onclick=function(){if(TTS.on){calar();return;}falar(narrar());};
+$('ttsStop').onclick=calar;
+$('expTts').onclick=function(){if(TTS.on){calar();return;}falar(explicar(FALA).join(' '));};
+$('expDlg').addEventListener('close',calar);
+var tbIn=0;
+$('tbQ').addEventListener('input',function(){clearTimeout(tbIn);tbIn=setTimeout(function(){TB.page=0;tbRender();},200);});
+$('tbCls').onchange=$('tbTipo').onchange=function(){TB.page=0;tbRender();};
+$('tbPrev').onclick=function(){TB.page--;tbRender();};$('tbNext').onclick=function(){TB.page++;tbRender();};
+$('tbW').addEventListener('click',function(e){var b=e.target.closest('th button');if(b){var k=b.dataset.k;if(TB.k===k)TB.dir=-TB.dir;else{TB.k=k;TB.dir=(k==='frp'||k==='c'||k==='cel'||k==='nm'||k==='nv'||k==='h'||k==='m'||k==='v')?-1:1;}tbSort();TB.page=0;tbRender();return;}
+ var tr=e.target.closest('tr[data-r]');if(tr)tbGo(TB.rows[+tr.dataset.r]);});
+$('tbW').addEventListener('keydown',function(e){var tr=e.target.closest&&e.target.closest('tr[data-r]');if(!tr)return;
+ if(e.key==='Enter'||e.key===' '){e.preventDefault();tbGo(TB.rows[+tr.dataset.r]);}
+ else if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();var n=e.key==='ArrowDown'?tr.nextElementSibling:tr.previousElementSibling;if(n)n.focus();}});
+setPal(PALN,false);
+var A11Y={PALS:PALS,PAL_FUTURO:PAL_FUTURO,setPal:setPal,pal:function(){return PALN;},narrar:narrar,narrSel:narrSel,narrPer:narrPer,explicar:explicar,falar:falar,calar:calar,TTS:TTS,TB:TB,tbSync:tbSync,abrir:abrir,fechar:fechar,fNum:fNum,sel:function(){return SELP;}};
+
+window.__dof={a11y:A11Y,S:S,SEL:function(){return SEL;},PL:PL,apply:apply,build:buildDetail,buildScar:buildScar,tiles:tiles,det:det,SB:SB,SC:SC,VC:VC,meshes:meshes,U:U,T3:T3,FR:FR,fps:fpsInfo,dn:dn,ymd:ymd,model:function(){return tlM;},grid:function(){return gridCur;},wanted:function(){return wanted;},setBase:setBase,play:togglePlay,count:countView,nums:nums,modes:function(){return {pts:modePts(),blob:modeBlob(),detail:!!detailOn(),scarBlob:!!(scarBlobMode()&&SB.ok),alt:alt,loop:FR.on};},globe:function(){return globe;},LC:LC,lcSet:lcSet,lcAt:lcAt,parseCoord:parseCoord,geoAlt:geoAlt,GEO:GEO};
 })();
 </script>
 <dialog id="extDlg" aria-labelledby="extT"><div class="eb"><h2 id="extT"></h2><div id="extB"></div></div><div class="ea"><button type="button" id="extNo">Cancelar</button><button type="button" class="pri" id="extYes">Ativar camada</button></div></dialog>
