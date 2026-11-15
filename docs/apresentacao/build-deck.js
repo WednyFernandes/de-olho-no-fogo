@@ -92,33 +92,31 @@ const ZOOM = 700 / 840;
 {
   const s = slide(t('Problem', 'Problema'), 'LIGHT');
   s.addText(t('The problem', 'O problema'), { placeholder: 'title', fontSize: 34 });
-  const lw = 4.7, y0 = 1.35, ih1 = 1.85, nh = 1.0, gap = 0.4;
-  box(s, M, y0, lw, ih1, K.brandTint, 'Fires');
-  T(s, t('Fires', 'Queimadas'), { x: M + 0.25, y: y0 + 0.08, w: lw - 0.5, h: 0.42, fontSize: 20, bold: true, color: K.brandInk });
-  const imp = t([['ic-people.png', '+26–34%', 'hospital visits'], ['ic-forest.png', '12,700,000', 'hectares, Brazil 2025'], ['ic-paw.png', '~17,000,000', 'animals killed']],
-                [['ic-people.png', '+26–34%', 'internações'], ['ic-forest.png', '12.700.000', 'hectares, Brasil 2025'], ['ic-paw.png', '~17.000.000', 'animais mortos']]);
-  const bw = lw / 3;
+  // LEFT: fire impacts, large
+  const lw = 4.4, y0 = 1.35, lh = 5.25;
+  box(s, M, y0, lw, lh, K.brandTint, 'Fires');
+  T(s, t('Fires', 'Queimadas'), { x: M + 0.35, y: y0 + 0.2, w: lw - 0.7, h: 0.55, fontSize: 26, bold: true, color: K.brandInk });
+  const imp = t([['ic-people.png', '+26–34%', 'hospital visits for breathing'], ['ic-forest.png', '12,700,000', 'hectares burned in Brazil, 2025'], ['ic-paw.png', '~17,000,000', 'animals killed, Pantanal 2020']],
+                [['ic-people.png', '+26–34%', 'internações respiratórias'], ['ic-forest.png', '12.700.000', 'hectares queimados no Brasil, 2025'], ['ic-paw.png', '~17.000.000', 'animais mortos, Pantanal 2020']]);
   imp.forEach(([ic, n, l], i) => {
-    const x = M + i * bw;
-    s.addImage({ path: IMG(ic), x: x + bw / 2 - 0.24, y: y0 + 0.52, w: 0.48, h: 0.48, altText: l });
-    T(s, n, { x: x + 0.03, y: y0 + 1.03, w: bw - 0.06, h: 0.36, fontSize: 15, bold: true, color: K.brandInk, align: 'center', valign: 'middle' });
-    T(s, l, { x: x + 0.03, y: y0 + 1.38, w: bw - 0.06, h: 0.4, fontSize: 12, color: K.ink2, align: 'center' });
+    const y = y0 + 0.95 + i * 1.42;
+    s.addImage({ path: IMG(ic), x: M + 0.35, y: y + 0.1, w: 0.75, h: 0.75, altText: l });
+    T(s, [{ text: n, options: { bold: true, fontSize: 26, color: K.brandInk, breakLine: true } }, { text: l, options: { fontSize: 16, color: K.ink } }],
+      { x: M + 1.3, y, w: lw - 1.5, h: 1.25, valign: 'middle' });
   });
-  const down = y => arrow(s, M + lw / 2 - 0.18, y + 0.05, 0.36, gap - 0.1, K.ink2, 'down');
-  down(y0 + ih1);
-  const n1 = y0 + ih1 + gap; dnode(s, M, n1, lw, nh, t('Where is the fire?', 'Onde está o fogo?'), t('satellites see it', 'satélites veem'), K.ink, K.white, 'F4F6F9');
-  down(n1 + nh);
-  const n2 = n1 + nh + gap; dnode(s, M, n2, lw, nh, t('2 satellites, 2 data', '2 satélites, 2 dados'), t('no precision', 'falta precisão'), K.ink, K.white, 'F4F6F9');
-  const rx = M + lw + 0.75;
-  arrow(s, M + lw + 0.12, n2 + nh / 2 - 0.2, 0.5, 0.4, K.brand);
-  const rw = W - M - rx, g = 0.3, iw = (rw - g) / 2, ih = iw * ZOOM, iy = 1.35;
+  // RIGHT: where is the fire -> 2 satellites, 2 data, above the images
+  const rx = M + lw + 0.6, rw = W - M - rx, nh = 0.95, ny = y0, ag = 0.45, nw = (rw - ag) / 2;
+  arrow(s, M + lw + 0.08, ny + nh / 2 - 0.2, 0.44, 0.4, K.ink2);
+  dnode(s, rx, ny, nw, nh, t('Where is the fire?', 'Onde está o fogo?'), t('satellites see it', 'satélites veem'), K.ink, K.white, 'F4F6F9', 20);
+  arrow(s, rx + nw + 0.06, ny + nh / 2 - 0.18, ag - 0.12, 0.36, K.ink2);
+  dnode(s, rx + nw + ag, ny, nw, nh, t('2 satellites, 2 data', '2 satélites, 2 dados'), t('no precision', 'falta precisão'), K.ink, K.white, 'F4F6F9', 20);
+  const g = 0.3, iw = (rw - g) / 2, ih = iw * ZOOM, iy = ny + nh + 0.3;
   pic(s, 'L-mod-zoom.png', rx, iy, iw, ih, t('The fire seen by MODIS.', 'O fogo visto pelo MODIS.'));
   pic(s, 'L-vii-zoom.png', rx + iw + g, iy, iw, ih, t('The same fire seen by VIIRS.', 'O mesmo fogo visto pelo VIIRS.'));
-  T(s, [{ text: 'MODIS  ', options: { bold: true, color: K.modis } }, { text: t('7 detections', '7 detecções'), options: { bold: true } }], { x: rx, y: iy + ih + 0.1, w: iw, h: 0.5, fontSize: 22 });
-  T(s, [{ text: 'VIIRS  ', options: { bold: true, color: K.viirs } }, { text: t('19 detections', '19 detecções'), options: { bold: true } }], { x: rx + iw + g, y: iy + ih + 0.1, w: iw, h: 0.5, fontSize: 22 });
-  T(s, t('The same fire, the same day.', 'O mesmo fogo, no mesmo dia.'), { x: rx, y: iy + ih + 0.65, w: rw, h: 0.4, fontSize: 17, color: K.ink2 });
-  box(s, rx, 5.75, rw, 0.85, K.ink, 'Question');
-  T(s, t('Which count is right?', 'Qual contagem está certa?'), { x: rx + 0.3, y: 5.75, w: rw - 0.6, h: 0.85, fontSize: 24, bold: true, color: K.white, valign: 'middle' });
+  T(s, [{ text: 'MODIS  ', options: { bold: true, color: K.modis } }, { text: t('7 detections', '7 detecções'), options: { bold: true } }], { x: rx, y: iy + ih + 0.08, w: iw, h: 0.48, fontSize: 22 });
+  T(s, [{ text: 'VIIRS  ', options: { bold: true, color: K.viirs } }, { text: t('19 detections', '19 detecções'), options: { bold: true } }], { x: rx + iw + g, y: iy + ih + 0.08, w: iw, h: 0.48, fontSize: 22 });
+  box(s, rx, 6.05, rw, 0.6, K.ink, 'Question');
+  T(s, t('Same fire: which count is right?', 'Mesmo fogo: qual contagem está certa?'), { x: rx + 0.3, y: 6.05, w: rw - 0.6, h: 0.6, fontSize: 20, bold: true, color: K.white, valign: 'middle' });
   s.addText(t(`Our globe, 2 Sep 2025, central Brazil: one fire, 7 MODIS (1 km pixel) + 19 VIIRS (375 m pixel) detections. Impacts: Campo Grande News 2024 (respiratory hospital visits, dry season, Pantanal), MapBiomas 2025, Tomas et al. 2021 (Pantanal 2020).`,
     `Nosso globo, 2 set 2025, Brasil central: um fogo, 7 detecções do MODIS (pixel de 1 km) + 19 do VIIRS (pixel de 375 m). Impactos: Campo Grande News 2024 (internações respiratórias na seca, Pantanal), MapBiomas 2025, Tomas et al. 2021 (Pantanal 2020).`), { placeholder: 'src' });
   s.addNotes(t('Fires hurt people, nature and wildlife: up to 34% more hospital visits for breathing in the dry season, 12.7 million hectares burned in Brazil in 2025, about 17 million animals killed in the Pantanal in 2020. To act, we need to know where the fire is, and satellites see it. But NASA has two satellites with two different records. The same fire, the same day: MODIS saw 7 detections in big 1 km pixels, VIIRS saw 19 in small 375 m pixels. Which count is right? Adding them counts the fire twice; using one loses fires or history.',
