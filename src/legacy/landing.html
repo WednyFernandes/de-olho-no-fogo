@@ -35,7 +35,7 @@ section[id]{scroll-margin-top:84px}
 .nav nav a{padding:9px 14px;border-radius:999px;font-weight:600;font-size:16px;color:var(--ink2);text-decoration:none}
 .nav nav a:hover{background:var(--soft);color:var(--ink)}
 .nav nav a[aria-current="page"]{background:var(--brand-tint);color:var(--brand-ink)}
-.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:15px 26px;font:700 18px/1 Figtree,sans-serif;text-decoration:none;border:0;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .2s}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:15px 26px;font:700 18px/1 Figtree,sans-serif;text-decoration:none;border:0;cursor:pointer;transition:transform .25s var(--ease),background .2s}
 .btn.p{background:var(--brand);color:#fff;box-shadow:0 2px 4px rgba(156,44,5,.18),0 8px 22px rgba(212,65,11,.22)}
 .btn.p:hover{background:var(--brand-ink);transform:translateY(-1px)}
 .btn.g{background:var(--soft);color:var(--ink)}
@@ -69,99 +69,117 @@ section[id]{scroll-margin-top:84px}
 /* clique na Terra: zoom com linhas de velocidade; o texto sai enquanto ela acelera */
 .voo{position:fixed;inset:0;z-index:50;pointer-events:all}
 .voo canvas{position:absolute;inset:0;width:100%;height:100%}
-.voando .hero .copy{transition:opacity .45s,transform .6s cubic-bezier(.7,0,.84,0),filter .45s;opacity:0;transform:translateX(-48px);filter:blur(6px)}
+.voando .hero .copy{transition:opacity .45s,transform .6s cubic-bezier(.7,0,.84,0);opacity:0;transform:translateX(-48px)}
 .hero h1{font-size:clamp(46px,5.8vw,88px);line-height:.97;font-weight:900;letter-spacing:-.035em}
 .hero .lead{font-size:clamp(19px,1.6vw,22px);line-height:1.45;color:var(--ink2);margin-top:26px;max-width:36ch}
 .hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
 .hero .meta{margin-top:30px;font-size:15px;color:var(--ink3);max-width:52ch}
-.panel{background:var(--soft);border-radius:28px;padding:clamp(18px,2.4vw,32px)}
-.phead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
-.seg{display:inline-flex;gap:4px;background:var(--card);border-radius:999px;padding:5px;box-shadow:0 1px 2px rgba(31,26,23,.06)}
-.seg button{font:700 16px/1 Figtree,sans-serif;border:0;background:none;color:var(--ink2);padding:12px 18px;border-radius:999px;cursor:pointer;transition:background .25s var(--ease),color .25s}
-.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
-.seg button:not([aria-pressed="true"]):hover{background:var(--soft);color:var(--ink)}
-.answer{font-weight:900;font-size:clamp(24px,2.4vw,34px);letter-spacing:-.02em;line-height:1}
-.answer b{color:var(--brand)}
-.answer.raw b{color:var(--ink)}
-#hero-chart,#br{display:block;width:100%;height:auto;margin-top:14px;overflow:visible}
-svg text{font-family:Figtree,sans-serif}
-.read{font-size:16px;color:var(--ink2);margin-top:10px;min-height:3em;max-width:62ch}
-.key{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-size:14px;color:var(--ink2)}
-.key span{display:inline-flex;align-items:center;gap:8px}
-.key i{display:inline-block;width:14px;height:14px;border-radius:4px;flex:none}
+.hero h1 span{color:#FF8A4C}
 
-/* seções */
-section.s{padding:clamp(72px,10vw,128px) 0}
-section.tint{background:var(--soft)}
-.sh{max-width:22ch;font-size:clamp(34px,4.2vw,60px);line-height:1.02;font-weight:900;letter-spacing:-.03em}
-.sp{font-size:clamp(18px,1.4vw,21px);color:var(--ink2);margin-top:20px;max-width:60ch}
-.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,80px);align-items:start;margin-top:56px}
-.two.w{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
-.fig{background:var(--card);border-radius:24px;padding:clamp(18px,2.2vw,30px);box-shadow:0 1px 2px rgba(31,26,23,.06),0 10px 30px rgba(31,26,23,.07);margin:0}
-section.tint .fig{box-shadow:none}
-.fig h3{font-size:20px;font-weight:800;margin-bottom:10px}
-.fig .cap{font-size:15px;color:var(--ink3);margin-top:12px}
-.fig svg{display:block;width:100%;height:auto}
-.h3{font-size:clamp(22px,1.8vw,26px);font-weight:800;letter-spacing:-.01em}
-.note{font-size:15px;color:var(--ink3);margin-top:18px;max-width:70ch}
-.list{list-style:none;margin:0;padding:0}
-.list li{padding:22px 0;border-top:1px solid var(--line)}
-.list li:first-child{border-top:0;padding-top:4px}
-.list b{display:block;font-size:21px;font-weight:800;line-height:1.25}
-.list span{display:block;color:var(--ink2);margin-top:6px;font-size:17px}
-.steps{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,2.6vw,40px);counter-reset:passo}
-.steps li{counter-increment:passo;border-top:3px solid var(--ink);padding-top:16px}
-.steps li::before{content:counter(passo);display:block;font-size:15px;font-weight:800;color:var(--ink3);font-variant-numeric:tabular-nums}
-.steps b{display:block;font-size:21px;font-weight:800;line-height:1.2;margin-top:6px}
-.steps span{display:block;color:var(--ink2);margin-top:8px;font-size:17px}
-
-/* números */
-.big{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,48px);margin-top:56px}
-.big div{border-top:1px solid var(--line);padding-top:20px}
-.big b{display:block;font-size:clamp(34px,4vw,60px);font-weight:900;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
-.big b.m{color:var(--modis)}.big b.v{color:var(--viirs)}.big b.h{color:var(--brand-ink)}
-.big span{display:block;color:var(--ink2);margin-top:10px;font-size:17px;max-width:30ch}
-.share{display:flex;height:44px;border-radius:12px;overflow:hidden;margin-top:14px}
-.share i{display:block;height:100%}
-.legend{list-style:none;margin:16px 0 0;padding:0}
-.legend li{display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line2);font-size:17px}
-.legend li:first-child{border-top:0}
-.legend i{width:14px;height:14px;border-radius:4px;align-self:center}
-.legend b{font-weight:800;font-variant-numeric:tabular-nums}
-.legend small{display:block;font-size:15px;color:var(--ink3)}
-table{border-collapse:collapse;width:100%;font-size:17px;margin-top:4px;font-variant-numeric:tabular-nums}
-th,td{text-align:left;padding:12px 10px 12px 0;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-size:14px;font-weight:700;color:var(--ink3)}
-td.r,th.r{text-align:right;padding-right:0}
-tr:last-child td{border-bottom:0}
-
-/* camadas do globo */
-.bridge{background:var(--ink);color:#fff;padding:clamp(64px,8vw,112px) 0}
-.bridge h2{font-size:clamp(32px,3.8vw,54px);font-weight:900;letter-spacing:-.03em;line-height:1.03;max-width:20ch}
-.bridge .sp{color:#C9CFD4}
-.layers{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 clamp(24px,3vw,48px)}
-.layers li{border-top:1px solid #4F575E;padding:20px 0 24px}
-.layers b{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}
-.layers b i{width:14px;height:14px;border-radius:4px;flex:none}
-.layers span{display:block;color:#C9CFD4;margin-top:8px;font-size:17px}
-.bridge .btn.g{background:#3A4046;color:#fff}
-.bridge .btn.g:hover{background:#4F575E}
-.bridge a:not(.btn){color:#FFB98F}
-
-/* dados */
-.src{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:48px;border-top:1px solid var(--line)}
-.src div{padding:24px 24px 24px 0}
-.src b{display:block;font-size:19px}
-.src span{display:block;color:var(--ink2);font-size:16px;margin-top:6px}
-.close{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px;margin-top:72px;padding-top:48px;border-top:1px solid var(--line)}
-.close h2{font-size:clamp(30px,3.2vw,44px);font-weight:900;letter-spacing:-.025em;line-height:1.05;max-width:20ch}
-footer{padding:36px 0 48px;color:var(--ink3);font-size:15px}
+/* ===== seções (redesign 15/11: linguagem para todo mundo) ===== */
+.x{padding:clamp(80px,9vw,112px) 0}
+.x .wrap{display:flex;flex-direction:column;gap:clamp(36px,4vw,52px);max-width:1280px}
+.x-creme{background:#FFF6F1}
+.x-brasa{background:var(--brand);color:#fff}
+.x-noite{background:#0B0F14;color:#F4F6F9}
+.h2{margin:0;font-size:clamp(34px,4.4vw,60px);line-height:1.02;font-weight:900;letter-spacing:-.03em;max-width:18ch}
+.sub{font-size:clamp(18px,1.5vw,20px);line-height:1.5;color:var(--ink2);max-width:46ch;margin-top:14px}
+.grade3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px 32px}
+.grade2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px}
+.quadro{margin:0;display:flex;flex-direction:column;gap:20px}
+.quadro .arte{height:200px;display:flex;align-items:center;justify-content:center}
+.quadro figcaption{font-size:20px;line-height:1.4;font-weight:600}
+.quadro figcaption b{color:var(--brand-ink);font-weight:800}
+/* 1: varredura */
+.vigia{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;width:220px}
+.vigia i{aspect-ratio:1/1;border-radius:6px;background:#EADDD5}
+.vigia i.morno{background:#F6C9AE}
+.vigia i.quente{background:var(--brand);box-shadow:0 0 0 6px rgba(212,65,11,.22),0 0 24px rgba(247,128,30,.55)}
+.varre{position:absolute;top:-8px;bottom:-8px;left:0;width:34%;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(255,192,46,0),rgba(255,192,46,.38) 70%,rgba(255,255,255,.75));border-radius:8px;mix-blend-mode:multiply}
+.play .varre{animation:varre 1.3s cubic-bezier(.45,0,.55,1) 2 both}
+@keyframes varre{0%{opacity:0;transform:translateX(-40%)}12%,88%{opacity:1}100%{opacity:0;transform:translateX(300%)}}
+.play .quente{animation:acende .5s var(--ease) 1.95s both}
+@keyframes acende{from{background:#EADDD5;box-shadow:0 0 0 0 rgba(212,65,11,0);transform:scale(1)}60%{transform:scale(1.18)}to{transform:scale(1)}}
+.play .morno{animation:morno .6s ease-out 2.05s both}
+@keyframes morno{from{background:#EADDD5}}
+/* 2: ficha */
+.ficha{width:220px;background:#fff;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px;box-shadow:0 2px 4px rgba(156,44,5,.06),0 16px 32px rgba(156,44,5,.10);transform:rotate(-2deg)}
+.ficha div{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700}
+.ficha i{flex:1;height:8px;border-radius:4px;background:#F3E3DA}
+/* 3: mapa */
+.mapa{position:relative;width:220px;height:180px;border-radius:18px;background:#2B3A2E;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,.08),0 16px 32px rgba(0,0,0,.12)}
+.mapa .t1{position:absolute;left:-20px;top:90px;width:160px;height:120px;border-radius:50%;background:#3E5136}
+.mapa .t2{position:absolute;left:120px;top:-30px;width:140px;height:110px;border-radius:50%;background:#4A5A39}
+.mapa .pt{position:absolute;width:12px;height:12px;border-radius:50%;background:#FF8A4C;box-shadow:0 0 0 5px rgba(255,138,76,.28)}
+.play .pt{animation:pop .5s var(--ease) both;animation-delay:calc(.35s + var(--i) * 90ms)}
+@keyframes pop{from{opacity:0;transform:scale(.2)}}
+/* dois jeitos */
+.olho{margin:0;border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:22px}
+.olho svg{width:100%;max-width:300px;align-self:center}
+.olho b{font-size:22px}
+.olho span{display:block;font-size:18px;line-height:1.5;margin-top:6px}
+.olho.m{background:#F1EDF8}.olho.m b{color:#4F3784}.olho.m span{color:#3F3456}
+.olho.v{background:#E3F2F3}.olho.v b{color:#00565F}.olho.v span{color:#23474B}
+.frase{font-size:clamp(24px,2.6vw,34px);line-height:1.25;font-weight:800;letter-spacing:-.015em;max-width:30ch}
+/* juntar */
+.x-brasa .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:48px;align-items:center}
+.x-brasa p{font-size:20px;line-height:1.5;color:#FFE1CF;max-width:40ch;margin-top:20px}
+.x-brasa p.forte{color:#fff;font-weight:700}
+.junta{display:flex;flex-direction:column;gap:22px}
+.junta .linha{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.chips{display:flex;flex-direction:column;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:rgba(0,0,0,.2);font-size:16px;font-weight:600;transition:transform .55s cubic-bezier(.7,0,.3,1),opacity .4s ease-in,filter .4s}
+.chip i{width:10px;height:10px;border-radius:50%}
+.junto .chip{opacity:0;filter:blur(3px);transform:translateX(150px) scale(.35)!important}
+.junto .chip:nth-child(2){transition-delay:.08s}.junto .chip:nth-child(3){transition-delay:.16s}
+.fogo1{display:flex;align-items:center;gap:12px;padding:16px 24px;border-radius:22px;background:#fff;color:var(--brand-ink);transition:transform .5s var(--ease),box-shadow .5s,opacity .3s;opacity:.55;transform:scale(.94)}
+.fogo1 b{font-size:26px;font-weight:900}
+.junto .fogo1{opacity:1;transform:none;transition-delay:.45s;box-shadow:0 0 0 10px rgba(255,255,255,.18),0 18px 40px rgba(110,31,3,.35)}
+.btn.w{background:#fff;color:var(--brand-ink);align-self:flex-start}
+.conta{font-size:20px;line-height:1.5;color:#FFE1CF}
+.conta b{color:#fff;font-size:28px;font-weight:900}
+/* quiz */
+.quiz{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px;align-items:start}
+.q{background:#fff;border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:20px;min-height:220px;transition:box-shadow .3s var(--ease)}
+.q:hover{box-shadow:0 2px 6px rgba(156,44,5,.10),0 14px 34px rgba(156,44,5,.12)}
+.q>b{font-size:24px;line-height:1.2;font-weight:800;letter-spacing:-.01em}
+.q .abrir{align-self:flex-start;margin-top:auto;background:var(--brand-tint);color:var(--brand-ink);padding:14px 22px;font-size:17px}
+.q .resp{display:flex;flex-direction:column;gap:10px;animation:rev .5s var(--ease) both}
+.q .resp[hidden]{display:none}
+.q .resp b{font-size:30px;line-height:1.05;font-weight:900;color:var(--brand);letter-spacing:-.02em}
+.q .resp span{font-size:17px;line-height:1.5;color:var(--ink2)}
+.q .fechar{align-self:flex-start;background:none;border:0;padding:8px 0;font:600 15px Figtree,sans-serif;color:var(--brand-ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.barras{display:flex;align-items:flex-end;gap:3px;height:72px;margin-top:6px}
+.barras i{flex:1;border-radius:3px 3px 1px 1px;background:#F3CDB9;transform-origin:bottom;animation:cresce .6s var(--ease) both;animation-delay:calc(var(--i) * 18ms)}
+.barras i:last-child{background:var(--brand)}
+.anos{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--ink3)}
+@keyframes rev{from{opacity:0;transform:translateY(8px);filter:blur(4px)}}
+@keyframes cresce{from{transform:scaleY(0)}}
+/* globo */
+.x-noite .topo{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px}
+.x-noite .print{display:block;width:100%;height:auto;border-radius:24px;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 24px 60px rgba(0,0,0,.45)}
+.passos{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px}
+.passos li{display:flex;gap:14px;align-items:flex-start;font-size:18px;line-height:1.45}
+.passos svg{flex:none}
+/* bom saber */
+.saber{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:0 32px}
+.saber li{border-top:1px solid var(--line);padding:18px 0;font-size:18px;line-height:1.45}
+.fecho{background:var(--brand);color:#fff;border-radius:32px;padding:clamp(32px,5vw,64px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:28px}
+.fecho h2{margin:0;font-size:clamp(32px,4vw,54px);line-height:1.02;font-weight:900;letter-spacing:-.03em;max-width:16ch}
+.esp{font-size:17px;line-height:1.5;color:var(--ink2)}
+footer{padding:28px 0 40px;color:var(--ink3);font-size:15px;border-top:1px solid var(--line2)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+.btn:active{transform:scale(.97)}
 
-@media (max-width:1100px){.hero .wrap{grid-template-columns:1fr;min-height:0}.orbita{width:min(100%,560px);margin-top:-12px}.hero .lead{max-width:44ch}.src{grid-template-columns:repeat(2,minmax(0,1fr))}.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.layers{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:860px){.two,.two.w{grid-template-columns:1fr}.big{grid-template-columns:1fr}}
+@media (max-width:1100px){.hero .wrap{grid-template-columns:1fr;min-height:0}.orbita{width:min(100%,560px);margin-top:-12px}.hero .lead{max-width:44ch}}
 @media (max-width:760px){.logo span{display:none}.nav .wrap{gap:8px 12px}.nav nav{gap:2px}.nav nav a{padding:7px 9px;font-size:15px}}
-@media (max-width:560px){body{font-size:17px}#hero-chart text,#br text{font-size:24px}#px text,#hr text,#junta text{font-size:20px}.seg button{padding:11px 13px;font-size:15px}.src{grid-template-columns:1fr}.src div{padding:18px 0;border-bottom:1px solid var(--line2)}.hero .cta .btn{flex:1 1 auto;justify-content:center}.steps,.layers{grid-template-columns:1fr}th,td{font-size:15px;padding:10px 8px 10px 0}}
+@media (max-width:560px){body{font-size:17px}.hero .cta .btn{flex:1 1 auto;justify-content:center}.junto .chip{transform:translateY(40px) scale(.35)!important}}
+@media (prefers-reduced-motion:reduce){
+.play .varre{animation:none}.play .quente,.play .morno{animation-delay:0s;animation-duration:.3s}
+.play .pt,.q .resp,.barras i{animation:fade .3s ease-out both;animation-delay:0s}
+@keyframes fade{from{opacity:0}}
+.chip{transition:opacity .25s}.junto .chip{transform:none!important;filter:none}.junto .fogo1{transition-delay:0s}
+.btn:active{transform:none}}
 </style>
 </head>
 <body>
@@ -180,14 +198,14 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
   <canvas id="sky" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="copy">
-      <h1 id="h1">O mesmo fogo, contado uma vez só.</h1>
-      <p class="lead">Dois sensores da NASA veem o mesmo fogo com pixels e horários diferentes. Juntamos as detecções do MODIS e do VIIRS, uma a uma, na grade de 1 km do MODIS: em 2025, 20,5 milhões de detecções viram 7,26 milhões de focos harmonizados.</p>
+      <h1 id="h1">Além dos focos de calor, <span>uma visão integrada do fogo.</span></h1>
+      <p class="lead">Dois satélites da NASA passam sobre o planeta todo dia procurando calor. Gire a Terra até a sua cidade e veja onde o fogo apareceu.</p>
       <div class="cta">
         <a class="btn p" href="/globo">Abrir o globo
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a class="btn g" href="#como">Como funciona</a>
+        <a class="btn g" href="#como">Como eles veem o fogo</a>
       </div>
-      <p class="meta">Mundo em 2025 · Brasil de 2000 a 2025 · focos MODIS (Terra e Aqua) e VIIRS S-NPP do NASA FIRMS · Space Uai, NASA Space Apps Challenge 2026</p>
+      <p class="meta">Space Uai · NASA Space Apps Challenge 2026 · dados do NASA FIRMS</p>
     </div>
     <figure class="orbita">
       <canvas id="cena" role="img" aria-label="A Terra girando com os focos de fogo harmonizados de 2025 acesos, a Lua e o Sol em órbita"></canvas>
@@ -196,300 +214,163 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
     </figure>
   </div>
 </section>
-<section class="s tint" id="por-que" aria-labelledby="h-pq">
+
+<section class="x x-creme" id="como" aria-labelledby="h-como">
   <div class="wrap">
-    <h2 class="sh" id="h-pq">Por que MODIS e VIIRS não contam igual.</h2>
-    <p class="sp">Um foco de calor é um pixel que o satélite viu bem mais quente que os vizinhos no instante em que passou. O MODIS (satélites Terra e Aqua) e o VIIRS (satélite S-NPP) fazem essa medida de jeitos diferentes, e por isso somar as duas listas conta o mesmo fogo mais de uma vez.</p>
-    <div class="two">
-      <figure class="fig">
-        <h3>Pixel de 1 km contra pixel de 375 m</h3>
-        <svg id="px" viewBox="0 0 520 300" role="img" aria-label="Quadrado de 1 km do MODIS dividido na grade de 375 m do VIIRS, com um fogo pequeno detectado só pelo VIIRS">
-          <rect x="30" y="30" width="240" height="240" fill="#6B4FA0" fill-opacity=".1" stroke="#6B4FA0" stroke-width="3" rx="4"/>
-          <g stroke="#00727F" stroke-width="1.4" stroke-opacity=".7"><line x1="120" x2="120" y1="30" y2="270"/><line x1="210" x2="210" y1="30" y2="270"/><line x1="30" x2="270" y1="120" y2="120"/><line x1="30" x2="270" y1="210" y2="210"/></g>
-          <rect x="120" y="120" width="90" height="90" fill="#00727F" fill-opacity=".14"/>
-          <circle cx="160" cy="158" r="9" fill="#F7801E"/><circle cx="160" cy="158" r="17" fill="#F7801E" fill-opacity=".25"/>
-          <text x="300" y="72" font-size="20" font-weight="800" fill="#6B4FA0">MODIS · 1 km</text>
-          <text x="300" y="98" font-size="17" fill="#4F575E">o fogo pequeno</text>
-          <text x="300" y="120" font-size="17" fill="#4F575E">some no pixel</text>
-          <text x="300" y="176" font-size="20" font-weight="800" fill="#00727F">VIIRS · 375 m</text>
-          <text x="300" y="202" font-size="17" fill="#4F575E">o mesmo fogo</text>
-          <text x="300" y="224" font-size="17" fill="#4F575E">aparece</text>
-        </svg>
-        <p class="cap">Esquema fora de escala exata. Um pixel do MODIS cobre a área de cerca de sete do VIIRS. Um fogo grande acende vários pixels do VIIRS dentro de um só do MODIS; um fogo pequeno só o VIIRS enxerga.</p>
+    <h2 class="h2" id="h-como">Como um satélite vê fogo?</h2>
+    <div class="grade3" id="vigia">
+      <figure class="quadro">
+        <div class="arte"><div class="vigia" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="morno"></i><i></i><i></i><i></i><i class="morno"></i><i class="quente"></i><i class="morno"></i><i></i><i></i><i></i><i class="morno"></i><i></i><i></i><span class="varre"></span></div></div>
+        <figcaption>Lá de cima, ele procura um ponto <b>bem mais quente</b> que os vizinhos.</figcaption>
       </figure>
-      <figure class="fig">
-        <h3>Cada satélite passa numa hora</h3>
-        <svg id="hr" viewBox="0 0 520 300" role="img" aria-label="Detecções de 2025 por hora solar local, para Terra, Aqua e S-NPP"></svg>
-        <p class="cap" id="hr-cap">Detecções de fogo em vegetação no mundo em 2025, por hora solar local. Cada linha tem a sua própria escala.</p>
+      <figure class="quadro">
+        <div class="arte"><div class="ficha" aria-hidden="true">
+          <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4410B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Onde<i></i></div>
+          <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4410B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Que dia<i></i></div>
+          <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4410B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Que hora<i></i></div>
+        </div></div>
+        <figcaption>Quando acha, ele <b>anota</b>: onde, que dia e que hora.</figcaption>
+      </figure>
+      <figure class="quadro">
+        <div class="arte"><div class="mapa" aria-hidden="true"><span class="t1"></span><span class="t2"></span>
+          <i class="pt" style="--i:0;left:38px;top:52px"></i><i class="pt" style="--i:1;left:56px;top:64px"></i><i class="pt" style="--i:2;left:70px;top:48px"></i><i class="pt" style="--i:3;left:150px;top:120px"></i><i class="pt" style="--i:4;left:164px;top:132px"></i><i class="pt" style="--i:5;left:140px;top:140px"></i><i class="pt" style="--i:6;left:96px;top:30px"></i><i class="pt" style="--i:7;left:182px;top:60px"></i><i class="pt" style="--i:8;left:60px;top:140px"></i>
+        </div></div>
+        <figcaption>Cada anotação vira <b>um ponto</b> no mapa.</figcaption>
       </figure>
     </div>
-    <ul class="list" style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 clamp(24px,3vw,48px)">
-      <li style="border-top:1px solid var(--line);padding-top:22px"><b>Tamanho do pixel</b><span>1 km no MODIS, 375 m no VIIRS. O mesmo incêndio vira um ponto numa lista e vários na outra.</span></li>
-      <li><b>Fogos pequenos</b><span>O pixel menor do VIIRS detecta fogos fracos ou pequenos que não esquentam o bastante um pixel inteiro do MODIS. Em 2025, 75,6% dos focos harmonizados foram vistos só pelo VIIRS.</span></li>
-      <li><b>Hora da passagem</b><span>Pelo horário nominal, o Terra cruza perto das 10:30 e das 22:30, e o Aqua e o S-NPP perto das 13:30 e da 01:30. Fogo que começa à tarde escapa do Terra; fogo que apaga cedo escapa dos outros dois.</span></li>
-    </ul>
   </div>
 </section>
 
-<section class="s" id="como" aria-labelledby="h-como">
+<section class="x" aria-labelledby="h-olhos">
   <div class="wrap">
-    <h2 class="sh" id="h-como">Como juntamos os dois.</h2>
-    <p class="sp">Em vez de multiplicar a contagem de um sensor por um fator, olhamos detecção por detecção e perguntamos: na escala do MODIS, isto pode ser o mesmo fogo? Se pode, conta uma vez.</p>
-    <ol class="steps">
-      <li><b>Dia solar local</b><span>Cada detecção vai para a data do lugar onde ocorreu (hora UTC mais a longitude dividida por 15). A passagem da madrugada fica no mesmo dia da passagem da tarde seguinte.</span></li>
-      <li><b>Grade de 1 km do MODIS</b><span>Cada detecção marca a célula da grade senoidal do MODIS em que caiu. Pixel do MODIS esticado na borda da faixa marca também as células vizinhas que ele cobre.</span></li>
-      <li><b>Células vizinhas viram um foco</b><span>Células marcadas que se tocam no mesmo dia, pelos lados ou pelas pontas, formam um foco harmonizado. Entram os dois sensores e todas as passagens do dia.</span></li>
-      <li><b>Quem viu</b><span>Cada foco recebe um rótulo: visto pelos dois sensores, só pelo MODIS ou só pelo VIIRS. Nada é apagado: as detecções originais continuam disponíveis.</span></li>
+    <div><h2 class="h2" id="h-olhos">Dois satélites, dois jeitos de enxergar.</h2><p class="sub">O mesmo pedaço de chão, visto por cada um.</p></div>
+    <div class="grade2">
+      <figure class="olho m">
+        <svg viewBox="0 0 300 300" role="img" aria-label="Três por três quadrados grandes. Só o quadrado com o fogo grande acende; o fogo pequeno não aparece."><rect width="300" height="300" rx="16" fill="#fff"/><rect x="100" y="100" width="100" height="100" fill="#6B4FA0" fill-opacity=".85"/><g stroke="#6B4FA0" stroke-opacity=".35" stroke-width="2"><path d="M100 0v300M200 0v300M0 100h300M0 200h300"/></g><circle cx="150" cy="150" r="26" fill="#F7801E"/><circle cx="150" cy="150" r="40" fill="#F7801E" fill-opacity=".25"/><circle cx="250" cy="248" r="7" fill="#F7801E" fill-opacity=".9"/></svg>
+        <figcaption><b>O satélite mais antigo</b><span>Enxerga em quadrados grandes, de 1 km. Vê o fogo grande, mas o pequeno escapa.</span></figcaption>
+      </figure>
+      <figure class="olho v">
+        <svg viewBox="0 0 300 300" role="img" aria-label="Oito por oito quadrados pequenos. Acendem os quadrados do fogo grande e também o do fogo pequeno."><rect width="300" height="300" rx="16" fill="#fff"/><g fill="#00727F" fill-opacity=".85"><rect x="112.5" y="112.5" width="37.5" height="37.5"/><rect x="150" y="112.5" width="37.5" height="37.5"/><rect x="112.5" y="150" width="37.5" height="37.5"/><rect x="150" y="150" width="37.5" height="37.5"/><rect x="225" y="225" width="37.5" height="37.5"/></g><g stroke="#00727F" stroke-opacity=".3" stroke-width="1.5"><path d="M37.5 0v300M75 0v300M112.5 0v300M150 0v300M187.5 0v300M225 0v300M262.5 0v300M0 37.5h300M0 75h300M0 112.5h300M0 150h300M0 187.5h300M0 225h300M0 262.5h300"/></g><circle cx="150" cy="150" r="26" fill="#F7801E"/><circle cx="150" cy="150" r="40" fill="#F7801E" fill-opacity=".25"/><circle cx="250" cy="248" r="7" fill="#F7801E"/><circle cx="250" cy="248" r="14" fill="#F7801E" fill-opacity=".3"/></svg>
+        <figcaption><b>O satélite mais novo</b><span>Enxerga em quadrados pequenos, de 375 m. Pega até fogo pequeno.</span></figcaption>
+      </figure>
+    </div>
+    <p class="frase">Em 2025, <span style="color:#00727F">3 de cada 4 fogos</span> só o satélite mais novo viu.</p>
+  </div>
+</section>
+
+<section class="x x-brasa" aria-labelledby="h-junta">
+  <div class="wrap">
+    <div>
+      <h2 class="h2" id="h-junta">O mesmo fogo, anotado de novo e de novo.</h2>
+      <p>Os dois satélites passam em horas diferentes e cada um anota o que vê. Somando as listas, um fogo vira vários.</p>
+      <p class="forte">A gente junta as anotações do mesmo fogo e conta uma vez só.</p>
+    </div>
+    <div class="junta" id="junta">
+      <div class="linha">
+        <div class="chips">
+          <span class="chip" style="transform:rotate(-2deg)"><i style="background:#CDBDF0"></i>antigo, 10h30</span>
+          <span class="chip" style="transform:rotate(1.5deg)"><i style="background:#8FE0E8"></i>novo, 13h30</span>
+          <span class="chip" style="transform:rotate(-1deg)"><i style="background:#8FE0E8"></i>novo, de novo</span>
+        </div>
+        <svg width="56" height="32" viewBox="0 0 56 32" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16h44M36 5l12 11-12 11"/></svg>
+        <div class="fogo1"><svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C17.8 8 24 11 24 18.6 24 23.6 20.4 28 16 28S8 23.6 8 19C8 15 10.2 12.8 12 10.8 12.2 13.5 13.4 15 15 15.4 14.2 11.4 14.6 7 16 3Z" fill="#D4410B"/><path d="M16 15c1 2.4 3.6 3.6 3.6 7A3.6 3.6 0 0 1 12.4 22c0-2.2 1.6-3.6 3.6-7z" fill="#FFC02E"/></svg><b id="fogoTxt" aria-live="polite">quantos fogos?</b></div>
+      </div>
+      <button type="button" class="btn w" id="juntaBtn" aria-pressed="false">Juntar as anotações</button>
+      <p class="conta">Em 2025: <b>20,5 milhões</b> de anotações viraram <b>7,26 milhões</b> de fogos.</p>
+    </div>
+  </div>
+</section>
+
+<section class="x x-creme" id="quiz" aria-labelledby="h-quiz">
+  <div class="wrap">
+    <div><h2 class="h2" id="h-quiz">Arrisque um palpite.</h2><p class="sub">Três perguntas que o globo responde. Pense antes de abrir.</p></div>
+    <div class="quiz">
+      <div class="q"><b>Qual país teve mais fogo no mundo em 2025?</b>
+        <button type="button" class="btn abrir" aria-expanded="false">Ver a resposta</button>
+        <div class="resp" hidden><b>Congo, na África.</b><span>A República Democrática do Congo teve quase 1 milhão de focos. O Brasil ficou em 4º lugar.</span><button type="button" class="fechar">Esconder</button></div>
+      </div>
+      <div class="q"><b>Em que mês o planeta mais pegou fogo?</b>
+        <button type="button" class="btn abrir" aria-expanded="false">Ver a resposta</button>
+        <div class="resp" hidden><b>Agosto.</b><span>Quase 920 mil focos num mês só. No Brasil, é tempo seco, longe do verão.</span><button type="button" class="fechar">Esconder</button></div>
+      </div>
+      <div class="q"><b>O Brasil queima mais hoje do que há 20 anos?</b>
+        <button type="button" class="btn abrir" aria-expanded="false">Ver a resposta</button>
+        <div class="resp" hidden><b>Não. Bem menos.</b><span>2025 teve o menor número de focos dos últimos 25 anos.</span>
+          <div class="barras" id="barras" role="img" aria-label="Focos de fogo no Brasil por ano, de 2001 a 2025, caindo até o menor valor em 2025"></div>
+          <div class="anos"><span>2001</span><span>2025</span></div>
+          <button type="button" class="fechar">Esconder</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="x x-noite" id="mapa" aria-labelledby="h-mapa">
+  <div class="wrap">
+    <div class="topo">
+      <h2 class="h2" id="h-mapa" style="max-width:16ch">Gire, aproxime, escolha um dia.</h2>
+      <a class="btn p" href="/globo">Abrir o globo <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <img class="print" src="/img/globo-agosto-2025.jpg" width="2160" height="1350" loading="lazy" alt="O globo do De Olho no Fogo em agosto de 2025 sobre a América do Sul, com os pontos de fogo e a linha do tempo embaixo">
+    <ol class="passos">
+      <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF8A4C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg><span><b>Gire a Terra</b> e aproxime até a sua região.</span></li>
+      <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF8A4C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span><b>Escolha o dia</b> na linha do tempo, até a hora.</span></li>
+      <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF8A4C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5a2 2 0 0 1 4 0v5l4.5.9a2 2 0 0 1 1.6 2.3l-.8 4.6A3 3 0 0 1 15.3 20H11a3 3 0 0 1-2.4-1.2L5 14l1.2-1.2a1.6 1.6 0 0 1 2.3 0L9 13"/></svg><span><b>Toque num ponto</b> e veja qual satélite viu.</span></li>
     </ol>
-    <div class="two w" style="margin-top:64px">
-      <figure class="fig">
-        <h3>Sete detecções, três focos harmonizados</h3>
-        <svg id="junta" viewBox="0 0 700 320" role="img" aria-label="Grade de células de 1 km: quatro células vizinhas com detecções dos dois sensores formam um foco; uma célula isolada com VIIRS e outra com MODIS formam um foco cada">
-          <g stroke="#DCE1E5" stroke-width="1.5">
-            <path d="M40 30h480M40 90h480M40 150h480M40 210h480M40 270h480M40 30v240M100 30v240M160 30v240M220 30v240M280 30v240M340 30v240M400 30v240M460 30v240M520 30v240"/>
-          </g>
-          <path d="M100 90h120v60h60v60h-120v-60h-60z" fill="#D4410B" fill-opacity=".14" stroke="#D4410B" stroke-width="3" stroke-linejoin="round"/>
-          <rect x="400" y="30" width="60" height="60" fill="#00727F" fill-opacity=".14" stroke="#00727F" stroke-width="3" rx="2"/>
-          <rect x="400" y="210" width="60" height="60" fill="#6B4FA0" fill-opacity=".14" stroke="#6B4FA0" stroke-width="3" rx="2"/>
-          <g fill="#6B4FA0"><rect x="118" y="108" width="20" height="20" rx="3"/><rect x="236" y="170" width="20" height="20" rx="3"/><rect x="420" y="230" width="20" height="20" rx="3"/></g>
-          <g fill="#00727F"><circle cx="150" cy="134" r="7"/><circle cx="190" cy="112" r="7"/><circle cx="196" cy="182" r="7"/><circle cx="430" cy="60" r="7"/></g>
-          <text x="545" y="52" font-size="17" font-weight="800" fill="#00727F">só VIIRS</text>
-          <text x="545" y="74" font-size="15" fill="#4F575E">1 foco, 1 célula</text>
-          <text x="545" y="150" font-size="17" font-weight="800" fill="#9C2C05">os dois</text>
-          <text x="545" y="172" font-size="15" fill="#4F575E">1 foco, 4 células</text>
-          <text x="545" y="238" font-size="17" font-weight="800" fill="#6B4FA0">só MODIS</text>
-          <text x="545" y="260" font-size="15" fill="#4F575E">1 foco, 1 célula</text>
-          <g font-size="15" fill="#4F575E"><rect x="40" y="290" width="16" height="16" rx="3" fill="#6B4FA0"/><text x="64" y="303">detecção MODIS</text><circle cx="250" cy="298" r="7" fill="#00727F"/><text x="266" y="303">detecção VIIRS</text><text x="440" y="303">cada quadrado: 1 km</text></g>
-        </svg>
-        <p class="cap">Esquema. No globo, cada foco aparece com a forma das células que ocupa; o foco de uma célula só aparece como a célula preenchida.</p>
-      </figure>
-      <div>
-        <h3 class="h3">O que é um foco harmonizado</h3>
-        <p class="sp" style="margin-top:12px">É um grupo de células de 1 km, vizinhas entre si, que tiveram pelo menos uma detecção de fogo em vegetação no mesmo dia solar local. Cada foco guarda o centro, a hora da primeira e da última detecção, quantas células ocupa, quantas detecções de cada sensor e quais satélites o viram.</p>
-        <p class="note">É uma contagem na régua do MODIS: fogos vizinhos a menos de uma célula de distância entram no mesmo foco, mesmo que no chão sejam dois. Em 2025, 65,7% dos focos ocupam uma célula só; o maior ocupa 1.490.</p>
-        <p style="margin-top:22px"><a href="/metodo">Ler o método completo (em inglês)</a></p>
-      </div>
-    </div>
   </div>
 </section>
 
-<section class="s tint" id="numeros" aria-labelledby="h-n">
-  <div class="wrap">
-    <h2 class="sh" id="h-n">O mundo em 2025, numa régua só.</h2>
-    <p class="sp">Todas as detecções de fogo em vegetação do ano, de todos os níveis de confiança, dos dois sensores.</p>
-    <div class="big">
-      <div><b class="m">3.502.268</b><span>detecções do MODIS (Terra e Aqua, 1 km)</span></div>
-      <div><b class="v">17.014.675</b><span>detecções do VIIRS S-NPP (375 m)</span></div>
-      <div><b class="h">7.260.823</b><span>focos harmonizados: em média, 2,8 detecções para cada foco</span></div>
-    </div>
-    <div class="two" style="margin-top:64px">
-      <div class="fig">
-        <h3>Quem viu cada foco</h3>
-        <div class="share" role="img" aria-label="12,4% dos focos vistos pelos dois sensores, 11,9% só pelo MODIS, 75,6% só pelo VIIRS">
-          <i style="width:12.4%;background:#D4410B"></i><i style="width:11.9%;background:#6B4FA0"></i><i style="width:75.7%;background:#00727F"></i>
-        </div>
-        <ul class="legend">
-          <li><i style="background:#D4410B"></i><span>Os dois sensores<small>903.898 focos</small></span><b>12,4%</b></li>
-          <li><i style="background:#6B4FA0"></i><span>Só MODIS<small>865.435 focos</small></span><b>11,9%</b></li>
-          <li><i style="background:#00727F"></i><span>Só VIIRS<small>5.491.490 focos</small></span><b>75,6%</b></li>
-        </ul>
-        <p class="cap">Dos focos em que o MODIS participa, 51,1% também têm VIIRS. Um foco só MODIS não é erro: pode ser fogo que o Terra viu de manhã e que já tinha apagado à tarde, ou que a nuvem escondeu do S-NPP.</p>
-      </div>
-      <div class="fig">
-        <h3>Onde estão os focos harmonizados</h3>
-        <table>
-          <thead><tr><th scope="col">País</th><th scope="col" class="r">Focos</th><th scope="col" class="r">Vistos pelos dois</th></tr></thead>
-          <tbody>
-            <tr><td>República Democrática do Congo</td><td class="r">999.303</td><td class="r">114.843</td></tr>
-            <tr><td>Angola</td><td class="r">502.889</td><td class="r">90.274</td></tr>
-            <tr><td>Zâmbia</td><td class="r">370.394</td><td class="r">60.910</td></tr>
-            <tr><td>Brasil</td><td class="r">359.348</td><td class="r">47.117</td></tr>
-            <tr><td>Índia</td><td class="r">359.055</td><td class="r">23.434</td></tr>
-          </tbody>
-        </table>
-        <p class="cap">Os cinco primeiros entre 216 países e territórios do arquivo do FIRMS. O foco conta para o país da maioria das suas detecções.</p>
-      </div>
-    </div>
-    <p class="note">Números gerados em 14/11/2026 por <code>scripts/harmonizar_global.py</code>, publicados em <a href="/data/harm/stats.json">/data/harm/stats.json</a>.</p>
-  </div>
-</section>
-
-<section class="s" id="brasil" aria-labelledby="h-br">
-  <div class="wrap">
-    <h2 class="sh" id="h-br">No Brasil, a mesma régua desde 2000.</h2>
-    <p class="sp">O MODIS observa o Brasil desde novembro de 2000; o VIIRS, desde janeiro de 2012. Para comparar anos de antes e de depois, a régua comum são os focos agrupados só com o MODIS, que existem em todos os anos.</p>
-    <div class="two w">
-      <figure class="fig">
-        <h3>Focos harmonizados por ano, Brasil, 2001 a 2025</h3>
-        <svg id="br" viewBox="0 0 760 380" role="img" aria-label="Focos harmonizados por ano no Brasil de 2001 a 2025: estimados até 2011, medidos de 2012 em diante, com a linha dos focos só MODIS"></svg>
-        <div class="key" aria-hidden="true">
-          <span><i style="background:#D4410B"></i>MODIS e VIIRS juntos, medido (2012 em diante)</span>
-          <span><i style="background:#D4410B;opacity:.35"></i>estimado: focos do MODIS × fator do mês</span>
-          <span><i style="background:#6B4FA0;width:24px;height:4px;border-radius:2px"></i>focos só com o MODIS (a régua)</span>
-          <span id="brIc" hidden><i style="background:none;border-left:2px solid #22262A;width:2px;border-radius:0"></i>intervalo de 95% da estimativa (±2,3%)</span>
-        </div>
-        <p class="cap">2000 fica fora do gráfico porque só tem novembro e dezembro. 2001 e a primeira metade de 2002 só têm o satélite Terra: são ordem de grandeza.</p>
-      </figure>
-      <ul class="list">
-        <li><b>Em 2025: 359.392 focos</b><span>231.955 detecções do MODIS e 845.682 do VIIRS no Brasil. 13,1% dos focos foram vistos pelos dois, 19,2% só pelo MODIS e 67,7% só pelo VIIRS.</span></li>
-        <li><b>Antes de 2012, o total é estimativa</b><span>Sem VIIRS, o total harmonizado é calculado: focos do MODIS vezes um fator para cada mês do ano, de 2,62 a 3,74, medido de 2012 a 2021.</span></li>
-        <li><b>Erro típico de 3,35% ao ano</b><span>Escondemos um ano de cada vez, calculamos o fator com os outros nove e tentamos prever o escondido. Erro mediano de 3,35% no total do ano e 6,38% no mês; o pior ano errou 9,47%.</span></li>
-        <li><b>Depois de 2021 o fator piora</b><span>Aplicado a 2022 a 2025, que ficaram fora do cálculo, ele erra de 2,7% a 14% (o pior é 2024). A órbita dos satélites do MODIS vem mudando, e a relação entre os sensores muda junto.</span></li>
-        <li><b>Uma segunda régua: quadrados de 5 km</b><span>A equipe também conta, de 2012 a 2025, em quantos quadrados de 5 km houve fogo por dia: 9.618.064 células-dia. Essa régua inclui o satélite NOAA-20 desde 2018, o que cria um degrau nesse ano; antes e depois dele, as duas contagens andam juntas (correlação acima de 0,99 entre os anos). <a href="/metodo">Ver a comparação no método</a>.</span></li>
-      </ul>
-    </div>
-    <figure class="fig" id="b26" style="margin-top:40px" hidden>
-      <h3>2026 até agora, mês a mês, contra a mediana de 2012 a 2025</h3>
-      <svg id="br26" viewBox="0 0 1200 320" role="img" aria-label="Focos harmonizados por mês no Brasil em 2026 contra a mediana de 2012 a 2025"></svg>
-      <div class="key" aria-hidden="true"><span><i style="background:#D4410B"></i>2026 (focos harmonizados)</span><span><i style="background:#22262A;height:3px;width:22px;border-radius:2px"></i>mediana de 2012 a 2025</span><span><i style="background:#D4410B;opacity:.4"></i>mês em andamento ou dado provisório (NRT)</span></div>
-      <p class="cap" id="b26cap"></p>
-    </figure>
-  </div>
-</section>
-
-<section class="bridge" id="camadas" aria-labelledby="h-g">
-  <div class="wrap">
-    <h2 id="h-g">No globo, você liga e desliga cada camada.</h2>
-    <p class="sp">O globo mostra o mundo em 2025 e o Brasil de 2000 a 2024. Em 2025, a linha do tempo desce do ano ao mês, ao dia e à hora.</p>
-    <ul class="layers">
-      <li><b><i style="background:#D4410B"></i>Harmonizado</b><span>Os focos harmonizados, cada um com a forma das células de 1 km que ocupa e quem o viu.</span></li>
-      <li><b><i style="background:#9B7FD0"></i>Só MODIS</b><span>As detecções originais do MODIS, Terra e Aqua, do jeito que vêm do FIRMS.</span></li>
-      <li><b><i style="background:#2FA7B4"></i>Só VIIRS</b><span>As detecções originais do VIIRS S-NPP, do jeito que vêm do FIRMS.</span></li>
-      <li><b>Fontes fixas de calor</b><span>Vulcões, fontes fixas em terra, como indústrias, e fontes no mar ficam numa camada separada e não entram nos focos: 31.780 locais no mundo em 2025, mais 256 locais suspeitos que o FIRMS não marcou.</span></li>
-      <li><b>Cicatrizes de fogo</b><span>Área queimada do Brasil inteiro, do produto AQ1km do INPE, mês a mês de setembro de 2002 a outubro de 2026, em células de cerca de 1 km.</span></li>
-      <li><b>Linha do tempo</b><span>Hora solar local. Os focos e as detecções, ponto a ponto, existem para 2025; para o Brasil de 2000 a 2024 há a contagem mensal em células de 0,25° e a série diária do país.</span></li>
+<section class="x" aria-labelledby="h-saber" style="padding-bottom:40px">
+  <div class="wrap" style="gap:28px">
+    <h2 class="h2" id="h-saber" style="font-size:clamp(28px,3vw,40px)">Bom saber</h2>
+    <ul class="saber">
+      <li>Um ponto é <b>calor visto do espaço</b>, não um incêndio confirmado.</li>
+      <li><b>Nuvem e fumaça</b> podem esconder o fogo do satélite.</li>
+      <li>O mundo inteiro, ponto a ponto, é de <b>2025</b>. O Brasil vem desde <b>2000</b>.</li>
     </ul>
-    <p style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px"><a class="btn p" href="/globo">Abrir o globo
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
   </div>
 </section>
 
-<section class="s tint" id="limites" aria-labelledby="h-l">
-  <div class="wrap">
-    <h2 class="sh" id="h-l">O que estes números não dizem.</h2>
-    <div class="two" style="margin-top:40px">
-      <ul class="list">
-        <li><b>O mundo inteiro, só em 2025</b><span>A harmonização global cobre um ano. A série longa, de 2000 a 2025, existe só para o Brasil.</span></li>
-        <li><b>Foco não é área queimada</b><span>O número de focos diz onde e quando um satélite viu calor, não quantos hectares queimaram. Um foco também não é um incêndio confirmado.</span></li>
-        <li><b>Só fogo em vegetação</b><span>Entram as detecções que o FIRMS classifica como tipo 0. Vulcões, fontes fixas em terra e no mar (tipos 1, 2 e 3) ficam na camada de fontes fixas. Os 256 locais suspeitos continuam dentro dos focos; a camada só avisa.</span></li>
-        <li><b>Antes de 2012, o total do Brasil é estimativa</b><span>O que foi medido nesses anos é o MODIS. O total com VIIRS é calculado com o fator do mês, com o erro mostrado acima.</span></li>
-      </ul>
-      <ul class="list">
-        <li><b>Cicatrizes são dado provisório do INPE</b><span>O AQ1km conta o pixel de 1 km como totalmente queimado, então a área fica acima da de mapas de 30 m. Cobre só o Brasil; 2002 e 2026 são anos parciais.</span></li>
-        <li><b>Nuvem, fumaça e horário escondem fogo</b><span>Nenhum foco num lugar não garante que não houve fogo. Os satélites passam poucas vezes por dia.</span></li>
-        <li><b>Um satélite VIIRS só</b><span>Usamos o S-NPP, que tem a série mais longa. O NOAA-20 fica fora: só o temos para 2025 e criaria um degrau na série.</span></li>
-        <li><b>Aproximações do método</b><span>Um fogo que cruza a linha de 180° de longitude vira dois focos, e o pixel esticado do MODIS é tratado como um retângulo alinhado a leste-oeste.</span></li>
-      </ul>
+<section class="x" style="padding-top:40px;padding-bottom:48px">
+  <div class="wrap" style="gap:28px">
+    <div class="fecho">
+      <h2>Vá ver onde o fogo passou.</h2>
+      <a class="btn w" href="/globo">Abrir o globo <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
+    <p class="esp">É especialista? O método completo, os dados abertos e as fontes estão em <a href="/metodo">Método</a> e <a href="/referencias">Referências</a>.</p>
   </div>
 </section>
-
-<section class="s" id="dados" aria-labelledby="h-d">
-  <div class="wrap">
-    <h2 class="sh" id="h-d">Dado aberto, método aberto.</h2>
-    <p class="sp">Os números desta página, os arquivos que o globo lê e os scripts que geram tudo a partir dos arquivos do NASA FIRMS estão publicados. O método, com os parâmetros e a validação, está escrito em inglês para o júri.</p>
-    <p style="margin-top:28px;display:flex;flex-wrap:wrap;gap:12px"><a class="btn p" href="/metodo">Método e validação</a><a class="btn g" href="/data/harm/stats.json">Números (stats.json)</a><a class="btn g" href="/referencias">Referências</a></p>
-    <div class="src">
-      <div><b><a href="https://www.earthdata.nasa.gov/data/tools/firms">NASA FIRMS</a></b><span>Focos ativos MODIS C6.1 (Terra e Aqua) e VIIRS S-NPP 375 m. Recurso oficial do desafio.</span></div>
-      <div><b>Grade senoidal do MODIS</b><span>Células de 926,6 m, a régua em que as detecções dos dois sensores são contadas.</span></div>
-      <div><b>INPE, Programa Queimadas</b><span>Área queimada AQ1km, Coleção 2: as cicatrizes de fogo do Brasil, mês a mês.</span></div>
-      <div><b>IBGE</b><span>Limites das unidades da federação, para recortar as cicatrizes por estado.</span></div>
-    </div>
-    <div class="close">
-      <h2>Escolha um dia e veja onde o mundo queimou.</h2>
-      <div style="display:flex;flex-wrap:wrap;gap:12px"><a class="btn p" href="/globo">Abrir o globo</a><a class="btn g" href="/metodo">Ler o método</a></div>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <footer>
   <div class="wrap">
     <span>Space Uai · NASA Space Apps Challenge 2026</span>
-    <span>Desafio: Harmonization of MODIS and VIIRS Hot Spots</span>
+    <span>Dados: NASA FIRMS e INPE</span>
   </div>
 </footer>
 
 <script>
-/* Números de public/data/harm/stats.json (gerado em 14/11/2026 por scripts/harmonizar_global.py).
-   Ficam embutidos para a página abrir sem esperar o arquivo de 90 KB; ao regerar os dados, atualize aqui e no texto. */
+/* nav escura enquanto o hero aparece abaixo da nav (72 px); sem ler layout no scroll */
 (function(){
-var D={
-  m:{ambos:[100625,69383,76953,47544,40407,63567,94900,145204,102512,69031,45374,48398],
-     soM:[76469,69793,82830,61321,48213,58412,92319,103820,81577,71659,63502,55520],
-     soV:[566055,533097,557208,360480,284725,323786,417985,670948,592355,473464,354612,356775],
-     brutoM:[336809,242550,274099,191821,204595,243661,403244,534421,379248,301064,199383,191373],
-     brutoV:[1624894,1303713,1412172,945723,990432,1092914,1633259,2517831,1942236,1576901,991238,983362]},
-  hora:{'Terra':[0,0,0,0,0,0,0,3,65338,408600,92396,8131,749,29,5,6,2,65,879,12406,109632,255117,7238,0],
-        'Aqua':[0,2333,65599,35146,3361,121,10,1,0,6,25,668,8269,165539,1635181,625272,141,0,0,0,0,0,0,0],
-        'S-NPP':[630254,1977707,715465,118544,10736,1007,510,458,787,3187,20017,189609,2725227,8490088,2125793,1817,0,0,3,4,0,3,5,3454]},
-  br:{a0:2001,medido:2012,
-      completo:[663996,836709,834563,900398,876364,625430,909962,569509,455359,713171,435405,573599,418364,510206,633393,523945,531583,397270,507103,540364,469349,521954,553409,547559,359392],
-      focosM:[80193,248423,266570,286763,281298,201052,294473,178194,141355,233399,138825,185188,121523,158438,203165,167673,178739,120336,169036,176257,151963,173861,180486,200393,118690]}};
-var $=function(id){return document.getElementById(id);};
-var nf=function(v,d){return (+v).toLocaleString('pt-BR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
-var NS='http://www.w3.org/2000/svg';
-function el(t,a,txt){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;}
-var MES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'],MESX=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-var estreito=matchMedia('(max-width:560px)').matches;
-var CB='#D4410B',CM='#6B4FA0',CV='#00727F';
+var nav=document.querySelector('.nav'),heroEl=document.querySelector('.hero');
+if('IntersectionObserver' in window)new IntersectionObserver(function(es){var e=es[es.length-1].isIntersecting;nav.classList.toggle('esc',e);nav.classList.toggle('s',!e);},{rootMargin:'-72px 0px 0px 0px'}).observe(heroEl);
 
-/* borda da navegação ao rolar */
-var nav=document.querySelector('.nav'),heroEl=document.querySelector('.hero');function navCor(){var y=scrollY,e=y<heroEl.offsetTop+heroEl.offsetHeight-72;nav.classList.toggle('esc',e);nav.classList.toggle('s',!e&&y>8);}addEventListener('scroll',navCor,{passive:true});navCor();
+/* varredura do satélite: toca uma vez quando a seção aparece */
+var vig=document.getElementById('vigia');
+if(vig){if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es.some(function(e){return e.isIntersecting;})){vig.classList.add('play');io.disconnect();}},{threshold:.35});io.observe(vig);}else vig.classList.add('play');}
 
-/* ---------- hora solar local das detecções, por satélite ---------- */
-(function(){
-  var svg=$('hr'),W=520,H=300,L=14,R=14,T=8,rowH=82,cores={'Terra':CM,'Aqua':'#9B7FD0','S-NPP':CV},nomes=['Terra','Aqua','S-NPP'],sens={'Terra':'MODIS','Aqua':'MODIS','S-NPP':'VIIRS'};
-  var bw=(W-L-R)/24,picos=[];
-  nomes.forEach(function(n,k){var a=D.hora[n],mx=Math.max.apply(null,a),y0=T+k*rowH,yb=y0+rowH-10;
-    svg.appendChild(el('line',{x1:L,x2:W-R,y1:yb,y2:yb,stroke:'#DCE1E5'}));
-    a.forEach(function(v,h){if(!v)return;var hh=Math.max(1.5,v/mx*(rowH-34));var r=el('rect',{x:L+h*bw+1.5,y:yb-hh,width:bw-3,height:hh,rx:2,fill:cores[n]});r.appendChild(el('title',{},n+', '+h+'h: '+nf(v)+' detecções'));svg.appendChild(r);});
-    svg.appendChild(el('text',{x:L+{'Terra':14.5,'Aqua':19.5,'S-NPP':18.5}[n]*bw,y:y0+34,'text-anchor':'middle','font-size':17,'font-weight':800,fill:cores[n]==='#9B7FD0'?CM:cores[n]},n+' · '+sens[n]));
-    var o=a.map(function(v,h){return h;}).sort(function(x,y){return a[y]-a[x];}),dia=o.filter(function(h){return h>=6&&h<18;})[0],noite=o.filter(function(h){return h<6||h>=18;})[0];picos.push([n,dia,noite]);});
-  [0,6,12,18].forEach(function(h){svg.appendChild(el('text',{x:L+h*bw+bw/2,y:H-22,'text-anchor':'middle','font-size':14,fill:'#575F66'},h+'h'));});
-  svg.appendChild(el('text',{x:W-R,y:H-22,'text-anchor':'end','font-size':14,fill:'#575F66'},'23h'));
-  svg.appendChild(el('text',{x:L,y:H-3,'font-size':14,'font-weight':600,fill:'#4F575E'},'hora solar local'));
-  $('hr-cap').textContent='Detecções de fogo em vegetação no mundo em 2025, por hora solar local; cada linha tem a sua própria escala. As horas mais cheias: '+picos.map(function(p){return p[0]+', '+p[1]+'h e '+p[2]+'h';}).join('; ')+'. Terra e Aqua já não passam no horário nominal, porque a órbita dos dois vem mudando.';
-})();
+/* juntar as anotações num fogo só */
+var jt=document.getElementById('junta'),jb=document.getElementById('juntaBtn'),ft=document.getElementById('fogoTxt');
+if(jb)jb.addEventListener('click',function(){var on=!jt.classList.contains('junto');jt.classList.toggle('junto',on);jb.setAttribute('aria-pressed',on);jb.textContent=on?'Separar de novo':'Juntar as anotações';ft.textContent=on?'1 fogo':'quantos fogos?';});
 
-/* ---------- Brasil 2026 até hoje (scripts/brasil_2026.py, API do FIRMS) ---------- */
-fetch('/data/harm/brasil-2026.json').then(function(r){return r.json();}).then(function(j){
-  var svg=$('br26'),W=1200,H=320,L=estreito?100:62,R=10,T=20,B=34,ms=j.meses,max=0;
-  ms.forEach(function(m){max=Math.max(max,m.focos,m.mediana_2012_2025);});var YM=Math.ceil(max/25000)*25000,bw=(W-L-R)/12;
-  var Y=function(v){return T+(1-v/YM)*(H-T-B);};
-  for(var v=0;v<=YM;v+=25000)(function(v){svg.appendChild(el('line',{x1:L,x2:W-R,y1:Y(v),y2:Y(v),stroke:'#DCE1E5'}));svg.appendChild(el('text',{x:L-8,y:Y(v)+5,'text-anchor':'end','font-size':14,fill:'#575F66'},v?nf(v/1000)+' mil':'0'));})(v);
-  var nrt=j.origem&&j.origem.modis&&j.origem.modis.padrao_ate?j.origem.modis.padrao_ate:'';
-  ms.forEach(function(m,i){var x=L+i*bw,prov=m.parcial||(nrt&&('2026-'+String(m.mes).padStart(2,'0')+'-01')>nrt);
-    var r=el('rect',{x:x+5,y:Y(m.focos),width:bw-10,height:Y(0)-Y(m.focos),rx:3,fill:'#D4410B','fill-opacity':prov?.4:1});
-    r.appendChild(el('title',{},MESX[i]+' de 2026: '+nf(m.focos)+' focos'+(m.parcial?' (até o dia '+j.ate.slice(8)+')':'')+'; mediana '+nf(m.mediana_2012_2025)+(m.mediana_mesmos_dias?' nos mesmos dias':'')+' · '+m.via));svg.appendChild(r);
-    svg.appendChild(el('path',{d:'M'+(x+2)+' '+Y(m.mediana_2012_2025)+'H'+(x+bw-2),stroke:'#22262A','stroke-width':3}));
-    svg.appendChild(el('text',{x:x+bw/2,y:H-10,'text-anchor':'middle','font-size':14,fill:'#575F66'},MES[i]));});
-  var u=ms[ms.length-1],pct=Math.round((u.razao_mediana-1)*100);
-  $('b26cap').textContent='Até '+j.ate.split('-').reverse().join('/')+': em '+MESX[u.mes-1]+' (parcial) o Brasil tem '+nf(u.focos)+' focos, '+(pct>=0?pct+'% acima':(-pct)+'% abaixo')+' da mediana dos mesmos dias de 2012 a 2025. NASA FIRMS pela API, mesmo método; dados NRT são provisórios. Depois de 2/11, quando o S-NPP parou, e nos meses com falha dele, a conta usa o NOAA-20 corrigido pelo fator de ponte (0,976).';
-  $('b26').hidden=false;}).catch(function(){});
+/* barras do Brasil, 2001–2025 (completo: medido desde 2012, estimado antes; stats.json) */
+var BR=[663996,836709,834563,900398,876364,625430,909962,569509,455359,713171,435405,573599,418364,510206,633393,523945,531583,397270,507103,540364,469349,521954,553409,547559,359392];
+var bx=document.getElementById('barras');
+if(bx){var mx=Math.max.apply(null,BR);BR.forEach(function(v,i){var b=document.createElement('i');b.style.height=(v/mx*100).toFixed(1)+'%';b.style.setProperty('--i',i);bx.appendChild(b);});}
 
-/* ---------- Brasil 2001–2025: completo (estimado/medido) e focos só-MODIS ---------- */
-(function(){
-  var svg=$('br'),b=D.br,n=b.completo.length,W=760,H=380,L=estreito?100:62,R=10,T=28,B=34,YM=1000000;
-  var bw=(W-L-R)/n,Y=function(v){return T+(1-v/YM)*(H-T-B);},X=function(i){return L+i*bw+bw/2;};
-  [0,250000,500000,750000,1000000].forEach(function(v){svg.appendChild(el('line',{x1:L,x2:W-R,y1:Y(v),y2:Y(v),stroke:'#DCE1E5'}));svg.appendChild(el('text',{x:L-8,y:Y(v)+5,'text-anchor':'end','font-size':14,fill:'#575F66'},v?(v>=1e6?'1 mi':nf(v/1000)+' mil'):'0'));});
-  var i12=b.medido-b.a0,x12=L+i12*bw;
-  svg.appendChild(el('line',{x1:x12,x2:x12,y1:T-18,y2:H-B,stroke:'#4F575E','stroke-dasharray':'3 4'}));
-  svg.appendChild(el('text',{x:x12+8,y:T-8,'font-size':15,'font-weight':700,fill:'#4F575E'},'2012: entra o VIIRS'));
-  b.completo.forEach(function(v,i){var ano=b.a0+i,med=ano>=b.medido;
-    var r=el('rect',{x:L+i*bw+3,y:Y(v),width:bw-6,height:Y(0)-Y(v),rx:3,fill:CB,'fill-opacity':med?1:.35});
-    r.appendChild(el('title',{},ano+': '+nf(v)+' focos harmonizados ('+(med?(ano===2012?'medido de fevereiro em diante':'medido'):'estimado')+'), '+nf(b.focosM[i])+' focos só com o MODIS'));svg.appendChild(r);
-    if(((ano-2001)%(estreito?8:4)===0)||ano===2025)svg.appendChild(el('text',{x:X(i),y:H-8,'text-anchor':'middle','font-size':14,fill:'#575F66'},ano));});
-  svg.appendChild(el('polyline',{points:b.focosM.map(function(v,i){return X(i).toFixed(1)+','+Y(v).toFixed(1);}).join(' '),fill:'none',stroke:'#fff','stroke-width':6,'stroke-linejoin':'round'}));
-  svg.appendChild(el('polyline',{points:b.focosM.map(function(v,i){return X(i).toFixed(1)+','+Y(v).toFixed(1);}).join(' '),fill:'none',stroke:CM,'stroke-width':3,'stroke-linejoin':'round'}));
-  /* intervalo de 95 % dos anos estimados (bootstrap dos anos de calibração, scripts/melhorias_brasil.py) */
-  fetch('/data/harm/melhorias-brasil.json').then(function(r){return r.json();}).then(function(j){
-    j.incerteza_serie.anos.forEach(function(a){var i=a.ano-b.a0;if(i<0||i>=n||a.ano>=b.medido)return;var x=X(i),y0=Y(a.ic95[0]),y1=Y(a.ic95[1]);
-      var g=el('g',{});['M'+x+' '+y0+'V'+y1,'M'+(x-5)+' '+y0+'H'+(x+5),'M'+(x-5)+' '+y1+'H'+(x+5)].forEach(function(d){g.appendChild(el('path',{d:d,stroke:'#22262A','stroke-width':1.6,fill:'none'}));});
-      g.appendChild(el('title',{},a.ano+': intervalo de 95% de '+nf(a.ic95[0])+' a '+nf(a.ic95[1])+' focos (±'+String(a.meia_largura_pct).replace('.',',')+'%)'));svg.appendChild(g);});
-    $('brIc').hidden=false;}).catch(function(){});
-})();
+/* quiz: abrir e esconder a resposta */
+document.querySelectorAll('.q').forEach(function(q){var a=q.querySelector('.abrir'),r=q.querySelector('.resp'),f=q.querySelector('.fechar');
+ a.addEventListener('click',function(){r.hidden=false;a.hidden=true;a.setAttribute('aria-expanded','true');f.focus();});
+ f.addEventListener('click',function(){r.hidden=true;a.hidden=false;a.setAttribute('aria-expanded','false');a.focus();});});
 })();
 </script>
 <script>
@@ -498,17 +379,27 @@ fetch('/data/harm/brasil-2026.json').then(function(r){return r.json();}).then(fu
 'use strict';
 var cv=document.getElementById('cena'),sky=document.getElementById('sky');if(!cv||!sky)return;
 var RED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* modo leve: aparelho fraco, economia de dados ou ?leve=1 (?leve=0 desliga). Canvas em dpr 1, até 480 px, 20 quadros/s */
+var nv=navigator,cn=nv.connection,qLeve=new URLSearchParams(location.search).get('leve');
+var FRACO=qLeve==='1'||(qLeve!=='0'&&((nv.deviceMemory||8)<=4||(nv.hardwareConcurrency||8)<=4||(matchMedia('(pointer:coarse)').matches&&(devicePixelRatio||1)>2)||!!(cn&&cn.saveData)));
+var WMAX=FRACO?480:900,PASSO=FRACO?1/20:1/30;
 var cx=cv.getContext('2d'),sx=sky.getContext('2d');
-var IMG='https://unpkg.com/three-globe@2.30.0/example/img/';
 var TW=1024,TH=512,DIA=null,NOI=null,FT=null;
-var W=0,R=0,E=null,EC=null,EI=null,P=null,M=null,MC=null,MI=null,MP=null,stars=[],SW=0,SH=0;
+var W=0,R=0,E=null,EC=null,EI=null,P=null,M=null,MC=null,MI=null,MP=null,AC=null,SC=null,grupos=[],SW=0,SH=0,tam='';
 var TILT=-23.4*Math.PI/180,INCL=-12*Math.PI/180; /* eixo da Terra inclinado; um pouco mais do hemisfério sul à vista */
-var giro=0,rot=52,tSun=0,tMoon=0,hover=0,hoverAlvo=0,last=0,vis=true,acc=0;
+var giro=0,rot=52,tSun=0,tMoon=0,hover=0,hoverAlvo=0,last=0,noTela=true,vis=true,acc=0,pedido=false;
+/* dt^0,75 tabelado: o sombreado roda para cada pixel do disco a cada quadro */
+var POW=new Float32Array(256);for(var pi=0;pi<256;pi++)POW[pi]=Math.pow(pi/255,.75);
 
-function textura(nome){return new Promise(function(ok,no){var i=new Image();i.crossOrigin='anonymous';
- i.onload=function(){var c=document.createElement('canvas');c.width=TW;c.height=TH;var g=c.getContext('2d');g.drawImage(i,0,0,TW,TH);try{ok(g.getImageData(0,0,TW,TH).data);}catch(e){no(e);}};
- i.onerror=no;i.src=IMG+nome;});}
-Promise.all([textura('earth-blue-marble.jpg'),textura('earth-night.jpg')]).then(function(r){DIA=r[0];NOI=r[1];if(RED)quadro();}).catch(function(){});
+/* texturas do próprio site (public/img, 1024×512); createImageBitmap decodifica fora da thread principal */
+function pixels(src){var c=document.createElement('canvas');c.width=TW;c.height=TH;var g=c.getContext('2d');g.drawImage(src,0,0,TW,TH);return g.getImageData(0,0,TW,TH).data;}
+function viaImg(url){return new Promise(function(ok,no){var i=new Image();i.onload=function(){try{ok(pixels(i));}catch(e){no(e);}};i.onerror=no;i.src=url;});}
+function textura(url){
+ if(!window.createImageBitmap)return viaImg(url);
+ return fetch(url).then(function(r){if(!r.ok)throw new Error(r.status);return r.blob();}).then(function(b){
+  return createImageBitmap(b).then(function(bm){var d=pixels(bm);if(bm.close)bm.close();return d;},function(){return viaImg(url);});});}
+/* se falhar, DIA fica null e a Terra sai no azul liso (ver terra()) */
+Promise.all([textura('/img/terra-dia-1024.webp'),textura('/img/terra-noite-1024.webp')]).then(function(r){DIA=r[0];NOI=r[1];if(RED)quadro();}).catch(function(){});
 /* fogo: focos harmonizados de 2025 somados em células de 1° (scripts/hero_fogo_2025.py), pintados na textura */
 fetch('/data/hero-fogo-2025.json').then(function(r){return r.json();}).then(function(d){
  var c=d.c,mx=1,i,x,y;for(i=0;i<c.length;i++)if(c[i][2]>mx)mx=c[i][2];var lm=Math.log(1+mx),T=new Float32Array(TW*TH);
@@ -517,31 +408,47 @@ fetch('/data/hero-fogo-2025.json').then(function(r){return r.json();}).then(func
   for(y=y0;y<y1;y++)for(x=x0;x<x1;x++)T[y*TW+x]=v;}
  FT=T;if(RED)quadro();}).catch(function(){});
 
-/* geometria fixa da esfera: para cada pixel do disco, normal na tela e (lat, lon0) na textura */
+function tamanho(){return cv.clientWidth+'x'+sky.clientWidth+'x'+sky.clientHeight;}
+
+/* geometria fixa da esfera: para cada pixel do disco, normal na tela e (lat, lon0) na textura.
+   Duas passadas (conta, depois preenche) direto nos arrays tipados */
 function prepara(){
- var dpr=Math.min(2,devicePixelRatio||1),css=cv.clientWidth||600;
- W=Math.round(Math.min(900,css*dpr));if(cv.width!==W){cv.width=W;cv.height=W;}
- R=Math.round(W*.27);var D=2*R+2;
+ var dpr=FRACO?1:Math.min(2,devicePixelRatio||1),css=cv.clientWidth||600;
+ W=Math.round(Math.min(WMAX,css*dpr));if(cv.width!==W){cv.width=W;cv.height=W;}
+ R=Math.round(W*.27);var D=2*R+2,n=0,i,x,y,nx,ny,nz,q;
  EC=document.createElement('canvas');EC.width=EC.height=D;E=EC.getContext('2d');EI=E.createImageData(D,D);
- var n=0,i,x,y,k=[];
- for(y=0;y<D;y++)for(x=0;x<D;x++){var nx=(x-R-.5)/R,ny=-(y-R-.5)/R,q=nx*nx+ny*ny;if(q<1)k.push(y*D+x,nx,ny,Math.sqrt(1-q));}
- n=k.length/4;P={n:n,idx:new Int32Array(n),nx:new Float32Array(n),ny:new Float32Array(n),nz:new Float32Array(n),row:new Int32Array(n),col:new Float32Array(n)};
+ for(y=0;y<D;y++){ny=-(y-R-.5)/R;for(x=0;x<D;x++){nx=(x-R-.5)/R;if(nx*nx+ny*ny<1)n++;}}
+ P={n:n,idx:new Int32Array(n),nx:new Float32Array(n),ny:new Float32Array(n),nz:new Float32Array(n),row:new Int32Array(n),col:new Float32Array(n)};
  var ca=Math.cos(TILT),sa=Math.sin(TILT),cb=Math.cos(INCL),sb=Math.sin(INCL);
- for(i=0;i<n;i++){var a=k[i*4+1],b=k[i*4+2],c=k[i*4+3];P.idx[i]=k[i*4];P.nx[i]=a;P.ny[i]=b;P.nz[i]=c;
-  var x1=a*ca+b*sa,y1=-a*sa+b*ca,y2=y1*cb-c*sb,z2=y1*sb+c*cb;
+ i=0;for(y=0;y<D;y++){ny=-(y-R-.5)/R;for(x=0;x<D;x++){nx=(x-R-.5)/R;q=nx*nx+ny*ny;if(q>=1)continue;nz=Math.sqrt(1-q);
+  P.idx[i]=y*D+x;P.nx[i]=nx;P.ny[i]=ny;P.nz[i]=nz;
+  var x1=nx*ca+ny*sa,y1=-nx*sa+ny*ca,y2=y1*cb-nz*sb,z2=y1*sb+nz*cb;
   var lat=Math.asin(Math.max(-1,Math.min(1,y2))),lon=Math.atan2(x1,z2);
-  P.row[i]=Math.min(TH-1,Math.floor((.5-lat/Math.PI)*TH))*TW;P.col[i]=(lon/(2*Math.PI)+.5)*TW;}
+  P.row[i]=Math.min(TH-1,Math.floor((.5-lat/Math.PI)*TH))*TW;P.col[i]=(lon/(2*Math.PI)+.5)*TW;i++;}}
  /* Lua: esfera pequena com manchas (mares) fixas */
  var rm=Math.max(6,Math.round(R*.27)),DM=2*rm+2;MC=document.createElement('canvas');MC.width=MC.height=DM;M=MC.getContext('2d');MI=M.createImageData(DM,DM);
  /* mares lunares: manchas escuras de bordas suaves, mais ou menos onde ficam na face visível */
  var MAR=[[-.32,.38,.3],[.05,.42,.24],[.3,.2,.2],[-.12,.05,.26],[.28,-.18,.17],[-.45,-.15,.18],[.1,-.45,.12]];
- var mk=[];for(y=0;y<DM;y++)for(x=0;x<DM;x++){var mx=(x-rm-.5)/rm,my=-(y-rm-.5)/rm,mq=mx*mx+my*my;if(mq<1){var mz=Math.sqrt(1-mq),al=.86;
-  for(var q2=0;q2<MAR.length;q2++){var dd=Math.hypot(mx-MAR[q2][0],my-MAR[q2][1])/MAR[q2][2];if(dd<1)al-=.26*(1-dd*dd);}
-  al+=(Math.random()-.5)*.05;mk.push(y*DM+x,mx,my,mz,al);}}
- MP={rm:rm,a:new Float32Array(mk)};
- /* céu */
- var sd=Math.min(2,devicePixelRatio||1);SW=sky.clientWidth;SH=sky.clientHeight;sky.width=Math.round(SW*sd);sky.height=Math.round(SH*sd);sx.setTransform(sd,0,0,sd,0,0);
- var N=Math.round(SW*SH/2600);stars=[];for(i=0;i<N;i++){var b2=Math.pow(Math.random(),2.6);stars.push([Math.random()*SW,Math.random()*SH,.35+b2*1.5,.25+b2*.75,Math.random()*6.28,Math.random()<.12?1:0]);}
+ var nm=0;for(y=0;y<DM;y++){ny=-(y-rm-.5)/rm;for(x=0;x<DM;x++){nx=(x-rm-.5)/rm;if(nx*nx+ny*ny<1)nm++;}}
+ var ma=new Float32Array(nm*5);i=0;
+ for(y=0;y<DM;y++){ny=-(y-rm-.5)/rm;for(x=0;x<DM;x++){nx=(x-rm-.5)/rm;q=nx*nx+ny*ny;if(q>=1)continue;var al=.86;
+  for(var q2=0;q2<MAR.length;q2++){var dd=Math.hypot(nx-MAR[q2][0],ny-MAR[q2][1])/MAR[q2][2];if(dd<1)al-=.26*(1-dd*dd);}
+  al+=(Math.random()-.5)*.05;ma[i++]=y*DM+x;ma[i++]=nx;ma[i++]=ny;ma[i++]=Math.sqrt(1-q);ma[i++]=al;}}
+ MP={rm:rm,a:ma};
+ /* atmosfera pré-renderizada no alfa máximo; no quadro entra com globalAlpha (0,26 a 0,56) */
+ var ra=R*1.09,DA=2*Math.ceil(ra)+2,ha=DA/2;AC=document.createElement('canvas');AC.width=AC.height=DA;
+ var ag=AC.getContext('2d'),gr=ag.createRadialGradient(ha,ha,R*.97,ha,ha,ra);gr.addColorStop(0,'rgba(120,180,255,0)');gr.addColorStop(.22,'rgba(120,180,255,1)');gr.addColorStop(1,'rgba(60,110,255,0)');
+ ag.fillStyle=gr;ag.beginPath();ag.arc(ha,ha,ra,0,2*Math.PI);ag.moveTo(ha+R*.97,ha);ag.arc(ha,ha,R*.97,0,2*Math.PI);ag.fill('evenodd');
+ /* brilho do Sol pré-renderizado com a=1; no quadro entra com globalAlpha=a */
+ var h=W*.2,DS=2*Math.ceil(h)+2,hs=DS/2;SC=document.createElement('canvas');SC.width=SC.height=DS;
+ var sg=SC.getContext('2d'),g2=sg.createRadialGradient(hs,hs,0,hs,hs,h);g2.addColorStop(0,'rgba(255,248,225,.95)');g2.addColorStop(.08,'rgba(255,232,170,.75)');g2.addColorStop(.35,'rgba(255,190,90,.18)');g2.addColorStop(1,'rgba(255,170,60,0)');
+ sg.fillStyle=g2;sg.fillRect(0,0,DS,DS);
+ /* céu em dpr 1; estrelas em 5 níveis de brilho × 2 cores, um fillStyle por grupo e o piscar por grupo */
+ SW=sky.clientWidth;SH=sky.clientHeight;sky.width=SW;sky.height=SH;
+ var N=Math.round(SW*SH/2600);grupos=[];
+ for(i=0;i<10;i++)grupos.push({c:i<5?'rgb(220,232,255)':'rgb(255,226,190)',a:.25+(i%5+.5)/5*.75,ph:Math.random()*6.28,s:[]});
+ for(i=0;i<N;i++){var b2=Math.pow(Math.random(),2.6);grupos[Math.min(4,b2*5|0)+(Math.random()<.12?5:0)].s.push([Math.random()*SW,Math.random()*SH,.35+b2*1.5]);}
+ tam=tamanho();
 }
 
 function sol(){ /* Sol numa órbita larga e inclinada: a parte iluminada da Terra gira com ele */
@@ -555,7 +462,7 @@ function terra(L){
   var t=(dt+.06)/.24;t=t<0?0:(t>1?1:t*t*(3-2*t));
   var limb=.55+.45*nz;
   if(dia){var c=(P.col[i]-off)%TW;if(c<0)c+=TW;j=(P.row[i]+(c|0))*4;
-   var sh=(.12+.95*(dt>0?Math.pow(dt,.75):0))*t*limb,nt=(1-t)*.5*limb;
+   var sh=(.12+.95*(dt>0?POW[(dt*255+.5)|0]:0))*t*limb,nt=(1-t)*.5*limb;
    r=dia[j]*sh+noi[j]*nt;g=dia[j+1]*sh+noi[j+1]*nt*.9;b=dia[j+2]*sh+noi[j+2]*nt*.7+8*(1-t);
    var fo=FT?FT[j>>2]:0;if(fo){var k=fo*.9*t,fa=fo*1.3*(1-t)*limb; /* dia: pinta o ponto de brasa; noite: o ponto brilha */
     r=r*(1-k)+255*k*limb+255*fa;g=g*(1-k)+78*k*limb+92*fa;b=b*(1-k)+8*k*limb+12*fa;}}
@@ -570,9 +477,7 @@ function lua(L){
 
 function brilhoSol(x,y,z){ /* só aparece atrás da Terra ou dos lados; à frente ele está "atrás de quem olha" */
  var a=Math.max(0,Math.min(1,(-z+.1)/.5));if(a<=0)return;
- cx.save();cx.globalCompositeOperation='lighter';
- var h=W*.2,g=cx.createRadialGradient(x,y,0,x,y,h);g.addColorStop(0,'rgba(255,248,225,'+.95*a+')');g.addColorStop(.08,'rgba(255,232,170,'+.75*a+')');g.addColorStop(.35,'rgba(255,190,90,'+.18*a+')');g.addColorStop(1,'rgba(255,170,60,0)');
- cx.fillStyle=g;cx.beginPath();cx.arc(x,y,h,0,7);cx.fill();cx.restore();}
+ var hs=SC.width/2;cx.save();cx.globalCompositeOperation='lighter';cx.globalAlpha=a;cx.drawImage(SC,x-hs,y-hs);cx.restore();}
 
 function quadro(){
  if(!P)prepara();
@@ -587,53 +492,59 @@ function quadro(){
  var rm=MP.rm*ms;if(mz3<0)cx.drawImage(MC,mx-rm,my-rm,2*rm,2*rm);
  cx.drawImage(EC,c-R-1,c-R-1);
  /* atmosfera: anel azul, mais forte no lado do Sol e quando o cursor passa por cima */
- var ag=cx.createRadialGradient(c,c,R*.97,c,c,R*1.09),k=.26+.3*hover;ag.addColorStop(0,'rgba(120,180,255,0)');ag.addColorStop(.22,'rgba(120,180,255,'+k+')');ag.addColorStop(1,'rgba(60,110,255,0)');
- cx.save();cx.globalCompositeOperation='lighter';cx.fillStyle=ag;cx.beginPath();cx.arc(c,c,R*1.09,0,2*Math.PI);cx.moveTo(c+R*.97,c);cx.arc(c,c,R*.97,0,2*Math.PI);cx.fill('evenodd');cx.restore();
+ var ha=AC.width/2;cx.save();cx.globalCompositeOperation='lighter';cx.globalAlpha=.26+.3*hover;cx.drawImage(AC,c-ha,c-ha);cx.restore();
  if(mz3>=0)cx.drawImage(MC,mx-rm,my-rm,2*rm,2*rm);
  if(sp[2]>=0)brilhoSol(sp[0],sp[1],sp[2]);
  /* estrelas do fundo */
  sx.clearRect(0,0,SW,SH);var tw=performance.now()/1000;
- for(var i=0;i<stars.length;i++){var s=stars[i],al=s[3]*(RED?1:.78+.22*Math.sin(tw*1.3+s[4]));sx.fillStyle=s[5]?'rgba(255,226,190,'+al+')':'rgba(220,232,255,'+al+')';sx.fillRect(s[0],s[1],s[2],s[2]);}
+ for(var gi=0;gi<grupos.length;gi++){var G=grupos[gi],st=G.s;sx.globalAlpha=G.a*(RED?1:.78+.22*Math.sin(tw*1.3+G.ph));sx.fillStyle=G.c;
+  for(var si=0;si<st.length;si++)sx.fillRect(st[si][0],st[si][1],st[si][2],st[si][2]);}
+ sx.globalAlpha=1;
 }
 
+function anda(dt){for(var gi=0;gi<grupos.length;gi++){var st=grupos[gi].s;for(var si=0;si<st.length;si++){var s=st[si];s[0]-=dt*(2+s[2]*3);if(s[0]<-2)s[0]=SW+2;}}}
+
 function passo(ts){
+ pedido=false;
  if(!vis){last=0;return;}
  var dt=last?Math.min(.1,(ts-last)/1000):0;last=ts;acc+=dt;
  hover+=(hoverAlvo-hover)*Math.min(1,dt*6);
  rot+=dt*(4+giro);tSun+=dt;tMoon+=dt;
- for(var i=0;i<stars.length;i++){stars[i][0]-=dt*(2+stars[i][2]*3);if(stars[i][0]<-2)stars[i][0]=SW+2;}
- if(acc>=1/30||!dt){acc=0;quadro();}
- requestAnimationFrame(passo);}
+ /* estrelas andam só no quadro desenhado, com o tempo acumulado. Folga de 4 ms: a 60 Hz, 2 quadros somam 33,2 ms, não 33,3 */
+ if(acc>=PASSO-.004||!dt){anda(acc);acc=0;quadro();}
+ pedido=true;requestAnimationFrame(passo);}
 
-function liga(){if(RED){quadro();return;}if(!last)requestAnimationFrame(passo);}
-if('IntersectionObserver' in window)new IntersectionObserver(function(es){vis=es[0].isIntersecting&&!document.hidden;if(vis)liga();},{threshold:0}).observe(cv);
-document.addEventListener('visibilitychange',function(){vis=!document.hidden;if(vis)liga();});
-if(window.ResizeObserver)new ResizeObserver(function(){P=null;quadro();}).observe(cv.parentNode);
+function liga(){if(RED){quadro();return;}if(!pedido){pedido=true;requestAnimationFrame(passo);}}
+if('IntersectionObserver' in window)new IntersectionObserver(function(es){noTela=es[es.length-1].isIntersecting;vis=noTela&&!document.hidden;if(vis)liga();},{threshold:0}).observe(cv);
+document.addEventListener('visibilitychange',function(){vis=noTela&&!document.hidden;if(vis)liga();});
+var tRO=0;if(window.ResizeObserver){var ro=new ResizeObserver(function(){clearTimeout(tRO);tRO=setTimeout(function(){if(tamanho()!==tam){P=null;quadro();}},150);});ro.observe(cv.parentNode);ro.observe(sky);}
 quadro();liga();
 
 /* ---------- clicar na Terra ou em "Abrir o globo": giro rápido, zoom e linhas de velocidade até o globo ---------- */
 var terraBt=document.getElementById('terra');
 terraBt.addEventListener('mouseenter',function(){hoverAlvo=1;});terraBt.addEventListener('mouseleave',function(){hoverAlvo=0;});
 var anim=[],ov=null;
-/* a Terra acelera o giro e cresce até encher a tela, com linhas de velocidade; depois a página já vira o globo */
+/* a Terra acelera o giro e cresce até encher a tela, com linhas de velocidade; depois a página já vira o globo.
+   Só transform no canvas (sem filter) e traços de cor sólida com globalAlpha */
 function voar(dest){
  if(ov)return;
  if(RED){location.href=dest;return;}
  try{sessionStorage.setItem('doof-voo','1');}catch(e){}
  document.documentElement.classList.add('voando');vis=true;liga();
  var r=cv.getBoundingClientRect(),dx=innerWidth/2-(r.left+r.width/2),dy=innerHeight/2-(r.top+r.height/2),k=Math.hypot(innerWidth,innerHeight)/(R*2/(W/r.width))*1.5;
- anim.push(cv.animate([{transform:'none',filter:'none'},{transform:'translate('+dx+'px,'+dy+'px) scale('+k+')',filter:'blur(2px) brightness(1.15)'}],{duration:1150,easing:'cubic-bezier(.75,0,.9,.25)',fill:'forwards'}));
+ anim.push(cv.animate([{transform:'none'},{transform:'translate('+dx+'px,'+dy+'px) scale('+k+')'}],{duration:1150,easing:'cubic-bezier(.75,0,.9,.25)',fill:'forwards'}));
  ov=document.createElement('div');ov.className='voo';ov.setAttribute('aria-hidden','true');var oc=document.createElement('canvas');ov.appendChild(oc);document.body.appendChild(ov);
- var dpr=Math.min(2,devicePixelRatio||1),w=innerWidth,h=innerHeight;oc.width=w*dpr;oc.height=h*dpr;var g=oc.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
+ var dpr=FRACO?1:Math.min(2,devicePixelRatio||1),w=innerWidth,h=innerHeight;oc.width=w*dpr;oc.height=h*dpr;var g=oc.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
  var L=[],t0=performance.now(),D=1150,rmax=Math.hypot(w,h)/2;for(var i=0;i<170;i++)L.push([Math.random()*6.2832,.15+Math.random()*.85,.5+Math.random()*1.4,Math.random()]);
  (function f(now){
   if(!ov)return;var p=Math.min(1,(now-t0)/D),e=p*p*p;giro=900*p*p;
-  g.clearRect(0,0,w,h);
+  g.clearRect(0,0,w,h);g.strokeStyle='rgb(225,238,255)';
   for(var j=0;j<L.length;j++){var l=L[j];if(l[3]>.25+p)continue;
    var r1=rmax*(l[1]*.55+e*1.6*l[2]),len=24+rmax*.9*e*l[2];
    var a=Math.min(.85,.12+p*.9)*(l[1]*.6+.4),x1=w/2+Math.cos(l[0])*r1,y1=h/2+Math.sin(l[0])*r1,x2=w/2+Math.cos(l[0])*(r1+len),y2=h/2+Math.sin(l[0])*(r1+len);
-   var gr=g.createLinearGradient(x1,y1,x2,y2);gr.addColorStop(0,'rgba(200,225,255,0)');gr.addColorStop(1,'rgba(225,238,255,'+a+')');
-   g.strokeStyle=gr;g.lineWidth=.6+l[2]*1.1;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();}
+   g.globalAlpha=a*.6; /* ~ a média do antigo degradê de 0 a a */
+   g.lineWidth=.6+l[2]*1.1;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();}
+  g.globalAlpha=1;
   if(p>.72){g.fillStyle='rgba(0,0,0,'+Math.min(1,(p-.72)/.28)+')';g.fillRect(0,0,w,h);}
   if(p<1)requestAnimationFrame(f);else location.href=dest;
  })(t0);
