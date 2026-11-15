@@ -6,8 +6,8 @@
     "colorMeta": {
       "brand": {
         "role": "primary",
-        "displayName": "Answer Magenta",
-        "canonical": "#E5004B",
+        "displayName": "Answer Ember",
+        "canonical": "#D4410B",
         "tonalRamp": [
           "#4C0019",
           "#80002A",
@@ -21,8 +21,8 @@
       },
       "brand-ink": {
         "role": "primary",
-        "displayName": "Deep Magenta",
-        "canonical": "#B80040",
+        "displayName": "Deep Ember",
+        "canonical": "#9C2C05",
         "tonalRamp": [
           "#4C001B",
           "#80002C",
@@ -36,8 +36,8 @@
       },
       "brand-tint": {
         "role": "primary",
-        "displayName": "Magenta Mist",
-        "canonical": "#FFE8EF",
+        "displayName": "Ember Mist",
+        "canonical": "#FFEDE3",
         "tonalRamp": [
           "#4C0017",
           "#800027",
@@ -346,7 +346,7 @@
       },
       "answer": {
         "displayName": "Answer",
-        "purpose": "Live chart verdict next to the segmented switch; answer word in magenta."
+        "purpose": "Live chart verdict next to the segmented switch; answer word in ember."
       },
       "title-app": {
         "displayName": "App Title",
@@ -452,8 +452,8 @@
     "browserSurface": [
       {
         "name": "selection",
-        "value": "background #FFE8EF; color #B80040",
-        "purpose": "Text selection in Magenta Mist (landing only so far)."
+        "value": "background #FFEDE3; color #9C2C05",
+        "purpose": "Text selection in Ember Mist (landing only so far)."
       },
       {
         "name": "scrollbar",
@@ -462,7 +462,7 @@
       },
       {
         "name": "focus",
-        "value": "outline 3px solid #E5004B, offset 2-3px",
+        "value": "outline 3px solid #D4410B, offset 2-3px",
         "purpose": "All surfaces."
       }
     ]
@@ -472,9 +472,9 @@
       "name": "Primary Button (editorial)",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Magenta pill for the one main action on the landing.",
+      "description": "Ember pill for the one main action on the landing.",
       "html": "<a class=\"ds-btn-p\" href=\"#\">Abrir o globo <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
-      "css": ".ds-btn-p{font-family:Figtree,system-ui,sans-serif;display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:15px 26px;font-weight:700;font-size:18px;line-height:1;text-decoration:none;background:#E5004B;color:#fff;box-shadow:0 2px 4px rgba(184,0,64,.18),0 8px 22px rgba(229,0,75,.22);transition:transform .25s cubic-bezier(.16,1,.3,1),background .2s}.ds-btn-p:hover{background:#B80040;transform:translateY(-1px)}.ds-btn-p:focus-visible{outline:3px solid #E5004B;outline-offset:3px}"
+      "css": ".ds-btn-p{font-family:Figtree,system-ui,sans-serif;display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:15px 26px;font-weight:700;font-size:18px;line-height:1;text-decoration:none;background:#D4410B;color:#fff;box-shadow:0 2px 4px rgba(184,0,64,.18),0 8px 22px rgba(229,0,75,.22);transition:transform .25s cubic-bezier(.16,1,.3,1),background .2s}.ds-btn-p:hover{background:#9C2C05;transform:translateY(-1px)}.ds-btn-p:focus-visible{outline:3px solid #D4410B;outline-offset:3px}"
     },
     {
       "name": "Secondary Button (editorial)",
@@ -482,15 +482,15 @@
       "refersTo": "button-secondary",
       "description": "Mist Grey pill beside the primary.",
       "html": "<a class=\"ds-btn-g\" href=\"#\">Ver o calendário</a>",
-      "css": ".ds-btn-g{font-family:Figtree,system-ui,sans-serif;display:inline-flex;align-items:center;border-radius:999px;padding:15px 26px;font-weight:700;font-size:18px;line-height:1;text-decoration:none;background:#F3F5F7;color:#22262A;transition:background .2s}.ds-btn-g:hover{background:#EBEEF1}.ds-btn-g:focus-visible{outline:3px solid #E5004B;outline-offset:3px}"
+      "css": ".ds-btn-g{font-family:Figtree,system-ui,sans-serif;display:inline-flex;align-items:center;border-radius:999px;padding:15px 26px;font-weight:700;font-size:18px;line-height:1;text-decoration:none;background:#F3F5F7;color:#22262A;transition:background .2s}.ds-btn-g:hover{background:#EBEEF1}.ds-btn-g:focus-visible{outline:3px solid #D4410B;outline-offset:3px}"
     },
     {
       "name": "App Button",
       "kind": "button",
       "refersTo": "button-app",
-      "description": "Compact 10px-radius control for the tool surfaces; .pri is the magenta variant.",
+      "description": "Compact 10px-radius control for the tool surfaces; .pri is the ember variant.",
       "html": "<button class=\"ds-abtn\">Exportar</button> <button class=\"ds-abtn pri\">Ver calendário</button>",
-      "css": ".ds-abtn{font-family:Figtree,system-ui,sans-serif;font-size:15px;font-weight:600;color:#22262A;background:#fff;border:1px solid #DCE1E5;border-radius:10px;min-height:46px;padding:0 14px;cursor:pointer}.ds-abtn:hover{border-color:#C5CDD3}.ds-abtn.pri{background:#E5004B;border-color:#E5004B;color:#fff;font-weight:700}.ds-abtn.pri:hover{background:#B80040;border-color:#B80040}.ds-abtn:focus-visible{outline:3px solid #E5004B;outline-offset:2px}"
+      "css": ".ds-abtn{font-family:Figtree,system-ui,sans-serif;font-size:15px;font-weight:600;color:#22262A;background:#fff;border:1px solid #DCE1E5;border-radius:10px;min-height:46px;padding:0 14px;cursor:pointer}.ds-abtn:hover{border-color:#C5CDD3}.ds-abtn.pri{background:#D4410B;border-color:#D4410B;color:#fff;font-weight:700}.ds-abtn.pri:hover{background:#9C2C05;border-color:#9C2C05}.ds-abtn:focus-visible{outline:3px solid #D4410B;outline-offset:2px}"
     },
     {
       "name": "Segmented Switch",
@@ -498,7 +498,7 @@
       "refersTo": "segmented-option-on",
       "description": "Series or period chooser; selected option is an ink fill.",
       "html": "<div class=\"ds-seg\" role=\"group\" aria-label=\"Série\"><button aria-pressed=\"true\">Harmonizado</button><button aria-pressed=\"false\">Sem ajuste</button></div>",
-      "css": ".ds-seg{display:inline-flex;gap:4px;background:#fff;border-radius:999px;padding:5px;box-shadow:0 1px 2px rgba(31,26,23,.06)}.ds-seg button{font-family:Figtree,system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;border:0;background:none;color:#4F575E;padding:12px 18px;border-radius:999px;cursor:pointer;transition:background .25s cubic-bezier(.16,1,.3,1),color .25s}.ds-seg button[aria-pressed=\"true\"]{background:#22262A;color:#fff}.ds-seg button:not([aria-pressed=\"true\"]):hover{background:#F3F5F7;color:#22262A}.ds-seg button:focus-visible{outline:3px solid #E5004B;outline-offset:3px}"
+      "css": ".ds-seg{display:inline-flex;gap:4px;background:#fff;border-radius:999px;padding:5px;box-shadow:0 1px 2px rgba(31,26,23,.06)}.ds-seg button{font-family:Figtree,system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;border:0;background:none;color:#4F575E;padding:12px 18px;border-radius:999px;cursor:pointer;transition:background .25s cubic-bezier(.16,1,.3,1),color .25s}.ds-seg button[aria-pressed=\"true\"]{background:#22262A;color:#fff}.ds-seg button:not([aria-pressed=\"true\"]):hover{background:#F3F5F7;color:#22262A}.ds-seg button:focus-visible{outline:3px solid #D4410B;outline-offset:3px}"
     },
     {
       "name": "Status Badges",
@@ -520,9 +520,9 @@
       "name": "App Navigation",
       "kind": "nav",
       "refersTo": "nav-tab-current",
-      "description": "Tab row of the tool surfaces; current tab in Magenta Mist.",
+      "description": "Tab row of the tool surfaces; current tab in Ember Mist.",
       "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Resumo</a><a href=\"#\">Calendário</a><a href=\"#\">Sensores</a><a href=\"#\">Mapa</a></nav>",
-      "css": ".ds-nav{display:flex;gap:2px;background:#fff;border-radius:14px;padding:6px;box-shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10);width:max-content}.ds-nav a{font-family:Figtree,system-ui,sans-serif;display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;color:#4F575E;text-decoration:none;font-size:14px;font-weight:600}.ds-nav a[aria-current]{background:#FFE8EF;color:#B80040}.ds-nav a:hover{background:#F3F5F7;color:#22262A}.ds-nav a:focus-visible{outline:3px solid #E5004B;outline-offset:2px}"
+      "css": ".ds-nav{display:flex;gap:2px;background:#fff;border-radius:14px;padding:6px;box-shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10);width:max-content}.ds-nav a{font-family:Figtree,system-ui,sans-serif;display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;color:#4F575E;text-decoration:none;font-size:14px;font-weight:600}.ds-nav a[aria-current]{background:#FFEDE3;color:#9C2C05}.ds-nav a:hover{background:#F3F5F7;color:#22262A}.ds-nav a:focus-visible{outline:3px solid #D4410B;outline-offset:2px}"
     },
     {
       "name": "Select Field",
@@ -530,23 +530,23 @@
       "refersTo": "button-app",
       "description": "Select field with its label above (tool surfaces).",
       "html": "<label class=\"ds-f\">Área<select><option>Ouro Preto (MG)</option></select></label>",
-      "css": ".ds-f{font-family:Figtree,system-ui,sans-serif;display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:#575F66}.ds-f select{font:inherit;font-size:15px;font-weight:400;color:#22262A;background:#fff;border:1px solid #DCE1E5;border-radius:10px;min-height:46px;padding:0 14px;min-width:240px}.ds-f select:focus-visible{outline:3px solid #E5004B;outline-offset:2px}"
+      "css": ".ds-f{font-family:Figtree,system-ui,sans-serif;display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:#575F66}.ds-f select{font:inherit;font-size:15px;font-weight:400;color:#22262A;background:#fff;border:1px solid #DCE1E5;border-radius:10px;min-height:46px;padding:0 14px;min-width:240px}.ds-f select:focus-visible{outline:3px solid #D4410B;outline-offset:2px}"
     },
     {
       "name": "Hero Chart Panel",
       "kind": "custom",
       "refersTo": "panel",
       "description": "Mist Grey 28px panel holding the answer and an SVG series chart.",
-      "html": "<div class=\"ds-panel\"><p class=\"ds-ans\"><b>Não.</b> Tende a cair.</p><svg viewBox=\"0 0 300 110\" width=\"100%\" aria-hidden=\"true\"><polyline points=\"10,90 60,88 110,92 160,30 210,20 260,28 290,24\" fill=\"none\" stroke=\"#575F66\" stroke-width=\"2\" stroke-dasharray=\"6 6\" stroke-opacity=\".7\"/><polyline points=\"10,40 60,55 110,48 160,62 210,70 260,66 290,78\" fill=\"none\" stroke=\"#E5004B\" stroke-width=\"4\" stroke-linejoin=\"round\"/><line x1=\"160\" x2=\"160\" y1=\"8\" y2=\"102\" stroke=\"#DCE1E5\"/><text x=\"164\" y=\"16\" font-size=\"11\" fill=\"#575F66\" font-family=\"Figtree,sans-serif\">2012</text></svg></div>",
-      "css": ".ds-panel{font-family:Figtree,system-ui,sans-serif;background:#F3F5F7;border-radius:28px;padding:24px;color:#22262A;max-width:420px}.ds-ans{margin:0 0 10px;font-weight:900;font-size:30px;letter-spacing:-.02em;line-height:1}.ds-ans b{color:#E5004B}"
+      "html": "<div class=\"ds-panel\"><p class=\"ds-ans\"><b>Não.</b> Tende a cair.</p><svg viewBox=\"0 0 300 110\" width=\"100%\" aria-hidden=\"true\"><polyline points=\"10,90 60,88 110,92 160,30 210,20 260,28 290,24\" fill=\"none\" stroke=\"#575F66\" stroke-width=\"2\" stroke-dasharray=\"6 6\" stroke-opacity=\".7\"/><polyline points=\"10,40 60,55 110,48 160,62 210,70 260,66 290,78\" fill=\"none\" stroke=\"#D4410B\" stroke-width=\"4\" stroke-linejoin=\"round\"/><line x1=\"160\" x2=\"160\" y1=\"8\" y2=\"102\" stroke=\"#DCE1E5\"/><text x=\"164\" y=\"16\" font-size=\"11\" fill=\"#575F66\" font-family=\"Figtree,sans-serif\">2012</text></svg></div>",
+      "css": ".ds-panel{font-family:Figtree,system-ui,sans-serif;background:#F3F5F7;border-radius:28px;padding:24px;color:#22262A;max-width:420px}.ds-ans{margin:0 0 10px;font-weight:900;font-size:30px;letter-spacing:-.02em;line-height:1}.ds-ans b{color:#D4410B}"
     }
   ],
   "narrative": {
     "northStar": "The Calibrated Instrument",
-    "overview": "Every surface is a measuring instrument laid on cool white: grey-white grounds, near-black ink, hairline rules, and one magenta that marks the answer or the next action. Colour is never decoration. Fire colours appear only where there is fire data, the two sensor colours only where a sensor is being named, and magenta only where the reader should look or click. Charts are drawn in SVG from the data itself, with annotations written onto the plot, so the evidence carries the page rather than imagery or illustration.\n\nThe system runs at two densities that share one palette, one typeface and one set of colour roles. The tool surfaces (the calendar and the globe) are compact: 16px body, 10px-radius controls, 14px cards with a soft ambient shadow over a grey map ground. The editorial surface (the landing page) is generous: 18px body, Figtree 900 display, pill controls, and 24-28px rounded panels on white. A new surface picks one density and stays in it.\n\nThe look is deliberately scientific, not tactical: the earlier dark \"game HUD\" versions were rejected, and the light world is the incumbent.",
+    "overview": "Every surface is a measuring instrument laid on cool white: grey-white grounds, near-black ink, hairline rules, and one ember that marks the answer or the next action. Colour is never decoration. Fire colours appear only where there is fire data, the two sensor colours only where a sensor is being named, and ember only where the reader should look or click. Charts are drawn in SVG from the data itself, with annotations written onto the plot, so the evidence carries the page rather than imagery or illustration.\n\nThe system runs at two densities that share one palette, one typeface and one set of colour roles. The tool surfaces (the calendar and the globe) are compact: 16px body, 10px-radius controls, 14px cards with a soft ambient shadow over a grey map ground. The editorial surface (the landing page) is generous: 18px body, Figtree 900 display, pill controls, and 24-28px rounded panels on white. A new surface picks one density and stays in it.\n\nThe look is deliberately scientific, not tactical: the earlier dark \"game HUD\" versions were rejected, and the light world is the incumbent.",
     "keyCharacteristics": [
       "Cool white and grey-white grounds, near-black ink, hairline dividers.",
-      "One magenta for answer and action; tints of it for current state and selection.",
+      "One ember for answer and action; tints of it for current state and selection.",
       "Fire ramp, MODIS purple and VIIRS teal are data encodings, never UI chrome.",
       "Figtree only, heavy weights for headlines, tabular numerals for figures.",
       "Charts are hand-drawn SVG built from the data, labelled in place.",
@@ -555,7 +555,7 @@
     "rules": [
       {
         "name": "The One Voice Rule",
-        "body": "Magenta means \"answer\" or \"act\". If it is on screen, it is either the conclusion of a chart, a link, a focus ring, or the primary button. It never fills a decorative shape or a section background.",
+        "body": "Ember means \"answer\" or \"act\". If it is on screen, it is either the conclusion of a chart, a link, a focus ring, or the primary button. It never fills a decorative shape or a section background.",
         "section": "colors"
       },
       {
@@ -585,7 +585,7 @@
       }
     ],
     "dos": [
-      "Do keep magenta to the answer and the action: one primary button per view, the conclusive series, links, focus.",
+      "Do keep ember to the answer and the action: one primary button per view, the conclusive series, links, focus.",
       "Do encode fire only with the fire ramp (Ember Yellow to Fire Red) and sensors only with MODIS Violet and VIIRS Teal, always with a legend.",
       "Do draw charts as SVG from the real data, with labels and annotations on the plot.",
       "Do mark data provenance with the green \"real\" or amber \"simulated\" badge, text included.",

@@ -4,13 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>De Olho no Fogo · globo</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
 <style>
-:root{--brand:#E5004B;--brand-ink:#B80040;--brand-tint:#FFE8EF;--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--map:#E4E9EC;--card:#FFFFFF;--soft:#F3F5F7;--night:#E6EAED;--green:#2E8B57;--green-ink:#1F4D33;--green-tint:#F4F9F5;--warn-ink:#8A5A00;--warn-tint:#FFF3D6;--fire-lo:#FFC02E;--fire-md:#F7801E;--fire-hi:#C8102E;--modis:#6B4FA0;--viirs:#00727F;--scar:#4A3326;--fix:#2B6CB0;--shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10);--tlh:236px}
+:root{--brand:#D4410B;--brand-ink:#9C2C05;--brand-tint:#FFEDE3;--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--map:#E4E9EC;--card:#FFFFFF;--soft:#F3F5F7;--night:#E6EAED;--green:#2E8B57;--green-ink:#1F4D33;--green-tint:#F4F9F5;--warn-ink:#8A5A00;--warn-tint:#FFF3D6;--fire-lo:#FFC02E;--fire-md:#F7801E;--fire-hi:#C8102E;--modis:#6B4FA0;--viirs:#00727F;--scar:#4A3326;--fix:#2B6CB0;--shadow:0 1px 2px rgba(31,26,23,.08),0 6px 20px rgba(31,26,23,.10);--tlh:292px}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
-body{background:var(--map);color:var(--ink);font:15px/1.45 Figtree,system-ui,sans-serif;overflow:hidden}
+body{background:#000;color:var(--ink);font:15px/1.45 Figtree,system-ui,sans-serif;overflow:hidden}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 a{color:var(--brand-ink)}
@@ -26,7 +27,13 @@ a{color:var(--brand-ink)}
 .muted{font-size:12px;color:var(--ink3)}
 .num{font-variant-numeric:tabular-nums}
 
+#ceu{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
 #globe{position:fixed;inset:0;cursor:grab}
+.satm{display:flex;align-items:center;gap:6px;transform:translate(-13px,-9px);pointer-events:none;transition:opacity .25s;filter:drop-shadow(0 1px 3px rgba(0,0,0,.6))}
+.satm span{font:600 12px/1 Figtree,system-ui,sans-serif;color:#fff;background:rgba(5,8,18,.72);padding:4px 7px;border-radius:999px;white-space:nowrap}
+.satm small{font-size:11px;color:#C3CAD4;font-weight:600}
+#chegada{display:none;position:fixed;inset:0;z-index:60;background:#000;pointer-events:none;transition:opacity .7s cubic-bezier(.16,1,.3,1)}
+.voo #chegada{display:block}#chegada.sai{opacity:0}
 #globe:active{cursor:grabbing}
 #globe:focus-visible{outline:3px solid var(--brand);outline-offset:-3px}
 
@@ -54,7 +61,11 @@ a{color:var(--brand-ink)}
 .side{position:fixed;right:16px;top:80px;width:300px;max-height:calc(100dvh - 96px - var(--tlh));z-index:15;display:flex;flex-direction:column;gap:10px;overflow:auto;padding-bottom:2px}
 .side:not(.open){display:none}
 .blk{padding:12px 14px}
-.seg{display:flex;padding:3px;gap:2px;background:var(--soft);border-radius:10px}
+.fx summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:28px}
+.fx summary::after{content:'';width:8px;height:8px;border-right:2px solid var(--ink2);border-bottom:2px solid var(--ink2);transform:rotate(45deg);margin-right:4px}
+.fx[open] summary::after{transform:rotate(-135deg)}
+.fx summary::-webkit-details-marker{display:none}
+.seg{display:flex;flex-wrap:wrap;padding:3px;gap:2px;background:var(--soft);border-radius:10px}
 .seg button{flex:1;min-height:40px;padding:0 8px;border:0;border-radius:8px;background:transparent;font-size:13px;font-weight:600;color:var(--ink2);white-space:nowrap}
 .seg button:hover{background:var(--line2)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
@@ -120,7 +131,20 @@ body.has-side .mapctl{right:328px}
 .tlt b,.tlt span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tlt b{font-size:13px}
 .tlt span{font-size:12.5px;color:var(--ink2)}
-.tlf{display:flex;align-items:center;gap:8px;margin-top:6px;overflow-x:auto;padding:2px 2px 4px;scrollbar-width:thin}
+.tlf{display:flex;flex-wrap:wrap;align-items:center;gap:8px 0;margin-top:8px;padding:2px 2px 4px}
+.tlg{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;padding:0 14px;border-left:1px solid var(--line)}
+.tlg:first-child{padding-left:0;border-left:0}
+.tlgl{flex:none;font-size:12px;font-weight:700;color:var(--ink);margin-right:2px}
+.tlgl small{font-weight:600;color:var(--ink3);font-size:11.5px}
+.pseg{display:inline-flex;gap:2px;padding:3px;background:var(--soft);border-radius:999px}
+.pseg .chip{border-color:transparent;background:transparent;min-height:30px;padding:0 10px}
+.pseg .chip:hover:not([aria-pressed="true"]):not(:disabled){background:var(--card)}
+.pseg .chip:disabled{opacity:.45;cursor:not-allowed}
+.acw{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.acw #btAcum{display:inline-flex;align-items:center;gap:6px}
+.acw .acum{font-size:12px;color:var(--ink2)}
+@media (max-width:700px){.acw .acum{display:none}}
+@media (max-width:700px){.tlf{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;gap:0}.tlg{flex-wrap:nowrap;flex:none}}
 .fld{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink2);white-space:nowrap}
 .fld input,.fld select{min-height:36px;padding:0 6px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
 .fld input:disabled{opacity:.5}
@@ -134,7 +158,7 @@ body.has-side .mapctl{right:328px}
 .tlplot{position:relative;margin-top:4px;height:78px;touch-action:none;-webkit-user-select:none;user-select:none;cursor:crosshair}
 .tlplot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .tlplot svg text{font:11px Figtree,sans-serif;fill:var(--ink3)}
-.selw{position:absolute;top:0;height:60px;background:rgba(229,0,75,.09);border-top:3px solid var(--brand);cursor:grab}
+.selw{position:absolute;top:0;height:60px;background:rgba(212,65,11,.09);border-top:3px solid var(--brand);cursor:grab}
 .selw.ac{background:rgba(34,38,42,.06);border-top:3px dotted var(--ink3);cursor:default;pointer-events:none}
 .selw:active{cursor:grabbing}
 .selw[hidden]{display:none}
@@ -176,7 +200,7 @@ body.clean .mapctl{right:16px}
 .hcard dt{color:var(--ink3)}
 .hcard dd{margin:0;font-variant-numeric:tabular-nums}
 .hcard p{margin:8px 0 0;font-size:12.5px;color:var(--ink2)}
-.fatal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;z-index:5}
+.fatal{color:#E8ECF1;position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;z-index:5}
 
 @media (max-width:1320px){.top .pill{display:none}}
 @media (max-width:1100px){.status{max-width:calc(100vw - 32px);top:auto;bottom:calc(var(--tlh) + 20px)}}
@@ -209,9 +233,10 @@ body.clean .mapctl{right:16px}
 </style>
 </head>
 <body class="has-side">
+<script>try{if(sessionStorage.getItem('doof-voo')){sessionStorage.removeItem('doof-voo');document.documentElement.classList.add('voo');}}catch(e){}</script>
 <header class="top card">
-  <a class="brand" href="/" aria-label="De Olho no Fogo, página inicial"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#E5004B"/><path d="M6 25 Q24 7 42 25 Q24 43 6 25 Z" fill="#fff"/><path d="M24 14 C27 19 31 21 31 27 C31 31.5 27.8 34 24 34 C20.2 34 17 31.5 17 27.4 C17 24 19 22.5 20.4 20.6 C20.6 23 21.8 24.2 23 24.6 C22.4 21 23 17.5 24 14 Z" fill="#E5004B"/><rect x="21.8" y="27.4" width="4.4" height="4.4" fill="#fff"/></svg><b>De Olho no Fogo</b></a>
-  <nav class="nav" aria-label="Páginas"><a href="/">Início</a><a href="/globo" aria-current="page">Globo</a><a href="/metodo">Método</a><a href="/referencias">Referências</a></nav>
+  <a class="brand" href="/" aria-label="De Olho no Fogo, página inicial"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#D4410B"/><path d="M16 4C17.8 8.6 23.5 11.4 23.5 18.6 23.5 23.3 20.2 27 16 27S8.5 23.3 8.5 18.9C8.5 15.2 10.6 13 12.2 11.1 12.4 13.6 13.5 15 14.9 15.4 14.2 11.6 14.7 7.6 16 4Z" fill="#fff"/><path d="M11 20.6Q16 16.2 21 20.6 16 25 11 20.6Z" fill="#D4410B"/><circle cx="16" cy="20.6" r="1.9" fill="#FFC02E"/></svg><b>De Olho no Fogo</b></a>
+  <nav class="nav" aria-label="Páginas"><a href="/">Início</a><a href="/globo" aria-current="page">Globo</a><a href="/metodo">Método</a><a href="/referencias">Referências</a><a href="/time">Time</a></nav>
   <form class="search" id="fq" role="search">
     <label for="q" class="sr">Ir para uma coordenada: latitude, longitude</label>
     <input id="q" type="search" placeholder="Ir para lat, long  (ex.: -12.6, -48.2)" autocomplete="off" inputmode="text">
@@ -221,6 +246,8 @@ body.clean .mapctl{right:16px}
   <span class="pill">NASA FIRMS · MODIS C6.1 + VIIRS S-NPP</span>
 </header>
 
+<canvas id="ceu" aria-hidden="true"></canvas>
+<div id="chegada" aria-hidden="true"></div>
 <div id="globe" role="application" tabindex="0" aria-roledescription="globo" aria-label="Globo interativo com os focos de calor harmonizados. Setas giram, mais e menos aproximam."></div>
 
 <div class="status" id="status" role="status" aria-live="polite"><span class="spin" aria-hidden="true"></span><span>Carregando os dados…</span></div>
@@ -234,24 +261,27 @@ body.clean .mapctl{right:16px}
 <aside class="side open" id="side" aria-label="Camadas e legenda">
   <div class="card sideh"><h2 class="h2">Camadas e legenda</h2><button type="button" class="ib" id="sideMin" aria-expanded="true" aria-controls="side" aria-label="Recolher camadas e legenda" title="Recolher (volta pelo botão Camadas, no topo)"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6l5 5 5-5"/></svg></button></div>
   <div class="blk card">
-    <h2 class="h2" id="ly-f" style="margin-bottom:8px">Camadas de fogo <span class="muted" style="font-weight:400">(ligue quantas quiser)</span></h2>
+    <h2 class="h2" id="ly-f" style="margin-bottom:8px">O que mostrar <span class="muted" style="font-weight:400">(dá para ligar mais de uma)</span></h2>
     <div class="lchips" role="group" aria-labelledby="ly-f" id="segLayer"><button type="button" class="lchip" style="--lc:#C8102E" data-layer="h" aria-pressed="true"><i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5.5"/></svg></i>Harmonizado</button><button type="button" class="lchip" style="--lc:#6B4FA0" data-layer="m" aria-pressed="false"><i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5.5"/></svg></i>MODIS</button><button type="button" class="lchip" style="--lc:#00727F" data-layer="v" aria-pressed="false"><i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5.5"/></svg></i>VIIRS</button></div>
     <p class="muted" id="layerNote" style="margin:8px 0 0"></p>
   </div>
+  <section class="blk card" aria-labelledby="lg-t">
+    <h2 class="h2" id="lg-t" style="margin-bottom:6px">Legenda</h2>
+    <div class="lg" id="legend"></div>
+  </section>
   <div class="blk card layers" role="group" aria-labelledby="ly-t">
     <h2 class="h2" id="ly-t" style="margin-bottom:2px">Outras camadas</h2>
     <label><input type="checkbox" id="ckFix" checked>Fontes fixas de calor<svg class="sw" width="22" height="18" aria-hidden="true"><path d="M11 2l7 7-7 7-7-7z" fill="#fff" stroke="#2B6CB0" stroke-width="1.8"/></svg></label>
     <label><input type="checkbox" id="ckScar">Cicatrizes de queimada (Brasil)<svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="18" height="12" rx="2" fill="#4A3326" fill-opacity=".65"/></svg></label>
     <div id="scarOpt" hidden style="padding:4px 0 2px"><div class="seg" role="group" aria-label="Período das cicatrizes"><button type="button" data-scar="1" aria-pressed="true">Desde janeiro</button><button type="button" data-scar="0" aria-pressed="false">Só no período</button></div></div>
-    <label><input type="checkbox" id="ckGrid">Grade de densidade (0,25°)<svg class="sw" width="22" height="18" aria-hidden="true"><rect x="3" y="2" width="7" height="7" fill="#F7801E"/><rect x="11" y="2" width="7" height="7" fill="#FFD45E"/><rect x="3" y="10" width="7" height="7" fill="#FFD45E"/><rect x="11" y="10" width="7" height="7" fill="#C8102E"/></svg></label>
-    <label><input type="checkbox" id="ckFlame" checked>Efeito de chama nos focos</label>
-    <label><input type="checkbox" id="ckEmber" checked>Efeito de brasa nas cicatrizes</label>
+    <label><input type="checkbox" id="ckGrid">Grade de densidade (~28 km)<svg class="sw" width="22" height="18" aria-hidden="true"><rect x="3" y="2" width="7" height="7" fill="#F7801E"/><rect x="11" y="2" width="7" height="7" fill="#FFD45E"/><rect x="3" y="10" width="7" height="7" fill="#FFD45E"/><rect x="11" y="10" width="7" height="7" fill="#C8102E"/></svg></label>
+    
+    
   </div>
-  <div class="seg card" role="group" aria-label="Fundo do mapa" style="background:var(--card);flex:none"><button type="button" data-base="gray" aria-pressed="true">Mapa</button><button type="button" data-base="topo" aria-pressed="false">Relevo</button><button type="button" data-base="sat" aria-pressed="false">Satélite</button></div>
-  <section class="blk card" aria-labelledby="lg-t">
-    <h2 class="h2" id="lg-t" style="margin-bottom:6px">Legenda</h2>
-    <div class="lg" id="legend"></div>
-  </section>
+  
+  
+  <div class="blk card"><h2 class="h2" id="ly-b" style="margin-bottom:8px">Fundo do mapa</h2><div class="seg" role="group" aria-labelledby="ly-b"><button type="button" data-base="gray" aria-pressed="true">Mapa</button><button type="button" data-base="topo" aria-pressed="false">Relevo</button><button type="button" data-base="sat" aria-pressed="false">Satélite</button><button type="button" data-base="solo" aria-pressed="false">Cobertura do solo</button></div><div id="soloLeg" class="lg" hidden><p class="muted" style="margin:8px 0 4px">Cobertura do solo em 2020 (MODIS MCD12C1, classe IGBP mais comum em 0,05°). Usada no teste do fator por tipo de vegetação.</p><ul id="soloUl"></ul></div></div>
+  <details class="blk card fx layers"><summary class="h2">Efeitos visuais</summary><label><input type="checkbox" id="ckFlame" checked>Chama nos focos</label><label><input type="checkbox" id="ckEmber" checked>Brasa nas cicatrizes</label></details>
   <p class="foot">Dados: NASA FIRMS · MODIS C6.1 + VIIRS S-NPP. Cicatrizes: INPE (AQ1km). Mapa de fundo: Esri.<br>Space Uai · NASA Space Apps Challenge 2026</p>
 </aside>
 
@@ -264,27 +294,16 @@ body.clean .mapctl{right:16px}
   <div class="tlh">
     <button type="button" class="ib play" id="tlPlay" aria-label="Reproduzir"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" fill="#fff"><path id="tlIco" d="M5 3l10 6-10 6z"/></svg></button>
     <div class="tlt"><b id="tl-t">Linha do tempo</b><span id="tlRange" class="num"></span></div>
-    <button type="button" class="ib nav2" id="tlPrev" aria-label="Período anterior" title="Período anterior">&#8249;</button>
-    <button type="button" class="ib nav2" id="tlNext" aria-label="Próximo período" title="Próximo período">&#8250;</button>
-    <label class="fld"><span>Velocidade</span><select id="selVel" aria-label="Velocidade da animação"><option value="0.25">0,25×</option><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option><option value="8">8×</option></select></label>
-    <label class="fld"><span>Rastro</span><select id="selTrail" aria-label="Rastro da animação: por quanto tempo cada detecção fica no mapa"><option value="180">rastro 3 h</option><option value="720">rastro 12 h</option><option value="1440" selected>rastro 1 dia</option><option value="4320">rastro 3 dias</option><option value="0">até o fim</option></select></label>
+    <div class="acw"><button type="button" class="chip" id="btAcum" aria-pressed="false" title="Ligado: durante o play, cada foco e cada cicatriz ficam no mapa e vão se somando; onde queima de novo, a cor fica mais forte"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 13h12M4 10h8M6 7h4M8 3v1"/></svg>Acumular no tempo</button>
+    <span class="acum" id="acumTxt" hidden></span>
+    <button type="button" class="chip" id="btAcumIni" hidden title="Zera a soma e recomeça a acumular a partir daqui">Começar daqui</button></div>
+    <button type="button" class="ib nav2" id="tlPrev" aria-label="Período anterior" title="Período anterior"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg></button>
+    <button type="button" class="ib nav2" id="tlNext" aria-label="Próximo período" title="Próximo período"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></button>
+    
+    
     <button type="button" class="ib" id="tlMin" aria-expanded="true" aria-controls="tlF tlPlot" aria-label="Recolher linha do tempo" title="Recolher linha do tempo"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6l5 5 5-5"/></svg></button>
   </div>
-  <div class="tlf" id="tlF" role="group" aria-label="Filtro de data e hora">
-    <label class="fld">Ano<select id="selAno" aria-label="Selecionar um ano inteiro"></select></label>
-    <label class="fld">De<input type="date" id="dDe" min="2000-01-01" max="2025-12-31" aria-label="Data inicial"></label>
-    <label class="fld">até<input type="date" id="dAte" min="2000-01-01" max="2025-12-31" aria-label="Data final"></label>
-    <span class="sep" aria-hidden="true"></span>
-    <label class="fld" title="Hora solar local: 12:00 é o sol a pino no lugar">Hora solar<input type="time" id="hDe" step="600" aria-label="Hora solar local, de"></label>
-    <label class="fld">às<input type="time" id="hAte" step="600" aria-label="Hora solar local, até"></label>
-    <span class="sep" aria-hidden="true"></span>
-    <button type="button" class="chip" data-pre="ano">Ano inteiro</button><button type="button" class="chip" data-pre="mes">Mês</button><button type="button" class="chip" data-pre="semana">Semana</button><button type="button" class="chip" data-pre="dia">Dia</button><button type="button" class="chip" data-pre="tudo">2000–2025</button>
-    <button type="button" class="chip" data-pre="h1315">13h–15h</button><button type="button" class="chip" data-pre="noite">Só noite</button><button type="button" class="chip" data-pre="diatodo">Dia todo</button>
-    <span class="sep" aria-hidden="true"></span>
-    <button type="button" class="chip" id="btAcum" aria-pressed="false" title="Ligado: tudo o que aconteceu desde o início fica no mapa e vai se somando">Acumular</button>
-    <span class="acum" id="acumTxt" hidden></span>
-    <button type="button" class="chip" id="btAcumIni" hidden title="Zera a soma e recomeça a acumular a partir daqui">Começar daqui</button>
-  </div>
+  <div class="tlf" id="tlF" role="group" aria-label="Filtros da linha do tempo"><div class="tlg" role="group" aria-labelledby="g-per"><span class="tlgl" id="g-per">Período</span><div class="pseg"><button type="button" class="chip" data-pre="dia" aria-pressed="false">Dia</button><button type="button" class="chip" data-pre="semana" aria-pressed="false">Semana</button><button type="button" class="chip" data-pre="mes" aria-pressed="false">Mês</button><button type="button" class="chip" data-pre="ano" aria-pressed="false">Ano</button><button type="button" class="chip" data-pre="tudo" aria-pressed="false">2000–2025</button></div><label class="fld">De<input type="date" id="dDe" min="2000-01-01" max="2025-12-31" aria-label="Data inicial"></label><label class="fld">até<input type="date" id="dAte" min="2000-01-01" max="2025-12-31" aria-label="Data final"></label><label class="fld">Ano<select id="selAno" aria-label="Selecionar um ano inteiro"></select></label></div><div class="tlg" role="group" aria-labelledby="g-hora"><span class="tlgl" id="g-hora" title="Hora solar local: 12:00 é o sol a pino no lugar. Cada satélite passa sempre mais ou menos na mesma hora solar.">Hora do dia <small>(solar local)</small></span><div class="pseg"><button type="button" class="chip" data-pre="diatodo" aria-pressed="false">24 h</button><button type="button" class="chip" data-pre="h1315" aria-pressed="false">13h–15h</button><button type="button" class="chip" data-pre="noite" aria-pressed="false">Noite</button></div><label class="fld" title="Hora solar local: 12:00 é o sol a pino no lugar">das<input type="time" id="hDe" step="600" aria-label="Hora solar local, de"></label><label class="fld">às<input type="time" id="hAte" step="600" aria-label="Hora solar local, até"></label></div><div class="tlg" role="group" aria-labelledby="g-anim"><span class="tlgl" id="g-anim">Animação</span><label class="fld"><span>Velocidade</span><select id="selVel" aria-label="Velocidade da animação"><option value="0.25">0,25×</option><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option><option value="8">8×</option></select></label><label class="fld"><span>Cada foco fica</span><select id="selTrail" aria-label="Rastro da animação: por quanto tempo cada detecção fica no mapa"><option value="180">3 horas</option><option value="720">12 horas</option><option value="1440" selected>1 dia</option><option value="4320">3 dias</option><option value="0">até o fim</option></select></label></div></div>
   <div class="tlplot" id="tlPlot">
     <svg id="tlSvg" aria-hidden="true"></svg>
     <div class="selw ac" id="selAc" hidden></div>
@@ -312,12 +331,12 @@ var A_PTS=.15;   /* abaixo desta altitude (raios do globo) carrega os blocos de 
 var A_BLOB=.032; /* abaixo desta, desenha a forma real dos focos */
 var A_SBLOB=.06; /* abaixo desta, cicatrizes viram manchas */
 var CAP_FOCOS=14000,CAP_CEL=90000,MAX_FETCH=4,MAX_TILES=64,MAX_WANT=48,MAXM=3,CAP_SUB=2.0e6;
-var C={brand:'#E5004B',modis:'#6B4FA0',viirs:'#00727F',ambos:'#F7801E',ambosLn:'#8E1A0A',scar:'#4A3326',ink:'#22262A',soft:'#DCE1E5',hx:'#F5A3BD'};
+var C={brand:'#D4410B',modis:'#6B4FA0',viirs:'#00727F',ambos:'#F7801E',ambosLn:'#8E1A0A',scar:'#4A3326',ink:'#22262A',soft:'#DCE1E5',hx:'#F7B38F'};
 var LCOL={h:C.brand,m:C.modis,v:C.viirs};
 var MES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 var MESC=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 var EB='https://server.arcgisonline.com/ArcGIS/rest/services/';
-var TILES={gray:[EB+'Canvas/World_Light_Gray_Base/MapServer/tile/',16],topo:[EB+'World_Topo_Map/MapServer/tile/',17],sat:[EB+'World_Imagery/MapServer/tile/',17]};
+var TILES={gray:[EB+'Canvas/World_Light_Gray_Base/MapServer/tile/',16],topo:[EB+'World_Topo_Map/MapServer/tile/',17],sat:[EB+'World_Imagery/MapServer/tile/',17],solo:['/data/harm/cobertura-2020.png',0]};
 var HOME={lat:-6,lng:-18,altitude:2.3};
 var LNOME={h:'focos harmonizados',m:'detecções MODIS',v:'detecções VIIRS'};
 var LCURTO={h:'focos',m:'det. MODIS',v:'det. VIIRS'};
@@ -1300,7 +1319,7 @@ function drawTL(){
  $('tlLeg').innerHTML=lg+M.leg;
  moveCur();
 }
-function moveCur(){var el=$('tlCur'),M=DR?DR.M:tlM;if(!playAct()||!M||!M.X){el.hidden=true;return;}el.hidden=false;var v=M.unit==='hora'?(PL.cd-Math.floor(PL.cd))*1440:PL.cd;el.style.transform='translateX('+(M.X(Math.max(M.A,Math.min(M.B,v)))-1).toFixed(1)+'px)';}
+function moveCur(){var el=$('tlCur'),M=DR?DR.M:tlM;if(!playAct()||!M||!M.X){el.hidden=true;updSats();return;}el.hidden=false;var v=M.unit==='hora'?(PL.cd-Math.floor(PL.cd))*1440:PL.cd;el.style.transform='translateX('+(M.X(Math.max(M.A,Math.min(M.B,v)))-1).toFixed(1)+'px)';updSats();}
 function eIdx(E,v){var lo=0,hi=E.length-1;while(lo<hi){var md=(lo+hi)>>1;if(E[md]<v)lo=md+1;else hi=md;}if(lo>0&&Math.abs(E[lo-1]-v)<=Math.abs(E[lo]-v))lo--;return lo;}
 function eFloor(E,v){var i=eIdx(E,v);if(E[i]>v&&i>0)i--;return i;}
 function setFromModel(M,s0,s1){
@@ -1443,7 +1462,12 @@ function writeURL(){
  if(S.acum){q.push('acum=1','acum_ini='+(ymd(S.ac0).d===1?iso(S.ac0).slice(0,7):iso(S.ac0)));}
  try{history.replaceState(null,'',location.pathname+'?'+q.join('&'));}catch(e){}
 }
-function apply(){
+function marcaPresets(){
+ var a=ymd(S.d0),b=ymd(S.d1),on={dia:S.d0===S.d1,semana:S.d1-S.d0===6,mes:a.y===b.y&&a.m===b.m&&a.d===1&&b.d===dim(b.y,b.m),
+  ano:a.y===b.y&&a.m===1&&a.d===1&&b.m===12&&b.d===31,tudo:S.d0===0&&S.d1===DMAX,diatodo:S.h0===0&&S.h1===1440,h1315:S.h0===780&&S.h1===900,noite:S.h0===1080&&S.h1===360};
+ document.querySelectorAll('#tlF [data-pre]').forEach(function(x){x.setAttribute('aria-pressed',on[x.dataset.pre]?'true':'false');});
+}
+function apply(){marcaPresets();
  calcSel();if(globe)alt=globe.pointOfView().altitude;
  if(!SEL.w25&&!BD)loadBD();
  setTimeU();U.fxF.value=S.fxF?1:0;U.fxE.value=S.fxE?1:0;
@@ -1548,6 +1572,9 @@ function sweepBase(){
 function fino(te){if(te&&!te.__fino){te.__fino=1;te.thresholds=te.thresholds.map(function(_,i){return 16/Math.pow(2,i);});return true;}return false;} /* um nível a mais de detalhe: o padrão fica borrado de perto */
 function setBase(){
  var b=TILES[S.base],te=tileEngine();
+ $('soloLeg').hidden=S.base!=='solo';
+ if(S.base==='solo'){if(te)te.clearTiles();globe.globeTileEngineUrl(null).globeImageUrl(b[0]);if(U.halo)U.halo.value=0;return;}
+ globe.globeImageUrl('https://unpkg.com/three-globe@2.30.0/example/img/earth-blue-marble.jpg');
  if(te){fino(te);te.clearTiles();}
  globe.globeTileEngineMaxLevel(b[1]).globeTileEngineUrl(function(x,y,l){return b[0]+l+'/'+y+'/'+x;});
  te=te||tileEngine();
@@ -1559,8 +1586,8 @@ function zoomBy(f){var v=globe.pointOfView();fly(v.lat,v.lng,Math.max(.004,Math.
 function initGlobe(){
  if(typeof Globe==='undefined'){fatal('Não foi possível carregar o globo. Verifique a conexão com a internet.');return;}
  /* animateIn desligado: com ele, cada troca de fundo encolhia o globo a um ponto e travava o pedido de ladrilhos até a animação acabar */
- globe=Globe({animateIn:false})(gEl).width(gEl.clientWidth).height(gEl.clientHeight).backgroundColor('#E4E9EC')
-  .globeImageUrl('https://unpkg.com/three-globe@2.30.0/example/img/earth-blue-marble.jpg').atmosphereColor('#A9BFCF').atmosphereAltitude(.14)
+ globe=Globe({animateIn:false})(gEl).width(gEl.clientWidth).height(gEl.clientHeight).backgroundColor('rgba(0,0,0,0)')
+  .globeImageUrl('https://unpkg.com/three-globe@2.30.0/example/img/earth-blue-marble.jpg').atmosphereColor('#7FB2FF').atmosphereAltitude(.16)
   .onGlobeClick(function(p){if(p&&isFinite(p.lat))pick(p.lat,p.lng);})
   .onZoom(onView);
  U.view={value:[gEl.clientWidth,gEl.clientHeight]};U.pxFix={value:3.2};U.aFix={value:.55};U.pxH={value:3.6};U.pxM={value:2.6};U.pxV={value:2};
@@ -1659,9 +1686,80 @@ Promise.all([getJSON(D+'manifest.json'),getJSON(D+'stats.json')]).then(function(
  if(q.get('acum')==='1'){S.acum=true;var ai=parseISO(q.get('acum_ini'));if(isFinite(ai))S.ac0=Math.min(ai,S.d0);}
  calcSel();
  if(isFinite(n('lat'))&&isFinite(n('lng')))HOME0={lat:n('lat'),lng:n('lng'),altitude:isFinite(n('alt'))?n('alt'):.06};
- initGlobe();if(HOME0&&globe)globe.pointOfView(HOME0);
+ initGlobe();if(HOME0&&globe)globe.pointOfView(HOME0);initSats();chegada();
  setTimeout(loadBD,2500);
 }).catch(function(e){console.error(e);fatal('Não foi possível carregar os dados harmonizados. Recarregue a página.');});
+/* ───────── espaço: céu estrelado atrás do globo (fixo no céu, gira com a câmera e passa devagar) ───────── */
+(function ceu(){
+ var cv=document.getElementById('ceu');if(!cv)return;var g=cv.getContext('2d'),st=[],w=0,h=0,drift=0,last=0,pov='';
+ for(var i=0;i<1400;i++){var z=Math.random()*2-1,b=Math.pow(Math.random(),3.2),la=Math.asin(z),lo=Math.random()*6.2832;st.push([Math.cos(la)*Math.cos(lo),Math.cos(la)*Math.sin(lo),z,.4+b*1.6,.22+b*.78,Math.random()*6.28,Math.random()<.1]);}
+ function size(){var d=Math.min(2,devicePixelRatio||1);w=innerWidth;h=innerHeight;cv.width=Math.round(w*d);cv.height=Math.round(h*d);g.setTransform(d,0,0,d,0,0);pov='';}
+ size();addEventListener('resize',size);
+ (function draw(ts){
+  requestAnimationFrame(draw);if(!globe||document.hidden)return;
+  var dt=last?Math.min(.1,(ts-last)/1000):0;last=ts;if(!REDUCED)drift+=dt*.012;
+  var v=globe.pointOfView(),key=v.lat.toFixed(3)+v.lng.toFixed(3)+v.altitude.toFixed(4)+(REDUCED?'':drift.toFixed(4));if(key===pov)return;pov=key;
+  var la=v.lat*RAD,lo=v.lng*RAD+drift,cl=Math.cos(la),sl=Math.sin(la),co=Math.cos(lo),so=Math.sin(lo);
+  var F=[-cl*co,-cl*so,-sl],E=[-so,co,0],N=[-sl*co,-sl*so,cl],f=(h/2)/Math.tan(globe.camera().fov*RAD/2),tw=ts/1000;
+  g.clearRect(0,0,w,h);
+  for(var i=0;i<st.length;i++){var s=st[i],zc=s[0]*F[0]+s[1]*F[1]+s[2]*F[2];if(zc<.2)continue;
+   var x=w/2+f*(s[0]*E[0]+s[1]*E[1])/zc,y=h/2-f*(s[0]*N[0]+s[1]*N[1]+s[2]*N[2])/zc;if(x<-2||y<-2||x>w+2||y>h+2)continue;
+   var a=s[4]*(REDUCED?1:.8+.2*Math.sin(tw*1.2+s[5]));g.fillStyle=s[6]?'rgba(255,226,190,'+a+')':'rgba(222,233,255,'+a+')';g.fillRect(x,y,s[3],s[3]);}
+ })(0);
+})();
+
+/* ───────── chegada pela página inicial: o globo vem de longe e termina uma rotação ───────── */
+function chegada(){
+ var ov=document.getElementById('chegada');if(!ov)return;
+ if(!document.documentElement.classList.contains('voo')||REDUCED||!globe||HOME0){ov.remove();return;}
+ globe.pointOfView({lat:HOME.lat+14,lng:HOME.lng-220,altitude:7},0);
+ /* espera o primeiro desenho pesado terminar (quadros fluindo) para a rotação não pular direto ao fim */
+ var t0=performance.now(),prev=0,ok=0;
+ (function espera(ts){if(prev&&ts-prev<40&&T3.Mesh)ok++;else ok=0;prev=ts;
+  if(ok<6&&ts-t0<9000){requestAnimationFrame(espera);return;}
+  ov.classList.add('sai');globe.pointOfView(HOME,2600);setTimeout(function(){ov.remove();document.documentElement.classList.remove('voo');},1600);
+ })(0);
+}
+
+/* ───────── satélites: Terra, Aqua e S-NPP na hora do cursor ─────────
+   Órbitas ajustadas às detecções de 2025 (scripts/orbitas_2025.py). O cursor anda em hora solar local;
+   o relógio UTC dos satélites é o da longitude no centro da tela, então quem passa ali coincide com os focos que acendem ali. */
+var ORB=null,SATS=[],SATON=false,SATLON=0,satT=0,satTO=0,MES0=[0,31,59,90,120,151,181,212,243,273,304,334,365];
+var SATCOR={'Terra':'#A48BD6','Aqua':'#A48BD6','S-NPP':'#3FC1CF'},SATSEN={'Terra':'MODIS','Aqua':'MODIS','S-NPP':'VIIRS'};
+fetch('/data/orbitas-2025.json').then(function(r){return r.json();}).then(function(j){ORB=j.sats;
+ SATS=Object.keys(ORB).map(function(n){var el=document.createElement('div');el.className='satm';
+  el.innerHTML='<svg width="26" height="18" viewBox="0 0 26 18" aria-hidden="true"><rect x="1" y="5" width="8" height="8" rx="1" fill="'+SATCOR[n]+'" stroke="#fff" stroke-width="1"/><rect x="17" y="5" width="8" height="8" rx="1" fill="'+SATCOR[n]+'" stroke="#fff" stroke-width="1"/><path d="M9 9h8" stroke="#fff" stroke-width="1.4"/><rect x="10" y="5.5" width="6" height="7" rx="1.5" fill="#E8ECF1"/></svg><span>'+n+' <small>'+SATSEN[n]+'</small></span>';
+  return {n:n,o:ORB[n],el:el,lat:0,lng:0,alt:ORB[n].alt_km/6371};});
+ updSats(true);}).catch(function(){});
+function satPos(o,utcMin){
+ var d=Math.floor(utcMin/1440);if(d<0||d>364)return null;var s=(utcMin-d*1440)*60,m=0;while(m<11&&d>=MES0[m+1])m++;
+ var i=o.inc*RAD,x=(s-o.fase[d])/o.P,u=2*Math.PI*(x-Math.floor(x));
+ return [Math.asin(Math.sin(i)*Math.sin(u))/RAD,15*(12-s/3600)+15*(o.ltan[m]-12)+Math.atan2(Math.cos(i)*Math.sin(u),Math.cos(u))/RAD];
+}
+function semSats(){if(!SATON)return;SATON=false;globe.htmlElementsData([]).pathsData([]);}
+function updSats(force){
+ if(!globe||!ORB)return;
+ if(!(SEL.w25&&playAct())){semSats();return;}
+ var now=performance.now();if(!force&&now-satT<60){if(!satTO)satTO=setTimeout(function(){satTO=0;updSats(true);},70);return;}satT=now;
+ if(!SATON){SATON=true;SATLON=globe.pointOfView().lng;}
+ var utc=(PL.cd-D25)*1440-4*SATLON,paths=[],on=[];
+ SATS.forEach(function(S1){var p=satPos(S1.o,utc);if(!p)return;S1.lat=p[0];S1.lng=((p[1]+540)%360)-180;on.push(S1);
+  var pts=[],prev=null;for(var k=36;k>=0;k--){var q=satPos(S1.o,utc-k*.6);if(!q)continue;var L=q[1];if(prev!==null){while(L-prev>180)L-=360;while(L-prev<-180)L+=360;}prev=L;pts.push([q[0],L,S1.alt]);}
+  if(pts.length>1)paths.push({pts:pts,c:SATCOR[S1.n]});});
+ globe.htmlElementsData(on).pathsData(paths);
+}
+fetch('/data/harm/cobertura-classes.json').then(function(r){return r.json();}).then(function(j){
+ var h='';Object.keys(j.classes).forEach(function(k){if(k==='17'||k==='15')return;var c=j.classes[k];h+='<li><span class="sq" style="background:'+c.cor+'"></span>'+c.nome+'</li>';});$('soloUl').innerHTML=h;}).catch(function(){});
+function initSats(){
+ if(!globe)return;
+ globe.htmlLat('lat').htmlLng('lng').htmlAltitude('alt').htmlElement(function(d){return d.el;}).htmlTransitionDuration(0);
+ if(typeof globe.htmlElementVisibilityModifier==='function')globe.htmlElementVisibilityModifier(function(el,v){el.style.opacity=v?1:0;});
+ globe.pathPoints('pts').pathPointLat(function(p){return p[0];}).pathPointLng(function(p){return p[1];}).pathPointAlt(function(p){return p[2];})
+  .pathColor(function(d){return ['rgba(255,255,255,0)',d.c];}).pathStroke(1.4).pathTransitionDuration(0);
+ /* o relógio dos satélites segue o centro da tela quando a câmera para */
+ globe.controls().addEventListener('end',function(){if(!SATON)return;SATLON=globe.pointOfView().lng;updSats(true);});
+}
+
 window.__dof={S:S,SEL:function(){return SEL;},PL:PL,apply:apply,build:buildDetail,buildScar:buildScar,tiles:tiles,det:det,SB:SB,SC:SC,VC:VC,meshes:meshes,U:U,T3:T3,FR:FR,fps:fpsInfo,dn:dn,ymd:ymd,model:function(){return tlM;},grid:function(){return gridCur;},wanted:function(){return wanted;},setBase:setBase,play:togglePlay,count:countView,nums:nums,modes:function(){return {pts:modePts(),blob:modeBlob(),detail:!!detailOn(),scarBlob:!!(scarBlobMode()&&SB.ok),alt:alt,loop:FR.on};},globe:function(){return globe;}};
 })();
 </script>

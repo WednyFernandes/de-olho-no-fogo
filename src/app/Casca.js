@@ -1,4 +1,4 @@
-const LINKS = [['/', 'Início'], ['/globo', 'Globo'], ['/metodo', 'Método'], ['/referencias', 'Referências']];
+const LINKS = [['/', 'Início'], ['/globo', 'Globo'], ['/metodo', 'Método'], ['/referencias', 'Referências'], ['/time', 'Time']];
 
 export default function Casca({ aqui, children }) {
   return (
@@ -6,7 +6,7 @@ export default function Casca({ aqui, children }) {
       <header className="nav">
         <div className="wrap">
           <a className="logo" href="/" aria-label="De Olho no Fogo, início">
-            <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#E5004B" /><path d="M5 16c3-5 6.6-7.5 11-7.5S24 11 27 16c-3 5-6.6 7.5-11 7.5S8 21 5 16z" fill="#fff" /><circle cx="16" cy="16" r="4.4" fill="#E5004B" /><path d="M16 13.2c1.2 1.1 1.7 2 1.7 2.9a1.7 1.7 0 0 1-3.4 0c0-.9.5-1.8 1.7-2.9z" fill="#FFC02E" /></svg>
+            <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#D4410B" /><path d="M16 4C17.8 8.6 23.5 11.4 23.5 18.6 23.5 23.3 20.2 27 16 27S8.5 23.3 8.5 18.9C8.5 15.2 10.6 13 12.2 11.1 12.4 13.6 13.5 15 14.9 15.4 14.2 11.6 14.7 7.6 16 4Z" fill="#fff" /><path d="M11 20.6Q16 16.2 21 20.6 16 25 11 20.6Z" fill="#D4410B" /><circle cx="16" cy="20.6" r="1.9" fill="#FFC02E" /></svg>
             <span>De Olho no Fogo</span>
           </a>
           <nav aria-label="Páginas">

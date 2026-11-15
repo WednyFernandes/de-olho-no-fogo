@@ -4,6 +4,7 @@ import './globals.css';
 // Padrão das páginas em React; /metodo e /referencias definem o próprio título.
 export const metadata = {
   title: 'De Olho no Fogo',
+  icons: { icon: '/favicon.svg' },
   description: 'Focos de calor do MODIS e do VIIRS (NASA FIRMS) harmonizados ponto a ponto na grade de 1 km do MODIS: o mundo em 2025 e o Brasil de 2000 a 2025.',
 };
 

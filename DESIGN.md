@@ -1,10 +1,10 @@
 ---
 name: De Olho no Fogo
-description: Harmonized MODIS + VIIRS fire record for the whole world, read on white instrument surfaces with one magenta answer.
+description: Harmonized MODIS + VIIRS fire record for the whole world, read on white instrument surfaces with one ember answer.
 colors:
-  brand: "#E5004B"
-  brand-ink: "#B80040"
-  brand-tint: "#FFE8EF"
+  brand: "#D4410B"
+  brand-ink: "#9C2C05"
+  brand-tint: "#FFEDE3"
   ink: "#22262A"
   ink-2: "#4F575E"
   ink-3: "#575F66"
@@ -140,7 +140,7 @@ components:
 
 **Creative North Star: "The Calibrated Instrument"**
 
-Every surface is a measuring instrument laid on cool white: grey-white grounds, near-black ink, hairline rules, and one magenta that marks the answer or the next action. Colour is never decoration. Fire colours appear only where there is fire data, the two sensor colours only where a sensor is being named, and magenta only where the reader should look or click. Charts are drawn in SVG from the data itself, with annotations written onto the plot, so the evidence carries the page rather than imagery or illustration.
+Every surface is a measuring instrument laid on cool white: grey-white grounds, near-black ink, hairline rules, and one ember that marks the answer or the next action. Colour is never decoration. Fire colours appear only where there is fire data, the two sensor colours only where a sensor is being named, and ember only where the reader should look or click. Charts are drawn in SVG from the data itself, with annotations written onto the plot, so the evidence carries the page rather than imagery or illustration.
 
 The system runs at two densities that share one palette, one typeface and one set of colour roles. The tool surface (the globe) is compact: 16px body, 10px-radius controls, 14px cards with a soft ambient shadow over a grey map ground. The editorial surface (the landing page) is generous: 18px body, Figtree 900 display, pill controls, and 24-28px rounded panels on white. A new surface picks one density and stays in it.
 
@@ -148,7 +148,8 @@ The look is deliberately scientific, not tactical: the earlier dark "game HUD" v
 
 **Key Characteristics:**
 - Cool white and grey-white grounds, near-black ink, hairline dividers.
-- One magenta for answer and action; tints of it for current state and selection.
+- One ember for answer and action; tints of it for current state and selection.
+- Brand rebranded to fire on 2026-11-14: ember (#D4410B) replaced the earlier magenta. The logo is a white flame with an eye in it on an ember tile (`public/favicon.svg`). Ember sits inside the fire family on purpose, but the data ramp (#FFC02E / #F7801E / #C8102E) stays the only scale for fire intensity. The landing hero is a warm night with the real 2025 harmonized foci lit on the Earth (`public/data/hero-fogo-2025.json`, from `scripts/hero_fogo_2025.py`).
 - Fire ramp, MODIS purple and VIIRS teal are data encodings, never UI chrome.
 - Figtree only, heavy weights for headlines, tabular numerals for figures.
 - Charts are hand-drawn SVG built from the data, labelled in place.
@@ -159,9 +160,9 @@ The look is deliberately scientific, not tactical: the earlier dark "game HUD" v
 A cool neutral field with one saturated voice and a small, strictly fenced set of data encodings.
 
 ### Primary
-- **Answer Magenta** (brand): primary buttons, the harmonized series line, the "Não." answer, focus rings, the logo tile. The thing to read or press.
-- **Deep Magenta** (brand-ink): hover for primary buttons, link text, "good" values in tables, current-tab text. Magenta at text contrast.
-- **Magenta Mist** (brand-tint): current nav tab, `::selection` background, red-family badges. The quiet form of the answer.
+- **Answer Ember** (brand): primary buttons, the harmonized series line, the "Não." answer, focus rings, the logo tile. The thing to read or press.
+- **Deep Ember** (brand-ink): hover for primary buttons, link text, "good" values in tables, current-tab text. Ember at text contrast.
+- **Ember Mist** (brand-tint): current nav tab, `::selection` background, red-family badges. The quiet form of the answer.
 
 ### Data encodings (not UI colours)
 - **Ember Yellow / Burn Orange / Fire Red** (fire-lo, fire-md, fire-hi): the fire ramp. FRP-coloured hotspot cells, fire dots in diagrams, the flame in the logo mark. Low to high intensity in that order.
@@ -181,7 +182,7 @@ A cool neutral field with one saturated voice and a small, strictly fenced set o
 - **Map Grey** (map) and **Night Grey** (night): app page ground and map canvas background in the tool surfaces.
 
 ### Named Rules
-**The One Voice Rule.** Magenta means "answer" or "act". If it is on screen, it is either the conclusion of a chart, a link, a focus ring, or the primary button. It never fills a decorative shape or a section background.
+**The One Voice Rule.** Ember means "answer" or "act". If it is on screen, it is either the conclusion of a chart, a link, a focus ring, or the primary button. It never fills a decorative shape or a section background.
 
 **The Fenced Data Rule.** Fire ramp colours encode fire; MODIS violet and VIIRS teal encode sensors. None of them may style a button, a heading, or a background that is not data. A legend must exist wherever they appear.
 
@@ -198,7 +199,7 @@ A cool neutral field with one saturated voice and a small, strictly fenced set o
 ### Hierarchy
 - **Display** (900, clamp 52-96px, 0.95): the landing hero question. One per page.
 - **Headline** (900, clamp 36-60px, 1.02): landing section heads, max ~22ch, `text-wrap: balance`.
-- **Answer** (900, clamp 26-36px, 1): the live chart verdict next to the switch; the answer word takes magenta.
+- **Answer** (900, clamp 26-36px, 1): the live chart verdict next to the switch; the answer word takes ember.
 - **Title-app** (800, 28px): page titles in the tool surfaces; h2 24px/800, h3 17px/700.
 - **Title** (800, 20px): figure titles and list item heads on the landing.
 - **Body** (400, 18px editorial / 16px tools, 1.55): lead paragraphs capped at 30-62ch; notes at 70ch.
@@ -233,17 +234,17 @@ Mostly flat, with soft ambient shadows tinted warm-dark (rgba 31,26,23). Depth i
 
 ## Shapes
 
-Soft, rounded rectangles throughout; radius grows with the size of the surface. Tools: 6px chips and code, 10px controls and tooltips, 14px cards and the map, 16-20px sheets (top corners only when docked to the bottom). Editorial: 20px screenshots, 24px figures, 28px hero panel, and fully round pills for buttons, segmented switches and status badges. Borders are 1px Rule Grey hairlines; no heavy outlines. The logo is a 9px-radius magenta tile carrying an eye and a flame.
+Soft, rounded rectangles throughout; radius grows with the size of the surface. Tools: 6px chips and code, 10px controls and tooltips, 14px cards and the map, 16-20px sheets (top corners only when docked to the bottom). Editorial: 20px screenshots, 24px figures, 28px hero panel, and fully round pills for buttons, segmented switches and status badges. Borders are 1px Rule Grey hairlines; no heavy outlines. The logo is a 9px-radius ember tile carrying an eye and a flame.
 
 ## Components
 
 ### Buttons
 Confident and calm; one primary per view.
 - **Shape:** pill (999px) on the editorial surface; 10px-radius, 46px-tall on the tool surfaces.
-- **Primary:** Answer Magenta fill, white text, 700 weight. Editorial padding 15px 26px at 18px (small: 11px 20px at 15px), with the primary glow.
-- **Hover / Focus:** fill shifts to Deep Magenta; editorial primary lifts 1px over 250ms on the shared ease. Focus is a 3px Answer Magenta outline with 2-3px offset everywhere.
+- **Primary:** Answer Ember fill, white text, 700 weight. Editorial padding 15px 26px at 18px (small: 11px 20px at 15px), with the primary glow.
+- **Hover / Focus:** fill shifts to Deep Ember; editorial primary lifts 1px over 250ms on the shared ease. Focus is a 3px Answer Ember outline with 2-3px offset everywhere.
 - **Secondary:** Mist Grey fill, ink text, hover to Faint Rule (editorial); white fill with a Rule Grey border, border darkening on hover (tools).
-- **Text actions:** Deep Magenta link-style buttons in lists and tables.
+- **Text actions:** Deep Ember link-style buttons in lists and tables.
 
 ### Segmented switch
 The signature control: chooses a series, period or layer.
@@ -252,7 +253,7 @@ The signature control: chooses a series, period or layer.
 - **Hover:** unselected options gain a Mist Grey or Faint Rule fill.
 
 ### Chips / Badges
-- **Style:** fully round, 13-15px, 700 weight, tinted ground with the matching dark ink (green real, amber simulated, magenta mist for alerts, fire tint for fire counts).
+- **Style:** fully round, 13-15px, 700 weight, tinted ground with the matching dark ink (green real, amber simulated, ember mist for alerts, fire tint for fire counts).
 - **State:** informational only; they label, they do not toggle.
 
 ### Cards / Containers
@@ -263,22 +264,22 @@ The signature control: chooses a series, period or layer.
 
 ### Inputs / Fields
 - **Style:** white, 1px Rule Grey border, 10px radius, 46px min height, 15px text; labels sit above in 13px/600 Slate.
-- **Focus:** the shared 3px magenta outline.
+- **Focus:** the shared 3px ember outline.
 
 ### Navigation
-- **Tools:** floating white bar (56px) with tabs at 14px/600, 44px tall, 10px radius; current tab in Magenta Mist with Deep Magenta text, hover Mist Grey.
+- **Tools:** floating white bar (56px) with tabs at 14px/600, 44px tall, 10px radius; current tab in Ember Mist with Deep Ember text, hover Mist Grey.
 - **Editorial:** sticky white bar (72px, 94% opacity) with section links at 16px/600 in Graphite, a hairline border that appears on scroll, and a small primary pill at the end; links hide under 1100px, leaving the logo and the pill.
 
 ### Data chart (signature)
-SVG drawn from the data at runtime. The answer series is a 4px Answer Magenta line; the alternative series is a 2px dashed Slate ghost; external references (INPE) are a thin 1.6px ink line. Axes and labels in 14-15px Slate, annotations written onto the plot, a legend row of line swatches beneath. Series changes morph the geometry over 700ms on the shared ease and switch instantly under `prefers-reduced-motion`.
+SVG drawn from the data at runtime. The answer series is a 4px Answer Ember line; the alternative series is a 2px dashed Slate ghost; external references (INPE) are a thin 1.6px ink line. Axes and labels in 14-15px Slate, annotations written onto the plot, a legend row of line swatches beneath. Series changes morph the geometry over 700ms on the shared ease and switch instantly under `prefers-reduced-motion`.
 
 ### Data table
-Hairline-ruled rows, no zebra, no outer border. Compared values in 800 weight; a weakened value drops to Slate 700, the confirmed value takes Deep Magenta. On phones the table restacks into labelled two-column cards.
+Hairline-ruled rows, no zebra, no outer border. Compared values in 800 weight; a weakened value drops to Slate 700, the confirmed value takes Deep Ember. On phones the table restacks into labelled two-column cards.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep magenta to the answer and the action: one primary button per view, the conclusive series, links, focus.
+- **Do** keep ember to the answer and the action: one primary button per view, the conclusive series, links, focus.
 - **Do** encode fire only with the fire ramp (Ember Yellow to Fire Red) and sensors only with MODIS Violet and VIIRS Teal, always with a legend.
 - **Do** draw charts as SVG from the real data, with labels and annotations on the plot.
 - **Do** mark data provenance with the green "real" or amber "simulated" badge, text included.

@@ -1,4 +1,4 @@
-:root{--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--soft:#F3F5F7;--card:#FFFFFF;--brand:#E5004B;--brand-ink:#B80040;--brand-tint:#FFE8EF;--pad:clamp(20px,4.4vw,64px)}
+:root{--ink:#22262A;--ink2:#4F575E;--ink3:#575F66;--line:#DCE1E5;--line2:#EBEEF1;--soft:#F3F5F7;--card:#FFFFFF;--brand:#D4410B;--brand-ink:#9C2C05;--brand-tint:#FFEDE3;--pad:clamp(20px,4.4vw,64px)}
 *{box-sizing:border-box}
 html{scrollbar-color:#C9CFD4 var(--soft)}
 body{margin:0;font-family:Figtree,system-ui,sans-serif;color:var(--ink);background:var(--card);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -57,3 +57,16 @@ footer{border-top:1px solid var(--line2);margin-top:96px;padding:32px 0 48px;col
 .refs-ia li{margin:0 0 10px}
 .refs-ia strong{font-weight:800}
 @media (max-width:640px){.ref dl{grid-template-columns:1fr;gap:0}.ref dt{padding-top:8px}.refs-lede{font-size:18px}}
+
+/* /time */
+.time h1{font-size:clamp(40px,5vw,72px);line-height:1;font-weight:900;letter-spacing:-.035em;margin:24px 0 0}
+.time-lede{font-size:clamp(19px,1.5vw,22px);color:var(--ink2);max-width:58ch;margin-top:20px}
+.time-lista{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
+.time-lista li{display:flex;align-items:center;gap:16px;padding:20px 0;border-top:1px solid var(--line)}
+.time-lista b{display:block;font-size:20px;font-weight:800;line-height:1.25}
+.time-lista small{display:block;font-size:15px;color:var(--ink3);margin-top:4px}
+.time-ini{flex:none;display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:var(--soft);color:var(--ink);font-weight:800;font-size:17px}
+.time-info{display:grid;grid-template-columns:auto 1fr;gap:10px 24px;margin:48px 0 0;padding-top:24px;border-top:1px solid var(--line);font-size:17px}
+.time-info dt{color:var(--ink3);font-weight:600}
+.time-info dd{margin:0}
+@media (max-width:760px){.time-lista{grid-template-columns:1fr}.time-info{grid-template-columns:1fr;gap:2px}.time-info dd{margin-bottom:12px}}

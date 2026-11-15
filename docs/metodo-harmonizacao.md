@@ -205,3 +205,29 @@ Why they were replaced: a factor converts totals of a region and month and says 
 ## Sources
 
 NASA FIRMS (https://www.earthdata.nasa.gov/data/tools/firms, the resource listed by the challenge; archive downloads at https://firms.modaps.eosdis.nasa.gov), INPE Programa Queimadas (https://data.inpe.br/queimadas), IBGE (territorial meshes). Full list with licences and citations at [/referencias](/referencias).
+
+## Improvement tests (Brazil, 14 Nov 2026)
+
+Run by `scripts/melhorias_brasil.py` on the FIRMS yearly files for Brazil, with the same grouping code as the product. Results in `public/data/harm/melhorias-brasil.json`. None of these change the published series yet; they measure what each change would do.
+
+| Test | Result |
+|---|---|
+| **NOAA-20 bridge** (S-NPP stopped on 2 Nov 2026) | Harmonized foci MODIS ∪ S-NPP ÷ MODIS ∪ NOAA-20, months with both VIIRS in 2018–2025: **0.976** on average (raw detections: 10.79 M S-NPP vs 10.69 M NOAA-20). Leave-one-year-out median error **1.03 %** per year (max 2.96 %, 2024). NOAA-20 can carry the series on with a monthly factor. |
+| **MODIS pixel footprint** | Already in the method: MODIS detections with scan or track > 1 km also occupy the cells under their footprint. |
+| **Time window** (2025) | Splitting foci when detections fall in different fixed local-solar windows adds **+9.5 %** foci (12 h), **+14.5 %** (6 h), **+18.7 %** (3 h) over the 359,392 same-day foci. The same-day rule is the main lever on the count; a fixed-window split is an approximation (a fire crossing a window boundary also splits). |
+| **Observation opportunities** | Overpasses per day inside the swath (orbits fitted to the 2025 detections, July): at the equator Terra 1.72, Aqua 1.72, S-NPP 2.17; at 30° S 2.08, 1.97, 2.56; at 60° S 3.78, 3.53, 4.78. A place at 30° S is seen about 20 % more often than one at the equator, which favours higher latitudes in raw counts. |
+| **Intensity (FRP)** | On foci seen by both sensors the median FRP ratio MODIS/VIIRS is **2.28** (the 375 m pixel sees less fire per pixel). Harmonized FRP per focus = max(FRP MODIS, FRP VIIRS × 2.28); yearly harmonized FRP for 2012–2025 is 0.73–1.37 times the raw MODIS total (one value per focus, so repeated passes are not summed). |
+| **Uncertainty of the estimated series** | Bootstrap of the 10 calibration years (2,000 resamples): the 95 % interval of each estimated year (2001–2011) is about **±2.3 %** (e.g. 2005: 876,366, interval 859,478–899,454). 2000 (Terra only, from November) ±4.6 %. |
+
+### With Google Earth Engine and the FIRMS API (15 Nov 2026)
+
+Run by `scripts/ee_brasil.py` (project registered for non-commercial use), `scripts/melhorias_ee.py` and `scripts/brasil_2026.py`. Results in `public/data/harm/melhorias-ee.json` and `brasil-2026.json`.
+
+| Test | Result |
+|---|---|
+| **Validation against burned area** (MCD64A1, 2012–2025, 168 months, Brazil) | Correlation with monthly burned area: harmonized foci **r = 0.84**, raw detections MODIS + VIIRS **r = 0.96**; yearly 0.73 vs 0.92. Burned area follows the number of detections more than the number of foci: a large fire is one focus but many detections and much area. The harmonized focus counts fire events; it is not a proxy for area. 0.33 km² of mapped burned area per harmonized focus. |
+| **Land-cover factor** (MCD12C1 IGBP 2020, 0.05°) | Factors differ by class: savanna (cerrado) 3.23, evergreen forest 2.93, grassland 3.11, woody savanna 3.45, cropland 2.47 (single factor 3.12). Leave-one-year-out yearly error: single factor **2.81 %**, per-class **2.90 %**. No gain at national level, so the published series keeps one factor per month. The land-cover map is a base layer on the globe. |
+| **Cloud screening** (MOD09GA cloud/mixed flags, 2025, 0.25°) | Fire-weighted cloud fraction goes from 0.36 (July) to 0.81 (December). Dividing foci by the clear fraction would add +73 % (July) to +142 % (April). Not adopted: it assumes fire is as likely under cloud as in clear sky, and the MOD09GA flag also marks smoke, so it overcorrects most in the burning season. It is reported as an upper bound of what clouds can hide. |
+| **2026 to date** (FIRMS area API, Brazil, 1 Jan–14 Nov) | Same method; standard product until July/August, NRT after. Months without full S-NPP use MODIS ∪ NOAA-20 × the bridge factor. August–October 2026 at 51–72 % of the 2012–2025 median; November (14 days) at 102 % of the median of the same days. |
+
+Still not done: global burn scars from GWIS (GlobFire perimeters); the GWIS server certificate had expired and the download was blocked.

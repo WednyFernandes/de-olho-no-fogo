@@ -20,3 +20,6 @@ cache/inpe-aq1km/
 cache/firms-api/
 cache/harm/
 cache/*.log
+dados/firms/exemplos/
+dados/gwis/
+cache/ee/
