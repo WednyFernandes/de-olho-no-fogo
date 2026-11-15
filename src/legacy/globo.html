@@ -2016,8 +2016,11 @@ function styleBase(){
 }
 /* ───────── resolução adaptativa: enquanto o globo se move (ou anima), desenha com menos pixels se os quadros passarem de ~16 ms; parado, volta à nitidez total ───────── */
 var PR={full:1,cur:1,moving:false,busy:false,t:0,last:0,buf:[]};
-function prFull(){var d=devicePixelRatio||1,px=Math.max(1,gEl.clientWidth*gEl.clientHeight);return Math.max(.5,Math.min(d,2,Math.sqrt(3.6e6/px)));}
-function prSet(v){v=Math.round(v*20)/20;if(Math.abs(map.getPixelRatio()-v)>.01){PR.busy=true;try{map.setPixelRatio(v);}finally{PR.busy=false;}PR.last=0;}}
+/* DESLIGADA em 15/11/2026: o deck.gl intercalado continua desenhando com devicePixelRatio quando o MapLibre muda de pixelRatio,
+   e as camadas de fogo saem deslocadas do globo. A resolução fica fixa em devicePixelRatio (o padrão dos dois) até haver uma
+   forma de mudar a do deck junto. */
+function prFull(){return devicePixelRatio||1;}
+function prSet(v){}
 function prAnim(){return PR.moving||FR.on;}
 function prInit(){
  PR.full=prFull();PR.cur=Math.min(PR.full,1);
