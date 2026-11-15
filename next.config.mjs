@@ -9,7 +9,7 @@ const seguranca = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=()' },
-  ...(process.env.NODE_ENV === 'production' ? [{ key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' }] : []),
+  // HSTS fica no nginx da VPS (mandar dos dois lados duplica o cabeçalho).
 ];
 
 /** @type {import('next').NextConfig} */
