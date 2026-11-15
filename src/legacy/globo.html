@@ -230,6 +230,14 @@ body.clean .mapctl{right:16px}
 }
 @media (max-width:900px){body.clean .mapctl{right:8px}}
 @media (prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}}
+
+.ext{display:inline-block;font-size:11px;font-weight:600;line-height:1;padding:3px 6px;border-radius:999px;background:var(--warn-tint,#FFF3D6);color:var(--warn-ink,#8A5A00);vertical-align:1px;margin-left:4px;white-space:nowrap}
+#extDlg{border:0;border-radius:16px;padding:0;max-width:440px;width:calc(100% - 32px);box-shadow:0 20px 60px rgba(0,0,0,.25);color:var(--ink,#22262A);background:var(--card,#fff)}
+#extDlg::backdrop{background:rgba(20,24,28,.45)}
+#extDlg .eb{padding:22px 22px 18px}#extDlg h2{font-size:18px;margin:0 0 10px}#extDlg p{margin:0 0 10px;line-height:1.5}
+#extDlg .ea{display:flex;gap:8px;justify-content:flex-end;padding:0 22px 20px;flex-wrap:wrap}
+#extDlg .ea button{font:inherit;font-weight:600;border-radius:10px;padding:10px 16px;cursor:pointer;border:1px solid var(--line,#DCE1E5);background:var(--card,#fff);color:inherit}
+#extDlg .ea .pri{background:var(--brand,#E5004B);border-color:var(--brand,#E5004B);color:#fff}
 </style>
 </head>
 <body class="has-side">
@@ -270,9 +278,9 @@ body.clean .mapctl{right:16px}
     <div class="lg" id="legend"></div>
   </section>
   <div class="blk card layers" role="group" aria-labelledby="ly-t">
-    <h2 class="h2" id="ly-t" style="margin-bottom:2px">Outras camadas</h2>
-    <label><input type="checkbox" id="ckFix" checked>Fontes fixas de calor<svg class="sw" width="22" height="18" aria-hidden="true"><path d="M11 2l7 7-7 7-7-7z" fill="#fff" stroke="#2B6CB0" stroke-width="1.8"/></svg></label>
-    <label><input type="checkbox" id="ckScar">Cicatrizes de queimada (Brasil)<svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="18" height="12" rx="2" fill="#4A3326" fill-opacity=".65"/></svg></label>
+    <h2 class="h2" id="ly-t" style="margin-bottom:2px">Outras camadas</h2><p class="muted" style="margin:0 0 6px">O desafio é a harmonização MODIS + VIIRS (NASA FIRMS). As camadas marcadas <span class="ext">extra</span> vêm de outras fontes e começam desligadas.</p>
+    <label><input type="checkbox" id="ckFix">Fontes fixas de calor<svg class="sw" width="22" height="18" aria-hidden="true"><path d="M11 2l7 7-7 7-7-7z" fill="#fff" stroke="#2B6CB0" stroke-width="1.8"/></svg></label>
+    <label><input type="checkbox" id="ckScar">Cicatrizes de queimada (Brasil) <span class="ext" title="Dado de outra fonte (INPE), adicional ao desafio">extra · INPE</span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="18" height="12" rx="2" fill="#4A3326" fill-opacity=".65"/></svg></label>
     <div id="scarOpt" hidden style="padding:4px 0 2px"><div class="seg" role="group" aria-label="Período das cicatrizes"><button type="button" data-scar="1" aria-pressed="true">Desde janeiro</button><button type="button" data-scar="0" aria-pressed="false">Só no período</button></div></div>
     <label><input type="checkbox" id="ckGrid">Grade de densidade (~28 km)<svg class="sw" width="22" height="18" aria-hidden="true"><rect x="3" y="2" width="7" height="7" fill="#F7801E"/><rect x="11" y="2" width="7" height="7" fill="#FFD45E"/><rect x="3" y="10" width="7" height="7" fill="#FFD45E"/><rect x="11" y="10" width="7" height="7" fill="#C8102E"/></svg></label>
     
@@ -280,7 +288,7 @@ body.clean .mapctl{right:16px}
   </div>
   
   
-  <div class="blk card"><h2 class="h2" id="ly-b" style="margin-bottom:8px">Fundo do mapa</h2><div class="seg" role="group" aria-labelledby="ly-b"><button type="button" data-base="gray" aria-pressed="true">Mapa</button><button type="button" data-base="topo" aria-pressed="false">Relevo</button><button type="button" data-base="sat" aria-pressed="false">Satélite</button><button type="button" data-base="solo" aria-pressed="false">Cobertura do solo</button></div><div id="soloLeg" class="lg" hidden><p class="muted" style="margin:8px 0 4px">Cobertura do solo em 2020 (MODIS MCD12C1, classe IGBP mais comum em 0,05°). Usada no teste do fator por tipo de vegetação.</p><ul id="soloUl"></ul></div></div>
+  <div class="blk card"><h2 class="h2" id="ly-b" style="margin-bottom:8px">Fundo do mapa</h2><div class="seg" role="group" aria-labelledby="ly-b"><button type="button" data-base="gray" aria-pressed="true">Mapa</button><button type="button" data-base="topo" aria-pressed="false">Relevo</button><button type="button" data-base="sat" aria-pressed="false">Satélite</button><button type="button" data-base="solo" aria-pressed="false">Cobertura do solo <span class="ext">extra</span></button></div><div id="soloLeg" class="lg" hidden><p class="muted" style="margin:8px 0 4px">Cobertura do solo em 2020 (MODIS MCD12C1, classe IGBP mais comum em 0,05°). Usada no teste do fator por tipo de vegetação.</p><ul id="soloUl"></ul></div></div>
   <details class="blk card fx layers"><summary class="h2">Efeitos visuais</summary><label><input type="checkbox" id="ckFlame" checked>Chama nos focos</label><label><input type="checkbox" id="ckEmber" checked>Brasa nas cicatrizes</label></details>
   <p class="foot">Dados: NASA FIRMS · MODIS C6.1 + VIIRS S-NPP. Cicatrizes: INPE (AQ1km). Mapa de fundo: Esri.<br>Space Uai · NASA Space Apps Challenge 2026</p>
 </aside>
@@ -349,7 +357,7 @@ function ymd(n){var t=new Date(EPOCH+n*DAY);return {y:t.getUTCFullYear(),m:t.get
 var DMAX=dn(2025,12,31),D25=dn(2025,1,1),D2012=dn(2012,2,1);
 
 /* ───────── estado ───────── */
-var S={lay:{h:true,m:false,v:false},fix:true,scar:false,scarAc:true,d0:dn(2025,8,1),d1:dn(2025,8,31),h0:0,h1:1440,base:'gray',fxF:true,fxE:true,grid:false,speed:1,trail:1440,acum:false,ac0:dn(2025,8,1)};
+var S={lay:{h:true,m:false,v:false},fix:false,scar:false,scarAc:true,d0:dn(2025,8,1),d1:dn(2025,8,31),h0:0,h1:1440,base:'gray',fxF:true,fxE:true,grid:false,speed:1,trail:1440,acum:false,ac0:dn(2025,8,1)};
 var SEL={};
 var PL={on:false,paused:false,cd:0,timer:0,txt:0};
 var MAN,ST,BD=null,FIX={},globe,gEl=document.getElementById('globe');
@@ -1458,7 +1466,7 @@ function writeURL(){
  q.push('lat='+v.lat.toFixed(4),'lng='+v.lng.toFixed(4),'alt='+v.altitude.toFixed(4),'de='+iso(S.d0),'ate='+iso(S.d1));
  if(!winFull())q.push('hora='+hhmm(S.h0)+'-'+hhmm(S.h1));
  q.push('camada='+(actL().join(',')||'nenhuma'));
- if(!S.fix)q.push('fixas=0');if(S.scar)q.push('cic=1');if(S.base!=='gray')q.push('base='+S.base);if(!S.fxF)q.push('chama=0');if(!S.fxE)q.push('brasa=0');if(S.grid)q.push('grade=1');
+ if(S.fix)q.push('fixas=1');if(S.scar)q.push('cic=1');if(S.base!=='gray')q.push('base='+S.base);if(!S.fxF)q.push('chama=0');if(!S.fxE)q.push('brasa=0');if(S.grid)q.push('grade=1');
  if(S.acum){q.push('acum=1','acum_ini='+(ymd(S.ac0).d===1?iso(S.ac0).slice(0,7):iso(S.ac0)));}
  try{history.replaceState(null,'',location.pathname+'?'+q.join('&'));}catch(e){}
 }
@@ -1606,11 +1614,11 @@ function initGlobe(){
 /* ───────── interface ───────── */
 function press(sel,attr,v){document.querySelectorAll(sel).forEach(function(b){b.setAttribute('aria-pressed',b.dataset[attr]===String(v));});}
 document.querySelectorAll('[data-layer]').forEach(function(b){b.onclick=function(){var L=b.dataset.layer;S.lay[L]=!S.lay[L];hideCard();apply();say(b.textContent.trim()+(S.lay[L]?': ligado':': desligado'));};});
-document.querySelectorAll('[data-base]').forEach(function(b){b.onclick=function(){S.base=b.dataset.base;press('[data-base]','base',S.base);if(globe){setBase();schedURL();}say('Fundo do mapa: '+b.textContent);};});
+document.querySelectorAll('[data-base]').forEach(function(b){b.onclick=function(){if(b.dataset.base==='solo'&&S.base!=='solo'&&!EXT_OK.solo){extConfirm('solo',function(){b.onclick();});return;}S.base=b.dataset.base;press('[data-base]','base',S.base);if(globe){setBase();schedURL();}say('Fundo do mapa: '+b.textContent);};});
 document.querySelectorAll('[data-scar]').forEach(function(b){b.onclick=function(){S.scarAc=b.dataset.scar==='1';press('[data-scar]','scar',S.scarAc?1:0);apply();};});
 $('tlF').addEventListener('click',function(e){var b=e.target.closest('[data-pre]');if(b&&!b.disabled)preset(b.dataset.pre);});
 $('ckFix').onchange=function(){S.fix=this.checked;apply();};
-$('ckScar').onchange=function(){S.scar=this.checked;apply();if(S.scar&&globe&&alt>1.2&&SEL.w25)say('Cicatrizes só existem para o Brasil.');};
+$('ckScar').onchange=function(){var me=this;if(me.checked&&!EXT_OK.cic){me.checked=false;extConfirm('cic',function(){me.checked=true;me.onchange();});return;}S.scar=this.checked;apply();if(S.scar&&globe&&alt>1.2&&SEL.w25)say('Cicatrizes só existem para o Brasil.');};
 $('ckGrid').onchange=function(){S.grid=this.checked;apply();say('Grade de densidade: '+(S.grid?'quadrados':'brilho suave'));};
 $('ckFlame').onchange=function(){S.fxF=this.checked;apply();};
 $('ckEmber').onchange=function(){S.fxE=this.checked;apply();};
@@ -1677,7 +1685,7 @@ Promise.all([getJSON(D+'manifest.json'),getJSON(D+'stats.json')]).then(function(
  var hw=/^(\d\d):(\d\d)-(\d\d):(\d\d)$/.exec(q.get('hora')||'');if(hw){S.h0=(+hw[1])*60+(+hw[2]);S.h1=(+hw[3])*60+(+hw[4]);}
  if(q.has('camada')){var cs=q.get('camada').split(/[,\s+]+/);S.lay={h:cs.indexOf('h')>=0,m:cs.indexOf('m')>=0,v:cs.indexOf('v')>=0};}
  if(TILES[q.get('base')]){S.base=q.get('base');press('[data-base]','base',S.base);}
- if(q.get('fixas')==='0'){S.fix=false;$('ckFix').checked=false;}
+ if(q.get('fixas')==='1'){S.fix=true;$('ckFix').checked=true;}
  if(q.get('cic')==='1'){S.scar=true;$('ckScar').checked=true;}
  if(q.get('chama')==='0'){S.fxF=false;$('ckFlame').checked=false;}
  if(q.get('brasa')==='0'){S.fxE=false;$('ckEmber').checked=false;}
@@ -1762,6 +1770,19 @@ function initSats(){
 
 window.__dof={S:S,SEL:function(){return SEL;},PL:PL,apply:apply,build:buildDetail,buildScar:buildScar,tiles:tiles,det:det,SB:SB,SC:SC,VC:VC,meshes:meshes,U:U,T3:T3,FR:FR,fps:fpsInfo,dn:dn,ymd:ymd,model:function(){return tlM;},grid:function(){return gridCur;},wanted:function(){return wanted;},setBase:setBase,play:togglePlay,count:countView,nums:nums,modes:function(){return {pts:modePts(),blob:modeBlob(),detail:!!detailOn(),scarBlob:!!(scarBlobMode()&&SB.ok),alt:alt,loop:FR.on};},globe:function(){return globe;}};
 })();
+</script>
+<dialog id="extDlg" aria-labelledby="extT"><div class="eb"><h2 id="extT"></h2><div id="extB"></div></div><div class="ea"><button type="button" id="extNo">Cancelar</button><button type="button" class="pri" id="extYes">Ativar camada</button></div></dialog>
+<script>
+var EXT_OK={},EXT_TXT={
+ cic:{t:'Cicatrizes de queimada: dado de outra fonte',f:'INPE, produto AQ1km (Coleção 2): área queimada mensal estimada com o MODIS a 1 km, só para o Brasil, de setembro de 2002 em diante. É um produto provisório.'},
+ solo:{t:'Cobertura do solo: dado de outra fonte',f:'NASA MODIS MCD12C1 (2020): classe de cobertura do solo mais comum em cada quadrado de 0,05°, no sistema IGBP. Usada no teste do fator por tipo de vegetação.'}};
+function extConfirm(k,ok){var d=document.getElementById('extDlg'),x=EXT_TXT[k];
+ document.getElementById('extT').textContent=x.t;
+ document.getElementById('extB').innerHTML='<p>Esta camada não faz parte dos dados do desafio. Ela vem de outra fonte e é um adicional para dar contexto:</p><p><b>'+x.f+'</b></p><p>A base do projeto continua sendo a harmonização dos focos MODIS e VIIRS (NASA FIRMS) e a sua visualização. Esta camada só se soma a ela.</p>';
+ var y=document.getElementById('extYes'),n=document.getElementById('extNo');
+ y.onclick=function(){EXT_OK[k]=true;d.close();ok();};n.onclick=function(){d.close();};
+ if(d.showModal)d.showModal();else if(confirm(x.t)){EXT_OK[k]=true;ok();}
+ setTimeout(function(){y.focus();},0);}
 </script>
 </body>
 </html>
