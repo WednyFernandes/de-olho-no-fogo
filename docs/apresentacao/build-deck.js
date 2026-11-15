@@ -164,15 +164,24 @@ const ZOOM = 700 / 840;
 {
   const s = slide(t('Demo', 'Demonstração'), 'LIGHT');
   s.addText(t('Demo: an open globe', 'Demonstração: um globo aberto'), { placeholder: 'title', fontSize: 34 });
-  const y = 1.35, r1 = 2320 / 1540, r2 = 1786 / 1305, gap = 0.4;
-  const hh = Math.min(4.1, (W - 2 * M - gap) / (r1 + r2)), w = hh * r1, w2 = hh * r2;
-  pic(s, 'L-world.png', M, y, w, hh, t('Our globe: fires in South America, August 2025.', 'Nosso globo: fogo na América do Sul, agosto de 2025.'));
-  pic(s, 'L-click.png', M + w + gap, y, w2, hh, t('One fire clicked, details open.', 'Um fogo clicado, detalhes abertos.'));
-  [[M, w, t('1  Pick a day', '1  Escolha um dia')], [M + w + gap, w2, t('2  Click a fire', '2  Clique num fogo')]]
-    .forEach(([x, ww, a]) => T(s, a, { x, y: y + hh + 0.15, w: ww, h: 0.55, fontSize: 24, bold: true }));
-  T(s, 'deolhonofogo.estudiocrivy.com.br', { x: M, y: 6.2, w: W - 2 * M, h: 0.5, fontSize: 22, bold: true, color: K.brandInk, align: 'center', hyperlink: { url: 'https://deolhonofogo.estudiocrivy.com.br' } });
-  s.addText(t('Real screenshots of our globe (August 2025; 2 September 2025). Interface in Portuguese. Plain background in these captures.',
-    'Capturas reais do nosso globo (agosto de 2025; 2 de setembro de 2025). Fundo liso nestas capturas.'), { placeholder: 'src' });
+  const y = 1.35, h = 4.0, r1 = 3060 / 1940, w1 = h * r1;
+  pic(s, 'L-month-zoom.png', M, y, w1, h, t('Our globe: fires in Brazil, September 2025.', 'Nosso globo: fogo no Brasil, setembro de 2025.'));
+  T(s, [{ text: t('1  Pick a day', '1  Escolha um dia'), options: { bold: true, fontSize: 24, breakLine: true } }, { text: t('see where it burned', 'veja onde queimou'), options: { fontSize: 18, color: K.ink2 } }], { x: M, y: y + h + 0.12, w: w1, h: 0.85 });
+  const rx = M + w1 + 0.45, rw = W - M - rx;
+  pic(s, 'L-fire-click.png', rx, y, rw, h, t('One fire clicked on our globe.', 'Um fogo clicado no nosso globo.'));
+  const cw = 2.25, cx = rx + rw - cw - 0.15, cy = y + 0.15;
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: cx, y: cy, w: cw, h: 2.75, rectRadius: 0.14, fill: { color: K.white }, line: { color: K.line, width: 0.75 }, shadow: { type: 'outer', color: '000000', opacity: 0.15, blur: 6, offset: 2, angle: 90 }, objectName: 'Fire card' });
+  T(s, [{ text: t('This fire', 'Este fogo'), options: { bold: true, color: K.brandInk, fontSize: 17, breakLine: true } },
+    { text: t('2 Sep 2025', '2 set 2025'), options: { bold: true, breakLine: true } },
+    { text: t('both satellites', 'os dois satélites'), options: { bold: true, breakLine: true } },
+    { text: 'MODIS 7', options: { bold: true, color: K.modis, breakLine: true } },
+    { text: 'VIIRS 19', options: { bold: true, color: K.viirs, breakLine: true } },
+    { text: '12 km²', options: { bold: true } }],
+    { x: cx + 0.2, y: cy + 0.1, w: cw - 0.4, h: 2.55, fontSize: 17, valign: 'middle', paraSpaceAfter: 4 });
+  T(s, [{ text: t('2  Click a fire', '2  Clique num fogo'), options: { bold: true, fontSize: 24, breakLine: true } }, { text: t('when, size, who saw it', 'quando, tamanho, quem viu'), options: { fontSize: 18, color: K.ink2 } }], { x: rx, y: y + h + 0.12, w: rw, h: 0.85 });
+  T(s, 'deolhonofogo.estudiocrivy.com.br', { x: M, y: 6.4, w: W - 2 * M, h: 0.4, fontSize: 20, bold: true, color: K.brandInk, align: 'center', hyperlink: { url: 'https://deolhonofogo.estudiocrivy.com.br' } });
+  s.addText(t('Real screenshots of our globe (September 2025; 2 September 2025). The card repeats the data of the fire panel on the site. Plain background in these captures.',
+    'Capturas reais do nosso globo (setembro de 2025; 2 de setembro de 2025). O cartão repete os dados do painel do foco no site. Fundo liso nestas capturas.'), { placeholder: 'src' });
   s.addNotes(t('The prototype is live and open to anyone. Pick a day and see where the world burned. Click a fire to see when it burned, its size and which satellites saw it.',
     'O protótipo está no ar e aberto para qualquer pessoa. Escolha um dia e veja onde o mundo queimou. Clique num fogo para ver quando queimou, o tamanho e quais satélites viram.'));
 }
