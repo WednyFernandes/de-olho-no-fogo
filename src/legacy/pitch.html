@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De Olho no Fogo · Pitch</title>
+<meta name="description" content="Apresentação do De Olho no Fogo, equipe Space Uai, NASA Space Apps Challenge 2026.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800;900&display=swap">
+<style>body { font-family: 'Figtree', Arial, sans-serif; color: #22262A; }
+
+/* fundos */
+.escuro { background: #14110F; color: #FBF7F4; }
+.claro { background: #FBF7F4; color: #22262A; }
+section { padding: 128px 128px 160px; box-sizing: border-box; display: flex; flex-direction: column; }
+
+/* tipos: 120 / 72 / 44 / 32 / 24 */
+.titulo { font-size: 72px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; }
+.escuro .titulo { color: #FBF7F4; }
+.claro .titulo { color: #22262A; }
+.olho { font-size: 24px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #D4410B; }
+.escuro .olho { color: #FF8A4C; }
+.rodape { position: absolute; left: 128px; bottom: 64px; width: 1664px; font-size: 24px; color: #6A7178; }
+.escuro .rodape { color: #A9B0B8; }
+
+/* chegada: tudo visível em menos de um segundo */
+@keyframes sobe { from { opacity: 0; transform: translate(0px, 28px); } }
+@keyframes surge { from { opacity: 0; } }
+@keyframes cresce { from { opacity: 0; transform: scale(0.86); } }
+@keyframes pulso { from { box-shadow: 0 0 0 0 rgba(255, 138, 76, 0.75); } to { box-shadow: 0 0 0 26px rgba(255, 138, 76, 0); } }
+@keyframes barra { from { transform: translate(0px, 40px); opacity: 0; } }
+.a { animation: sobe 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(var(--i, 0) * 110ms); }
+.f { animation: surge 0.9s ease-out both; animation-delay: calc(var(--i, 0) * 110ms); }
+.bar { animation: barra 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(300ms + var(--j, 0) * 30ms); }
+.p { animation: cresce 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(var(--i, 0) * 110ms); }
+
+/* número que conta */
+@property --n { syntax: '<integer>'; inherits: false; initial-value: 0 }
+@keyframes count { from { --n: 0 } }
+.n { animation: count 1.2s ease-out both }
+
+/* cartões */
+.cartao { background: #FFEDE6; border-radius: 28px; padding: 36px 40px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; }
+.cartao-escuro { background: #22262A; color: #FBF7F4; border-radius: 28px; padding: 36px 40px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box; }
+.pergunta { font-size: 28px; font-style: italic; font-weight: 700; color: #4F575E; }
+.grande { font-size: 120px; font-weight: 900; line-height: 1; letter-spacing: -2px; color: #9C2C05; }
+.medio { font-size: 72px; font-weight: 900; line-height: 1; letter-spacing: -1px; color: #9C2C05; }
+.legenda { font-size: 28px; color: #22262A; line-height: 1.3; }
+.suave { font-size: 24px; color: #4F575E; line-height: 1.35; }
+.escuro .suave, .cartao-escuro .suave { color: #C9CFD6; }
+.chip { width: 72px; height: 72px; border-radius: 36px; background: #D4410B; display: flex; align-items: center; justify-content: center; }
+.chip x-icon { width: 40px; height: 40px; color: #FBF7F4; }
+.selo { font-size: 24px; font-weight: 800; color: #FBF7F4; background: #D4410B; padding: 6px 18px; border-radius: 20px; align-self: flex-start; }
+
+/* imagens de satélite */
+.sat { border-radius: 18px; object-fit: cover; }
+.moldura { border-radius: 18px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); }
+
+/* o clique que junta: os 26 avisos viram 1 foco */
+.fragment { opacity: 0; transition: opacity 0.9s ease; }
+.fragment.visible { opacity: 1; }
+
+/* o alvo do fogo em Paranã */
+.alvo { position: absolute; width: 52px; height: 52px; border-radius: 26px; background: rgba(255, 138, 76, 0.8); border: 4px solid #FBF7F4; box-sizing: border-box; animation: pulso 1.6s ease-out infinite alternate; }
+
+/* listas */
+.lista { font-size: 30px; line-height: 1.35; padding-left: 36px; display: flex; flex-direction: column; gap: 14px; }
+
+
+* { margin: 0 }
+html, body { height: 100%; background: #0B0908; overflow: hidden }
+body { font: 32px/1.2 'Figtree', Arial, sans-serif }
+#palco { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 0 0 }
+#palco > section { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; box-sizing: border-box; isolation: isolate; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility 0s linear .45s }
+#palco > section.ativo { opacity: 1; visibility: visible; transition: opacity .45s ease }
+#palco > section:not(.ativo) * { animation: none !important }
+#palco > section > img:first-child { z-index: -1 }
+aside { display: none !important }
+h1 { font-size: 96px; font-weight: 600 } h2 { font-size: 64px; font-weight: 600 } h3 { font-size: 44px; font-weight: 600 }
+x-shape, x-icon { display: block } x-icon svg { width: 100%; height: 100%; display: block }
+#barra { position: fixed; left: 0; bottom: 0; height: 4px; background: #D4410B; transition: width .4s ease; z-index: 5 }
+#conta { position: fixed; right: 16px; bottom: 12px; font: 600 14px/1 'Figtree', Arial, sans-serif; color: #A9B0B8; z-index: 5; opacity: .7 }
+#dica { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); font: 500 14px/1.3 'Figtree', Arial, sans-serif; color: #FBF7F4; background: rgba(20,17,15,.8); padding: 8px 14px; border-radius: 999px; z-index: 5; transition: opacity .6s }
+.sem-dica #dica { opacity: 0; pointer-events: none }
+@media (prefers-reduced-motion: reduce) { #palco * { animation: none !important; transition: none !important } }
+</style>
+</head>
+<body>
+<main id="palco" aria-label="Apresentação De Olho no Fogo">
+<section id="capa" class="escuro" data-transition="fade" style="gap:36px">
+<img src="/pitch/terra.png" alt="A Terra com os focos de calor de 2025 acesos em laranja" class="f" style="position:absolute; left:900px; top:20px; width:1000px; height:1000px; object-fit:contain; --i:0">
+<p class="selo p" style="position:absolute; left:1264px; top:494px; --i:7">direto do app</p>
+<img src="/pitch/insight.png" alt="Recorte do app: 1.696.416 focos no mundo em agosto e setembro de 2025; 15% vistos pelos dois satélites ao mesmo tempo" class="moldura p" style="position:absolute; left:1264px; top:548px; width:528px; height:400px; object-fit:contain; --i:8">
+<div class="a" style="display:flex; align-items:center; gap:20px; --i:1">
+<img src="/favicon.svg" alt="Logo do De Olho no Fogo" style="width:72px; height:72px; object-fit:contain">
+<p style="font-size:40px; font-weight:800; color:#FBF7F4">De Olho no Fogo</p>
+</div>
+<h1 class="a" style="font-size:84px; font-weight:900; line-height:1.04; letter-spacing:-1.5px; width:820px; color:#FBF7F4; --i:2">Além dos focos de calor, <span style="color:#FF8A4C">uma visão integrada do fogo.</span></h1>
+<p class="a" style="font-size:28px; width:780px; color:#FBF7F4; --i:3"><b><span style="color:#FF8A4C">Desafio:</span></b> Harmonization of MODIS and VIIRS Hot Spots</p>
+<div class="a" style="display:flex; flex-direction:column; gap:12px; --i:4">
+<p style="font-size:32px; font-weight:800; color:#FBF7F4">Equipe Space Uai · Ouro Preto, Brasil</p>
+<div style="display:grid; grid-template-columns:400px 420px; gap:6px 24px">
+<p style="font-size:24px; color:#C9CFD6">Wedny Lucas Fernandes</p>
+<p style="font-size:24px; color:#C9CFD6">Kevilin Brites</p>
+<p style="font-size:24px; color:#C9CFD6">João Pedro N. H. Ribeiro</p>
+<p style="font-size:24px; color:#C9CFD6">Maria Heduarda Rosa Morais</p>
+<p style="font-size:24px; color:#C9CFD6">Mila Cristian de Paiva Martins</p>
+<p style="font-size:24px; color:#C9CFD6">Wander Marcos Fernandes</p>
+</div>
+</div>
+<p class="rodape">NASA Space Apps Challenge 2026 · deolhonofogo.estudiocrivy.com.br</p>
+
+</section>
+
+<section id="problema" class="escuro" data-transition="fade" style="gap:40px">
+<img src="/pitch/cidade.jpg" alt="Imagem de satélite do município de Paranã, no Tocantins, com o contorno da cidade em laranja" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px; object-fit:cover">
+<svg aria-label="Linhas ligando o fogo em Paranã aos dois recortes de satélite" class="f" width="425" height="340" viewBox="0 0 425 340" style="position:absolute; left:1063px; top:300px; --i:6"><line x1="0" y1="160" x2="425" y2="15" stroke="#FBF7F4" stroke-width="3" stroke-dasharray="12 10"/><line x1="0" y1="160" x2="425" y2="315" stroke="#FBF7F4" stroke-width="3" stroke-dasharray="12 10"/></svg>
+<div class="alvo" style="left:1011px; top:434px"></div>
+<div class="a" style="position:absolute; left:1071px; top:582px; width:300px; display:flex; flex-direction:column; gap:2px; --i:5">
+<p style="font-size:32px; font-weight:800; color:#FBF7F4">Paranã (TO)</p>
+<p style="font-size:24px; color:#C9CFD6">2 set 2025</p>
+</div>
+<img src="/pitch/antigo.jpg" alt="O fogo de perto: 7 avisos do satélite antigo, quadrados roxos de 1 km" class="sat moldura p" style="position:absolute; left:1488px; top:200px; width:317px; height:230px; --i:6">
+<p class="a" style="position:absolute; left:1488px; top:440px; width:320px; font-size:30px; font-weight:800; color:#FBF7F4; --i:7"><span style="color:#B9A6E6">Antigo</span> 7 avisos</p>
+<img src="/pitch/novo.jpg" alt="O mesmo fogo: 19 avisos do satélite novo, quadradinhos azul-petróleo de 375 m" class="sat moldura p" style="position:absolute; left:1488px; top:500px; width:317px; height:230px; --i:8">
+<p class="a" style="position:absolute; left:1488px; top:740px; width:320px; font-size:30px; font-weight:800; color:#FBF7F4; --i:9"><span style="color:#7FD3DB">Novo</span> 19 avisos</p>
+<div class="a" style="position:absolute; left:941px; top:800px; width:851px; box-sizing:border-box; background:#D4410B; border-radius:24px; padding:20px 28px; display:flex; align-items:center; gap:22px; --i:10">
+<x-icon style="width:48px; height:48px; color:#FBF7F4" aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 640 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M208 352c114.9 0 208-78.8 208-176S322.9 0 208 0S0 78.8 0 176c0 38.6 14.7 74.3 39.6 103.4c-3.5 9.4-8.7 17.7-14.2 24.7c-4.8 6.2-9.7 11-13.3 14.3c-1.8 1.6-3.3 2.9-4.3 3.7c-.5 .4-.9 .7-1.1 .8l-.2 .2s0 0 0 0s0 0 0 0C1 327.2-1.4 334.4 .8 340.9S9.1 352 16 352c21.8 0 43.8-5.6 62.1-12.5c9.2-3.5 17.8-7.4 25.2-11.4C134.1 343.3 169.8 352 208 352zM448 176c0 112.3-99.1 196.9-216.5 207C255.8 457.4 336.4 512 432 512c38.2 0 73.9-8.7 104.7-23.9c7.5 4 16 7.9 25.2 11.4c18.3 6.9 40.3 12.5 62.1 12.5c6.9 0 13.1-4.5 15.2-11.1c2.1-6.6-.2-13.8-5.8-17.9c0 0 0 0 0 0s0 0 0 0l-.2-.2c-.2-.2-.6-.4-1.1-.8c-1-.8-2.5-2-4.3-3.7c-3.6-3.3-8.5-8.1-13.3-14.3c-5.5-7-10.7-15.4-14.2-24.7c24.9-29 39.6-64.7 39.6-103.4c0-92.8-84.9-168.9-192.6-175.5c.4 5.1 .6 10.3 .6 15.5z"></path></svg></x-icon>
+<p style="font-size:24px; line-height:1.3; color:#FBF7F4; width:730px"><b>Como 2 ligações pro 193:</b> uma diz “tem fogo no bairro”, a outra liga a cada quarteirão. <b>É um fogo só. Qual conta está certa?</b></p>
+</div>
+<h2 class="titulo a" style="--i:0">Quem paga a conta do fogo?</h2>
+<div class="cartao a" style="width:760px; gap:14px; --i:1">
+<p class="pergunta">Quanto a fumaça pesa na sua saúde?</p>
+<p class="grande n">+23%</p>
+<p class="legenda">mais chance de doença respiratória</p>
+<div style="height:24px"></div>
+<p class="pergunta">Quantos animais o fogo matou?</p>
+<p class="grande n" style="font-size:104px">17 milhões</p>
+<p class="legenda">animais no Pantanal, em 2020</p>
+</div>
+<p class="rodape">Saúde: FGV EPPG (INPE × DataSUS, 2008–2018) · Fauna: Tomas et al., 2021 · Imagem: Esri · Limite: IBGE</p>
+
+</section>
+
+<section id="solucao" class="claro" data-transition="fade" style="gap:28px">
+<div class="a" style="display:flex; flex-direction:column; gap:10px; --i:0">
+<h2 class="titulo">A solução: <span style="color:#D4410B">De Olho no Fogo</span></h2>
+<p style="font-size:32px; color:#4F575E">um globo aberto que junta os 2 satélites, explica o que vê e aponta onde o fogo pode vir</p>
+</div>
+<div style="display:flex; gap:40px">
+<div class="p" style="position:relative; width:720px; height:617px; --i:1">
+<img src="/pitch/mapa_risco.jpg" alt="O globo do app com as áreas de atenção da semana sobre o Brasil: quanto mais escuro o quadrado, mais o tempo favorece o fogo" class="sat moldura" style="position:absolute; left:0px; top:0px; width:720px; height:617px">
+<p style="position:absolute; left:20px; top:20px; font-size:26px; font-weight:800; color:#FBF7F4; background:#D4410B; padding:8px 18px; border-radius:20px">Áreas de atenção da semana</p>
+<p style="position:absolute; left:20px; top:548px; width:620px; font-size:24px; font-weight:700; color:#FBF7F4; background:rgba(20,17,15,0.78); padding:8px 18px; border-radius:16px">quanto mais escuro, mais o tempo favorece o fogo</p>
+</div>
+<div style="flex:1; display:flex; flex-direction:column; gap:22px">
+<div class="cartao a" style="flex-direction:row; align-items:center; gap:28px; padding:22px 26px; --i:2">
+<img src="/pitch/ins_conta.png" alt="Recorte do app: 919.972 focos no mundo em agosto de 2025; 16% vistos pelos dois satélites ao mesmo tempo" class="moldura" style="width:320px; height:242px; object-fit:contain; border-radius:14px">
+<div style="flex:1; display:flex; flex-direction:column; gap:8px"><h3 style="font-size:36px; font-weight:900; color:#9C2C05">Uma conta só</h3><p style="font-size:24px; line-height:1.35">os 2 satélites juntos, e o app explica o número em frases simples</p></div>
+</div>
+<div class="cartao a" style="flex-direction:row; align-items:center; gap:28px; padding:22px 26px; --i:3">
+<img src="/pitch/ins_risco.png" alt="Recorte do app: a área de atenção da semana para o Brasil e o que mais pesa, como fogo recente e a época do ano" class="moldura" style="width:300px; height:271px; object-fit:contain; border-radius:14px">
+<div style="flex:1; display:flex; flex-direction:column; gap:8px"><h3 style="font-size:36px; font-weight:900; color:#9C2C05">Previsão da semana</h3><p style="font-size:24px; line-height:1.35">calor, ar seco, fogo recente e a época do ano dizem onde ficar de olho</p></div>
+</div>
+</div>
+</div>
+<p class="rodape">Capturas reais do globo, agosto de 2025 · áreas de atenção: estimativa do time com FIRMS + NASA POWER (extra, em construção)</p>
+
+</section>
+
+<section id="demo" class="claro" data-transition="fade" style="gap:36px">
+<h2 class="titulo a" style="--i:0">Demonstração: quem usa e para quê</h2>
+<div style="display:flex; gap:40px">
+<div style="width:860px; display:flex; flex-direction:column; gap:28px">
+<img src="/pitch/globo.jpg" alt="O globo do De Olho no Fogo com imagem de satélite e o Brasil no centro, agosto e setembro de 2025" class="moldura p" style="width:860px; height:484px; object-fit:cover; --i:1">
+<div class="cartao-escuro a" style="gap:6px; padding:28px 36px; --i:2">
+<p class="olho">Já está no ar</p>
+<p style="font-size:40px; font-weight:900; color:#FBF7F4">deolhonofogo.estudiocrivy.com.br</p>
+<p class="suave">grátis, no navegador, do celular ao computador</p>
+</div>
+</div>
+<div style="flex:1; display:flex; flex-direction:column; gap:22px">
+<div class="cartao a" style="flex-direction:row; align-items:center; gap:24px; padding:24px 28px; --i:3"><div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"></path></svg></x-icon></div><div style="flex:1; display:flex; flex-direction:column; gap:4px"><p style="font-size:30px; font-weight:800">Brigada e Defesa Civil</p><p class="suave">modo Agora: os focos das últimas 24 h, para decidir onde mandar a equipe hoje</p></div></div>
+<div class="cartao a" style="flex-direction:row; align-items:center; gap:24px; padding:24px 28px; --i:4"><div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg></x-icon></div><div style="flex:1; display:flex; flex-direction:column; gap:4px"><p style="font-size:30px; font-weight:800">Prefeitura</p><p class="suave">busca a cidade, marca a região e baixa a tabela dos focos para o relatório</p></div></div>
+<div class="cartao a" style="flex-direction:row; align-items:center; gap:24px; padding:24px 28px; --i:5"><div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"></path></svg></x-icon></div><div style="flex:1; display:flex; flex-direction:column; gap:4px"><p style="font-size:30px; font-weight:800">Área protegida</p><p class="suave">vê a área de atenção da semana e reforça a vigilância antes do fogo</p></div></div>
+<div class="cartao a" style="flex-direction:row; align-items:center; gap:24px; padding:24px 28px; --i:6"><div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 640 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M320 32c-8.1 0-16.1 1.4-23.7 4.1L15.8 137.4C6.3 140.9 0 149.9 0 160s6.3 19.1 15.8 22.6l57.9 20.9C57.3 229.3 48 259.8 48 291.9l0 28.1c0 28.4-10.8 57.7-22.3 80.8c-6.5 13-13.9 25.8-22.5 37.6C0 442.7-.9 448.3 .9 453.4s6 8.9 11.2 10.2l64 16c4.2 1.1 8.7 .3 12.4-2s6.3-6.1 7.1-10.4c8.6-42.8 4.3-81.2-2.1-108.7C90.3 344.3 86 329.8 80 316.5l0-24.6c0-30.2 10.2-58.7 27.9-81.5c12.9-15.5 29.6-28 49.2-35.7l157-61.7c8.2-3.2 17.5 .8 20.7 9s-.8 17.5-9 20.7l-157 61.7c-12.4 4.9-23.3 12.4-32.2 21.6l159.6 57.6c7.6 2.7 15.6 4.1 23.7 4.1s16.1-1.4 23.7-4.1L624.2 182.6c9.5-3.4 15.8-12.5 15.8-22.6s-6.3-19.1-15.8-22.6L343.7 36.1C336.1 33.4 328.1 32 320 32zM128 408c0 35.3 86 72 192 72s192-36.7 192-72L496.7 262.6 354.5 314c-11.1 4-22.8 6-34.5 6s-23.5-2-34.5-6L143.3 262.6 128 408z"></path></svg></x-icon></div><div style="flex:1; display:flex; flex-direction:column; gap:4px"><p style="font-size:30px; font-weight:800">Escola, jornal, pesquisa</p><p class="suave">clica num foco: quando, tamanho e quem viu; compara os anos desde 2000</p></div></div>
+</div>
+</div>
+
+</section>
+
+<section id="dados" class="claro" data-transition="fade" style="gap:28px">
+<h2 class="titulo a" style="--i:0">Dados e como juntamos</h2>
+<div style="display:flex; gap:36px">
+<div style="width:640px; display:flex; flex-direction:column; gap:18px">
+<div class="cartao-escuro a" style="padding:30px 36px; gap:12px; --i:1">
+<p class="selo">DESAFIO</p>
+<h3 style="font-size:64px; font-weight:900; color:#FBF7F4; letter-spacing:-1px">NASA FIRMS</h3>
+<p class="suave" style="font-size:26px">os pontos de calor dos 2 satélites: um enxerga 1 km, o outro 375 m</p>
+<div style="display:flex; gap:24px">
+<div style="flex:1; display:flex; flex-direction:column; gap:2px"><p class="n" style="font-size:42px; font-weight:900; color:#FF8A4C; line-height:1.05">20.516.943</p><p class="suave">avisos em 2025</p></div>
+<div style="flex:1; display:flex; flex-direction:column; gap:2px"><p class="n" style="font-size:42px; font-weight:900; color:#FF8A4C; line-height:1.05">26 anos</p><p class="suave">de Brasil, desde 2000</p></div>
+</div>
+</div>
+<p class="olho a" style="--i:2">Extras</p>
+<div class="a" style="display:flex; align-items:center; gap:14px; --i:2"><div class="chip" style="width:48px; height:48px; border-radius:24px"><x-icon style="width:26px; height:26px" aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 640 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M0 336c0 79.5 64.5 144 144 144l368 0c70.7 0 128-57.3 128-128c0-61.9-44-113.6-102.4-125.4c4.1-10.7 6.4-22.4 6.4-34.6c0-53-43-96-96-96c-19.7 0-38.1 6-53.3 16.2C367 64.2 315.3 32 256 32C167.6 32 96 103.6 96 192c0 2.7 .1 5.4 .2 8.1C40.2 219.8 0 273.2 0 336z"></path></svg></x-icon></div><p style="font-size:24px"><b>NASA POWER</b> · o tempo de cada dia</p></div>
+<div class="a" style="display:flex; align-items:center; gap:14px; --i:3"><div class="chip" style="width:48px; height:48px; border-radius:24px"><x-icon style="width:26px; height:26px" aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg></x-icon></div><p style="font-size:24px"><b>Fotos da NASA</b> · área queimada e nuvens</p></div>
+<div class="a" style="display:flex; align-items:center; gap:14px; --i:4"><div class="chip" style="width:48px; height:48px; border-radius:24px"><x-icon style="width:26px; height:26px" aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M228.3 469.1L47.6 300.4c-4.2-3.9-8.2-8.1-11.9-12.4l87 0c22.6 0 43-13.6 51.7-34.5l10.5-25.2 49.3 109.5c3.8 8.5 12.1 14 21.4 14.1s17.8-5 22-13.3L320 253.7l1.7 3.4c9.5 19 28.9 31 50.1 31l104.5 0c-3.7 4.3-7.7 8.5-11.9 12.4L283.7 469.1c-7.5 7-17.4 10.9-27.7 10.9s-20.2-3.9-27.7-10.9zM503.7 240l-132 0c-3 0-5.8-1.7-7.2-4.4l-23.2-46.3c-4.1-8.1-12.4-13.3-21.5-13.3s-17.4 5.1-21.5 13.3l-41.4 82.8L205.9 158.2c-3.9-8.7-12.7-14.3-22.2-14.1s-18.1 5.9-21.8 14.8l-31.8 76.3c-1.2 3-4.2 4.9-7.4 4.9L16 240c-2.6 0-5 .4-7.3 1.1C3 225.2 0 208.2 0 190.9l0-5.8c0-69.9 50.5-129.5 119.4-141C165 36.5 211.4 51.4 244 84l12 12 12-12c32.6-32.6 79-47.5 124.6-39.9C461.5 55.6 512 115.2 512 185.1l0 5.8c0 16.9-2.8 33.5-8.3 49.1z"></path></svg></x-icon></div><p style="font-size:24px"><b>INPE</b> · as marcas do fogo no chão</p></div>
+<div class="a" style="display:flex; align-items:center; gap:14px; --i:5"><div class="chip" style="width:48px; height:48px; border-radius:24px"><x-icon style="width:26px; height:26px" aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M57.7 193l9.4 16.4c8.3 14.5 21.9 25.2 38 29.8L163 255.7c17.2 4.9 29 20.6 29 38.5l0 39.9c0 11 6.2 21 16 25.9s16 14.9 16 25.9l0 39c0 15.6 14.9 26.9 29.9 22.6c16.1-4.6 28.6-17.5 32.7-33.8l2.8-11.2c4.2-16.9 15.2-31.4 30.3-40l8.1-4.6c15-8.5 24.2-24.5 24.2-41.7l0-8.3c0-12.7-5.1-24.9-14.1-33.9l-3.9-3.9c-9-9-21.2-14.1-33.9-14.1L257 256c-11.1 0-22.1-2.9-31.8-8.4l-34.5-19.7c-4.3-2.5-7.6-6.5-9.2-11.2c-3.2-9.6 1.1-20 10.2-24.5l5.9-3c6.6-3.3 14.3-3.9 21.3-1.5l23.2 7.7c8.2 2.7 17.2-.4 21.9-7.5c4.7-7 4.2-16.3-1.2-22.8l-13.6-16.3c-10-12-9.9-29.5 .3-41.3l15.7-18.3c8.8-10.3 10.2-25 3.5-36.7l-2.4-4.2c-3.5-.2-6.9-.3-10.4-.3C163.1 48 84.4 108.9 57.7 193zM464 256c0-36.8-9.6-71.4-26.4-101.5L412 164.8c-15.7 6.3-23.8 23.8-18.5 39.8l16.9 50.7c3.5 10.4 12 18.3 22.6 20.9l29.1 7.3c1.2-9 1.8-18.2 1.8-27.5zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"></path></svg></x-icon></div><p style="font-size:24px"><b>IBGE</b> · os mapas do Brasil</p></div>
+</div>
+<div style="flex:1; display:flex; flex-direction:column; gap:22px">
+<div class="cartao a" style="padding:28px 32px; gap:14px; --i:3">
+<div style="display:flex; align-items:center; gap:20px">
+<div style="position:relative; width:300px; height:269px">
+<img src="/pitch/antes.jpg" alt="Antes: o fogo de Paranã com os 26 avisos dos dois satélites" class="sat" style="position:absolute; left:0px; top:0px; width:300px; height:269px">
+<p style="position:absolute; left:12px; top:213px; font-size:24px; font-weight:800; color:#FBF7F4; background:#22262A; padding:4px 14px; border-radius:16px">Antes: 26 avisos</p>
+</div>
+<x-shape style="width:56px; height:28px; background:transparent"><svg viewBox="0 0 100 50" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true"><path d="M0 14 H60 V0 L100 25 L60 50 V36 H0 Z" fill="#D4410B"/></svg></x-shape>
+<div style="position:relative; width:300px; height:269px">
+<img src="/pitch/antes.jpg" alt="" class="sat" style="position:absolute; left:0px; top:0px; width:300px; height:269px">
+<img src="/pitch/depois.jpg" alt="Depois: o mesmo lugar com um foco só, em quadradinhos laranja de 1 km" class="sat fragment" data-fragment-index="1" style="position:absolute; left:0px; top:0px; width:300px; height:269px">
+<p class="fragment" data-fragment-index="1" style="position:absolute; left:12px; top:213px; font-size:24px; font-weight:800; color:#FBF7F4; background:#D4410B; padding:4px 14px; border-radius:16px">Depois: 1 foco</p>
+</div>
+</div>
+<p style="font-size:24px; font-weight:700; color:#9C2C05">1 Baixar → 2 Régua de 1 km → 3 Dia pelo sol → 4 Vizinhos viram 1</p>
+<p class="suave">Bate com a área queimada da NASA (0,84). Limite: focos a menos de 1 km no mesmo dia viram um só.</p>
+</div>
+<div class="cartao-escuro a" style="flex-direction:row; gap:28px; padding:26px 30px; --i:5">
+<div style="flex:1; display:flex; flex-direction:column; gap:6px"><p style="font-size:26px; font-weight:800; color:#FF8A4C">Mas a NASA já não mostra os dois?</p><p class="suave">Um do lado do outro. A gente junta: 20,5 mi avisos viram 7,26 mi focos.</p></div>
+<div style="flex:1; display:flex; flex-direction:column; gap:6px"><p style="font-size:26px; font-weight:800; color:#FF8A4C">Mas como saber se está certo?</p><p class="suave">A conta bate com a área queimada que a NASA mede: 0,84.</p></div>
+<div style="flex:1; display:flex; flex-direction:column; gap:6px"><p style="font-size:26px; font-weight:800; color:#FF8A4C">Mas e a Defesa Civil?</p><p class="suave">A gente soma com ela: dado aberto e grátis.</p></div>
+</div>
+</div>
+</div>
+
+</section>
+
+<section id="impacto" class="claro" data-transition="fade" style="gap:28px">
+<h2 class="titulo a" style="--i:0">Impacto: chegar antes do fogo crescer</h2>
+<div style="display:flex; align-items:center; gap:20px">
+<div class="cartao-escuro a" style="flex:1; padding:22px 30px; gap:2px; --i:1"><p style="font-size:30px; font-weight:800; color:#FF8A4C">Ver mais cedo</p><p class="suave">o foco certo, no lugar certo</p></div>
+<x-shape class="f" style="width:64px; height:32px; background:transparent; --i:2"><svg viewBox="0 0 100 50" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true"><path d="M0 14 H60 V0 L100 25 L60 50 V36 H0 Z" fill="#D4410B"/></svg></x-shape>
+<div class="cartao-escuro a" style="flex:1; padding:22px 30px; gap:2px; --i:2"><p style="font-size:30px; font-weight:800; color:#FF8A4C">Chegar antes</p><p class="suave">a brigada vai para onde precisa</p></div>
+<x-shape class="f" style="width:64px; height:32px; background:transparent; --i:3"><svg viewBox="0 0 100 50" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true"><path d="M0 14 H60 V0 L100 25 L60 50 V36 H0 Z" fill="#D4410B"/></svg></x-shape>
+<div class="a" style="flex:1; background:#D4410B; border-radius:28px; padding:22px 30px; display:flex; flex-direction:column; gap:2px; --i:3"><p style="font-size:30px; font-weight:800; color:#FBF7F4">Fogo menor</p><p style="font-size:24px; color:#FFEDE6">apagado enquanto ainda é pequeno</p></div>
+</div>
+<div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:24px">
+<div class="cartao a" style="padding:28px 30px; --i:4">
+<div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64L0 400c0 44.2 35.8 80 80 80l400 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 416c-8.8 0-16-7.2-16-16L64 64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z"></path></svg></x-icon></div>
+<h3 style="font-size:36px; font-weight:900; color:#9C2C05">Menos dinheiro</h3>
+<p style="font-size:24px; line-height:1.35">fogo pequeno pede menos avião, caminhão e gente em campo</p>
+</div>
+<div class="cartao a" style="padding:28px 30px; --i:5">
+<div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M228.3 469.1L47.6 300.4c-4.2-3.9-8.2-8.1-11.9-12.4l87 0c22.6 0 43-13.6 51.7-34.5l10.5-25.2 49.3 109.5c3.8 8.5 12.1 14 21.4 14.1s17.8-5 22-13.3L320 253.7l1.7 3.4c9.5 19 28.9 31 50.1 31l104.5 0c-3.7 4.3-7.7 8.5-11.9 12.4L283.7 469.1c-7.5 7-17.4 10.9-27.7 10.9s-20.2-3.9-27.7-10.9zM503.7 240l-132 0c-3 0-5.8-1.7-7.2-4.4l-23.2-46.3c-4.1-8.1-12.4-13.3-21.5-13.3s-17.4 5.1-21.5 13.3l-41.4 82.8L205.9 158.2c-3.9-8.7-12.7-14.3-22.2-14.1s-18.1 5.9-21.8 14.8l-31.8 76.3c-1.2 3-4.2 4.9-7.4 4.9L16 240c-2.6 0-5 .4-7.3 1.1C3 225.2 0 208.2 0 190.9l0-5.8c0-69.9 50.5-129.5 119.4-141C165 36.5 211.4 51.4 244 84l12 12 12-12c32.6-32.6 79-47.5 124.6-39.9C461.5 55.6 512 115.2 512 185.1l0 5.8c0 16.9-2.8 33.5-8.3 49.1z"></path></svg></x-icon></div>
+<h3 style="font-size:36px; font-weight:900; color:#9C2C05">Menos fumaça</h3>
+<p class="n" style="font-size:56px; font-weight:900; line-height:1.05; color:#9C2C05">+23%</p>
+<p style="font-size:24px; line-height:1.35">é quanto a queimada aumenta a chance de doença respiratória</p>
+</div>
+<div class="cartao a" style="padding:28px 30px; --i:6">
+<div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"></path></svg></x-icon></div>
+<h3 style="font-size:36px; font-weight:900; color:#9C2C05">Mais bichos vivos</h3>
+<p class="n" style="font-size:56px; font-weight:900; line-height:1.05; color:#9C2C05">17 milhões</p>
+<p style="font-size:24px; line-height:1.35">de animais morreram no Pantanal em 2020</p>
+</div>
+<div class="cartao a" style="padding:28px 30px; --i:7">
+<div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M57.7 193l9.4 16.4c8.3 14.5 21.9 25.2 38 29.8L163 255.7c17.2 4.9 29 20.6 29 38.5l0 39.9c0 11 6.2 21 16 25.9s16 14.9 16 25.9l0 39c0 15.6 14.9 26.9 29.9 22.6c16.1-4.6 28.6-17.5 32.7-33.8l2.8-11.2c4.2-16.9 15.2-31.4 30.3-40l8.1-4.6c15-8.5 24.2-24.5 24.2-41.7l0-8.3c0-12.7-5.1-24.9-14.1-33.9l-3.9-3.9c-9-9-21.2-14.1-33.9-14.1L257 256c-11.1 0-22.1-2.9-31.8-8.4l-34.5-19.7c-4.3-2.5-7.6-6.5-9.2-11.2c-3.2-9.6 1.1-20 10.2-24.5l5.9-3c6.6-3.3 14.3-3.9 21.3-1.5l23.2 7.7c8.2 2.7 17.2-.4 21.9-7.5c4.7-7 4.2-16.3-1.2-22.8l-13.6-16.3c-10-12-9.9-29.5 .3-41.3l15.7-18.3c8.8-10.3 10.2-25 3.5-36.7l-2.4-4.2c-3.5-.2-6.9-.3-10.4-.3C163.1 48 84.4 108.9 57.7 193zM464 256c0-36.8-9.6-71.4-26.4-101.5L412 164.8c-15.7 6.3-23.8 23.8-18.5 39.8l16.9 50.7c3.5 10.4 12 18.3 22.6 20.9l29.1 7.3c1.2-9 1.8-18.2 1.8-27.5zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"></path></svg></x-icon></div>
+<h3 style="font-size:36px; font-weight:900; color:#9C2C05">Menos mata perdida</h3>
+<p style="font-size:24px; line-height:1.35">menos área queimada e menos carbono indo para o ar</p>
+</div>
+</div>
+<div class="a" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:40px; --i:8">
+<div style="display:flex; flex-direction:column; gap:8px">
+<p class="olho">Provas</p>
+<ul class="lista" style="font-size:26px; gap:8px"><li>A conta bate com a área queimada da NASA (0,84)</li><li>7.260.823 focos de calor contados uma vez em 2025</li></ul>
+</div>
+<div style="display:flex; flex-direction:column; gap:8px">
+<p class="olho">Limites</p>
+<ul class="lista" style="font-size:26px; gap:8px"><li>Nem todo foco de calor é fogo</li><li>O tempo ganho em campo ainda não foi medido</li></ul>
+</div>
+</div>
+<p class="rodape">Saúde: FGV EPPG (INPE × DataSUS, 2008–2018) · Fauna: Tomas et al., Scientific Reports, 2021 · Área queimada: NASA MCD64A1</p>
+
+</section>
+
+<section id="fim" class="escuro" data-transition="fade" style="gap:36px">
+<h2 class="titulo a" style="--i:0">Próximos passos</h2>
+<div style="display:flex; gap:48px">
+<div class="a" style="width:780px; box-sizing:border-box; background:#2A1206; border:2px solid #4A2410; border-radius:28px; padding:36px 40px; display:flex; flex-direction:column; gap:18px; --i:1">
+<p class="olho">Hoje, ainda não</p>
+<ul class="lista" style="color:#FBF7F4; font-size:28px"><li>O mundo inteiro só em 2025 (o Brasil, desde 2000)</li><li>Áreas de atenção ainda sem teste com fogos reais</li><li>Focos a menos de 1 km no mesmo dia viram um só</li><li>Antes de 2012, a conta do Brasil é estimada</li></ul>
+</div>
+<div style="flex:1; display:flex; flex-direction:column; gap:22px">
+<p class="olho a" style="--i:2">Vem aí</p>
+<div class="a" style="display:flex; align-items:center; gap:22px; --i:3"><div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M57.7 193l9.4 16.4c8.3 14.5 21.9 25.2 38 29.8L163 255.7c17.2 4.9 29 20.6 29 38.5l0 39.9c0 11 6.2 21 16 25.9s16 14.9 16 25.9l0 39c0 15.6 14.9 26.9 29.9 22.6c16.1-4.6 28.6-17.5 32.7-33.8l2.8-11.2c4.2-16.9 15.2-31.4 30.3-40l8.1-4.6c15-8.5 24.2-24.5 24.2-41.7l0-8.3c0-12.7-5.1-24.9-14.1-33.9l-3.9-3.9c-9-9-21.2-14.1-33.9-14.1L257 256c-11.1 0-22.1-2.9-31.8-8.4l-34.5-19.7c-4.3-2.5-7.6-6.5-9.2-11.2c-3.2-9.6 1.1-20 10.2-24.5l5.9-3c6.6-3.3 14.3-3.9 21.3-1.5l23.2 7.7c8.2 2.7 17.2-.4 21.9-7.5c4.7-7 4.2-16.3-1.2-22.8l-13.6-16.3c-10-12-9.9-29.5 .3-41.3l15.7-18.3c8.8-10.3 10.2-25 3.5-36.7l-2.4-4.2c-3.5-.2-6.9-.3-10.4-.3C163.1 48 84.4 108.9 57.7 193zM464 256c0-36.8-9.6-71.4-26.4-101.5L412 164.8c-15.7 6.3-23.8 23.8-18.5 39.8l16.9 50.7c3.5 10.4 12 18.3 22.6 20.9l29.1 7.3c1.2-9 1.8-18.2 1.8-27.5zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"></path></svg></x-icon></div><p style="font-size:30px; font-weight:800; flex:1">Contar o mundo inteiro, todos os anos</p></div>
+<div class="a" style="display:flex; align-items:center; gap:22px; --i:4"><div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"></path></svg></x-icon></div><p style="font-size:30px; font-weight:800; flex:1">Testar as áreas de atenção com fogos reais</p></div>
+<div class="a" style="display:flex; align-items:center; gap:22px; --i:5"><div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M228.3 469.1L47.6 300.4c-4.2-3.9-8.2-8.1-11.9-12.4l87 0c22.6 0 43-13.6 51.7-34.5l10.5-25.2 49.3 109.5c3.8 8.5 12.1 14 21.4 14.1s17.8-5 22-13.3L320 253.7l1.7 3.4c9.5 19 28.9 31 50.1 31l104.5 0c-3.7 4.3-7.7 8.5-11.9 12.4L283.7 469.1c-7.5 7-17.4 10.9-27.7 10.9s-20.2-3.9-27.7-10.9zM503.7 240l-132 0c-3 0-5.8-1.7-7.2-4.4l-23.2-46.3c-4.1-8.1-12.4-13.3-21.5-13.3s-17.4 5.1-21.5 13.3l-41.4 82.8L205.9 158.2c-3.9-8.7-12.7-14.3-22.2-14.1s-18.1 5.9-21.8 14.8l-31.8 76.3c-1.2 3-4.2 4.9-7.4 4.9L16 240c-2.6 0-5 .4-7.3 1.1C3 225.2 0 208.2 0 190.9l0-5.8c0-69.9 50.5-129.5 119.4-141C165 36.5 211.4 51.4 244 84l12 12 12-12c32.6-32.6 79-47.5 124.6-39.9C461.5 55.6 512 115.2 512 185.1l0 5.8c0 16.9-2.8 33.5-8.3 49.1z"></path></svg></x-icon></div><p style="font-size:30px; font-weight:800; flex:1">Ver o efeito no clima e na fauna</p></div>
+<div class="a" style="display:flex; align-items:center; gap:22px; --i:6"><div class="chip"><x-icon aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 640 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M0 336c0 79.5 64.5 144 144 144l368 0c70.7 0 128-57.3 128-128c0-61.9-44-113.6-102.4-125.4c4.1-10.7 6.4-22.4 6.4-34.6c0-53-43-96-96-96c-19.7 0-38.1 6-53.3 16.2C367 64.2 315.3 32 256 32C167.6 32 96 103.6 96 192c0 2.7 .1 5.4 .2 8.1C40.2 219.8 0 273.2 0 336z"></path></svg></x-icon></div><p style="font-size:30px; font-weight:800; flex:1">Mostrar a qualidade do ar na hora da queimada</p></div>
+</div>
+</div>
+<div style="flex:1"></div>
+<p class="a" style="font-size:60px; font-weight:900; line-height:1.08; letter-spacing:-1px; --i:8">O fogo não espera. <span style="color:#FF8A4C">Com o De Olho no Fogo, a gente enxerga direito para chegar antes dele.</span></p>
+<p class="rodape">deolhonofogo.estudiocrivy.com.br · Qualidade do ar: SISAM, do INPE · NOAA-20 continua a série do satélite novo</p>
+
+</section>
+
+</main>
+<div id="barra"></div><div id="conta"></div>
+<div id="dica">→ ou clique para avançar · F tela cheia</div>
+<script>
+(function () {
+  var palco = document.getElementById('palco');
+  var slides = [].slice.call(palco.querySelectorAll(':scope > section'));
+  var atual = 0;
+  var calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  slides.forEach(function (s) { s.querySelectorAll('.n').forEach(function (el) { el.dataset.fim = el.textContent; }); });
+
+  function escala() {
+    var k = Math.min(innerWidth / 1920, innerHeight / 1080);
+    palco.style.transform = 'scale(' + k + ') translate(-50%, -50%)';
+  }
+  function contar(el) {
+    var fim = el.dataset.fim, m = fim.match(/^(\D*)([\d.,]+)(.*)$/);
+    if (!m || calmo) { el.textContent = fim; return; }
+    var pre = m[1], num = m[2], pos = m[3];
+    var dec = num.indexOf(',') >= 0 ? num.split(',')[1].length : 0;
+    var alvo = parseFloat(num.replace(/\./g, '').replace(',', '.'));
+    var mil = /\d\.\d{3}/.test(num);
+    var t0 = performance.now(), dur = 1300;
+    function fmt(v) {
+      var s = v.toFixed(dec).replace('.', ',');
+      if (mil) { var p = s.split(','); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.'); s = p.join(','); }
+      return pre + s + pos;
+    }
+    (function passo(t) {
+      var f = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - f, 3);
+      el.textContent = fmt(alvo * e);
+      if (f < 1) requestAnimationFrame(passo); else el.textContent = fim;
+    })(t0);
+  }
+  function mostrar(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, j) { s.classList.toggle('ativo', j === i); });
+    var s = slides[i];
+    s.querySelectorAll('.fragment').forEach(function (f) { f.classList.remove('visible'); });
+    void s.offsetWidth;
+    s.querySelectorAll('.n').forEach(contar);
+    atual = i;
+    history.replaceState(null, '', '#' + (i + 1));
+    document.getElementById('conta').textContent = (i + 1) + ' / ' + slides.length;
+    document.getElementById('barra').style.width = ((i + 1) / slides.length * 100) + '%';
+  }
+  function frente() {
+    var f = slides[atual].querySelector('.fragment:not(.visible)');
+    if (f) {
+      var idx = f.dataset.fragmentIndex;
+      slides[atual].querySelectorAll('.fragment').forEach(function (g) { if (g.dataset.fragmentIndex === idx) g.classList.add('visible'); });
+      return;
+    }
+    mostrar(atual + 1);
+  }
+  function tras() { mostrar(atual - 1); }
+  function dica() { document.body.classList.add('sem-dica'); }
+
+  addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'PageDown', ' ', 'Enter'].indexOf(e.key) >= 0) { e.preventDefault(); frente(); dica(); }
+    else if (['ArrowLeft', 'PageUp', 'Backspace'].indexOf(e.key) >= 0) { e.preventDefault(); tras(); dica(); }
+    else if (e.key === 'Home') mostrar(0);
+    else if (e.key === 'End') mostrar(slides.length - 1);
+    else if (e.key === 'f' || e.key === 'F') { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
+  });
+  addEventListener('click', function (e) { if (e.clientX > innerWidth / 3) frente(); else tras(); dica(); });
+  var x0 = null;
+  addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) { if (dx < 0) frente(); else tras(); dica(); }
+  });
+  addEventListener('hashchange', function () { var n = (parseInt(location.hash.slice(1), 10) || 1) - 1; if (n !== atual) mostrar(n); });
+  addEventListener('resize', escala);
+  escala();
+  mostrar((parseInt(location.hash.slice(1), 10) || 1) - 1);
+  setTimeout(dica, 6000);
+})();
+</script>
+</body>
+</html>
