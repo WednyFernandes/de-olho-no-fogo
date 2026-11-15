@@ -6,7 +6,7 @@ Uso: python scripts/validar_harmonizacao.py <inpe_mg.csv>
 
 Saídas:
   public/data/serie-harmonizada-mg.csv  série mensal 2001–2025 (dado aberto)
-  public/data/mg-validacao.js           números da validação para o app (window.MG_VAL)
+  dados/publico-antigo/data/mg-validacao.js           números da validação para o app (window.MG_VAL)
 """
 import csv
 import json
@@ -18,7 +18,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def load_js(name):
-    with open(os.path.join(ROOT, 'public', 'data', name), encoding='utf-8') as f:
+    with open(os.path.join(ROOT, 'dados', 'publico-antigo', 'data', name), encoding='utf-8') as f:
         s = f.read()
     return json.loads(s[s.index('=') + 1:].rstrip().rstrip(';'))
 
@@ -101,7 +101,7 @@ with open(os.path.join(ROOT, 'public', 'data', 'serie-harmonizada-mg.csv'), 'w',
 out = {'anos': yrs, 'inpe': inpe_a, 'harm': [round(x) for x in ser['harmonizada']], 'troca': ser['troca_sem_ajuste'],
        'salto': {k: round(v, 2) for k, v in salto.items()}, 'r_anual': {k: round(v, 3) for k, v in r_anual.items()},
        'r_mensal': round(r_mensal, 3), 'mk': mk, 'kf': [round(x, 3) for x in kf]}
-with open(os.path.join(ROOT, 'public', 'data', 'mg-validacao.js'), 'w', encoding='utf-8') as f:
+with open(os.path.join(ROOT, 'dados', 'publico-antigo', 'data', 'mg-validacao.js'), 'w', encoding='utf-8') as f:
     f.write('window.MG_VAL=' + json.dumps(out, separators=(',', ':')) + ';\n')
 print(json.dumps({k: out[k] for k in ('salto', 'r_anual', 'r_mensal', 'mk', 'kf')}, indent=1))
 

@@ -73,7 +73,7 @@ O site é mundial e tem só essas quatro rotas; não há rotas de API. O menu de
 - `docs/metodo-harmonizacao.md` — método, parâmetros, validação e limites (vira a página `/metodo`).
 - `scripts/` — Python que gera os dados. `cache/` guarda os downloads; `dados/` guarda os arquivos brutos do FIRMS (fora do git).
 - `arquivo/` — versões antigas e capturas, fora do site. `arquivo/retirado-2026-11-14/` guarda, com os mesmos caminhos, o que saiu do site: a página `/focos` e as rotas de fator (`/api/focos`, `/api/harmonizacao`, `/api/conciliacao`); as páginas regionais `/calendario` e `/previsao` com as rotas `/api/recentes`, `/api/atualizar-focos` e `/api/risco`; as bibliotecas de `src/lib/`; as páginas iniciais anteriores; e as versões anteriores do método, deste README, do PRODUCT.md e do `vercel.json` (com o cron).
-- Sem uso pelo site atual, mantidos como histórico de dados e de trabalho: `public/data/mg-*.js`, `public/data/recentes.js`, `public/data/serie-harmonizada-mg.csv`, `public/data/pts/`, `public/data/cicatrizes/`, `public/assets/calendario.png` e os scripts do protótipo regional (`validar_harmonizacao.py`, `clima_power.py`, `clima_diario_power.py`, `cicatrizes_inpe.py`, `municipios_anual.py`, `modelo_risco.py`, `atualizar_2026.py`, `focos_recentes.py`, `cobertura_mapbiomas.py`).
+- Sem uso pelo site atual, mantidos como histórico de dados e de trabalho: `dados/publico-antigo/` (saiu de `public/` em 15/11, com os mesmos caminhos: `data/mg-*.js`, `data/br-*.json`, `data/recentes.js`, `data/pts/`, `data/cicatrizes/`, `assets/*.png`), `public/data/serie-harmonizada-mg.csv` e os scripts do protótipo regional (`validar_harmonizacao.py`, `clima_power.py`, `clima_diario_power.py`, `cicatrizes_inpe.py`, `municipios_anual.py`, `modelo_risco.py`, `atualizar_2026.py`, `focos_recentes.py`, `cobertura_mapbiomas.py`).
 
 ## Regerar os dados
 
@@ -88,7 +88,7 @@ python scripts/cicatrizes_brasil.py    # baixa do INPE o que faltar; grava publi
 - `celulas_dia_5km.py` confere a segunda régua da equipe (células-dia de 5 km, Brasil 2012–2025, CSVs em `public/data/harm/celulas-dia-5km/`) contra os arquivos FIRMS.
 - `cicatrizes_brasil.py` usa o AQ1km (Coleção 2) do INPE e a malha das UFs do IBGE; `--sem-rede` usa só o cache.
 - A página inicial traz os números de `stats.json` escritos no HTML (com a data de geração). Ao regerar, atualize o texto e o bloco `D` no fim de `src/legacy/landing.html`, e as tabelas de `docs/metodo-harmonizacao.md`.
-- Abordagens substituídas, mantidas para comparação (seção 6 do método): `harmonizar_brasil.py`, `harmonizar_celulas.py`, `conciliar_brasil.py` e os arquivos `public/data/br-*.json` e `serie-harmonizada-brasil-2025.csv`.
+- Abordagens substituídas, mantidas para comparação (seção 6 do método): `harmonizar_brasil.py`, `harmonizar_celulas.py`, `conciliar_brasil.py` e os arquivos `dados/publico-antigo/data/br-*.json` e `public/data/serie-harmonizada-brasil-2025.csv`.
 
 ## Publicação
 

@@ -18,7 +18,7 @@ Passos:
 
 Saídas:
   public/data/serie-harmonizada-brasil-2025.csv   série diária (dado aberto)
-  public/data/br-harmonizacao-2025.json           números para a página/visual
+  dados/publico-antigo/data/br-harmonizacao-2025.json           números para a página/visual
 
 Uso: python scripts/harmonizar_brasil.py
 """
@@ -37,6 +37,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DADOS = ROOT / "dados"
 BR = DADOS / "firms" / "brasil"
 OUT = ROOT / "public" / "data"
+ANTIGO = ROOT / "dados" / "publico-antigo" / "data"  # mg-*.js e br-*.json saíram do site em 15/11
 ANO = 2025
 SENSORES = ["modis", "viirs-snpp", "viirs-jpss1"]
 NOME = {"modis": "MODIS (Terra+Aqua)", "viirs-snpp": "VIIRS S-NPP", "viirs-jpss1": "VIIRS NOAA-20"}
@@ -49,7 +50,7 @@ MIN_BLOCO = 30  # focos MODIS mínimos num bloco-mês para usar o fator regional
 
 
 def celulas_mg():
-    txt = (OUT / "mg-municipios.js").read_text(encoding="utf-8")
+    txt = (ANTIGO / "mg-municipios.js").read_text(encoding="utf-8")
     return set(json.loads(txt[txt.index("{") : txt.rindex("}") + 1])["c"])
 
 
@@ -204,7 +205,7 @@ def main():
     mg = {s: soma_mes(C[s][1], comuns) for s in SENSORES}
     fora = {s: [mes_c[s][m] - mg[s][m] for m in range(12)] for s in SENSORES}
     k_fora = [fora[REF][m] / fora["modis"][m] for m in range(12)]
-    val = json.loads((OUT / "mg-validacao.js").read_text(encoding="utf-8").split("=", 1)[1].rstrip().rstrip(";"))
+    val = json.loads((ANTIGO / "mg-validacao.js").read_text(encoding="utf-8").split("=", 1)[1].rstrip().rstrip(";"))
     k_mg_hist = val["kf"]
     k_mg_2025 = [razao(mg[REF][m], mg["modis"][m]) for m in range(12)]
     espaco = {
@@ -256,7 +257,7 @@ def main():
                "k_brasil_sem_mg": [round(x, 3) for x in k_fora]},
         "mapa": mapa,
     }
-    (OUT / f"br-harmonizacao-{ANO}.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    (ANTIGO / f"br-harmonizacao-{ANO}.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     print(json.dumps({x: out[x] for x in ("dias_comuns", "escolha", "k_ano", "corr_diaria")}, indent=1, ensure_ascii=False))
     print("dias sem dado:", {s: len(v) for s, v in sem_dado.items()})

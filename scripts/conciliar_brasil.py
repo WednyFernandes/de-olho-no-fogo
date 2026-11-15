@@ -19,7 +19,7 @@ Validação: esconde um ano inteiro de 2012–2021, calibra com os outros e prev
 
 Uso: python scripts/conciliar_brasil.py
   Baixa do NASA FIRMS os arquivos anuais do Brasil que faltarem em dados/firms/brasil/ (~1,4 GB no total, fora do git).
-Saída: public/data/br-conciliacao-local.json, com a comparação contra public/data/br-conciliacao-*.json (pacote da equipe).
+Saída: dados/publico-antigo/data/br-conciliacao-local.json, com a comparação contra dados/publico-antigo/data/br-conciliacao-*.json (pacote da equipe).
 """
 
 import csv
@@ -175,7 +175,7 @@ def main():
 
     # comparação com o pacote da equipe
     def carregar(n):
-        with open(os.path.join(ROOT, "public", "data", f"br-conciliacao-{n}.json"), encoding="utf-8") as f:
+        with open(os.path.join(ROOT, "dados", "publico-antigo", "data", f"br-conciliacao-{n}.json"), encoding="utf-8") as f:
             return json.load(f)
     comp = {}
     try:
@@ -192,7 +192,7 @@ def main():
     except FileNotFoundError:
         pass
     out["comparacao_com_pacote"] = comp
-    with open(os.path.join(ROOT, "public", "data", "br-conciliacao-local.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "dados", "publico-antigo", "data", "br-conciliacao-local.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
     print(json.dumps({"anos_com_viirs": anos_v, "validacao": out["validacao"], "comparacao": comp,
                       "anual_cel_brasil": out["anual"]["cel"]["Brasil"]}, ensure_ascii=False, indent=1))

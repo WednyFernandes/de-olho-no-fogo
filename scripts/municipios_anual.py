@@ -1,11 +1,11 @@
 """Focos harmonizados por município de MG, por ano e por mês do calendário (para a landing page).
 
 Uso: python scripts/municipios_anual.py
-  Lê public/data/pts/AAAA-MM.js (focos do globo), public/data/mg-municipios.js (célula de 0,1° → município)
-  e public/data/mg-validacao.js (fator VIIRS/MODIS de cada mês).
+  Lê dados/publico-antigo/data/pts/AAAA-MM.js (focos do globo antigo), dados/publico-antigo/data/mg-municipios.js (célula de 0,1° → município)
+  e dados/publico-antigo/data/mg-validacao.js (fator VIIRS/MODIS de cada mês).
   Antes de 2012: MODIS × fator do mês. De 2012 em diante: VIIRS (mesma regra da série estadual).
 
-Saída: public/data/mg-mun-anual.js (window.MG_MUN_ANUAL).
+Saída: dados/publico-antigo/data/mg-mun-anual.js (window.MG_MUN_ANUAL).
 """
 import glob
 import json
@@ -23,13 +23,13 @@ def load(path, sep):
     return json.loads(s[s.index(sep) + len(sep):].strip().rstrip(';').rstrip(')'))
 
 
-MUN = load(os.path.join(ROOT, 'public', 'data', 'mg-municipios.js'), '=')
-KF = load(os.path.join(ROOT, 'public', 'data', 'mg-validacao.js'), '=')['kf']
+MUN = load(os.path.join(ROOT, 'dados', 'publico-antigo', 'data', 'mg-municipios.js'), '=')
+KF = load(os.path.join(ROOT, 'dados', 'publico-antigo', 'data', 'mg-validacao.js'), '=')['kf']
 cell = MUN['c']
 ano = {}  # código → [focos por ano]
 mes = {}  # código → [focos por mês do calendário, soma 2003–2025]
 
-for fn in sorted(glob.glob(os.path.join(ROOT, 'public', 'data', 'pts', '*.js'))):
+for fn in sorted(glob.glob(os.path.join(ROOT, 'dados', 'publico-antigo', 'data', 'pts', '*.js'))):
     tag = os.path.basename(fn)[:7]
     y, m = int(tag[:4]), int(tag[5:7])
     if not Y0 <= y <= Y1:
@@ -52,7 +52,7 @@ if not ano:
 out = {'anos': [Y0, Y1], 'n': MUN['n'],
        'a': {c: [round(v) for v in s] for c, s in ano.items()},
        'm': {c: [round(v) for v in s] for c, s in mes.items()}}
-with open(os.path.join(ROOT, 'public', 'data', 'mg-mun-anual.js'), 'w', encoding='utf-8') as f:
+with open(os.path.join(ROOT, 'dados', 'publico-antigo', 'data', 'mg-mun-anual.js'), 'w', encoding='utf-8') as f:
     f.write('window.MG_MUN_ANUAL=' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
 tot = sum(sum(s) for s in ano.values())
 sys.stdout.write(f'{len(ano)} municípios com foco, {tot:.0f} focos harmonizados {Y0}-{Y1}\n')

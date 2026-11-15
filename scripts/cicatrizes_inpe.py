@@ -7,12 +7,12 @@ Fonte: https://dataserver-coids.inpe.br/queimadas/queimadas/area_queimada/coleca
 O que faz:
   - Baixa cada mês uma vez (cache/inpe-aq1km/AAAA_MM.zip; ~1 MB cada).
   - Lê o .shp direto do zip (leitor próprio, sem bibliotecas), fica com os polígonos cujo centro cai em MG
-    (mesma grade de células de 0,1° do app, public/data/mg-municipios.js) e calcula a área de cada um.
+    (mesma grade de células de 0,1° do app, dados/publico-antigo/data/mg-municipios.js) e calcula a área de cada um.
   - Compara a área queimada anual com a série harmonizada de focos (public/data/serie-harmonizada-mg.csv).
 
 Saídas:
-  public/data/mg-cicatrizes.js           window.MG_CICATRIZES: área queimada por mês (km²), 2002 em diante, e a comparação com os focos
-  public/data/cicatrizes/mg-AAAA.json    polígonos do ano para o mapa: [mês, km², anéis] com coordenadas [lon, lat] de 3 casas
+  dados/publico-antigo/data/mg-cicatrizes.js           window.MG_CICATRIZES: área queimada por mês (km²), 2002 em diante, e a comparação com os focos
+  dados/publico-antigo/data/cicatrizes/mg-AAAA.json    polígonos do ano para o mapa: [mês, km², anéis] com coordenadas [lon, lat] de 3 casas
 
 Uso: python scripts/cicatrizes_inpe.py
 """
@@ -31,7 +31,7 @@ from concurrent.futures import ThreadPoolExecutor
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE = os.path.join(ROOT, "cache", "inpe-aq1km")
 BASE = "https://dataserver-coids.inpe.br/queimadas/queimadas/area_queimada/colecao2/shp/"
-SAIDA = os.path.join(ROOT, "public", "data")
+SAIDA = os.path.join(ROOT, "dados", "publico-antigo", "data")  # fora do site desde 15/11
 CAIXA_MG = (-51.2, -23.0, -39.8, -14.2)  # oeste, sul, leste, norte
 KM_GRAU = 111.32
 
@@ -124,7 +124,7 @@ def main():
 
     # comparação com os focos harmonizados (anos completos nas duas séries)
     focos = {}
-    with open(os.path.join(SAIDA, "serie-harmonizada-mg.csv"), encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "public", "data", "serie-harmonizada-mg.csv"), encoding="utf-8") as f:
         for r in csv.DictReader(f):
             focos[int(r["ano"])] = focos.get(int(r["ano"]), 0) + float(r["harmonizada_escala_viirs"])
     ultimo = max(arquivos)[:2]

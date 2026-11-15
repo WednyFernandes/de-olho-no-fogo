@@ -14,7 +14,7 @@ O que faz:
   - Mede a área de cada grupo de classes em MG em cada ano (escala de 100 m, suficiente para proporções).
   - Guarda tudo em cache/mapbiomas/ (cada ano e mês só é pedido uma vez).
 
-Saída: public/data/mg-cobertura.js (window.MG_COBERTURA).
+Saída: dados/publico-antigo/data/mg-cobertura.js (window.MG_COBERTURA).
 """
 
 import csv
@@ -167,7 +167,7 @@ def main():
         "focos_mes": [mensal[y] for y in anos],
         "area_km2": [area[y] for y in anos],
     }
-    with open(os.path.join(ROOT, "public", "data", "mg-cobertura.js"), "w", encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "dados", "publico-antigo", "data", "mg-cobertura.js"), "w", encoding="utf-8") as f:
         f.write("window.MG_COBERTURA=" + json.dumps(out, ensure_ascii=False, separators=(",", ":")) + ";\n")
     tot_f = [sum(out["focos"][i][g] for i in range(len(anos))) for g in range(len(ORDEM))]
     tot_a = out["area_km2"][-1]

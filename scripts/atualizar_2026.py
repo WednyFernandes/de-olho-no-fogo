@@ -15,8 +15,8 @@ Filtros, iguais aos da série histórica: sem confiança baixa; só vegetação 
 
 Saídas:
   dados/firms/mg/2026-api/<sensor>_2026_MG.csv   focos de MG do ano (colunas do FIRMS + type + origem SP/NRT)
-  public/data/mg-diario.js                        acrescenta os dias de 2026 (o que havia até 31/12/2025 não muda)
-  public/data/mg-2026.js                          window.MG_2026: totais por mês, por sensor e harmonizado, contra a mediana
+  dados/publico-antigo/data/mg-diario.js                        acrescenta os dias de 2026 (o que havia até 31/12/2025 não muda)
+  dados/publico-antigo/data/mg-2026.js                          window.MG_2026: totais por mês, por sensor e harmonizado, contra a mediana
 
 Uso: python scripts/atualizar_2026.py
 """
@@ -34,7 +34,7 @@ from collections import defaultdict
 from datetime import date, timedelta
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA = os.path.join(ROOT, "public", "data")
+DATA = os.path.join(ROOT, "dados", "publico-antigo", "data")  # fora do site desde 15/11
 CACHE = os.path.join(ROOT, "cache", "firms-api")
 SAIDA = os.path.join(ROOT, "dados", "firms", "mg", "2026-api")
 API = "https://firms.modaps.eosdis.nasa.gov/api/"
@@ -196,7 +196,7 @@ def main():
     _, val = carregar_js("mg-validacao.js")
     kf = val["kf"]
     hist = defaultdict(list)
-    with open(os.path.join(DATA, "serie-harmonizada-mg.csv"), encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "public", "data", "serie-harmonizada-mg.csv"), encoding="utf-8") as f:
         for r in csv.DictReader(f):
             hist[int(r["mes"])].append(float(r["harmonizada_escala_viirs"]))
     meses = []

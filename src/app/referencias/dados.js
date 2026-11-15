@@ -351,7 +351,7 @@ export const SECOES = [
         nome: 'Conciliação do Brasil, 2000 a 2025 (pacote da equipe)',
         uso: 'Fatores por região e mês em células de 25 km, feitos pela equipe a partir dos arquivos anuais do FIRMS e refeitos de forma independente neste repositório. Substituída pela harmonização ponto a ponto; os números de validação estão na seção 6 do método.',
         acesso: 'Substituído',
-        onde: 'docs/2026-11-14-algoritmo-equipe.md, scripts/conciliar_brasil.py, scripts/harmonizar_celulas.py, public/data/br-conciliacao-*.json',
+        onde: 'docs/2026-11-14-algoritmo-equipe.md, scripts/conciliar_brasil.py, scripts/harmonizar_celulas.py, dados/publico-antigo/data/br-conciliacao-*.json',
       },
       {
         nome: 'Série diária do Brasil em 2025, por fator (dado aberto)',

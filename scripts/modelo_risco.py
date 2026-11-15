@@ -15,7 +15,7 @@ Modelo: regressão logística, alvo = "houve ao menos um foco na caixa naquele d
   Treino 2012–2021, teste 2022–2025 (anos que o modelo não viu).
   Comparado com um modelo só de calendário (época do ano), para medir o que o clima acrescenta.
 
-Saída: public/data/mg-risco.js (window.MG_RISCO): coeficientes, padronização, limites das faixas, métricas do teste
+Saída: dados/publico-antigo/data/mg-risco.js (window.MG_RISCO): coeficientes, padronização, limites das faixas, métricas do teste
 e a série de 2025 (risco previsto × focos observados) de cada ponto. Usado por /api/risco e pela página /previsao.
 """
 
@@ -227,7 +227,7 @@ def main():
         "pontos": por_ponto,
         "fonte": "NASA POWER diário (MERRA-2, CERES) e NASA FIRMS VIIRS S-NPP; altitude SRTM 90 m (OpenTopoData)",
     }
-    with open(os.path.join(ROOT, "public", "data", "mg-risco.js"), "w", encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "dados", "publico-antigo", "data", "mg-risco.js"), "w", encoding="utf-8") as f:
         f.write("window.MG_RISCO=" + json.dumps(out, ensure_ascii=False, separators=(",", ":")) + ";\n")
     print(json.dumps({"teste": out["teste"], "treino": out["treino"], "limites": limites,
                       "coef": dict(zip(VARS, out["coef"])), "auc_ponto": {x["id"]: x["auc"] for x in por_ponto}}, ensure_ascii=False, indent=1))

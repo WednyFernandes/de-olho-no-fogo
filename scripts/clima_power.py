@@ -5,7 +5,7 @@ Uso: python scripts/clima_power.py
   do NASA POWER para uma grade de pontos de MG e para o centro de cada área do app.
   Lê public/data/serie-harmonizada-mg.csv (gerado por scripts/validar_harmonizacao.py).
 
-Saída: public/data/mg-clima.js (window.MG_CLIMA) usado no app-calendario-do-fogo.html.
+Saída: dados/publico-antigo/data/mg-clima.js (window.MG_CLIMA) usado no app-calendario-do-fogo.html.
 """
 import calendar
 import csv
@@ -115,6 +115,6 @@ assoc = {'anos': anos, 'fogo_seca': [round(v) for v in fs], 'rh_seca': [round(v,
 
 out = {'y0': Y0, 'areas': C, 'assoc': assoc,
        'fonte': 'NASA POWER (MERRA-2 / IMERG), mensal, grade ~0,5°; média de 12 pontos para MG'}
-with open(os.path.join(ROOT, 'public', 'data', 'mg-clima.js'), 'w', encoding='utf-8') as f:
+with open(os.path.join(ROOT, 'dados', 'publico-antigo', 'data', 'mg-clima.js'), 'w', encoding='utf-8') as f:
     f.write('window.MG_CLIMA=' + json.dumps(out, separators=(',', ':')) + ';\n')
 sys.stdout.write(json.dumps({k: v for k, v in assoc.items() if k[:2] in ('r_', 'rs', 'rd')}) + '\n')

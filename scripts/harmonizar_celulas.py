@@ -20,8 +20,8 @@ Incerteza de cada região = percentil 90 do erro mensal nessa validação; a fai
 
 Uso: python scripts/harmonizar_celulas.py
 Entradas: dados/firms/brasil/{modis,viirs-snpp}_2025.csv.gz (geradas por scripts/harmonizar_brasil.py)
-Saídas: public/data/br-harmonizacao-celulas-2025.json (lida por src/lib/harmonizacao.js e /api/harmonizacao)
-        public/data/br-celulas-regiao-2025.json (célula de 25 km → região; usado por /api/focos)
+Saídas: dados/publico-antigo/data/br-harmonizacao-celulas-2025.json (lida por src/lib/harmonizacao.js e /api/harmonizacao)
+        dados/publico-antigo/data/br-celulas-regiao-2025.json (célula de 25 km → região; usado por /api/focos)
 """
 
 import csv
@@ -148,7 +148,7 @@ def main():
             reg[c] = r
     fora = sum(1 for c in todas if c not in reg)
     cod = {v: k for k, v in REGIOES.items()}
-    with open(os.path.join(ROOT, "public", "data", f"br-celulas-regiao-{ANO}.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "dados", "publico-antigo", "data", f"br-celulas-regiao-{ANO}.json"), "w", encoding="utf-8") as f:
         json.dump({"grade": "25 km (ver harmonizar_celulas.py)", "codigos": REGIOES,
                    "c": {f"{a},{b}": cod[r] for (a, b), r in sorted(reg.items())}}, f, separators=(",", ":"))
 
@@ -221,7 +221,7 @@ def main():
         "celulas_fora_das_regioes": fora,
         "fontes": {"focos": "NASA FIRMS, arquivos anuais por país (Brasil), 2025", "regioes": "IBGE, API de malhas v3 (macrorregiões)"},
     }
-    destino = os.path.join(ROOT, "public", "data", f"br-harmonizacao-celulas-{ANO}.json")
+    destino = os.path.join(ROOT, "dados", "publico-antigo", "data", f"br-harmonizacao-celulas-{ANO}.json")
     with open(destino, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
     print(json.dumps({"validacao": out["validacao"], "incerteza": incerteza, "fora": fora,

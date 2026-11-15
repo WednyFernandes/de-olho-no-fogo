@@ -34,7 +34,7 @@ NRT_7D = {
 
 
 def celulas_mg():
-    txt = (ROOT / "public" / "data" / "mg-municipios.js").read_text(encoding="utf-8")
+    txt = (ROOT / "dados" / "publico-antigo" / "data" / "mg-municipios.js").read_text(encoding="utf-8")
     return set(json.loads(txt[txt.index("{") : txt.rindex("}") + 1])["c"])
 
 

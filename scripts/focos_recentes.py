@@ -1,6 +1,6 @@
 """Focos das últimas 48 h em Minas Gerais, do NASA FIRMS (arquivos públicos NRT, sem chave).
 
-Gera public/data/recentes.js (window.MG_RECENTES), usado como reserva quando o FIRMS falha. No site, a rota /api/recentes faz isso sozinha.
+Gera dados/publico-antigo/data/recentes.js (window.MG_RECENTES), usado como reserva quando o FIRMS falha. No site, a rota /api/recentes faz isso sozinha.
 """
 
 import csv
@@ -11,7 +11,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "public" / "data" / "recentes.js"
+OUT = ROOT / "dados" / "publico-antigo" / "data" / "recentes.js"
 BASE = "https://firms.modaps.eosdis.nasa.gov/data/active_fire/"
 FONTES = {  # sensor -> arquivo da América do Sul, 48 h
     "VIIRS S-NPP": "suomi-npp-viirs-c2/csv/SUOMI_VIIRS_C2_South_America_48h.csv",
@@ -22,7 +22,7 @@ FONTES = {  # sensor -> arquivo da América do Sul, 48 h
 
 
 def celulas_mg():
-    txt = (ROOT / "public" / "data" / "mg-municipios.js").read_text(encoding="utf-8")
+    txt = (ROOT / "dados" / "publico-antigo" / "data" / "mg-municipios.js").read_text(encoding="utf-8")
     return json.loads(txt[txt.index("{") : txt.rindex("}") + 1])["c"]
 
 

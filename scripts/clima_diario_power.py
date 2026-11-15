@@ -13,7 +13,7 @@ Associação (não causa), estação seca (julho a outubro):
     da estação (agosto venta mais e queima mais por motivos que não são o vento do dia).
   - por ano: médias de julho a outubro contra a série harmonizada, sem a tendência linear, como em clima_power.py.
 
-Saída: public/data/mg-clima-diario.js (window.MG_CLIMA_DIA), usado em src/legacy/calendario.html.
+Saída: dados/publico-antigo/data/mg-clima-diario.js (window.MG_CLIMA_DIA), usado em src/legacy/calendario.html.
 """
 
 import csv
@@ -142,7 +142,7 @@ def main():
     out = {"d0": D0.isoformat(), "areas": {k: compacta(a) for k, a in C.items()},
            "assoc": {"por_dia": por_dia, "por_ano": por_ano},
            "fonte": "NASA POWER diário (MERRA-2): WS10M_MAX e GWETTOP, grade ~0,5°; média de 12 pontos para MG"}
-    with open(os.path.join(ROOT, "public", "data", "mg-clima-diario.js"), "w", encoding="utf-8") as f:
+    with open(os.path.join(ROOT, "dados", "publico-antigo", "data", "mg-clima-diario.js"), "w", encoding="utf-8") as f:
         f.write("window.MG_CLIMA_DIA=" + json.dumps(out, separators=(",", ":")) + ";\n")
     print(json.dumps({"por_dia": por_dia, **{k: v for k, v in por_ano.items() if k.startswith("r")}}, ensure_ascii=False))
 
