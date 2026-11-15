@@ -1,0 +1,101 @@
+{
+ "versao": 1,
+ "fonte": "NASA POWER diário (MERRA-2), via dados/risco/tabela_brasil.npz",
+ "anos": [
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025
+ ],
+ "forma": [
+  366,
+  6,
+  2454
+ ],
+ "ordem": "C: [dia do ano − 1, variável, célula]; células na ordem de public/data/harm/clima/resumo.json",
+ "variaveis": [
+  "ur",
+  "seco",
+  "tmax",
+  "chuva7",
+  "vento",
+  "solo"
+ ],
+ "decodificar": {
+  "ur": "q*0.4 (%)",
+  "seco": "q dias (254 = 254 ou mais)",
+  "tmax": "-10 + q*0.25 (°C)",
+  "chuva7": "q<150 ? q : 150 + (q-150)*5 (mm)",
+  "vento": "q*0.1 (m/s)",
+  "solo": "q/250 (0–1)"
+ },
+ "sem_dado": 255,
+ "arquivos": {
+  "2012": {
+   "dias": 366,
+   "bytes": 5388984
+  },
+  "2013": {
+   "dias": 365,
+   "bytes": 5388984
+  },
+  "2014": {
+   "dias": 365,
+   "bytes": 5388984
+  },
+  "2015": {
+   "dias": 365,
+   "bytes": 5388984
+  },
+  "2016": {
+   "dias": 366,
+   "bytes": 5388984
+  },
+  "2017": {
+   "dias": 365,
+   "bytes": 5388984
+  },
+  "2018": {
+   "dias": 365,
+   "bytes": 5388984
+  },
+  "2019": {
+   "dias": 365,
+   "bytes": 5388984
+  },
+  "2020": {
+   "dias": 366,
+   "bytes": 5388984
+  },
+  "2021": {
+   "dias": 365,
+   "bytes": 5388984
+  },
+  "2022": {
+   "dias": 365,
+   "bytes": 5388984
+  },
+  "2023": {
+   "dias": 365,
+   "bytes": 5388984
+  },
+  "2024": {
+   "dias": 366,
+   "bytes": 5388984
+  },
+  "2025": {
+   "dias": 365,
+   "bytes": 5388984
+  }
+ }
+}

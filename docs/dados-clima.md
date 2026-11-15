@@ -53,3 +53,19 @@ Focos fora da grade: 2 de 9,44 milhões (2014 e 2016). Os números ficam em `res
   - eixo 0: normal (média), p10, p90 em 2001–2020; janela de ±7 dias em volta do centro da pêntada.
   - pêntada p = floor((dia do ano − 1) / 5), 0..72 (o 31/dez de ano bissexto vai com o 30/dez).
   - valor = `v0[var] + q · passo[var]`; q = 255 = sem dado. Erro de quantização ≤ passo/2 (ver `resumo.json`).
+
+## `public/data/clima/AAAA.bin` (tempo diário para o globo)
+
+Script: `scripts/clima_exportar.py` (segundos; lê `dados/risco/tabela_brasil.npz`). Um arquivo por ano, **2012–2025**
+(14 × 5,39 MB ≈ 75 MB; 2000–2011 ficaram de fora pelo orçamento de ~80 MB), carregado pelo globo só quando precisa.
+Descrição e quantização também em `public/data/clima/resumo.json`.
+
+- uint8, ordem C `[dia do ano − 1 (366), variável (6), célula (2.454)]`; células na ordem de `resumo.json` acima
+  (a mesma de `public/data/risco/celulas.json`). Dia 366 de ano comum = 255. q = 255 → sem dado.
+- Variáveis: `ur` RH2M média do dia (v = q·0,4 %); `seco` dias seguidos com PRECTOTCORR < 1 mm terminando no próprio
+  dia, contados desde 2000 (v = q; 254 = 254 ou mais); `tmax` T2M_MAX (v = −10 + q·0,25 °C); `chuva7` soma de
+  PRECTOTCORR nos 7 dias terminando no dia (q < 150: v = q mm; senão v = 150 + (q − 150)·5 mm); `vento` WS10M_MAX
+  (v = q·0,1 m/s); `solo` GWETTOP (v = q/250).
+- `seco` no dia *t*−1 é igual à variável `dias_secos` do modelo de risco na emissão *t*.
+- Conferência (15/11/2026): célula 951 (−12,0; −55,0), 26/08/2024 — npz: 31,6 °C, 49,2 %, 0,49 mm em 7 dias, 55 dias secos,
+  5,7 km/h, GWETTOP 0,27; o card do globo mostrou 32 °C, 49 %, 0 mm, 55, 6 km/h, "baixa".

@@ -9,7 +9,7 @@ python scripts/risco_exportar.py   # segundos; public/data/risco/*
 ```
 
 Entrada: `dados/risco/tabela_brasil.npz` ([dados-clima.md](dados-clima.md)), `public/data/harm/cobertura-2020.png` e
-`cache/power-brasil/focos_{ano}.npz` (centroides dos focos harmonizados). Página: `/risco` (`src/app/risco/`).
+`cache/power-brasil/focos_{ano}.npz` (centroides dos focos harmonizados). Uso: camada e painel de risco do globo (`/globo`); a página `/risco` foi retirada em 15/11/2026 e redireciona para `/globo?risco=1`.
 
 ## Definições
 

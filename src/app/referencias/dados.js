@@ -275,8 +275,8 @@ export const SECOES = [
   },
   {
     id: 'risco',
-    titulo: 'Análise e risco de queimadas (/risco)',
-    nota: 'Fontes da página /risco: clima diário do NASA POWER por célula nativa (0,5° × 0,625°) no Brasil, 2000–2025, cobertura do solo MODIS MCD12C1 de 2020 e os modelos do scikit-learn. Scripts: scripts/risco_features.py, risco_modelo.py, risco_exportar.py.',
+    titulo: 'Risco de fogo e tempo no globo',
+    nota: 'Fontes da camada de risco, do painel Risco e do tempo no clique do globo (a página /risco foi retirada em 15/11/2026 e redireciona para o globo): clima diário do NASA POWER por célula nativa (0,5° × 0,625°) no Brasil, cobertura do solo MODIS MCD12C1 de 2020, os modelos do scikit-learn e o tempo de agora do Open-Meteo. Scripts: scripts/risco_features.py, risco_modelo.py, risco_exportar.py, clima_exportar.py.',
     itens: [
       {
         nome: 'NASA POWER, API diária de ponto (comunidade AG), Brasil',
@@ -284,7 +284,7 @@ export const SECOES = [
         url: 'https://power.larc.nasa.gov/',
         links: [['API', 'https://power.larc.nasa.gov/docs/services/api/'], ['Como citar', 'https://power.larc.nasa.gov/docs/referencing/']],
         acesso: 'API (execução do script)',
-        onde: 'scripts/power_brasil.py, scripts/tabela_risco_brasil.py, scripts/risco_features.py',
+        onde: 'scripts/power_brasil.py, scripts/tabela_risco_brasil.py, scripts/risco_features.py, scripts/clima_exportar.py (camadas Dias sem chuva e Umidade do ar e o tempo no clique do globo, 2012–2025)',
         licenca: 'Dados abertos da NASA. Umidade do solo e meteorologia vêm do MERRA-2 (modelo); radiação do CERES SYN1deg.',
         citacao: "The data was obtained from National Aeronautics and Space Administration (NASA) Langley Research Center's Prediction Of Worldwide Energy Resources (POWER) project funded through the NASA Earth Science Division.",
       },
@@ -307,7 +307,16 @@ export const SECOES = [
         licenca: 'BSD de 3 cláusulas.',
         citacao: 'Pedregosa, F. et al. (2011). Scikit-learn: Machine Learning in Python. Journal of Machine Learning Research, 12, 2825–2830.',
       },
-      { nome: 'MapLibre GL JS 5.24.0', uso: 'Mapas de recorrência e de risco da página /risco (unpkg), sobre o mapa-base Esri World Light Gray.', url: 'https://maplibre.org/', acesso: 'Biblioteca', onde: 'src/app/risco/Risco.js', licenca: 'BSD de 3 cláusulas.' },
+      {
+        nome: 'Open-Meteo, API de previsão do tempo',
+        uso: 'Botão “Ver o tempo de agora e dos próximos dias” no clique do globo: temperatura, umidade, vento e chuva de agora e dos próximos 5 dias, pedidos só quando a pessoa clica (um pedido por ponto, com cache). Não é dado da NASA nem do desafio.',
+        url: 'https://open-meteo.com/',
+        links: [['Documentação da API', 'https://open-meteo.com/en/docs'], ['Licença', 'https://open-meteo.com/en/license']],
+        acesso: 'API sem chave (uso não comercial), no navegador',
+        onde: 'src/legacy/globo.html (função omGo)',
+        licenca: 'Dados sob CC BY 4.0; API gratuita para uso não comercial.',
+        citacao: 'Open-Meteo.com Weather API (open-meteo.com), dados sob CC BY 4.0.',
+      },
     ],
   },
   {

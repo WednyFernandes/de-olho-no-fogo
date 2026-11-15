@@ -234,9 +234,15 @@ Still not done: global burn scars from GWIS (GlobFire perimeters); the GWIS serv
 
 <a id="weekly-fire-risk-model"></a>
 
-## Weekly fire-risk model and historical fire analysis (Brazil, 2012–2025)
+<a id="risco"></a>
 
-Page: `/risco`. Scripts: `scripts/risco_features.py`, `scripts/risco_modelo.py`, `scripts/risco_exportar.py`. Data formats: `docs/dados-risco.md`.
+## Fire-risk model and environmental conditions (Brazil, 2012–2025)
+
+This is an **extra** built by the team from FIRMS foci and NASA POWER weather; it is not part of the challenge data. Since 15 Nov 2026 it lives inside the globe (`/globo`, layer "Risco de fogo na próxima semana", the "Risco" section of the Leitura panel and the click card); the former `/risco` page was retired (code kept in `arquivo/retirado-2026-11-15/src/app/risco/`) and `/risco` now redirects to `/globo?risco=1`. Scripts: `scripts/risco_features.py`, `scripts/risco_modelo.py`, `scripts/risco_exportar.py`. Data formats: `docs/dados-risco.md`. Data files: [`celulas.json`](/data/risco/celulas.json), [`modelo.json`](/data/risco/modelo.json) (metrics, reliability tables, coefficients, importances, hyper-parameters), [`previsoes.bin`](/data/risco/previsoes.bin), [`condicoes.json`](/data/risco/condicoes.json) + [`condicoes.bin`](/data/risco/condicoes.bin).
+
+**How the globe shows it (plain-language levels).** The calibrated probability is shown as four words with colours: *baixo* (< 25%), *moderado* (25–50%), *alto* (50–75%), *muito alto* (≥ 75%). Equal-width quarters were kept because the probabilities are calibrated (a word means roughly the same chance everywhere) and because the test-period distribution fills all four classes: 34% / 18% / 19% / 28% of cell-weeks in 2024–2025, with observed frequency of ≥1 focus of 7% / 36% / 59% / 90% respectively. The percentage is shown only next to the word. The week shown is the issue week containing the start of the timeline (2024–2025 test weeks, plus the 1 Jan 2026 issue via a button); outside that range the globe says so and offers a jump. The click card turns the cell's top-3 positive contributions into one plain sentence (e.g. "Está há 23 dias sem chuva", with the dry-day count read from the daily weather file on the day before the issue date), states whether foci were in fact detected that week, and repeats that it is an estimate, not a forecast of where or when a fire will happen.
+
+**Weather in the globe.** Daily per-cell values for 2012–2025 (`public/data/clima/AAAA.bin`, `scripts/clima_exportar.py`, format in `docs/dados-clima.md`): daily-mean RH2M, consecutive dry days (PRECTOTCORR < 1 mm, causal, ending on the day), T2M_MAX, 7-day rain, WS10M_MAX and GWETTOP. Each value in the click card is compared with the 2001–2020 normal for the same time of year (`public/data/harm/clima/normais.bin`): below p10 / above p90 → "mais seco/quente… que o normal", otherwise "perto do normal" (7-day rain: below 0.35× or above 2× seven times the daily normal). Two optional layers ("Dias sem chuva": 0–5, 6–15, 16–30, > 30 days; "Umidade do ar": < 30% very dry, 30–50% dry, > 50% normal/humid) follow the timeline start date. "Tempo de agora" is fetched on demand from the Open-Meteo forecast API (non-commercial, CC BY 4.0) and is not NASA data.
 
 **Unit and target.** Native NASA POWER/MERRA-2 cell (0.5° × 0.625°, ~55 × 69 km; 2,454 cells touching Brazil) × week. Each year has 52 fixed weeks (week *w* starts on day-of-year 1 + 7*w*; week 51 runs to 31 Dec, 8–9 days). Issue date *t* = first day of the week; target = at least one harmonized MODIS ∪ VIIRS S-NPP focus (`n_focos`) in the cell during that week (horizon 7 days). Base rate: 47% of cell-weeks (train), 46% (test). *Absence of detection is not proven absence of fire* (clouds, overpass timing, small or short fires).
 
@@ -262,5 +268,19 @@ The ML models beat climatology by ~0.05 PR-AUC and ~0.02 Brier; gradient boostin
 **Explanations.** Permutation importance (drop in validation PR-AUC) for gradient boosting: fire days in the previous 30 days, fire in the same week ±1 in previous years, dry-day streak, foci in previous 30 and 7 days, foci in previous 365 days. Largest standardized logistic coefficients: surface soil wetness (−), same-week ±1 history (+), long-term recurrence (+), recent fire days (+). Per-cell top-3: gradient-boosting occlusion (change in log-odds when each feature is set to its validation median). These are associations, not causes.
 
 **Historical analysis.** Recurrence = years (of 14) with ≥1 focus. Fire vs no-fire conditions: cell-days with a focus vs cell-days without, the latter re-weighted month by month to the month distribution of fire days; medians/p10–p90 interpolated from binned histograms.
+
+**Fire vs no-fire conditions, all of Brazil (2012–2025).** Cell-days with ≥1 focus vs cell-days without, the latter re-weighted month by month to the month mix of fire days; median (p10–p90) interpolated from the binned histograms of `condicoes.bin`:
+
+| Variable (NASA POWER, MERRA-2) | With focus | Without focus |
+|---|---|---|
+| Max air temperature (T2M_MAX) | 34.1 °C (28.2–38.8) | 30.1 °C (25.7–36.8) |
+| Air humidity (RH2M, daily mean) | 60% (36–83) | 78% (47–95) |
+| Rain in the previous 7 days | 3.6 mm (0.3–34.8) | 16.2 mm (0.6–68.6) |
+| Rain in the previous 30 days | 31 mm (2–159) | 82 mm (5–≥ 200) |
+| Consecutive dry days before the day | 5.3 (0.5–51) | 1.3 (0.2–20) |
+| Max wind (WS10M_MAX) | 3.6 m/s (0.6–7.6) | 2.0 m/s (0.4–7.0) |
+| Surface soil wetness (GWETTOP, 0–1) | 0.5 (0.2–0.7) | 0.6 (0.3–0.9) |
+
+The same histograms summed over any set of cells give the comparison for a region; the retired page used this to compare two regions side by side (recurrence, monthly profile, land cover, conditions on fire days, mean weekly risk and detection rate). In the globe, the Leitura "Risco" section gives the plain-language version for the marked region (share of area per level, the three highest-risk places, the most common reasons and the detection check for that week). Associations, not causes.
 
 **Limitations.** Large cells (high base rate; in fire-prone regions nearly every dry-season week has a focus); detection-based target; no weather forecast integrated; land cover from a single year (2020), MODIS IGBP at 0.05° read from the project's 0.1° map — not MapBiomas (pending Earth Engine access), and silviculture is not separable in IGBP; no soil-property base (SoilGrids/ISRIC or Embrapa are future candidates); no terrain, roads or land-use variables.
