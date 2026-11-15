@@ -31,7 +31,8 @@ The team reviewed all code, numbers and text, and checked them against the data 
 - **INPE** — Programa Queimadas, **AQ1km** burned-area product (burn-scar layer for Brazil, monthly).
 - **IBGE** — state boundaries of Brazil.
 - **Next steps (not on the site yet):** MapBiomas (vegetation), Open-Meteo (wind, humidity, temperature), INPE (days without rain, fire risk), FUNAI (Indigenous lands), IBGE (population; MUNIC 2025 for fire-brigade coverage).
-- **Context figures on slide 2:** MapBiomas Annual Fire Report 2025 (12.7 M ha burned in Brazil); WRI / Global Forest Watch (30 M ha of tree cover lost in 2024, all causes); Pantanal hospitalization study 2003–2019 (+26–34% respiratory hospitalizations in the dry season, as reported by Campo Grande News, Dec 2024 — to be replaced by the original paper citation).
+- **Context figures on slide 2:** MapBiomas Annual Fire Report 2025 (12.7 M ha burned in Brazil); WRI / Global Forest Watch (30 M ha of tree cover lost in 2024, all causes); Pantanal hospitalization study 2003–2019 (+26–34% respiratory hospitalizations in the dry season, as reported by Campo Grande News, Dec 2024 — to be replaced by the original paper citation); Tomas et al., *Scientific Reports* 11:23547 (2021) (~17 million vertebrates killed by the 2020 Pantanal fires).
+- **Planned alert (slide 6, in development):** NASA POWER (historical daily weather), Open-Meteo (current weather), MapBiomas, IBGE (population grid, MUNIC 2025: 21.8% of municipalities have a fire brigade), FUNAI and ICMBio/MMA protected areas, OpenStreetMap.
 
 ---
 

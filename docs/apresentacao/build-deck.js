@@ -73,192 +73,231 @@ const frame = (s, x, y, w, h) => s.addShape(pres.shapes.RECTANGLE, { x, y, w, h,
 }
 
 // =====================================================================
-// 2. PROBLEM (light)
+// 2. GANCHO — o problema (light)
 // =====================================================================
 {
-  const s = slide(t('Problem', 'Problema'), 'LIGHT');
-  s.addText(t("Fire doesn't stay where it starts", 'O fogo não fica onde começa'), { placeholder: 'title' });
-  T(s, t('12.7 million', '12,7 milhões'), { x: M, y: 1.7, w: 6.8, h: 1.3, fontFace: THEME.headFontFace, fontSize: 72, color: K.brand });
-  T(s, t('hectares burned in Brazil in 2025', 'de hectares queimados no Brasil em 2025'), { x: M, y: 3.05, w: 6.6, h: 1.0, fontSize: 28, bold: true });
-  T(s, t('1 hectare = a square of 100 m × 100 m', '1 hectare = um quadrado de 100 m × 100 m'), { x: M, y: 4.3, w: 6.6, h: 0.4, fontSize: 16, color: K.ink2 });
-  T(s, t('To act in time, we first need to know where the fire is.', 'Para agir a tempo, primeiro é preciso saber onde está o fogo.'),
-    { x: M, y: 5.25, w: 6.4, h: 0.9, fontSize: 22 });
-  const iw = 5.1, ih = iw * 940 / 1671, ix = W - M - iw;
-  s.addImage({ path: IMG('fire-shapes.png'), x: ix, y: 1.75, w: iw, h: ih, objectName: 'Fires on the globe',
-    altText: t('Fires seen on our globe, 2 Sep 2025, central Brazil.', 'Fogos no nosso globo, 2 set 2025, Brasil central.') });
-  T(s, t('Fires on our globe, central Brazil, 2 Sep 2025', 'Fogos no nosso globo, Brasil central, 2 set 2025'), { x: ix, y: 1.75 + ih + 0.12, w: iw, h: 0.35, fontSize: 13, color: K.ink2 });
-  s.addText(t('Source: MapBiomas, Annual Fire Report 2025.', 'Fonte: MapBiomas, Relatório Anual do Fogo 2025.'), { placeholder: 'src' });
-  s.addNotes(t('Brazil burned 12.7 million hectares in 2025 — a hectare is a square of 100 by 100 metres. Fire spreads, and to act in time we first need to know where it is.',
-    'O Brasil queimou 12,7 milhões de hectares em 2025 — um hectare é um quadrado de 100 por 100 metros. O fogo se espalha, e para agir a tempo primeiro é preciso saber onde ele está.'));
+  const s = slide(t('Hook', 'Gancho'), 'LIGHT');
+  s.addText(t('Fire hurts people, nature and wildlife', 'O fogo atinge pessoas, natureza e animais'), { placeholder: 'title' });
+  const cw = (W - 2 * M - 2 * 0.35) / 3, cy = 1.5, ch = 4.6;
+  const cols = [
+    ['ic-people.png', t('People', 'Pessoas'), '+26–34%', t('more hospital visits for breathing problems in the dry season, when smoke peaks (Pantanal)', 'mais internações por problemas respiratórios na seca, quando a fumaça aumenta (Pantanal)')],
+    ['ic-forest.png', t('Environment', 'Meio ambiente'), t('12.7 million', '12,7 milhões'), t('hectares burned in Brazil in 2025 (1 hectare = 100 m × 100 m)', 'de hectares queimados no Brasil em 2025 (1 hectare = 100 m × 100 m)')],
+    ['ic-paw.png', t('Wildlife and plants', 'Fauna e flora'), t('17 million', '17 milhões'), t('animals with a backbone killed by fire in the Pantanal in 2020', 'de animais vertebrados mortos pelo fogo no Pantanal em 2020')],
+  ];
+  cols.forEach(([ic, head, num, txt], i) => {
+    const x = M + i * (cw + 0.35);
+    box(s, x, cy, cw, ch, i === 1 ? K.brandTint : K.soft, head + ' card');
+    s.addImage({ path: IMG(ic), x: x + 0.4, y: cy + 0.4, w: 0.7, h: 0.7, objectName: head + ' icon', altText: head });
+    T(s, head, { x: x + 1.3, y: cy + 0.45, w: cw - 1.6, h: 0.6, fontSize: 20, bold: true, valign: 'middle' });
+    T(s, num, { x: x + 0.4, y: cy + 1.5, w: cw - 0.8, h: 0.8, fontFace: THEME.headFontFace, fontSize: 34, color: K.brand });
+    T(s, txt, { x: x + 0.4, y: cy + 2.5, w: cw - 0.8, h: 1.8, fontSize: 17, color: K.ink2 });
+  });
+  T(s, t('In the world, 30 million hectares of forest were lost in 2024.', 'No mundo, 30 milhões de hectares de florestas foram perdidos em 2024.'),
+    { x: M, y: 6.25, w: W - 2 * M, h: 0.45, fontSize: 18, bold: true });
+  s.addText(t('Sources: Campo Grande News, Pantanal study 2003–2019 (Dec 2024) · MapBiomas, Annual Fire Report 2025 · Tomas et al., Scientific Reports 11:23547 (2021) · WRI / Global Forest Watch, tree cover loss 2024.',
+    'Fontes: Campo Grande News, estudo do Pantanal 2003–2019 (dez. 2024) · MapBiomas, Relatório Anual do Fogo 2025 · Tomas et al., Scientific Reports 11:23547 (2021) · WRI / Global Forest Watch, perda de cobertura de árvores 2024.'), { placeholder: 'src' });
+  s.addNotes(t('Fire is not only a forest problem. People: smoke sends people to hospital — in the Pantanal, breathing-related hospital visits rise 26 to 34% in the dry season. Environment: Brazil burned 12.7 million hectares in 2025, and the world lost 30 million hectares of forest in 2024. Wildlife and plants: the 2020 Pantanal fires killed about 17 million vertebrate animals.',
+    'O fogo não é só um problema da floresta. Pessoas: a fumaça leva gente ao hospital — no Pantanal, as internações por problemas respiratórios sobem de 26% a 34% na seca. Meio ambiente: o Brasil queimou 12,7 milhões de hectares em 2025, e o mundo perdeu 30 milhões de hectares de florestas em 2024. Fauna e flora: o fogo de 2020 no Pantanal matou cerca de 17 milhões de animais vertebrados.'));
 }
 
 // =====================================================================
-// 3. MODIS vs VIIRS (light)
+// 3. DESAFIO (light)
 // =====================================================================
 {
-  const s = slide(t('MODIS vs VIIRS', 'MODIS × VIIRS'), 'LIGHT');
-  s.addText(t('Two satellites see fire in different ways', 'Dois satélites veem o fogo de jeitos diferentes'), { placeholder: 'title' });
+  const s = slide(t('Challenge', 'Desafio'), 'LIGHT');
+  s.addText(t("NASA's challenge: make two satellites count as one", 'O desafio da NASA: fazer dois satélites contarem como um'), { placeholder: 'title' });
+  const lw = 5.6;
+  T(s, 'Harmonization of MODIS and VIIRS Hot Spots', { x: M, y: 1.55, w: lw, h: 0.9, fontSize: 22, bold: true, color: K.brandInk });
+  T(s, t('Satellites have recorded fire for 20+ years, but split between two sensors that don\'t compare directly.', 'Os satélites registram o fogo há mais de 20 anos, mas divididos em dois sensores que não se comparam direto.'),
+    { x: M, y: 2.55, w: lw, h: 1.1, fontSize: 18 });
+  T(s, t('The goal: join them so it no longer matters which satellite saw the fire, in a website for brigades, civil defense, scientists and land managers.',
+    'O objetivo: juntar os dois para que não importe mais qual satélite viu o fogo, num site para brigadas, defesa civil, cientistas e gestores.'),
+    { x: M, y: 3.75, w: lw, h: 1.5, fontSize: 18 });
+  T(s, [{ text: t('Challenge page: ', 'Página do desafio: '), options: { bold: true, color: K.ink } },
+    { text: 'spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots', options: { color: K.brandInk, hyperlink: { url: 'https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/' } } }],
+    { x: M, y: 5.45, w: lw + 0.3, h: 0.8, fontSize: 12 });
+  // compact MODIS vs VIIRS
   const icon = (x, y, sz, sensor) => {
     const col = sensor === 'm' ? K.modis : K.viirs, tint = sensor === 'm' ? K.modisTint : K.viirsTint;
-    s.addShape(pres.shapes.RECTANGLE, { x, y, w: sz, h: sz, fill: { color: tint }, line: { color: col, width: 3 } });
+    s.addShape(pres.shapes.RECTANGLE, { x, y, w: sz, h: sz, fill: { color: tint }, line: { color: col, width: 2.5 } });
     if (sensor === 'v') {
       const c = sz / 3;
       s.addShape(pres.shapes.RECTANGLE, { x: x + c, y: y + c, w: c, h: c, fill: { color: 'B9DADD' }, line: { type: 'none' } });
       [1, 2].forEach(i => {
-        s.addShape(pres.shapes.LINE, { x: x + c * i, y, w: 0, h: sz, line: { color: col, width: 1.25 } });
-        s.addShape(pres.shapes.LINE, { x, y: y + c * i, w: sz, h: 0, line: { color: col, width: 1.25 } });
+        s.addShape(pres.shapes.LINE, { x: x + c * i, y, w: 0, h: sz, line: { color: col, width: 1 } });
+        s.addShape(pres.shapes.LINE, { x, y: y + c * i, w: sz, h: 0, line: { color: col, width: 1 } });
       });
     }
-    const d = sz * 0.14;
+    const d = sz * 0.15;
     s.addShape(pres.shapes.OVAL, { x: x + sz / 2 - d / 2, y: y + sz / 2 - d / 2, w: d, h: d, fill: { color: K.fireMd }, line: { type: 'none' } });
   };
-  const cw = (W - 2 * M - 0.4) / 2, cy = 1.45, ch = 4.45;
-  const rowsLbl = t(['Square size', 'Small fires', 'Watching since'], ['Tamanho do quadrado', 'Fogo pequeno', 'Observa desde']);
-  const cols = [
-    ['m', 'MODIS', K.modis, ['1 km', t('can hide', 'pode sumir'), '2000']],
-    ['v', 'VIIRS', K.viirs, ['375 m', t('shows up', 'aparece'), '2012']],
-  ];
-  cols.forEach(([k, name, col, vals], i) => {
-    const x = M + i * (cw + 0.4);
-    box(s, x, cy, cw, ch, K.soft, name + ' card');
-    icon(x + 0.45, cy + 0.45, 1.6, k);
-    T(s, name, { x: x + 2.35, y: cy + 0.75, w: cw - 2.6, h: 0.8, fontFace: THEME.headFontFace, fontSize: 40, color: col });
-    vals.forEach((v, j) => {
-      const y = cy + 2.35 + j * 0.65;
-      s.addShape(pres.shapes.LINE, { x: x + 0.45, y: y - 0.05, w: cw - 0.9, h: 0, line: { color: K.line, width: 1 } });
-      T(s, rowsLbl[j], { x: x + 0.45, y, w: 2.8, h: 0.55, fontSize: 16, color: K.ink2, valign: 'middle' });
-      T(s, v, { x: x + 3.3, y, w: cw - 3.75, h: 0.55, fontSize: 22, bold: true, color: col, valign: 'middle' });
+  const rx = M + lw + 0.5, rw = W - M - rx, rh = 2.35;
+  [['m', 'MODIS', K.modis, t('Big 1 km squares: small fires can hide. Since 2000.', 'Quadrados grandes, de 1 km: fogo pequeno pode sumir. Desde 2000.')],
+   ['v', 'VIIRS', K.viirs, t('Small 375 m squares: small fires show up. Since 2012.', 'Quadrados pequenos, de 375 m: fogo pequeno aparece. Desde 2012.')]]
+    .forEach(([k, name, col, txt], i) => {
+      const y = 1.55 + i * (rh + 0.3);
+      box(s, rx, y, rw, rh, K.soft, name + ' card');
+      icon(rx + 0.4, y + 0.4, 1.5, k);
+      T(s, name, { x: rx + 2.2, y: y + 0.35, w: rw - 2.5, h: 0.7, fontFace: THEME.headFontFace, fontSize: 32, color: col });
+      T(s, txt, { x: rx + 2.2, y: y + 1.1, w: rw - 2.5, h: 1.0, fontSize: 17, color: K.ink2 });
     });
-  });
-  T(s, [{ text: t('Together: ', 'Juntos: '), options: { bold: true, color: K.brandInk } },
-    { text: t('the detail of VIIRS + the long history of MODIS.', 'o detalhe do VIIRS + a história longa do MODIS.') }],
-    { x: M, y: 6.1, w: W - 2 * M, h: 0.55, fontSize: 22, valign: 'middle' });
-  s.addText(t('MODIS: Terra and Aqua satellites. VIIRS: S-NPP satellite. Data: NASA FIRMS.', 'MODIS: satélites Terra e Aqua. VIIRS: satélite S-NPP. Dados: NASA FIRMS.'), { placeholder: 'src' });
-  s.addNotes(t('NASA has two satellite sensors that see fire. MODIS looks at the ground in big 1 km squares, so a small fire can hide; but it has watched since 2000. VIIRS looks in small 375 m squares, so small fires show up; but it only started in 2012. Together we get the detail of VIIRS and the long history of MODIS.',
-    'A NASA tem dois sensores em satélites que veem o fogo. O MODIS olha o chão em quadrados grandes, de 1 km, e um fogo pequeno pode sumir; mas ele observa desde 2000. O VIIRS olha em quadrados pequenos, de 375 m, e o fogo pequeno aparece; mas ele só começou em 2012. Juntos, temos o detalhe do VIIRS e a história longa do MODIS.'));
+  s.addText(t('NASA Space Apps Challenge 2026. MODIS: Terra and Aqua satellites; VIIRS: S-NPP satellite. Data: NASA FIRMS.',
+    'NASA Space Apps Challenge 2026. MODIS: satélites Terra e Aqua; VIIRS: satélite S-NPP. Dados: NASA FIRMS.'), { placeholder: 'src' });
+  s.addNotes(t('Our challenge at NASA Space Apps is the Harmonization of MODIS and VIIRS Hot Spots. NASA has recorded fire from space for more than 20 years, but with two sensors that see differently. MODIS sees big 1 km squares and has watched since 2000; VIIRS sees small 375 m squares, finds smaller fires, and started in 2012. The challenge asks us to join them so the satellite no longer matters, and to show it in a website for brigades, civil defense, scientists and land managers.',
+    'Nosso desafio no NASA Space Apps é a Harmonização dos focos do MODIS e do VIIRS. A NASA registra o fogo do espaço há mais de 20 anos, mas com dois sensores que enxergam diferente. O MODIS vê quadrados grandes, de 1 km, e observa desde 2000; o VIIRS vê quadrados pequenos, de 375 m, acha fogo menor e começou em 2012. O desafio pede para juntar os dois, para que não importe mais qual satélite viu, e mostrar isso num site para brigadas, defesa civil, cientistas e gestores.'));
 }
 
 // =====================================================================
-// 4. HARMONIZATION: BEFORE -> AFTER (light)
+// 4. HARMONIZAÇÃO (light)
 // =====================================================================
 {
   const s = slide(t('Harmonization', 'Harmonização'), 'LIGHT');
   s.addText(t('Harmonization: the same fire, counted once', 'Harmonização: o mesmo fogo, contado uma vez'), { placeholder: 'title' });
-  const iw = 5.2, ih = iw * 1152 / 1843, ix1 = M + 0.15, ix2 = W - M - iw - 0.15, iy = 1.45;
-  s.addImage({ path: IMG('g-mv2-wide.png'), x: ix1, y: iy, w: iw, h: ih, objectName: 'Before',
-    altText: t('Our globe, 2 Sep 2025: the dots each satellite saw, not joined.', 'Nosso globo, 2 set 2025: os pontos que cada satélite viu, sem juntar.') });
+  const steps = t([
+    ['Same day', 'each dot goes to the day of the place where it happened'],
+    ['Same 1 km square', 'each dot falls on a 1 km square of the map'],
+    ['Touching squares = 1 fire', 'and we note who saw it: both, only MODIS or only VIIRS'],
+  ], [
+    ['Mesmo dia', 'cada ponto vai para o dia do lugar onde aconteceu'],
+    ['Mesmo quadrado de 1 km', 'cada ponto cai num quadrado de 1 km do mapa'],
+    ['Quadrados encostados = 1 fogo', 'e marcamos quem viu: os dois, só o MODIS ou só o VIIRS'],
+  ]);
+  const lw = 4.55;
+  steps.forEach((st, i) => {
+    const y = 1.55 + i * 1.45;
+    s.addShape(pres.shapes.OVAL, { x: M, y, w: 0.55, h: 0.55, fill: { color: K.brand }, line: { type: 'none' } });
+    T(s, String(i + 1), { x: M, y, w: 0.55, h: 0.55, fontSize: 20, bold: true, color: K.white, align: 'center', valign: 'middle' });
+    T(s, [{ text: st[0], options: { bold: true, fontSize: 19, breakLine: true } }, { text: st[1], options: { fontSize: 15, color: K.ink2 } }], { x: M + 0.75, y: y - 0.02, w: lw - 0.75, h: 1.3 });
+  });
+  const rx = M + lw + 0.35, iw = 3.45, ih = iw * 1152 / 1843, ix2 = W - M - iw, iy = 1.6;
+  s.addImage({ path: IMG('g-mv2-wide.png'), x: rx, y: iy, w: iw, h: ih, objectName: 'Before',
+    altText: t('Our globe, 2 Sep 2025: dots seen by each satellite, not joined.', 'Nosso globo, 2 set 2025: pontos vistos por cada satélite, sem juntar.') });
   s.addImage({ path: IMG('g-h2-wide.png'), x: ix2, y: iy, w: iw, h: ih, objectName: 'After',
     altText: t('The same place and day, joined: each fire drawn once.', 'O mesmo lugar e dia, juntos: cada fogo desenhado uma vez.') });
-  frame(s, ix1, iy, iw, ih); frame(s, ix2, iy, iw, ih);
-  T(s, '→', { x: ix1 + iw, y: iy + ih / 2 - 0.4, w: ix2 - ix1 - iw, h: 0.8, fontSize: 40, bold: true, color: K.brand, align: 'center', valign: 'middle' });
-  T(s, [{ text: t('Before: ', 'Antes: '), options: { bold: true } }, { text: t('71 dots', '71 pontos') }], { x: ix1, y: iy + ih + 0.12, w: iw, h: 0.45, fontSize: 20 });
-  T(s, [{ text: t('After: 7 fires', 'Depois: 7 fogos'), options: { bold: true, color: K.brandInk } }], { x: ix2, y: iy + ih + 0.12, w: iw, h: 0.45, fontSize: 20 });
-  box(s, M, 5.6, W - 2 * M, 1.0, K.brandTint, 'Result');
-  T(s, [{ text: t('Whole world, 2025:  ', 'Mundo inteiro, 2025:  '), options: { bold: true } },
-    { text: t('20.5 million dots  →  ', '20,5 milhões de pontos  →  ') },
-    { text: t('7.26 million fires', '7,26 milhões de fogos'), options: { bold: true, color: K.brandInk } }],
-    { x: M + 0.4, y: 5.6, w: W - 2 * M - 0.8, h: 1.0, fontSize: 24, valign: 'middle' });
-  s.addText(t('Same place and day on our globe (2 Sep 2025, central Brazil): 10 MODIS + 61 VIIRS detections → 7 harmonized hotspots. World: stats.json.',
-    'Mesmo lugar e dia no nosso globo (2 set 2025, Brasil central): 10 detecções MODIS + 61 VIIRS → 7 focos harmonizados. Mundo: stats.json.'), { placeholder: 'src' });
-  s.addNotes(t('If we just add what the two satellites see, the same fire is counted many times. Harmonization joins the dots that belong to the same fire, so each fire is counted once. In this real example from our globe, 71 dots become 7 fires. For the whole world in 2025: 20.5 million dots become 7.26 million fires.',
-    'Se só somarmos o que os dois satélites veem, o mesmo fogo é contado várias vezes. A harmonização junta os pontos que são do mesmo fogo, e cada fogo é contado uma vez. Neste exemplo real do nosso globo, 71 pontos viram 7 fogos. No mundo inteiro em 2025: 20,5 milhões de pontos viram 7,26 milhões de fogos.'));
+  frame(s, rx, iy, iw, ih); frame(s, ix2, iy, iw, ih);
+  T(s, '→', { x: rx + iw, y: iy + ih / 2 - 0.35, w: ix2 - rx - iw, h: 0.7, fontSize: 32, bold: true, color: K.brand, align: 'center', valign: 'middle' });
+  T(s, [{ text: t('Before: ', 'Antes: '), options: { bold: true } }, { text: t('71 dots', '71 pontos') }], { x: rx, y: iy + ih + 0.1, w: iw, h: 0.4, fontSize: 17 });
+  T(s, t('After: 7 fires', 'Depois: 7 fogos'), { x: ix2, y: iy + ih + 0.1, w: iw, h: 0.4, fontSize: 17, bold: true, color: K.brandInk });
+  const bw = W - M - rx;
+  box(s, rx, 4.75, bw, 1.6, K.brandTint, 'Result');
+  T(s, t('Whole world, 2025', 'Mundo inteiro, 2025'), { x: rx + 0.35, y: 4.9, w: bw - 0.7, h: 0.4, fontSize: 16, bold: true, color: K.ink2 });
+  T(s, [{ text: t('20.5 million dots → ', '20,5 milhões de pontos → ') }, { text: t('7.26 million fires', '7,26 milhões de fogos'), options: { bold: true, color: K.brandInk } }],
+    { x: rx + 0.35, y: 5.35, w: bw - 0.7, h: 0.8, fontSize: 21, valign: 'middle' });
+  s.addText(t('Globe screenshots, same place and day (2 Sep 2025, central Brazil): 10 MODIS + 61 VIIRS detections → 7 harmonized hotspots. "Day" = local solar day; squares = MODIS 1 km grid. World: stats.json.',
+    'Capturas do globo, mesmo lugar e dia (2 set 2025, Brasil central): 10 detecções MODIS + 61 VIIRS → 7 focos harmonizados. "Dia" = dia solar local; quadrados = grade de 1 km do MODIS. Mundo: stats.json.'), { placeholder: 'src' });
+  s.addNotes(t('How we harmonize, in three simple steps. First, every dot goes to the day of the place where it happened. Second, every dot falls on a 1 km square of the map — the same squares for both satellites. Third, squares with fire that touch on the same day become one fire, and we note who saw it. In this real example, 71 dots become 7 fires. For the whole world in 2025: 20.5 million dots become 7.26 million fires.',
+    'Como harmonizamos, em três passos simples. Primeiro, cada ponto vai para o dia do lugar onde aconteceu. Segundo, cada ponto cai num quadrado de 1 km do mapa — os mesmos quadrados para os dois satélites. Terceiro, quadrados com fogo que se encostam no mesmo dia viram um fogo só, e marcamos quem viu. Neste exemplo real, 71 pontos viram 7 fogos. No mundo inteiro em 2025: 20,5 milhões de pontos viram 7,26 milhões de fogos.'));
 }
 
 // =====================================================================
-// 5. THE GLOBE (light)
+// 5. SITE (light)
 // =====================================================================
 {
-  const s = slide(t('Globe', 'Globo'), 'LIGHT');
-  s.addText(t('Anyone can pick a day and see where the world burned', 'Qualquer pessoa escolhe um dia e vê onde o mundo queimou'), { placeholder: 'title' });
-  const h = 4.3, w1 = h * 2080 / 1360, w2 = h * 840 / 780, gap = W - 2 * M - w1 - w2, y = 1.5;
-  s.addImage({ path: IMG('globe-harm.png'), x: M, y, w: w1, h, objectName: 'Globe view',
+  const s = slide(t('Website', 'Site'), 'LIGHT');
+  s.addText(t('The website: open to anyone, alerts for agencies', 'O site: aberto para todos, alertas para os órgãos'), { placeholder: 'title' });
+  const ih = 4.9, iw = ih * 2080 / 1360 > 6.2 ? 6.2 : ih * 2080 / 1360, ih2 = iw * 1360 / 2080;
+  s.addImage({ path: IMG('globe-harm.png'), x: M, y: 1.5, w: iw, h: ih2, objectName: 'Globe',
     altText: t('Our globe: fires in South America, August 2025.', 'Nosso globo: fogo na América do Sul, agosto de 2025.') });
-  s.addImage({ path: IMG('globe-click.png'), x: M + w1 + gap, y, w: w2, h, objectName: 'Clicked fire',
-    altText: t('Zoomed in: one fire selected on 2 Sep 2025.', 'De perto: um fogo selecionado em 2 set 2025.') });
-  frame(s, M, y, w1, h); frame(s, M + w1 + gap, y, w2, h);
-  const cap = (x, w, n, a, b) => {
-    s.addShape(pres.shapes.OVAL, { x, y: y + h + 0.3, w: 0.5, h: 0.5, fill: { color: K.brand }, line: { type: 'none' } });
-    T(s, n, { x, y: y + h + 0.3, w: 0.5, h: 0.5, fontSize: 18, bold: true, color: K.white, align: 'center', valign: 'middle' });
-    T(s, [{ text: a, options: { bold: true, fontSize: 19, breakLine: true } }, { text: b, options: { fontSize: 15, color: K.ink2 } }], { x: x + 0.65, y: y + h + 0.26, w: w - 0.65, h: 0.9 });
+  frame(s, M, 1.5, iw, ih2);
+  T(s, 'deolhonofogo.estudiocrivy.com.br', { x: M, y: 1.5 + ih2 + 0.12, w: iw, h: 0.35, fontSize: 14, bold: true, color: K.brandInk, hyperlink: { url: 'https://deolhonofogo.estudiocrivy.com.br' } });
+  const rx = M + iw + 0.45, rw = W - M - rx;
+  const list = (y, h, head, sub, items, fill, headCol) => {
+    box(s, rx, y, rw, h, fill, head);
+    T(s, [{ text: head, options: { bold: true, fontSize: 19, color: headCol } }, { text: '  ' + sub, options: { fontSize: 13, color: K.ink2 } }], { x: rx + 0.3, y: y + 0.2, w: rw - 0.6, h: 0.45, valign: 'middle' });
+    T(s, items.map((it, i) => ({ text: it, options: { bullet: true, breakLine: i < items.length - 1, paraSpaceAfter: 6 } })), { x: rx + 0.3, y: y + 0.75, w: rw - 0.6, h: h - 0.9, fontSize: 15 });
   };
-  cap(M, w1, '1', t('Pick a day', 'Escolha um dia'), t('see where the world burned', 'veja onde o mundo queimou'));
-  cap(M + w1 + gap, w2, '2', t('Click a fire', 'Clique num fogo'), t('see when it burned and who saw it', 'veja quando queimou e quem viu'));
-  s.addText(t('Real screenshots of our globe: August 2025 (left) and 2 Sep 2025, central Brazil (right). The background map did not load in these captures.',
-    'Capturas reais do nosso globo: agosto de 2025 (esq.) e 2 set 2025, Brasil central (dir.). O mapa de fundo não carregou nestas capturas.'), { placeholder: 'src' });
-  s.addNotes(t('This is the globe. Anyone can open it, pick a day and see where the world burned. Then zoom in and click a fire to see when it burned and which satellites saw it.',
-    'Este é o globo. Qualquer pessoa abre, escolhe um dia e vê onde o mundo queimou. Depois, aproxima e clica num fogo para ver quando queimou e quais satélites viram.'));
+  list(1.5, 2.65, t('Today', 'Hoje'), t('for anyone, free', 'para qualquer pessoa, grátis'), t([
+    'World fires in 2025, day by day, down to the hour',
+    'Click a fire: when, how big, who saw it',
+    'Brazil since 2000 and INPE burn scars',
+  ], [
+    'O fogo do mundo em 2025, dia a dia, até a hora',
+    'Clique num fogo: quando, tamanho, quem viu',
+    'Brasil desde 2000 e cicatrizes do INPE',
+  ]), K.soft, K.ink);
+  list(4.4, 2.0, t('Coming', 'Em construção'), t('for agencies', 'para os órgãos'), t([
+    'Fires from the last 48 h, each with its risk',
+    'Alert to ICMBio, FUNAI and Civil Defense',
+  ], [
+    'Focos das últimas 48 h, cada um com seu risco',
+    'Alerta para ICMBio, FUNAI e Defesa Civil',
+  ]), K.brandTint, K.brandInk);
+  s.addText(t('Real screenshot of our globe, August 2025. "Coming" is planned and not on the site yet; the alert prototype will be a simulation (nothing is sent).',
+    'Captura real do nosso globo, agosto de 2025. "Em construção" é planejado e ainda não está no site; o protótipo de alerta será uma simulação (nada é enviado).'), { placeholder: 'src' });
+  s.addNotes(t('The website is open to anyone, no sign-up. Today you can see the world\'s fires in 2025 day by day, down to the hour; click a fire to see when it burned, how big it is and which satellites saw it; and see Brazil since 2000 and INPE burn scars. Coming next, for agencies: a panel with the fires of the last 48 hours, each with its risk, and alerts for the responsible agency — ICMBio, FUNAI, Civil Defense.',
+    'O site é aberto para qualquer pessoa, sem cadastro. Hoje dá para ver o fogo do mundo em 2025 dia a dia, até a hora; clicar num fogo e ver quando queimou, o tamanho e quais satélites viram; e ver o Brasil desde 2000 e as cicatrizes de queimada do INPE. Em construção, para os órgãos: um painel com os focos das últimas 48 horas, cada um com seu risco, e alertas para o órgão responsável — ICMBio, FUNAI, Defesa Civil.'));
 }
 
 // =====================================================================
-// 6. BRAZIL SINCE 2000 (light)
+// 6. DO FOCO AO ALERTA (light)
 // =====================================================================
 {
-  const s = slide(t('Brazil series', 'Série do Brasil'), 'LIGHT');
-  s.addText(t('Brazil since 2000, counted the same way', 'Brasil desde 2000, contado do mesmo jeito'), { placeholder: 'title' });
-  const A = ST.brasil.anual.filter(a => a.ano >= 2001);
-  const labels = A.map(a => String(a.ano));
-  const est = A.map(a => (a.ano < 2012 ? a.completo : 0));
-  const med = A.map(a => (a.ano >= 2012 ? a.completo : 0));
-  s.addChart(pres.charts.BAR, [
-    { name: t('Estimated (only MODIS)', 'Estimado (só MODIS)'), labels, values: est },
-    { name: t('Measured (both satellites)', 'Medido (os dois satélites)'), labels, values: med },
-  ], {
-    x: M, y: 1.45, w: 8.2, h: 5.2, barGrouping: 'stacked', chartColors: [K.est, K.brand], barGapWidthPct: 35,
-    showTitle: true, title: t('Fires per year in Brazil', 'Fogos por ano no Brasil'), titleFontSize: 16, titleColor: K.ink, titleFontFace: '+mn-lt',
-    showLegend: true, legendPos: 'b', legendFontSize: 13, legendFontFace: '+mn-lt', legendColor: K.ink2,
-    catAxisLabelColor: K.ink2, valAxisLabelColor: K.ink2, catAxisLabelFontSize: 11, valAxisLabelFontSize: 11,
-    catAxisLabelFontFace: '+mn-lt', valAxisLabelFontFace: '+mn-lt', catAxisLabelFrequency: 4,
-    valAxisLabelFormatCode: t('#,##0', '[$-416]#,##0'), valAxisMaxVal: 1000000, valAxisMajorUnit: 500000,
-    valGridLine: { color: K.line, size: 0.75 }, catGridLine: { style: 'none' },
-    catAxisLineShow: false, valAxisLineShow: false, objectName: 'Brazil series chart',
-    altText: t('Fires per year in Brazil, 2001–2025: estimated bars until 2011, measured from 2012.', 'Fogos por ano no Brasil, 2001 a 2025: barras estimadas até 2011, medidas a partir de 2012.'),
+  const s = slide(t('From hotspot to alert', 'Do foco ao alerta'), 'LIGHT');
+  s.addText(t('From a fire seen from space to a useful alert', 'Do foco visto do espaço a um alerta útil'), { placeholder: 'title' });
+  const steps = [
+    ['ic-sat.png', t('Fire', 'Foco'), t('seen by MODIS and VIIRS, counted once', 'visto pelo MODIS e pelo VIIRS, contado uma vez')],
+    ['ic-cloud.png', t('+ Context', '+ Contexto'), t('weather, rain, vegetation, people nearby, firefighters', 'tempo, chuva, vegetação, pessoas perto, bombeiros')],
+    ['ic-chart.png', t('Forecast', 'Previsão'), t('the chance (%) that the fire grows, and why', 'a chance (%) de o fogo crescer, e por quê')],
+    ['ic-bell.png', t('Alert', 'Alerta'), t('to people nearby and to the agency in charge', 'para quem mora perto e para o órgão responsável')],
+  ];
+  const n = steps.length, gap = 0.45, cw = (W - 2 * M - gap * (n - 1)) / n, cy = 1.6, ch = 3.4;
+  steps.forEach(([ic, head, txt], i) => {
+    const x = M + i * (cw + gap), last = i === n - 1;
+    box(s, x, cy, cw, ch, last ? K.brand : K.soft, head);
+    if (!last) s.addShape(pres.shapes.OVAL, { x: x + 0.35, y: cy + 0.35, w: 0.9, h: 0.9, fill: { color: K.white }, line: { color: K.line, width: 0.75 } });
+    s.addImage({ path: IMG(ic), x: x + 0.5, y: cy + 0.5, w: 0.6, h: 0.6, altText: head });
+    T(s, head, { x: x + 0.35, y: cy + 1.45, w: cw - 0.7, h: 0.55, fontSize: 22, bold: true, color: last ? K.white : K.ink });
+    T(s, txt, { x: x + 0.35, y: cy + 2.0, w: cw - 0.7, h: 1.3, fontSize: 15, color: last ? K.white : K.ink2 });
+    if (!last) T(s, '→', { x: x + cw, y: cy + ch / 2 - 0.3, w: gap, h: 0.6, fontSize: 26, bold: true, color: K.brand, align: 'center', valign: 'middle' });
   });
-  const rx = 9.3, rw = W - M - rx;
-  T(s, t('Before 2012 there was only MODIS, so we estimate those years.', 'Antes de 2012 só havia o MODIS, então estimamos esses anos.'),
-    { x: rx, y: 1.8, w: rw, h: 1.2, fontSize: 18 });
-  T(s, t('3.35%', '3,35%'), { x: rx, y: 3.25, w: rw, h: 1.1, fontFace: THEME.headFontFace, fontSize: 66, color: K.brand });
-  T(s, t('is how much the estimate usually misses per year', 'é quanto a estimativa costuma errar por ano'), { x: rx, y: 4.4, w: rw, h: 0.9, fontSize: 18, bold: true });
-  s.addText(t('Source: our stats.json. Tested by hiding one known year at a time (2012–2021) and guessing it. 2025: 359,392 fires.',
-    'Fonte: nosso stats.json. Testado escondendo um ano conhecido de cada vez (2012–2021) e tentando adivinhar. 2025: 359.392 focos.'), { placeholder: 'src' });
-  s.addNotes(t('For Brazil we go back to 2000. Before 2012 there was only MODIS, so we estimate those years. To check, we hid one known year at a time and tried to guess it: the estimate usually missed by only 3.35% per year.',
-    'Para o Brasil, voltamos até 2000. Antes de 2012 só havia o MODIS, então estimamos esses anos. Para conferir, escondemos um ano conhecido de cada vez e tentamos adivinhar: a estimativa costumou errar só 3,35% por ano.'));
+  box(s, M, 5.35, W - 2 * M, 1.15, K.brandTint, 'Why');
+  T(s, [{ text: t('Why it matters: ', 'Por que importa: '), options: { bold: true, color: K.brandInk } },
+    { text: t('only 21.8% of Brazilian towns have a fire brigade. Knowing early where fire may grow saves time.', 'só 21,8% dos municípios do Brasil têm Corpo de Bombeiros. Saber antes onde o fogo pode crescer ganha tempo.') }],
+    { x: M + 0.35, y: 5.35, w: W - 2 * M - 0.7, h: 1.15, fontSize: 18, valign: 'middle' });
+  s.addText(t('In development (Brazil first). Data: NASA FIRMS, NASA POWER, Open-Meteo, MapBiomas, IBGE (population, MUNIC 2025), FUNAI, ICMBio/MMA protected areas, OpenStreetMap.',
+    'Em desenvolvimento (Brasil primeiro). Dados: NASA FIRMS, NASA POWER, Open-Meteo, MapBiomas, IBGE (população, MUNIC 2025), FUNAI, áreas protegidas do ICMBio/MMA, OpenStreetMap.'), { placeholder: 'src' });
+  s.addNotes(t('How we go from a fire to an alert. We start from the harmonized fire, seen by both satellites and counted once. We add context: weather from NASA POWER and Open-Meteo, days without rain, vegetation and past fires from MapBiomas, people nearby from IBGE, protected and Indigenous lands, and the nearest firefighters. A model trained on 25 years of history gives the chance, in percent, that the fire grows, and the main reasons. Then an alert goes to people nearby and to the agency in charge. This matters because only 21.8% of Brazilian towns have a fire brigade. This part is in development, starting with Brazil.',
+    'Como passamos do foco ao alerta. Partimos do foco harmonizado, visto pelos dois satélites e contado uma vez. Juntamos o contexto: tempo do NASA POWER e da Open-Meteo, dias sem chuva, vegetação e fogo anterior do MapBiomas, pessoas por perto do IBGE, terras indígenas e áreas protegidas, e os bombeiros mais próximos. Um modelo treinado em 25 anos de história dá a chance, em porcentagem, de o fogo crescer, e os principais motivos. Aí o alerta vai para quem mora perto e para o órgão responsável. Isso importa porque só 21,8% dos municípios do Brasil têm Corpo de Bombeiros. Esta parte está em desenvolvimento, começando pelo Brasil.'));
 }
 
 // =====================================================================
-// 7. LIMITS & NEXT STEPS (dark)
+// 7. LIMITES, PRÓXIMOS PASSOS E FECHAMENTO (dark)
 // =====================================================================
 {
   const s = slide(t('Limits and next steps', 'Limites e próximos passos'), 'DARK');
-  s.addText(t('What it is not, and what comes next', 'O que não é, e o que vem agora'), { placeholder: 'title' });
-  s.addImage({ path: IMG('hero-globe-f.png'), x: 9.35, y: 1.25, w: 3.5, h: 3.5 * 880 / 960, objectName: 'Hero globe',
-    altText: t('The Earth from our home page, with 2025 fires lit in orange.', 'A Terra da nossa página inicial, com o fogo de 2025 aceso em laranja.') });
+  s.addText(t('Honest limits, and what comes next', 'Limites honestos, e o que vem depois'), { placeholder: 'title' });
   const col = (x, w, head, color, items, name) => {
-    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 1.5, w, h: 3.7, rectRadius: 0.18, fill: { color: K.white, transparency: 92 }, line: { color: K.dLine, width: 0.75 }, objectName: name });
-    T(s, head, { x: x + 0.3, y: 1.75, w: w - 0.6, h: 0.45, fontSize: 20, bold: true, color });
-    T(s, items.map((it, i) => ({ text: it, options: { bullet: true, breakLine: i < items.length - 1, paraSpaceAfter: 14 } })),
-      { x: x + 0.3, y: 2.4, w: w - 0.6, h: 2.6, fontSize: 18, color: K.dText });
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 1.5, w, h: 3.75, rectRadius: 0.18, fill: { color: K.white, transparency: 92 }, line: { color: K.dLine, width: 0.75 }, objectName: name });
+    T(s, head, { x: x + 0.35, y: 1.72, w: w - 0.7, h: 0.45, fontSize: 20, bold: true, color });
+    T(s, items.map((it, i) => ({ text: it, options: { bullet: true, breakLine: i < items.length - 1, paraSpaceAfter: 12 } })),
+      { x: x + 0.35, y: 2.35, w: w - 0.7, h: 2.8, fontSize: 17, color: K.dText });
   };
-  col(M, 4.15, t('Limits', 'Limites'), K.dMuted, t([
-    'A detection is heat seen from space, not a confirmed fire',
-    'Before 2012, Brazil is an estimate',
+  const cw = (W - 2 * M - 0.4) / 2;
+  col(M, cw, t('Limits', 'Limites'), K.dMuted, t([
+    'A hotspot is heat seen from space, not a confirmed fire',
+    'The forecast is a chance (%), never a certainty; its accuracy is still to be measured',
+    'Clouds and smoke hide fires; Brazil before 2012 is an estimate',
   ], [
-    'Uma detecção é calor visto do espaço, não fogo confirmado',
-    'Antes de 2012, o Brasil é estimado',
+    'Um foco é calor visto do espaço, não um incêndio confirmado',
+    'A previsão é uma chance (%), nunca uma certeza; a precisão ainda vai ser medida',
+    'Nuvens e fumaça escondem fogos; o Brasil antes de 2012 é estimado',
   ]), 'Limits card');
-  col(M + 4.4, 4.15, t('Next', 'Próximos passos'), K.ember, t([
-    'An alert for where the fire may spread',
+  col(M + cw + 0.4, cw, t('With more time', 'Com mais tempo'), K.ember, t([
+    'Finish the forecast and test it against real fires',
+    'Whole world, many years, and a third satellite (NOAA-20)',
     'Easier for everyone: narration and color-blind colors',
   ], [
-    'Um alerta de para onde o fogo pode ir',
+    'Terminar a previsão e testá-la com incêndios reais',
+    'Mundo inteiro, vários anos, e um terceiro satélite (NOAA-20)',
     'Mais fácil para todos: narração e cores para daltônicos',
   ]), 'Next card');
   T(s, [{ text: t('Two satellites, one honest count — ', 'Dois satélites, uma contagem honesta — '), options: { color: K.dText } },
     { text: t('next, an alert before the wildfire.', 'agora, um alerta antes do incêndio.'), options: { color: K.ember } }],
     { x: M, y: 5.5, w: W - 2 * M, h: 1.1, fontFace: THEME.headFontFace, fontSize: 32, valign: 'middle' });
-  s.addText(t('Open data, method and code: deolhonofogo.estudiocrivy.com.br · The next steps are not on the site yet.',
-    'Dados, método e código abertos: deolhonofogo.estudiocrivy.com.br · Os próximos passos ainda não estão no site.'), { placeholder: 'src' });
-  s.addNotes(t('Two honest limits: a detection is heat seen from space, not a confirmed fire, and before 2012 Brazil is an estimate. Next, we want an alert for where the fire may spread — crossing each fire with wind, dry days, vegetation, people and how far the firefighters are — and to make the site easier for everyone. Two satellites, one honest count — next, an alert before the wildfire.',
-    'Dois limites honestos: uma detecção é calor visto do espaço, não fogo confirmado, e antes de 2012 o Brasil é estimado. Agora queremos um alerta de para onde o fogo pode ir — cruzando cada fogo com vento, dias sem chuva, vegetação, pessoas e a distância dos bombeiros — e deixar o site mais fácil para todos. Dois satélites, uma contagem honesta — agora, um alerta antes do incêndio.'));
+  s.addText(t('Open data, method and code: deolhonofogo.estudiocrivy.com.br · Team Space Uai · NASA Space Apps Challenge 2026',
+    'Dados, método e código abertos: deolhonofogo.estudiocrivy.com.br · Equipe Space Uai · NASA Space Apps Challenge 2026'), { placeholder: 'src' });
+  s.addNotes(t('Our limits, honestly. A hotspot is heat seen from space, not a confirmed fire. The forecast will always be a chance in percent, never a certainty, and we still have to measure how often it is right. Clouds and smoke hide fires, and Brazil before 2012 is an estimate. With more time: finish the forecast and test it against real fires, cover the whole world over many years and add a third satellite, NOAA-20, and make the site easier for everyone. To close: fire hurts people, nature and wildlife; we joined two NASA satellites into one honest count, open to anyone; and the next step is an alert before the wildfire.',
+    'Nossos limites, com honestidade. Um foco é calor visto do espaço, não um incêndio confirmado. A previsão vai ser sempre uma chance em porcentagem, nunca uma certeza, e ainda precisamos medir quantas vezes ela acerta. Nuvens e fumaça escondem fogos, e o Brasil antes de 2012 é estimado. Com mais tempo: terminar a previsão e testá-la com incêndios reais, cobrir o mundo inteiro em vários anos e incluir um terceiro satélite, o NOAA-20, e deixar o site mais fácil para todos. Para fechar: o fogo atinge pessoas, natureza e animais; juntamos dois satélites da NASA numa contagem honesta, aberta para todos; e o próximo passo é um alerta antes do incêndio.'));
 }
 
 (async () => {
