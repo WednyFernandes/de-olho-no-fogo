@@ -163,27 +163,33 @@ const ZOOM = 700 / 840;
 // =====================================================================
 {
   const s = slide(t('Demo', 'Demonstração'), 'LIGHT');
-  s.addText(t('Demo: an open globe', 'Demonstração: um globo aberto'), { placeholder: 'title', fontSize: 34 });
-  const y = 1.35, h = 4.0, r1 = 3060 / 1940, w1 = h * r1;
-  pic(s, 'L-month-zoom.png', M, y, w1, h, t('Our globe: fires in Brazil, September 2025.', 'Nosso globo: fogo no Brasil, setembro de 2025.'));
-  T(s, [{ text: t('1  Pick a day', '1  Escolha um dia'), options: { bold: true, fontSize: 24, breakLine: true } }, { text: t('see where it burned', 'veja onde queimou'), options: { fontSize: 18, color: K.ink2 } }], { x: M, y: y + h + 0.12, w: w1, h: 0.85 });
-  const rx = M + w1 + 0.45, rw = W - M - rx;
-  pic(s, 'L-fire-click.png', rx, y, rw, h, t('One fire clicked on our globe.', 'Um fogo clicado no nosso globo.'));
-  const cw = 2.25, cx = rx + rw - cw - 0.15, cy = y + 0.15;
-  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: cx, y: cy, w: cw, h: 2.75, rectRadius: 0.14, fill: { color: K.white }, line: { color: K.line, width: 0.75 }, shadow: { type: 'outer', color: '000000', opacity: 0.15, blur: 6, offset: 2, angle: 90 }, objectName: 'Fire card' });
-  T(s, [{ text: t('This fire', 'Este fogo'), options: { bold: true, color: K.brandInk, fontSize: 17, breakLine: true } },
-    { text: t('2 Sep 2025', '2 set 2025'), options: { bold: true, breakLine: true } },
-    { text: t('both satellites', 'os dois satélites'), options: { bold: true, breakLine: true } },
-    { text: 'MODIS 7', options: { bold: true, color: K.modis, breakLine: true } },
-    { text: 'VIIRS 19', options: { bold: true, color: K.viirs, breakLine: true } },
-    { text: '12 km²', options: { bold: true } }],
-    { x: cx + 0.2, y: cy + 0.1, w: cw - 0.4, h: 2.55, fontSize: 17, valign: 'middle', paraSpaceAfter: 4 });
-  T(s, [{ text: t('2  Click a fire', '2  Clique num fogo'), options: { bold: true, fontSize: 24, breakLine: true } }, { text: t('when, size, who saw it', 'quando, tamanho, quem viu'), options: { fontSize: 18, color: K.ink2 } }], { x: rx, y: y + h + 0.12, w: rw, h: 0.85 });
-  T(s, 'deolhonofogo.estudiocrivy.com.br', { x: M, y: 6.4, w: W - 2 * M, h: 0.4, fontSize: 20, bold: true, color: K.brandInk, align: 'center', hyperlink: { url: 'https://deolhonofogo.estudiocrivy.com.br' } });
-  s.addText(t('Real screenshots of our globe (September 2025; 2 September 2025). The card repeats the data of the fire panel on the site. Plain background in these captures.',
-    'Capturas reais do nosso globo (setembro de 2025; 2 de setembro de 2025). O cartão repete os dados do painel do foco no site. Fundo liso nestas capturas.'), { placeholder: 'src' });
-  s.addNotes(t('The prototype is live and open to anyone. Pick a day and see where the world burned. Click a fire to see when it burned, its size and which satellites saw it.',
-    'O protótipo está no ar e aberto para qualquer pessoa. Escolha um dia e veja onde o mundo queimou. Clique num fogo para ver quando queimou, o tamanho e quais satélites viram.'));
+  s.addText(t('Demo: the website we built', 'Demonstração: o site que criamos'), { placeholder: 'title', fontSize: 34 });
+  T(s, 'deolhonofogo.estudiocrivy.com.br', { x: W - M - 5.6, y: 0.5, w: 5.6, h: 0.5, fontSize: 18, bold: true, color: K.brandInk, align: 'right', hyperlink: { url: 'https://deolhonofogo.estudiocrivy.com.br' } });
+  const tiles = t([
+    ['t1-home.png', 'Home page', 'the problem in one view'],
+    ['t2-globe.png', '3D fire globe', 'year, month, day, hour'],
+    ['t3-click.png', 'Click a fire', 'when, size, who saw it'],
+    ['t4-layers.png', 'MODIS · VIIRS · joined', 'turn each on and off'],
+    ['t5-brazil.png', 'Brazil since 2000', 'one series, same scale'],
+    ['t6-solo.png', 'Extra layers', 'burn scars, land cover'],
+  ], [
+    ['t1-home.png', 'Página inicial', 'o problema numa tela'],
+    ['t2-globe.png', 'Globo 3D do fogo', 'ano, mês, dia, hora'],
+    ['t3-click.png', 'Clique num fogo', 'quando, tamanho, quem viu'],
+    ['t4-layers.png', 'MODIS · VIIRS · juntos', 'ligue e desligue cada um'],
+    ['t5-brazil.png', 'Brasil desde 2000', 'uma série, mesma régua'],
+    ['t6-solo.png', 'Camadas extras', 'cicatrizes, cobertura do solo'],
+  ]);
+  const gx = 0.35, gy = 0.15, y0 = 1.25, ch = (6.75 - y0 - gy) / 2, ih = ch - 0.72, cw = ih * 16 / 9, gxo = M + ((W - 2 * M) - (3 * cw + 2 * gx)) / 2;
+  tiles.forEach(([f, a, b], i) => {
+    const x = gxo + (i % 3) * (cw + gx), y = y0 + Math.floor(i / 3) * (ch + gy);
+    pic(s, f, x, y, cw, ih, a + ': ' + b);
+    T(s, [{ text: a, options: { bold: true, fontSize: 18, breakLine: true } }, { text: b, options: { fontSize: 14, color: K.ink2 } }], { x, y: y + ih + 0.06, w: cw, h: 0.7 });
+  });
+  s.addText(t('Real screenshots of our site (home page, globe, Brazil chart). Also on the site: method, references and open data (stats.json). Plain background in the globe captures.',
+    'Capturas reais do nosso site (página inicial, globo, gráfico do Brasil). Também no site: método, referências e dados abertos (stats.json). Fundo liso nas capturas do globo.'), { placeholder: 'src' });
+  s.addNotes(t('We built a complete, open website. The home page explains the problem at a glance. The 3D globe shows the fire of the world in 2025 and Brazil since 2000, by year, month, day or hour. Click a fire to see when it burned, its size and which satellites saw it. Turn MODIS, VIIRS and the joined layer on and off. See Brazil since 2000 on the same scale, and extra layers like burn scars and land cover. Method, references and the open data are on the site too.',
+    'Criamos um site completo e aberto. A página inicial explica o problema numa tela. O globo 3D mostra o fogo do mundo em 2025 e do Brasil desde 2000, por ano, mês, dia ou hora. Clique num fogo para ver quando queimou, o tamanho e quais satélites viram. Ligue e desligue o MODIS, o VIIRS e a camada juntada. Veja o Brasil desde 2000 na mesma régua, e camadas extras como cicatrizes e cobertura do solo. O método, as referências e os dados abertos também estão no site.'));
 }
 
 // =====================================================================
