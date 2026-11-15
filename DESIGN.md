@@ -27,10 +27,10 @@ colors:
 typography:
   display:
     fontFamily: "Figtree, system-ui, sans-serif"
-    fontSize: "clamp(52px, 6.6vw, 96px)"
+    fontSize: "clamp(36px, 4vw, 64px)"
     fontWeight: 900
-    lineHeight: 0.95
-    letterSpacing: "-0.035em"
+    lineHeight: 1
+    letterSpacing: "-0.03em"
   headline:
     fontFamily: "Figtree, system-ui, sans-serif"
     fontSize: "clamp(36px, 4.2vw, 60px)"
@@ -197,7 +197,7 @@ A cool neutral field with one saturated voice and a small, strictly fenced set o
 **Character:** One friendly geometric sans across every role. Hierarchy comes from weight (400 to 900) and tight negative tracking on large sizes, not from a second family.
 
 ### Hierarchy
-- **Display** (900, clamp 52-96px, 0.95): the landing hero question. One per page.
+- **Display** (900, clamp 36-64px, 1.0, balanced wrap): the landing hero headline. One per page. It sits in the 5/12 hero column, so keep it to 3 lines on desktop (it ran to 6 lines at 88px).
 - **Headline** (900, clamp 36-60px, 1.02): landing section heads, max ~22ch, `text-wrap: balance`.
 - **Answer** (900, clamp 26-36px, 1): the live chart verdict next to the switch; the answer word takes ember.
 - **Title-app** (800, 28px): page titles in the tool surfaces; h2 24px/800, h3 17px/700.
