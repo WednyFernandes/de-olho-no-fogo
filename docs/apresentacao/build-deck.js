@@ -86,7 +86,7 @@ const EX = { m: 10, v: 61, f: 7 }; // same place and day on our globe, 2 Sep 202
 const CHAIN = t([
   ['Fires', 'hurt people, nature and wildlife'],
   ['Where is the fire?', 'only satellites see it all, every day'],
-  ['2 satellites, 2 data', "MODIS and VIIRS don't match"],
+  ['2 satellites, 2 data', "they don't match: no precision"],
   ['Harmonize', 'one precise count of each fire'],
   ['+ other data', 'weather, vegetation, people nearby'],
   ['Alert', 'where fire may grow, before it does'],
@@ -94,7 +94,7 @@ const CHAIN = t([
 ], [
   ['Queimadas', 'atingem pessoas, natureza e animais'],
   ['Onde está o fogo?', 'só satélites veem tudo, todo dia'],
-  ['2 satélites, 2 dados', 'MODIS e VIIRS não batem'],
+  ['2 satélites, 2 dados', 'não batem: falta precisão'],
   ['Harmonizar', 'uma contagem precisa de cada fogo'],
   ['+ outros dados', 'tempo, vegetação, pessoas perto'],
   ['Alertar', 'onde o fogo pode crescer, antes'],
@@ -113,40 +113,42 @@ const arrow = (s, x, y, w, h, color, dir) => s.addShape(dir === 'down' ? pres.sh
 
 {
   const s = slide(t('Problem', 'Problema'), 'LIGHT');
-  s.addText(t('The problem: locating fire with two satellites that disagree', 'O problema: localizar o fogo com satélites que discordam'), { placeholder: 'title', fontSize: 26 });
-  // problem part of the chain
-  // fire impacts, shown as a picture: three icon + number blocks
-  const cwI = 6.35, nh = 1.6, ny = 1.3, ag = 0.45, nw = (W - 2 * M - cwI - 2 * ag) / 2;
-  box(s, M, ny, cwI, nh, K.brandTint, 'Fire impacts');
-  const imp = t([['ic-people.png', '+26–34%', 'hospital visits for breathing, dry season'], ['ic-forest.png', '12,700,000', 'hectares burned in Brazil, 2025'], ['ic-paw.png', '~17,000,000', 'animals killed, Pantanal 2020']],
-                [['ic-people.png', '+26–34%', 'internações respiratórias na seca'], ['ic-forest.png', '12.700.000', 'hectares queimados no Brasil, 2025'], ['ic-paw.png', '~17.000.000', 'animais mortos, Pantanal 2020']]);
-  const bw = cwI / 3;
+  s.addText(t('The problem: locating fire with satellites that disagree', 'O problema: localizar o fogo com satélites que discordam'), { placeholder: 'title', fontSize: 26 });
+  // LEFT: the chain, top to bottom
+  const lw = 4.7, y0 = 1.3, ih1 = 1.75, nh = 1.0, gap = 0.42;
+  box(s, M, y0, lw, ih1, K.brandTint, 'Fire impacts');
+  T(s, t('Fires', 'Queimadas'), { x: M + 0.25, y: y0 + 0.08, w: lw - 0.5, h: 0.38, fontSize: 17, bold: true, color: K.brandInk });
+  const imp = t([['ic-people.png', '+26–34%', 'hospital visits for breathing'], ['ic-forest.png', '12,700,000', 'hectares burned, Brazil 2025'], ['ic-paw.png', '~17,000,000', 'animals killed, Pantanal 2020']],
+                [['ic-people.png', '+26–34%', 'internações respiratórias'], ['ic-forest.png', '12.700.000', 'hectares queimados, Brasil 2025'], ['ic-paw.png', '~17.000.000', 'animais mortos, Pantanal 2020']]);
+  const bw = lw / 3;
   imp.forEach(([ic, n, l], i) => {
     const x = M + i * bw;
-    s.addImage({ path: IMG(ic), x: x + bw / 2 - 0.27, y: ny + 0.12, w: 0.54, h: 0.54, altText: l });
-    T(s, n, { x: x + 0.1, y: ny + 0.7, w: bw - 0.2, h: 0.4, fontSize: 17, bold: true, color: K.brandInk, align: 'center', valign: 'middle' });
-    T(s, l, { x: x + 0.1, y: ny + 1.08, w: bw - 0.2, h: 0.48, fontSize: 12, color: K.ink2, align: 'center' });
+    s.addImage({ path: IMG(ic), x: x + bw / 2 - 0.22, y: y0 + 0.48, w: 0.44, h: 0.44, altText: l });
+    T(s, n, { x: x + 0.05, y: y0 + 0.93, w: bw - 0.1, h: 0.32, fontSize: 14, bold: true, color: K.brandInk, align: 'center', valign: 'middle' });
+    T(s, l, { x: x + 0.05, y: y0 + 1.24, w: bw - 0.1, h: 0.46, fontSize: 10.5, color: K.ink2, align: 'center' });
   });
-  arrow(s, M + cwI + 0.08, ny + nh / 2 - 0.18, ag - 0.16, 0.36, K.ink2);
-  [1, 2].forEach((i, k) => {
-    const x = M + cwI + ag + k * (nw + ag);
-    node(s, i, x, ny, nw, nh, 'p', true, [17, 13]);
-    if (k < 1) arrow(s, x + nw + 0.08, ny + nh / 2 - 0.18, ag - 0.16, 0.36, K.ink2);
-  });
-  // evidence: MODIS vs VIIRS, same place and day
-  const iw = 3.75, ih = iw * 1228 / 1843, iy = 3.1, ix1 = M + 1.2, ix2 = W - M - 1.2 - iw;
-  pic(s, 'L-mod.png', ix1, iy, iw, ih, t('MODIS detections only (purple squares).', 'Só as detecções do MODIS (quadrados roxos).'));
-  pic(s, 'L-vii.png', ix2, iy, iw, ih, t('VIIRS detections only (teal squares).', 'Só as detecções do VIIRS (quadrados verde-azulados).'));
-  T(s, t('Same place,\nsame day', 'Mesmo lugar,\nmesmo dia'), { x: ix1 + iw, y: iy + ih / 2 - 0.5, w: ix2 - ix1 - iw, h: 1.0, fontSize: 16, bold: true, color: K.ink2, align: 'center', valign: 'middle' });
-  T(s, [{ text: 'MODIS: ', options: { bold: true, color: K.modis } }, { text: t(`${EX.m} detections`, `${EX.m} detecções`), options: { bold: true } }, { text: t(' · 1 km pixel', ' · pixel de 1 km'), options: { color: K.ink2 } }], { x: ix1, y: iy + ih + 0.08, w: iw, h: 0.4, fontSize: 16 });
-  T(s, [{ text: 'VIIRS: ', options: { bold: true, color: K.viirs } }, { text: t(`${EX.v} detections`, `${EX.v} detecções`), options: { bold: true } }, { text: t(' · 375 m pixel', ' · pixel de 375 m'), options: { color: K.ink2 } }], { x: ix2, y: iy + ih + 0.08, w: iw, h: 0.4, fontSize: 16 });
-  box(s, M, 6.15, W - 2 * M, 0.6, K.brandTint, 'Statement');
-  T(s, t('Adding them counts the same fire many times. Using only one loses fires or loses history.', 'Somar os dois conta o mesmo fogo várias vezes. Usar um só perde fogo ou perde história.'),
-    { x: M + 0.3, y: 6.15, w: W - 2 * M - 0.6, h: 0.6, fontSize: 17, bold: true, color: K.brandInk, valign: 'middle' });
-  s.addText(t(`Brazil burned 12,700,000 hectares in 2025 (MapBiomas). World 2025: ${fmt(G.brutoM)} MODIS and ${fmt(G.brutoV)} VIIRS detections (stats.json). Screenshots: our globe, 2 September 2025, central Brazil.`,
-    `O Brasil queimou 12.700.000 hectares em 2025 (MapBiomas). Mundo 2025: ${fmt(G.brutoM)} detecções do MODIS e ${fmt(G.brutoV)} do VIIRS (stats.json). Capturas: nosso globo, 2 de setembro de 2025, Brasil central.`), { placeholder: 'src' });
-  s.addNotes(t(`Fires hurt people, nature and wildlife — Brazil alone burned 12.7 million hectares in 2025. To act, we first need to know where the fire is, and only satellites see the whole country every day. But NASA has two satellites with two different records. Same place, same day: MODIS saw ${EX.m} detections, VIIRS saw ${EX.v}. Adding them counts the same fire many times; using only one loses small fires or loses history.`,
-    `As queimadas atingem pessoas, natureza e animais — só o Brasil queimou 12,7 milhões de hectares em 2025. Para agir, primeiro é preciso saber onde está o fogo, e só os satélites veem o país inteiro todo dia. Mas a NASA tem dois satélites, com dois registros diferentes. Mesmo lugar, mesmo dia: o MODIS viu ${EX.m} detecções, o VIIRS viu ${EX.v}. Somar conta o mesmo fogo várias vezes; usar um só perde fogo pequeno ou perde história.`));
+  const down = (y) => arrow(s, M + lw / 2 - 0.18, y + 0.05, 0.36, gap - 0.1, K.ink2, 'down');
+  down(y0 + ih1);
+  const n1 = y0 + ih1 + gap; node(s, 1, M, n1, lw, nh, 'p', true, [19, 14]);
+  down(n1 + nh);
+  const n2 = n1 + nh + gap; node(s, 2, M, n2, lw, nh, 'p', true, [19, 14]);
+  // arrow from the last box to the evidence on the right
+  const rx = M + lw + 0.75;
+  arrow(s, M + lw + 0.12, n2 + nh / 2 - 0.2, 0.5, 0.4, K.brand);
+  // RIGHT: the same fire, seen by each satellite (zoomed)
+  const rw = W - M - rx, g = 0.3, iw = (rw - g) / 2, ih = iw * 700 / 840, iy = 1.55;
+  T(s, t('The same fire, the same day, seen by each satellite:', 'O mesmo fogo, no mesmo dia, visto por cada satélite:'), { x: rx, y: 1.2, w: rw, h: 0.35, fontSize: 15, color: K.ink2 });
+  pic(s, 'L-mod-zoom.png', rx, iy, iw, ih, t('The fire seen by MODIS: 7 big squares.', 'O fogo visto pelo MODIS: 7 quadrados grandes.'));
+  pic(s, 'L-vii-zoom.png', rx + iw + g, iy, iw, ih, t('The same fire seen by VIIRS: many small squares.', 'O mesmo fogo visto pelo VIIRS: muitos quadrados pequenos.'));
+  T(s, [{ text: 'MODIS', options: { bold: true, color: K.modis, fontSize: 22, breakLine: true } }, { text: t('7 detections · 1\u00A0km squares', '7 detecções · quadrados de 1\u00A0km'), options: { fontSize: 15 } }], { x: rx, y: iy + ih + 0.1, w: iw, h: 0.8 });
+  T(s, [{ text: 'VIIRS', options: { bold: true, color: K.viirs, fontSize: 22, breakLine: true } }, { text: t('19 detections · 375\u00A0m squares', '19 detecções · quadrados de 375\u00A0m'), options: { fontSize: 15 } }], { x: rx + iw + g, y: iy + ih + 0.1, w: iw, h: 0.8 });
+  box(s, rx, 5.55, rw, 1.05, K.ink, 'Statement');
+  T(s, t('Which count is right? Adding them counts the same fire twice; using one loses fires or history.', 'Qual contagem está certa? Somar conta o mesmo fogo duas vezes; usar um só perde fogo ou história.'),
+    { x: rx + 0.3, y: 5.55, w: rw - 0.6, h: 1.05, fontSize: 17, bold: true, color: K.white, valign: 'middle' });
+  s.addText(t(`Zoom of our globe, 2 September 2025, central Brazil: one fire with 7 MODIS + 19 VIIRS detections (its info panel). World 2025: ${fmt(G.brutoM)} MODIS and ${fmt(G.brutoV)} VIIRS detections. Sources of the impacts: Campo Grande News 2024, MapBiomas 2025, Tomas et al. 2021.`,
+    `Zoom do nosso globo, 2 de setembro de 2025, Brasil central: um fogo com 7 detecções do MODIS + 19 do VIIRS (painel do foco). Mundo 2025: ${fmt(G.brutoM)} detecções do MODIS e ${fmt(G.brutoV)} do VIIRS. Fontes dos impactos: Campo Grande News 2024, MapBiomas 2025, Tomas et al. 2021.`), { placeholder: 'src' });
+  s.addNotes(t('Fires hurt people, nature and wildlife: up to 34% more hospital visits for breathing, 12.7 million hectares burned in Brazil in 2025, about 17 million animals killed in the Pantanal in 2020. To act, we need to know where the fire is, and only satellites see everything every day. But NASA has two satellites with two different records. Look at the same fire, the same day: MODIS saw 7 big squares, VIIRS saw 19 small ones. Which is right? Adding them counts the same fire twice; using only one loses small fires or loses history. There is no precision.',
+    'As queimadas atingem pessoas, natureza e animais: até 34% mais internações respiratórias, 12,7 milhões de hectares queimados no Brasil em 2025, cerca de 17 milhões de animais mortos no Pantanal em 2020. Para agir, é preciso saber onde está o fogo, e só os satélites veem tudo, todo dia. Mas a NASA tem dois satélites, com dois registros diferentes. Veja o mesmo fogo, no mesmo dia: o MODIS viu 7 quadrados grandes, o VIIRS viu 19 pequenos. Qual está certo? Somar conta o mesmo fogo duas vezes; usar um só perde fogo pequeno ou perde história. Falta precisão.'));
 }
 
 // =====================================================================
