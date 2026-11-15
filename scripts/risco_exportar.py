@@ -16,7 +16,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 D = os.path.join(ROOT, "dados", "risco")
 OUT = os.path.join(ROOT, "public", "data", "risco")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from risco_features import GRUPOS, SECO_MM  # noqa: E402
+from risco_features import GRUPOS, SECO_MM, WC_GRUPOS, WC_NPZ, CIC_NPZ  # noqa: E402
 
 UFS = {11: "RO", 12: "AC", 13: "AM", 14: "RR", 15: "PA", 16: "AP", 17: "TO", 21: "MA", 22: "PI", 23: "CE", 24: "RN", 25: "PB", 26: "PE",
        27: "AL", 28: "SE", 29: "BA", 31: "MG", 32: "ES", 33: "RJ", 35: "SP", 41: "PR", 42: "SC", 43: "RS", 50: "MS", 51: "MT", 52: "GO", 53: "DF"}
@@ -41,8 +41,51 @@ ROTULOS = {"focos_7d": "Focos nos 7 dias anteriores", "focos_30d": "Focos nos 30
            "radiacao_7d": "Radiação solar média, 7 dias", "sazon_sin": "Época do ano (seno)", "sazon_cos": "Época do ano (cosseno)",
            "cob_floresta": "Fração de floresta (IGBP 2020)", "cob_savana": "Fração de savana/cerrado (IGBP 2020)", "cob_campo": "Fração de campo (IGBP 2020)",
            "cob_agricultura": "Fração de agricultura/mosaico (IGBP 2020)", "cob_urbano": "Fração urbana (IGBP 2020)", "cob_outros": "Fração de outras classes (IGBP 2020)",
+           "wc_floresta": "Fração de árvores e mangue (WorldCover 2021)", "wc_arbustal": "Fração de arbustos/cerrado aberto (WorldCover 2021)",
+           "wc_campo": "Fração de campo e pastagem (WorldCover 2021)", "wc_agricultura": "Fração de agricultura (WorldCover 2021)",
+           "wc_outras": "Fração urbana, solo exposto e área úmida (WorldCover 2021)",
+           "cic_12m": "Área queimada nos 12 meses anteriores (INPE AQ1km)", "cic_media_anual": "Área queimada média por ano desde 2003 (INPE AQ1km)",
            "lat": "Latitude", "lon": "Longitude", "prev_tmax": "Temperatura máxima da semana-alvo (observada)", "prev_ur": "Umidade do ar da semana-alvo (observada)",
            "prev_chuva": "Chuva da semana-alvo (observada)", "prev_vento": "Vento máximo da semana-alvo (observado)"}
+
+
+# frase simples para cada variável quando ela está entre as 3 que mais puxam o risco para cima (campo novo "frases").
+FRASES = {"focos_7d": "Teve foco de fogo na última semana", "focos_30d": "Teve focos de fogo no último mês",
+          "focos_365d": "Teve muitos focos de fogo no último ano", "dias_fogo_30d": "Teve fogo em vários dias do último mês",
+          "clim_semana": "Costuma ter fogo nesta semana do ano", "clim_semana_pm1": "Costuma ter fogo nesta época do ano",
+          "recorrencia_anos": "Pega fogo quase todo ano", "tmax_7d": "Os últimos dias foram quentes", "ur_7d": "O ar está seco",
+          "ur_30d": "O ar está seco há um mês", "chuva_7d": "Choveu pouco na última semana", "chuva_30d": "Choveu pouco no último mês",
+          "dias_secos": "Está há muitos dias sem chuva", "vento_max_7d": "Ventou forte nos últimos dias",
+          "umid_solo_sup": "O solo está seco (estimativa de modelo)", "umid_solo_raiz_30d": "O solo está seco no fundo há um mês (estimativa de modelo)",
+          "radiacao_7d": "Teve muito sol nos últimos dias", "sazon_sin": "É época de fogo nesta região", "sazon_cos": "É época de fogo nesta região",
+          "cob_floresta": "O tipo de vegetação do local pesa no risco", "cob_savana": "Área com muito cerrado, que queima com facilidade",
+          "cob_campo": "Área com muito campo e pasto, que secam e queimam com facilidade", "cob_agricultura": "Área com muita lavoura, onde se usa fogo no manejo",
+          "cob_urbano": "O tipo de ocupação do local pesa no risco", "cob_outros": "O tipo de vegetação do local pesa no risco",
+          "wc_floresta": "O tipo de vegetação do local pesa no risco", "wc_arbustal": "Área com muito cerrado e arbustos, que queimam com facilidade",
+          "wc_campo": "Área com muito campo e pasto, que secam e queimam com facilidade", "wc_agricultura": "Área com muita lavoura, onde se usa fogo no manejo",
+          "wc_outras": "O tipo de ocupação do local pesa no risco",
+          "cic_12m": "Queimou uma área grande aqui no último ano (cicatrizes do INPE)", "cic_media_anual": "Esta área queima muito, ano após ano (cicatrizes do INPE)"}
+
+
+def frase_vegetacao(f):
+    """Frase simples sobre a vegetação da célula a partir das frações WorldCover (ordem de WC_GRUPOS)."""
+    fl, ar, ca, ag, ou = (float(x) for x in f)
+    tot = fl + ar + ca + ag + ou
+    if tot <= 0:
+        return ""
+    pc = lambda x: f"{round(100 * x / tot)}%"
+    partes = []
+    if ar / tot >= 0.15:
+        partes.append(f"muito cerrado e arbustos ({pc(ar)}), que queimam com facilidade")
+    if ca / tot >= 0.30:
+        partes.append(f"muito campo e pasto ({pc(ca)}), que secam e queimam com facilidade")
+    if ag / tot >= 0.30:
+        partes.append(f"muita lavoura ({pc(ag)}), onde se usa fogo no manejo")
+    if fl / tot >= 0.60:
+        partes.append(f"muita floresta ({pc(fl)}), que queima menos quando está intacta")
+    if not partes:
+        return f"Área mista: árvores {pc(fl)}, campo e pasto {pc(ca)}, lavoura {pc(ag)}, arbustos {pc(ar)}"
+    return "Área com " + " e ".join(partes)
 
 
 def r(x, n=4):
@@ -64,6 +107,17 @@ def main():
            "dias_mes": h["dias_mes"].astype(int).tolist(),
            "grupos": [{"id": g[0], "nome": g[1], "igbp": g[2]} for g in GRUPOS],
            "cob": np.round(h["cob"] * 100).astype(int).tolist(), "focos_grupo": h["focos_grupo"].astype(int).tolist()}
+    # campos novos (15/11/2026): WorldCover 2021, frase de vegetação e área queimada INPE AQ1km
+    zw = np.load(WC_NPZ)
+    wcls = list(zw["classes"])
+    wc = np.stack([zw["frac"][:, [wcls.index(k) for k in ks]].sum(1) for _, _, ks in WC_GRUPOS], 1)
+    zc = np.load(CIC_NPZ)
+    i0, i1 = (2012 - 2002) * 12, (2026 - 2002) * 12
+    cic = zc["px"][:, i0:i1].reshape(NC, 14, 12).sum(2) / zc["px_tot"][:, None]
+    cel.update({"grupos_wc": [{"id": g[0], "nome": g[1], "worldcover": g[2]} for g in WC_GRUPOS],
+                "cob_wc": np.round(wc * 100).astype(int).tolist(),
+                "vegetacao": [frase_vegetacao(x) for x in wc],
+                "cic_ano": np.round(np.minimum(cic, 1) * 1000).astype(int).tolist()})
     with open(os.path.join(OUT, "celulas.json"), "w", encoding="utf-8") as f:
         json.dump(cel, f, ensure_ascii=False, separators=(",", ":"))
 
@@ -104,6 +158,8 @@ def main():
                {"nome": "detectado", "dtype": "uint8", "forma": [NE, NC], "escala": "1 = ≥1 foco na semana, 0 = nenhum, 255 = sem dado (2026)"},
                {"nome": "top3", "dtype": "uint8", "forma": [NE, NC, 3], "escala": "índices em 'variaveis' das 3 maiores contribuições positivas (modelo do mapa)"}]},
            "variaveis": nomes, "rotulos": {n: ROTULOS.get(n, n) for n in set(nomes) | set(ROTULOS)},
+           "frases": {n: FRASES.get(n, ROTULOS.get(n, n)) for n in nomes},
+           "vegetacao_vars": [n for n in nomes if n.startswith(("wc_", "cob_"))],
            "dados_ate": "2025-12-31", "horizonte_dias": 7, "metricas": met}
     with open(os.path.join(OUT, "modelo.json"), "w", encoding="utf-8") as f:
         json.dump(mod, f, ensure_ascii=False, separators=(",", ":"))

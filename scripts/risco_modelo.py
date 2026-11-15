@@ -1,6 +1,9 @@
 """Modelos de risco semanal: logística, gradient boosting (HistGradientBoosting) e duas referências ingênuas.
 
-Uso: python scripts/risco_modelo.py      (precisa de dados/risco/features.npz, de risco_features.py; scikit-learn)
+Uso: python scripts/risco_modelo.py [--saida DIR] [--sem-novas]
+     (precisa de dados/risco/features.npz, de risco_features.py; scikit-learn)
+     --saida DIR   grava modelo.npz e metricas.json em DIR (padrão dados/risco) — usado para comparar candidatos
+     --sem-novas   exclui as variáveis de WorldCover e cicatrizes (reproduz o modelo anterior a 15/11/2026)
 
 Divisão cronológica por ano da data de emissão: treino 2012–2021, validação 2022–2023 (hiperparâmetros, calibração
 isotônica, limiar), teste 2024–2025 (só avaliado no fim). As variáveis de histórico (climatologia da semana, recorrência)
@@ -26,6 +29,8 @@ SEED = 0
 LOG1P = ["chuva_7d", "chuva_30d", "dias_secos", "dias_fogo_30d"]
 PREV = ["prev_tmax", "prev_ur", "prev_chuva", "prev_vento"]
 LATLON = ["lat", "lon"]
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from risco_features import NOVAS  # noqa: E402
 
 
 def metricas(y, p, limiares):
@@ -63,6 +68,9 @@ def melhor_limiar_f1(y, p):
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
+    saida = sys.argv[sys.argv.index("--saida") + 1] if "--saida" in sys.argv else D
+    os.makedirs(saida, exist_ok=True)
+    excl = PREV + LATLON + (NOVAS if "--sem-novas" in sys.argv else [])
     z = np.load(os.path.join(D, "features.npz"))
     X3, y2, ano, sem = z["X"], z["y"], z["ano"], z["semana"]
     nomes = list(z["nomes"])
@@ -74,7 +82,7 @@ def main():
     y = y2.reshape(-1)
     tr, va, te = (A >= 2012) & (A <= 2021), (A >= 2022) & (A <= 2023), (A >= 2024) & (A <= 2025)
     novo = A == 2026
-    base = [n for n in nomes if n not in PREV + LATLON]
+    base = [n for n in nomes if n not in excl]
     conj = {"base": base, "com_latlon": base + LATLON, "previsao_perfeita": base + PREV}
     ix = lambda cols: [nomes.index(c) for c in cols]
     print("linhas treino/val/teste", tr.sum(), va.sum(), te.sum(), flush=True)
@@ -186,12 +194,12 @@ def main():
     contrib_lg = (((X[alvo][:, cl] - mu) / sd) * lg.coef_[0]).astype(np.float32)
     ne = int(alvo.sum() // NC)
     top = lambda c: np.argsort(-c, axis=1)[:, :3].astype(np.uint8).reshape(ne, NC, 3)
-    np.savez(os.path.join(D, "modelo.npz"), p_gbm=p_gb.reshape(ne, NC).astype(np.float32), p_log=p_lg.reshape(ne, NC).astype(np.float32),
+    np.savez(os.path.join(saida, "modelo.npz"), p_gbm=p_gb.reshape(ne, NC).astype(np.float32), p_log=p_lg.reshape(ne, NC).astype(np.float32),
              top_gbm=top(contrib_gb), top_log=top(contrib_lg),
              topv_gbm=np.take_along_axis(contrib_gb, np.argsort(-contrib_gb, axis=1)[:, :3], 1).reshape(ne, NC, 3),
              topv_log=np.take_along_axis(contrib_lg, np.argsort(-contrib_lg, axis=1)[:, :3], 1).reshape(ne, NC, 3),
              y=y[alvo].reshape(ne, NC), emissao=z["emissao"][np.unique(np.where(alvo.reshape(NE, NC))[0])], nomes=np.array(base))
-    with open(os.path.join(D, "metricas.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(saida, "metricas.json"), "w", encoding="utf-8") as f:
         json.dump(res, f, ensure_ascii=False, indent=1)
     print("modelo do mapa:", escolha, "ok")
 

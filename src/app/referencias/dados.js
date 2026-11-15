@@ -276,7 +276,7 @@ export const SECOES = [
   {
     id: 'risco',
     titulo: 'Risco de fogo e tempo no globo',
-    nota: 'Fontes da camada de risco, do painel Risco e do tempo no clique do globo (a página /risco foi retirada em 15/11/2026 e redireciona para o globo): clima diário do NASA POWER por célula nativa (0,5° × 0,625°) no Brasil, cobertura do solo MODIS MCD12C1 de 2020, os modelos do scikit-learn e o tempo de agora do Open-Meteo. Scripts: scripts/risco_features.py, risco_modelo.py, risco_exportar.py, clima_exportar.py.',
+    nota: 'Fontes da camada de risco, do painel Risco e do tempo no clique do globo (a página /risco foi retirada em 15/11/2026 e redireciona para o globo): clima diário do NASA POWER por célula nativa (0,5° × 0,625°) no Brasil, cobertura do solo MODIS MCD12C1 de 2020 e ESA WorldCover 2021, cicatrizes INPE AQ1km por célula, os modelos do scikit-learn e o tempo de agora do Open-Meteo. Scripts: scripts/cobertura_worldcover.py, risco_cicatrizes.py, risco_features.py, risco_modelo.py, risco_exportar.py, clima_exportar.py.',
     itens: [
       {
         nome: 'NASA POWER, API diária de ponto (comunidade AG), Brasil',
@@ -297,6 +297,17 @@ export const SECOES = [
         onde: 'scripts/ee_brasil.py, scripts/risco_features.py',
         citacao: 'Friedl, M., Sulla-Menashe, D. (2022). MODIS/Terra+Aqua Land Cover Type Yearly L3 Global 0.05Deg CMG V061. NASA Land Processes DAAC. Conferido na DataCite em 15/11/2026.',
         doi: '10.5067/MODIS/MCD12C1.061',
+      },
+      {
+        nome: 'ESA WorldCover 10 m 2021 v200',
+        uso: 'Fração de árvores, arbustos (inclui cerrado aberto), campo/pastagem, agricultura e outras classes por célula POWER, variáveis do modelo de risco e frase de vegetação do clique do globo. Lida da visão geral interna de ~133 m dos GeoTIFFs otimizados (COG) públicos, sem login. Um só ano; não separa pastagem de campo nativo. Usado no lugar do MapBiomas, cujos GeoTIFFs públicos recusaram acesso anônimo (HTTP 403) em 15/11/2026.',
+        url: 'https://esa-worldcover.org/',
+        links: [['Bucket público (AWS)', 'https://esa-worldcover.s3.eu-central-1.amazonaws.com/'], ['Manual do produto', 'https://esa-worldcover.org/en/data-access']],
+        acesso: 'Download HTTP (execução do script)',
+        onde: 'scripts/cobertura_worldcover.py, scripts/risco_features.py, scripts/risco_exportar.py',
+        licenca: 'CC BY 4.0.',
+        citacao: 'Zanaga, D. et al. (2022). ESA WorldCover 10 m 2021 v200. Zenodo.',
+        doi: '10.5281/zenodo.7254221',
       },
       {
         nome: 'scikit-learn 1.9',
@@ -380,11 +391,11 @@ export const SECOES = [
       },
       {
         nome: 'FIRMS, API de área (MAP_KEY)',
-        uso: 'Trazia o ano corrente (2026) para o calendário do protótipo regional: produtos padrão MODIS_SP e VIIRS_SNPP_SP enquanto existem, depois NRT; a chave gratuita fica fora do repositório.',
+        uso: 'Modo "Agora" do globo: focos NRT das últimas 24 ou 48 h (MODIS_NRT, VIIRS_SNPP_NRT, VIIRS_NOAA20_NRT), buscados no servidor com cache de 15 min; a chave gratuita fica só no servidor, fora do repositório. Antes trazia 2026 ao calendário do protótipo regional.',
         url: 'https://firms.modaps.eosdis.nasa.gov/api/area/',
         links: [['Pedir uma MAP_KEY', 'https://firms.modaps.eosdis.nasa.gov/api/map_key/']],
-        acesso: 'Retirado',
-        onde: 'scripts/atualizar_2026.py',
+        acesso: 'API em tempo real',
+        onde: 'src/app/api/agora/route.js, scripts/atualizar_2026.py',
       },
       {
         nome: 'INPE, Programa Queimadas — focos mensais do satélite de referência',

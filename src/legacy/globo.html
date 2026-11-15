@@ -338,6 +338,96 @@ html[data-pal="ac"] .card,html[data-pal="ac"] .adlg{outline:2px solid #FFFFFF}
 .ttsm{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 0}.ttsm label{display:inline-flex;align-items:center;gap:6px;min-height:44px}
 @media (max-width:1100px){.regbar{top:auto;bottom:calc(var(--tlh) + 96px)}}
 @media (max-width:900px){.regbar .rn{max-width:150px}#drawHint{top:70px}}
+
+/* ── redesign v15: legenda por camada, tooltip, cartão único, insights, Agora ── */
+.lgb{padding:8px 0;border-top:1px solid var(--soft,#E3E6E9)}
+.lgb:first-child{border-top:0;padding-top:0}
+.lgb h3{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin:0 0 4px!important}
+.exf{display:inline-block;font-size:11px;color:var(--ink3);margin-left:4px;white-space:nowrap}
+.dsf{display:inline-block;font-size:11px;font-weight:600;line-height:1;padding:3px 6px;border-radius:999px;background:var(--brand-tint);color:var(--brand-ink);vertical-align:1px;margin:0 6px 0 0;white-space:nowrap}
+.grph{display:flex;align-items:center;flex-wrap:wrap;margin-bottom:2px}
+.grpn{margin:0 0 8px;font-size:12px}
+.grps{font-size:12.5px;font-weight:700;color:var(--ink2);margin:10px 0 4px}
+.dsfg{border-top:3px solid var(--brand)}
+.extg{border-top:3px solid var(--warn-ink,#8A5A00)}
+.grpm{margin-top:8px;font-size:12.5px}.grpm summary{cursor:pointer;min-height:32px;font-weight:600}
+.lbt{flex:1;min-width:0}.lbt .ext{margin-left:0}.lbt .exf{display:inline}
+.insor{display:block;margin-top:4px}.insor .ext,.insor .dsf,.orl .ext,.orl .dsf{margin-left:0;font-size:10.5px}
+.orl{margin:4px 0 6px;font-size:11px}
+.lg h3 .dsf{margin-left:6px;font-size:10.5px}
+.lg .extn{font-size:11.5px;color:var(--warn-ink,#8A5A00);margin:2px 0 4px}
+.lg .unit{font-size:12px;color:var(--ink3);margin:2px 0 0}
+.lgm{margin-top:4px;font-size:12.5px;color:var(--ink2)}
+.lgm summary,.more summary,.adv summary{cursor:pointer;color:var(--brand,#D4410B);font-weight:600;font-size:12.5px;list-style:revert;padding:4px 0;min-height:28px}
+.lg .solul{grid-template-columns:1fr 1fr;gap:3px 8px;font-size:11.5px}
+.rampl span:first-child,.rampl span:last-child{font-size:11.5px}
+#lcTip{flex-direction:column;align-items:stretch;gap:3px;border-radius:10px;white-space:normal;max-width:300px;padding:7px 10px}
+#lcTip div{display:flex;align-items:center;gap:7px}
+#lcTip i{width:11px;height:11px;border-radius:3px;border:1px solid rgba(255,255,255,.7);flex:none}
+.hcard h4{margin:12px 0 4px;font-size:13px}
+.hcard .sum{font-size:13px;color:var(--ink);margin:2px 0 0}
+.hcard .more{margin-top:8px;border-top:1px solid var(--soft,#E3E6E9);padding-top:2px}
+.hcard .rkr{border-left:4px solid var(--soft,#ccc);padding-left:8px}
+.hcard .rkr p{margin:3px 0 0}
+.ins{display:grid;gap:8px;margin:6px 0 10px}
+.insc{border-left:4px solid var(--brand,#D4410B);background:var(--map,#F6F4F1);border-radius:8px;padding:8px 10px;font-size:13.5px;line-height:1.4}
+.insc b:first-child{font-size:17px;font-variant-numeric:tabular-nums}
+.adv{border-top:1px solid var(--soft,#E3E6E9);padding-top:4px}
+.agbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid var(--soft,#DCE1E5);background:var(--card,#fff);border-radius:12px;padding:8px 10px;cursor:pointer;color:inherit;font:inherit;min-height:44px}
+.agbtn[aria-pressed="true"]{border-color:var(--brand,#D4410B);box-shadow:inset 0 0 0 1px var(--brand,#D4410B)}
+.agbtn .agt{display:flex;flex-direction:column}
+.agbtn small{font-size:11.5px;color:var(--ink3)}
+.agdot{width:10px;height:10px;border-radius:50%;background:var(--ink3,#888);flex:none}
+.agbtn[aria-pressed="true"] .agdot{background:#D4410B}
+#agOpt{margin-top:8px;display:grid;gap:6px}
+#agOpt[hidden]{display:none}
+.agst{margin:0;font-size:12.5px}
+.agnote{margin:0;font-size:12px;color:var(--warn-ink,#8A5A00);background:var(--warn-tint,#FFF3D6);border-radius:8px;padding:6px 8px}
+body.agora .tl,body.agora #regBar{display:none!important}
+@media (max-width:900px){
+ .hcard{left:0;right:0;top:auto;bottom:0;width:auto;max-width:none;max-height:62dvh;border-radius:18px 18px 0 0;z-index:35;box-shadow:0 -6px 24px rgba(31,26,23,.18)}
+ #lcTip{display:none}
+}
+
+/* delight: ícones, mini-barras, chips de tempo, entradas suaves (sem movimento com prefers-reduced-motion) */
+.ico{flex:none;vertical-align:-4px}
+.insc{display:flex;gap:10px;align-items:flex-start}
+.insi{flex:none;width:30px;height:30px;border-radius:50%;background:var(--card);display:grid;place-items:center;box-shadow:0 1px 2px rgba(31,26,23,.08)}
+.inst{flex:1;min-width:0}
+.meter{display:block;height:6px;border-radius:99px;background:var(--line2);margin-top:6px;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:99px;transform-origin:left;animation:grow .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.insc,.hcard:not([hidden]){animation:rise .28s cubic-bezier(.16,1,.3,1) both}
+.insum{margin-left:auto;font-size:13px;font-weight:700;color:var(--brand-ink);white-space:nowrap}
+.insight:not(.min) .insum{display:none}
+.hcard dt{display:flex;gap:6px;align-items:center}
+.hcard dt .ico{width:15px;height:15px;color:var(--ink3)}
+.rklv{display:inline-flex;align-items:flex-end;gap:2px;margin-right:8px;vertical-align:-1px}
+.rklv i{display:block;width:5px;border-radius:2px}
+.tchips{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0;padding:0}
+.tchips li{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;background:var(--soft);border-radius:99px;padding:4px 10px 4px 6px;color:var(--ink)}
+.tchips .ico{width:16px;height:16px;color:var(--brand-ink)}
+.empty{display:flex;gap:10px;align-items:flex-start}
+.tl.noadj .tlf{display:none}
+.tl .adj[aria-expanded="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media (max-width:700px){.tl .adj .lbl{display:none}}
+@media (prefers-reduced-motion:reduce){.meter i,.insc,.hcard:not([hidden]){animation:none}}
+.ctabs{display:flex;gap:4px;background:var(--soft);border-radius:99px;padding:4px;margin:10px 0 2px}
+.ctabs button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;background:none;border-radius:99px;padding:8px 10px;font:inherit;font-weight:700;font-size:13.5px;color:var(--ink2);cursor:pointer;min-height:36px}
+.ctabs button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(31,26,23,.1)}
+.ctabs button:focus-visible{outline:3px solid var(--brand);outline-offset:1px}
+.ctabs .ico{width:16px;height:16px}
+.advx{display:none;align-items:center;gap:6px;flex-wrap:wrap;margin:10px 0 0;padding-top:8px;border-top:1px dashed var(--line)}
+.advx .muted{flex:1 1 100%;font-size:12px}
+.advx .abtn{min-height:34px;padding:0 12px;font-size:13px}
+body.adv .advx{display:flex}
+.advonly{display:none}body.adv .advonly{display:block}
+.sbar{display:block;width:100%;height:auto;color:var(--ink3);margin:6px 0 8px}
+.serie .abtn{min-height:34px;font-size:12.5px}
+.rkq dl{margin-top:4px}
+.adv-t[aria-pressed="true"]{background:var(--ink);color:#fff}
+@media (max-width:900px){.adv-t .lbl{display:none}}
 </style>
 </head>
 <body class="has-side">
@@ -352,9 +442,9 @@ html[data-pal="ac"] .card,html[data-pal="ac"] .adlg{outline:2px solid #FFFFFF}
     <div id="qMsg" class="qmsg" role="status" aria-live="polite" hidden></div>
     <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
   </form>
-  <button type="button" class="tbtn" id="btnLayers" aria-controls="side" aria-expanded="true"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6l8-4 8 4-8 4-8-4zM2 10l8 4 8-4M2 14l8 4 8-4"/></svg><span class="lbl">Camadas</span><span class="sr">e legenda</span></button>
+  <button type="button" class="tbtn" id="btnLayers" aria-label="Camadas e legenda" aria-controls="side" aria-expanded="true"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6l8-4 8 4-8 4-8-4zM2 10l8 4 8-4M2 14l8 4 8-4"/></svg><span class="lbl">Camadas</span><span class="sr">e legenda</span></button>
   <button type="button" class="tbtn" id="btA11y" aria-haspopup="dialog" aria-controls="a11yDlg" aria-label="Acessibilidade: narração, cores, tabela e explicação (tecla F)" aria-keyshortcuts="F" title="Acessibilidade (tecla F)"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="3.6" r="1.6" fill="currentColor" stroke="none"/><path d="M3.5 7.2c4.3 1.2 8.7 1.2 13 0M10 8.3v4.4M10 12.7l-3 5M10 12.7l3 5"/></svg><span class="lbl" aria-hidden="true">Acessibilidade</span></button>
-  <span class="pill">NASA FIRMS · MODIS C6.1 + VIIRS S-NPP</span>
+  <button type="button" class="tbtn adv-t" id="btAdv" aria-pressed="false" title="Modo avançado: números completos, detalhes abertos e exportação CSV/JSON"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 17V9M8 17V4M13 17v-6M18 17V7"/></svg><span class="lbl">Avançado</span><span class="sr"> (modo para análise)</span></button><span class="pill">NASA FIRMS · MODIS C6.1 + VIIRS S-NPP</span>
 </header>
 
 <canvas id="ceu" aria-hidden="true"></canvas>
@@ -372,41 +462,63 @@ html[data-pal="ac"] .card,html[data-pal="ac"] .adlg{outline:2px solid #FFFFFF}
 
 <aside class="side open" id="side" aria-label="Camadas e legenda">
   <div class="card sideh"><h2 class="h2">Camadas e legenda</h2><button type="button" class="ib" id="sideMin" aria-expanded="true" aria-controls="side" aria-label="Recolher camadas e legenda" title="Recolher (volta pelo botão Camadas, no topo)"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6l5 5 5-5"/></svg></button></div>
-  <div class="blk card">
-    <h2 class="h2" id="ly-f" style="margin-bottom:8px">O que mostrar <span class="muted" style="font-weight:400">(dá para ligar mais de uma)</span></h2>
-    <div class="lchips" role="group" aria-labelledby="ly-f" id="segLayer"><button type="button" class="lchip" style="--lc:#C8102E" data-layer="h" aria-pressed="true"><i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5.5"/></svg></i>Harmonizado</button><button type="button" class="lchip" style="--lc:#6B4FA0" data-layer="m" aria-pressed="false"><i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5.5"/></svg></i>MODIS</button><button type="button" class="lchip" style="--lc:#00727F" data-layer="v" aria-pressed="false"><i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5.5"/></svg></i>VIIRS</button></div>
-    <p class="muted" id="layerNote" style="margin:8px 0 0"></p>
+  <div class="blk card agb" id="agBox">
+    <button type="button" class="agbtn" id="btAgora" aria-pressed="false" aria-controls="agOpt"><span class="agdot" aria-hidden="true"></span><span class="agt"><b>Agora</b><small id="agSub">Focos das últimas 24 h · chegam com cerca de 3 h de atraso</small></span></button>
+    <div id="agOpt" hidden>
+      <div class="seg" role="group" aria-label="Período do modo Agora"><button type="button" data-agh="24" aria-pressed="true">24 h</button><button type="button" data-agh="48" aria-pressed="false">48 h</button></div>
+      <p class="agst" id="agSt" role="status" aria-live="polite"></p>
+      <p class="agnote">Não é ao vivo: os satélites passam algumas vezes por dia e os dados chegam com horas de atraso. Nuvens, fumaça densa e fogo pequeno ou rápido podem não aparecer. Sem foco no mapa não quer dizer sem fogo.</p>
+      <button type="button" class="abtn" id="agBack" onclick="document.getElementById('btAgora').click()">Voltar ao histórico</button>
+    </div>
   </div>
+  <section class="blk card grp dsfg" aria-labelledby="ly-f">
+    <h2 class="h2 grph" id="ly-f"><span class="dsf">desafio</span>Dados do desafio · NASA FIRMS</h2>
+    <p class="muted grpn">Focos de fogo dos satélites MODIS e VIIRS: o recurso oficial do desafio NASA Space Apps.</p>
+    <h3 class="grps" id="ly-fo">O que mostrar <span class="muted" style="font-weight:400">(dá para ligar mais de uma)</span></h3>
+    <div class="lchips" role="group" aria-labelledby="ly-fo" id="segLayer"><button type="button" class="lchip" style="--lc:#C8102E" data-layer="h" aria-pressed="true"><i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5.5"/></svg></i>Harmonizado</button><button type="button" class="lchip" style="--lc:#6B4FA0" data-layer="m" aria-pressed="false"><i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5.5"/></svg></i>MODIS</button><button type="button" class="lchip" style="--lc:#00727F" data-layer="v" aria-pressed="false"><i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5.5"/></svg></i>VIIRS</button></div>
+    <p class="muted" id="layerNote" style="margin:8px 0 0"></p>
+    <div class="layers" role="group" aria-label="Mais camadas do FIRMS" style="margin-top:6px">
+    <label><input type="checkbox" id="ckFix">Fontes fixas de calor<svg class="sw" width="22" height="18" aria-hidden="true"><path d="M11 2l7 7-7 7-7-7z" fill="#fff" stroke="#2B6CB0" stroke-width="1.8"/></svg></label>
+    <label><input type="checkbox" id="ckGrid">Grade de densidade (~28 km)<svg class="sw" width="22" height="18" aria-hidden="true"><rect x="3" y="2" width="7" height="7" fill="#F7801E"/><rect x="11" y="2" width="7" height="7" fill="#FFD45E"/><rect x="3" y="10" width="7" height="7" fill="#FFD45E"/><rect x="11" y="10" width="7" height="7" fill="#C8102E"/></svg></label>
+    </div>
+  </section>
   <section class="blk card" aria-labelledby="lg-t">
     <h2 class="h2" id="lg-t" style="margin-bottom:6px">Legenda</h2>
     <div class="lg" id="legend"></div>
   </section>
-  <div class="blk card layers" role="group" aria-labelledby="ly-t">
-    <h2 class="h2" id="ly-t" style="margin-bottom:2px">Outras camadas</h2><p class="muted" style="margin:0 0 6px">O desafio é a harmonização MODIS + VIIRS (NASA FIRMS). As camadas marcadas <span class="ext">extra</span> vêm de outras fontes e começam desligadas.</p>
-    <label><input type="checkbox" id="ckFix">Fontes fixas de calor<svg class="sw" width="22" height="18" aria-hidden="true"><path d="M11 2l7 7-7 7-7-7z" fill="#fff" stroke="#2B6CB0" stroke-width="1.8"/></svg></label>
-    <label><input type="checkbox" id="ckScar">Cicatrizes de queimada (Brasil) <span class="ext" title="Dado de outra fonte (INPE), adicional ao desafio">extra · INPE</span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="18" height="12" rx="2" fill="#4A3326" fill-opacity=".65"/></svg></label>
-    <div id="scarOpt" hidden style="padding:4px 0 2px"><div class="seg" role="group" aria-label="Período das cicatrizes"><button type="button" data-scar="1" aria-pressed="true">Desde janeiro</button><button type="button" data-scar="0" aria-pressed="false">Só no período</button></div></div>
-    <label><input type="checkbox" id="ckSolo">Cobertura do solo <span class="ext" title="Dado de outra fonte (NASA MODIS MCD12Q1), adicional ao desafio">extra · MODIS</span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="9" height="12" fill="#31CC31"/><rect x="11" y="3" width="9" height="6" fill="#FAEF73"/><rect x="11" y="9" width="9" height="6" fill="#4783B5"/></svg></label>
+  <section class="blk card grp extg layers" aria-labelledby="ly-t">
+    <h2 class="h2 grph" id="ly-t" style="margin-bottom:2px"><span class="ext" style="margin:0 6px 0 0">extra</span>Extras do time</h2>
+    <p class="muted grpn">Desligados no início. Não fazem parte do recurso do desafio: o time acrescentou para dar contexto.</p>
+    <h3 class="grps" id="ly-tn">Dados da NASA fora do desafio</h3>
+    <div role="group" aria-labelledby="ly-tn">
+    <label><input type="checkbox" id="ckRisco"><span class="lbt">Risco de fogo na próxima semana (Brasil)<br><span class="ext" title="Fora do recurso do desafio (NASA FIRMS). Fonte: estimativa do time com focos do FIRMS e clima do NASA POWER">extra · fora do desafio</span><span class="exf">estimativa · NASA POWER</span></span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="1" y="3" width="5" height="12" fill="#FFE3A3"/><rect x="6" y="3" width="5" height="12" fill="#F9A03F"/><rect x="11" y="3" width="5" height="12" fill="#D9481C"/><rect x="16" y="3" width="5" height="12" fill="#8E0F14"/></svg></label>
+    <label><input type="checkbox" id="ckSeca"><span class="lbt">Dias sem chuva (Brasil)<br><span class="ext" title="Fora do recurso do desafio (NASA FIRMS). Fonte: NASA POWER">extra · fora do desafio</span><span class="exf">NASA POWER</span></span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="1" y="3" width="5" height="12" fill="#EFE6CF"/><rect x="6" y="3" width="5" height="12" fill="#D6AE68"/><rect x="11" y="3" width="5" height="12" fill="#A8682A"/><rect x="16" y="3" width="5" height="12" fill="#5E3110"/></svg></label>
+    <label><input type="checkbox" id="ckUmid"><span class="lbt">Umidade do ar (Brasil)<br><span class="ext" title="Fora do recurso do desafio (NASA FIRMS). Fonte: NASA POWER">extra · fora do desafio</span><span class="exf">NASA POWER</span></span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="6" height="12" fill="#C2410C"/><rect x="8" y="3" width="6" height="12" fill="#F5B342"/><rect x="14" y="3" width="6" height="12" fill="#9CC7E8"/></svg></label>
+    <p class="muted" style="margin:2px 0 6px;font-size:12px">Risco, dias sem chuva e umidade: uma de cada vez.</p>
+    <label><input type="checkbox" id="ckSolo"><span class="lbt">Cobertura do solo<br><span class="ext" title="Fora do recurso do desafio (NASA FIRMS). Fonte: NASA MODIS MCD12Q1, imagens NASA GIBS">extra · fora do desafio</span><span class="exf">NASA MODIS · GIBS</span></span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="9" height="12" fill="#31CC31"/><rect x="11" y="3" width="9" height="6" fill="#FAEF73"/><rect x="11" y="9" width="9" height="6" fill="#4783B5"/></svg></label>
     <div id="soloOpt" class="lg" hidden style="padding:2px 0 6px"><label class="rng" for="soloOp">Opacidade <output id="soloOpV" for="soloOp">55%</output></label><input type="range" id="soloOp" min="0.1" max="1" step="0.05" value="0.55"><p class="muted" style="margin:6px 0 4px">Classe IGBP do MODIS MCD12Q1 (500 m), ano de 2024, via NASA GIBS. Passe o mouse (ou toque) no globo para ver a classe.</p><ul id="soloUl" class="solul"></ul><p class="muted" style="margin:6px 0 0;font-size:11px">Cobertura do solo: NASA MODIS MCD12Q1 v061 (Friedl e Sulla-Menashe, 2022), imagens NASA GIBS.</p></div>
-    <label><input type="checkbox" id="ckLim">Limites (países, estados, municípios)<svg class="sw" width="22" height="18" aria-hidden="true"><path d="M2 12c4-6 7 2 10-4s6 0 8-3" fill="none" stroke="#2B2F33" stroke-width="1.6"/></svg></label>
+    </div>
+    <h3 class="grps" id="ly-to">Outras fontes</h3>
+    <div role="group" aria-labelledby="ly-to">
+    <label><input type="checkbox" id="ckScar"><span class="lbt">Cicatrizes de queimada (Brasil)<br><span class="ext" title="Fora do recurso do desafio (NASA FIRMS). Fonte: INPE, produto AQ1km">extra · fora do desafio</span><span class="exf">INPE</span></span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="18" height="12" rx="2" fill="#4A3326" fill-opacity=".65"/></svg></label>
+    <div id="scarOpt" hidden style="padding:4px 0 2px"><div class="seg" role="group" aria-label="Período das cicatrizes"><button type="button" data-scar="1" aria-pressed="true">Desde janeiro</button><button type="button" data-scar="0" aria-pressed="false">Só no período</button></div></div>
+    <label><input type="checkbox" id="ckLim"><span class="lbt">Limites (países, estados, municípios)<br><span class="ext" title="Fora do recurso do desafio (NASA FIRMS). Fonte: IBGE e Natural Earth">extra · fora do desafio</span><span class="exf">IBGE · Natural Earth</span></span><svg class="sw" width="22" height="18" aria-hidden="true"><path d="M2 12c4-6 7 2 10-4s6 0 8-3" fill="none" stroke="#2B2F33" stroke-width="1.6"/></svg></label>
     <div id="limOpt" hidden style="padding:4px 0 6px"><div class="seg" role="group" aria-label="Até que nível mostrar os limites"><button type="button" data-lim="1" aria-pressed="false">Países</button><button type="button" data-lim="2" aria-pressed="true">Estados</button><button type="button" data-lim="3" aria-pressed="false">Municípios (BR)</button></div><p class="muted" style="margin:6px 0 0">Países sempre; estados e províncias ao aproximar; municípios do Brasil bem de perto (malha do IBGE, pedida por estado). Fontes: Natural Earth (domínio público) e IBGE.</p></div>
-    <label><input type="checkbox" id="ckRisco">Risco de fogo na próxima semana (Brasil) <span class="ext" title="Estimativa nossa, feita com os focos do FIRMS e o clima do NASA POWER; adicional ao desafio">extra · estimativa</span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="1" y="3" width="5" height="12" fill="#FFE3A3"/><rect x="6" y="3" width="5" height="12" fill="#F9A03F"/><rect x="11" y="3" width="5" height="12" fill="#D9481C"/><rect x="16" y="3" width="5" height="12" fill="#8E0F14"/></svg></label>
-    <label><input type="checkbox" id="ckSeca">Dias sem chuva (Brasil) <span class="ext" title="Dado de outra fonte (NASA POWER), adicional ao desafio">extra · NASA POWER</span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="1" y="3" width="5" height="12" fill="#EFE6CF"/><rect x="6" y="3" width="5" height="12" fill="#D6AE68"/><rect x="11" y="3" width="5" height="12" fill="#A8682A"/><rect x="16" y="3" width="5" height="12" fill="#5E3110"/></svg></label>
-    <label><input type="checkbox" id="ckUmid">Umidade do ar (Brasil) <span class="ext" title="Dado de outra fonte (NASA POWER), adicional ao desafio">extra · NASA POWER</span><svg class="sw" width="22" height="18" aria-hidden="true"><rect x="2" y="3" width="6" height="12" fill="#C2410C"/><rect x="8" y="3" width="6" height="12" fill="#F5B342"/><rect x="14" y="3" width="6" height="12" fill="#9CC7E8"/></svg></label>
-    <p class="muted" style="margin:2px 0 6px;font-size:12px">Risco, dias sem chuva e umidade: uma de cada vez. Clique numa área do Brasil para ver o tempo do lugar.</p>
-    <label><input type="checkbox" id="ckGrid">Grade de densidade (~28 km)<svg class="sw" width="22" height="18" aria-hidden="true"><rect x="3" y="2" width="7" height="7" fill="#F7801E"/><rect x="11" y="2" width="7" height="7" fill="#FFD45E"/><rect x="3" y="10" width="7" height="7" fill="#FFD45E"/><rect x="11" y="10" width="7" height="7" fill="#C8102E"/></svg></label>
-    
-    
-  </div>
-  
-  
-  <div class="blk card"><h2 class="h2" id="ly-b" style="margin-bottom:8px">Fundo do mapa</h2><div class="seg" role="group" aria-labelledby="ly-b"><button type="button" data-base="gray" aria-pressed="true">Mapa</button><button type="button" data-base="topo" aria-pressed="false">Relevo</button><button type="button" data-base="sat" aria-pressed="false">Satélite</button></div></div>
+    </div>
+    <details class="more grpm"><summary>Saiba mais · de onde vem cada dado</summary>
+      <p><b>Desafio (NASA FIRMS):</b> MODIS C6.1 (MCD14ML, Terra e Aqua, 2000–2025), VIIRS S-NPP 375 m (VNP14IMG, 2012–2025), VIIRS NOAA-20 e a API de área do FIRMS (padrão e quase em tempo real, usada no modo Agora). Focos harmonizados, só MODIS, só VIIRS, a série do Brasil, as fontes fixas e a grade saem daqui.</p>
+      <p><b>Extras com dados da NASA:</b> NASA POWER (risco, dias sem chuva, umidade e o tempo no cartão do lugar) e MODIS MCD12Q1 via NASA GIBS (cobertura do solo).</p>
+      <p><b>Extras de outras fontes:</b> INPE AQ1km (cicatrizes), IBGE e Natural Earth (limites), Esri (fundo do mapa), Open-Meteo (tempo de agora), OpenStreetMap/Nominatim (busca e contornos) e artigos citados nas referências.</p>
+      <p>O selo <span class="ext">extra · fora do desafio</span> marca tudo o que não veio do recurso do desafio.</p>
+    </details>
+  </section>
+  <details class="blk card fx"><summary class="h2" id="ly-b">Fundo do mapa</summary><div class="seg" role="group" aria-labelledby="ly-b"><button type="button" data-base="gray" aria-pressed="true">Mapa</button><button type="button" data-base="topo" aria-pressed="false">Relevo</button><button type="button" data-base="sat" aria-pressed="false">Satélite</button></div><p class="muted" style="margin:6px 0 0;font-size:12px"><span class="ext" style="margin-left:0">extra · fora do desafio</span><span class="exf">Esri</span> Só referência visual.</p></details>
   <details class="blk card fx layers"><summary class="h2">Efeitos visuais</summary><label><input type="checkbox" id="ckFlame" checked>Chama nos focos</label><label><input type="checkbox" id="ckEmber" checked>Brasa nas cicatrizes</label></details>
   <p class="foot">Dados: NASA FIRMS · MODIS C6.1 + VIIRS S-NPP. Cicatrizes: INPE (AQ1km). Mapa de fundo: Esri. Busca e contornos: © OpenStreetMap (Nominatim). Limites: Natural Earth, IBGE. Clima: NASA POWER. Tempo de agora: Open-Meteo. Risco: estimativa da equipe.<br>Space Uai · NASA Space Apps Challenge 2026</p>
 </aside>
 
 <section class="insight card" id="insight" aria-labelledby="in-t">
-  <div class="inh"><h2 class="h2" id="in-t">Leitura</h2><button type="button" class="xbtn" id="btExp" aria-haspopup="dialog" aria-controls="expDlg">Explicar os dados</button><button type="button" class="ib" id="inMin" aria-expanded="true" aria-controls="inBody" aria-label="Recolher leitura"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 10l5-5 5 5"/></svg></button></div>
+  <div class="inh"><h2 class="h2" id="in-t">Leitura</h2><span class="insum num" id="inSum" aria-hidden="true"></span><button type="button" class="xbtn" id="btExp" aria-haspopup="dialog" aria-controls="expDlg">Explicar os dados</button><button type="button" class="ib" id="inMin" aria-expanded="true" aria-controls="inBody" aria-label="Recolher leitura"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 10l5-5 5 5"/></svg></button></div>
   <div class="inb" id="inBody"></div>
 </section>
 
@@ -421,7 +533,7 @@ html[data-pal="ac"] .card,html[data-pal="ac"] .adlg{outline:2px solid #FFFFFF}
     <button type="button" class="ib nav2" id="tlNext" aria-label="Próximo período" title="Próximo período"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></button>
     
     
-    <button type="button" class="ib" id="tlMin" aria-expanded="true" aria-controls="tlF tlPlot" aria-label="Recolher linha do tempo" title="Recolher linha do tempo"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6l5 5 5-5"/></svg></button>
+    <button type="button" class="chip adj" id="tlAdj" aria-expanded="false" aria-controls="tlF" title="Período, hora do dia e animação"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 4h7M12 4h2M2 12h2M7 12h7"/><circle cx="10.5" cy="4" r="1.6"/><circle cx="5.5" cy="12" r="1.6"/></svg><span class="lbl">Ajustes</span></button><button type="button" class="ib" id="tlMin" aria-expanded="true" aria-controls="tlF tlPlot" aria-label="Recolher linha do tempo" title="Recolher linha do tempo"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6l5 5 5-5"/></svg></button>
   </div>
   <div class="tlf" id="tlF" role="group" aria-label="Filtros da linha do tempo"><div class="tlg" role="group" aria-labelledby="g-per"><span class="tlgl" id="g-per">Período</span><div class="pseg"><button type="button" class="chip" data-pre="dia" aria-pressed="false">Dia</button><button type="button" class="chip" data-pre="semana" aria-pressed="false">Semana</button><button type="button" class="chip" data-pre="mes" aria-pressed="false">Mês</button><button type="button" class="chip" data-pre="ano" aria-pressed="false">Ano</button><button type="button" class="chip" data-pre="tudo" aria-pressed="false">2000–2025</button></div><label class="fld">De<input type="date" id="dDe" min="2000-01-01" max="2025-12-31" aria-label="Data inicial"></label><label class="fld">até<input type="date" id="dAte" min="2000-01-01" max="2025-12-31" aria-label="Data final"></label><label class="fld">Ano<select id="selAno" aria-label="Selecionar um ano inteiro"></select></label></div><div class="tlg" role="group" aria-labelledby="g-hora"><span class="tlgl" id="g-hora" title="Hora solar local: 12:00 é o sol a pino no lugar. Cada satélite passa sempre mais ou menos na mesma hora solar.">Hora do dia <small>(solar local)</small></span><div class="pseg"><button type="button" class="chip" data-pre="diatodo" aria-pressed="false">24 h</button><button type="button" class="chip" data-pre="h1315" aria-pressed="false">13h–15h</button><button type="button" class="chip" data-pre="noite" aria-pressed="false">Noite</button></div><label class="fld" title="Hora solar local: 12:00 é o sol a pino no lugar">das<input type="time" id="hDe" step="600" aria-label="Hora solar local, de"></label><label class="fld">às<input type="time" id="hAte" step="600" aria-label="Hora solar local, até"></label></div><div class="tlg" role="group" aria-labelledby="g-anim"><span class="tlgl" id="g-anim">Animação</span><label class="fld"><span>Velocidade</span><select id="selVel" aria-label="Velocidade da animação"><option value="0.25">0,25×</option><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option><option value="8">8×</option></select></label><label class="fld"><span>Cada foco fica</span><select id="selTrail" aria-label="Rastro da animação: por quanto tempo cada detecção fica no mapa"><option value="180">3 horas</option><option value="720">12 horas</option><option value="1440" selected>1 dia</option><option value="4320">3 dias</option><option value="0">até o fim</option></select></label></div></div>
   <div class="tlplot" id="tlPlot">
@@ -441,7 +553,7 @@ html[data-pal="ac"] .card,html[data-pal="ac"] .adlg{outline:2px solid #FFFFFF}
 <div id="drawHint" class="card" role="dialog" aria-labelledby="drawHintT" hidden><b id="drawHintT">Desenhar área</b><p style="margin:4px 0 0">Arraste para desenhar um retângulo, ou clique ponto a ponto e dê duplo clique (ou Enter) para fechar. Esc cancela. O globo fica parado enquanto você desenha.</p><div class="arow"><button type="button" class="abtn" id="drawView">Usar a área visível na tela</button><button type="button" class="abtn" id="drawOk" hidden>Fechar o polígono</button><button type="button" class="abtn" id="drawCancel">Cancelar (Esc)</button></div></div>
 <section class="hcard card" id="hcard" aria-label="Detalhe do ponto clicado" hidden></section>
 <div class="sr" id="live" aria-live="polite"></div>
-<div id="lcTip" hidden aria-hidden="true"><i></i><span></span></div>
+<div id="lcTip" hidden aria-hidden="true"></div>
 
 <dialog id="a11yDlg" class="adlg" aria-labelledby="a11yT">
  <div class="ah"><h2 id="a11yT">Acessibilidade</h2><button type="button" class="ib" data-close aria-label="Fechar acessibilidade"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>
@@ -500,6 +612,7 @@ var EB='https://server.arcgisonline.com/ArcGIS/rest/services/';
 var TILES={gray:[EB+'Canvas/World_Light_Gray_Base/MapServer/tile/',16],topo:[EB+'World_Topo_Map/MapServer/tile/',17],sat:[EB+'World_Imagery/MapServer/tile/',17]};
 var HOME={lat:-6,lng:-18,altitude:2.3};
 var LC={on:false,op:.55,pend:false};
+var NRT={on:false,h:24,seq:0,st:'',data:null,pts:null,prev:null};
 var LNOME={h:'focos harmonizados',m:'detecções MODIS',v:'detecções VIIRS'};
 var LCURTO={h:'focos',m:'det. MODIS',v:'det. VIIRS'};
 var LKEY={h:'focos',m:'brutoM',v:'brutoV'};
@@ -1287,7 +1400,8 @@ function quando(){return fmtSel(S.d0,S.d1);}
 /* ───────── leitura ───────── */
 function leitura(){
  var o=nums(),h='',tot=o.ambos+o.soM+o.soV,noV=S.d1<dn(2012,1,20);
- h+='<p class="when">'+quando()+' · '+o.onde+'</p>';
+ h+='<p class="when">'+(NRT.on?'Agora · últimas '+NRT.h+' h':quando()+' · '+(REG?esc(REG.nome):o.onde))+'</p><div class="ins" id="inIns" aria-live="polite"></div>';
+ h+='<div class="advx"><span class="muted">Modo avançado · exportar a vista'+(REG?' e a região marcada':'')+'</span><button type="button" class="abtn" data-exp="csv">CSV</button><button type="button" class="abtn" data-exp="json">JSON</button></div><details class="adv" id="inAdv"'+(INS.adv||document.body.classList.contains('adv')?' open':'')+'><summary>Saiba mais · números e detalhes</summary>';
  if(REG)h+='<div id="inReg"></div>';
  h+='<div id="inRisco"></div>';
  if(S.acum&&SEL.e0<S.d0)h+='<p><b>Acumulado</b> de '+fmtMA(S.ac0)+' até '+fmtMA(S.d1)+': os números somam tudo isso.</p>';
@@ -1312,7 +1426,89 @@ function leitura(){
  h+='<h3>Como juntamos</h3><p>Cada detecção cai numa célula da grade de 1 km do MODIS. Células vizinhas com fogo no mesmo <b>dia solar local</b> (o dia contado pelo sol do lugar, não pelo relógio de Greenwich) viram <b>um foco só</b>, não importa qual satélite viu nem quantas vezes. <a href="/metodo">Ver o método</a></p>';
  if(!REG)h+='<div id="inReg"></div>';
  h+='<h3>Onde olhar</h3><div class="jump"><button type="button" data-go="-12.25,-47.9,.07,2025,9">Tocantins, Brasil</button><button type="button" data-go="-7.2,23.6,.07,2025,7">R. D. do Congo</button><button type="button" data-go="-19.5,-57.2,.07,2025,8">Pantanal</button></div>';
- $('inBody').innerHTML=h;renderVC();regRender();rkRender();
+ h+='</details>';
+ $('inBody').innerHTML=h;$('inAdv').addEventListener('toggle',function(){INS.adv=this.open;});renderVC();regRender();rkRender();insRender(o);
+}
+/* insights em linguagem simples: só frases tiradas dos dados já carregados; se faltar dado, a frase não aparece */
+var INS={seq:0,adv:false};
+var ICO={fogo:'<path d="M10 2c1 3 4 4.5 4 8.5a4 4 0 0 1-8 0c0-2 1-3 1.6-4 .3 1.4 1 2 1.8 2.3C9 7 8.6 4.6 10 2z"/>',sat:'<path d="M7 7l6 6M4.5 9.5l2-2 6 6-2 2zM12 3l5 5M15 6l-2.5 2.5M3 17l3-3"/>',risco:'<path d="M10 2.5l8 14.5H2z"/><path d="M10 8v4M10 14.6v.2"/>',motivo:'<circle cx="10" cy="10" r="7.5"/><path d="M10 6v4.5l3 2"/>',gota:'<path d="M10 2.5c3 4 5 6.6 5 9.3a5 5 0 0 1-10 0c0-2.7 2-5.3 5-9.3z"/>',sol:'<circle cx="10" cy="10" r="3.4"/><path d="M10 1.8v2.4M10 15.8v2.4M1.8 10h2.4M15.8 10h2.4M4.2 4.2l1.7 1.7M14.1 14.1l1.7 1.7M4.2 15.8l1.7-1.7M14.1 5.9l1.7-1.7"/>',term:'<path d="M8 3.5a2 2 0 0 1 4 0v8.2a3.8 3.8 0 1 1-4 0z"/><path d="M10 7v6"/>',vento:'<path d="M2 7h10a2.5 2.5 0 1 0-2.5-2.5M2 11h13a2.5 2.5 0 1 1-2.5 2.5M2 15h6"/>',aviso:'<circle cx="10" cy="10" r="7.5"/><path d="M10 6v5M10 13.6v.2"/>',lugar:'<path d="M10 18s6-5.4 6-10a6 6 0 0 0-12 0c0 4.6 6 10 6 10z"/><circle cx="10" cy="8" r="2.2"/>',cal:'<rect x="2.5" y="4" width="15" height="13" rx="2"/><path d="M2.5 8h15M6.5 2v4M13.5 2v4"/>',tam:'<rect x="3" y="3" width="14" height="14" rx="2"/><path d="M7 13l6-6M9 7h4v4"/>'};
+var CTAB=null,CARD=null;
+/* série do quadrado de 0,25° clicado, lida das grades mensais já publicadas (sem inventar nada) */
+function gradeCel(g,idx,m){var a=g.mes[m-1],b=g.mes[m]-1;while(a<=b){var c=(a+b)>>1;if(g.idx[c]<idx)a=c+1;else if(g.idx[c]>idx)b=c-1;else return g.h[c];}return 0;}
+function barras(vals,lbls,cor,titulo){var mx=Math.max.apply(null,vals.concat([1])),W=300,H=84,bw=W/vals.length;
+ return '<svg class="sbar" viewBox="0 0 '+W+' '+(H+16)+'" role="img" aria-label="'+esc(titulo)+'">'+vals.map(function(v,i){var hh=v?Math.max(2,H*v/mx):0;return '<rect x="'+(i*bw+1).toFixed(1)+'" y="'+(H-hh).toFixed(1)+'" width="'+Math.max(1,bw-2).toFixed(1)+'" height="'+hh.toFixed(1)+'" rx="1.5" fill="'+cor+'"><title>'+lbls[i]+': '+nf(v)+'</title></rect>';}).join('')+
+  '<text x="0" y="'+(H+13)+'" font-size="10" fill="currentColor">'+lbls[0]+'</text><text x="'+W+'" y="'+(H+13)+'" font-size="10" text-anchor="end" fill="currentColor">'+lbls[lbls.length-1]+'</text><text x="'+W+'" y="9" font-size="10" text-anchor="end" fill="currentColor">máx. '+nf(mx)+'</text></svg>';}
+function serieLocal(lat,lng){var el=$('hcSerie');if(!el||!MAN)return;var idx=Math.floor((lat+90)*4)*1440+Math.floor((((lng+180)%360+360)%360)*4),y=ymd(S.d0).y;
+ if(!MAN.anos[y]){el.innerHTML='';return;}
+ el.innerHTML='<h4>Série deste quadrado (~28 km)</h4><p class="muted">Carregando…</p>';
+ lerGrade(y).then(function(g){if($('hcSerie')!==el)return;var v=[];for(var m=1;m<=12;m++)v.push(gradeCel(g,idx,m));var tot=v.reduce(function(a,b){return a+b;},0);
+  if(CARD)CARD.serie_mensal={ano:y,focos_harmonizados_por_mes:v};
+  el.innerHTML='<h4>Série deste quadrado (~28 km)</h4><p class="muted">Focos harmonizados por mês em '+y+': <b>'+nf(tot)+'</b> no ano.</p>'+barras(v,MESC.map(function(x){return x;}),C.h||'#D4410B','Focos por mês em '+y)+
+   '<button type="button" class="abtn" id="hcSerieAnos">Ver todos os anos ('+Object.keys(MAN.anos).length+' arquivos, cerca de 25 MB)</button>';
+  $('hcSerieAnos').onclick=function(){var ys=Object.keys(MAN.anos).map(Number).sort(),b=this;b.disabled=true;b.textContent='Carregando os anos…';
+   Promise.all(ys.map(lerGrade)).then(function(gs){if($('hcSerie')!==el)return;var t=gs.map(function(g){var s2=0;for(var m=1;m<=12;m++)s2+=gradeCel(g,idx,m);return s2;});
+    if(CARD)CARD.serie_anual={anos:ys,focos_harmonizados:t};
+    b.insertAdjacentHTML('afterend','<p class="muted">Focos por ano ('+ys[0]+'–'+ys[ys.length-1]+'). Até 2011 só MODIS; 2025 cobre o mundo, os anos anteriores só o Brasil.</p>'+barras(t,ys.map(String),C.ambos||'#F7801E','Focos por ano'));b.remove();
+   }).catch(function(){b.textContent='Não foi possível carregar os anos.';});};
+ }).catch(function(){el.innerHTML='';});}
+/* qualidade do modelo: lida de modelo.json (metricas), nada digitado à mão */
+function rkQual(){var M=RK.mod&&RK.mod.metricas;if(!M||!M.modelos)return '';var k=RK.mod.modelo_mapa,m=M.modelos[k],c=M.modelos.climatologia;if(!m||!m.teste)return '';
+ var f=function(x){return x==null?'–':x.toLocaleString('pt-BR',{maximumFractionDigits:3,minimumFractionDigits:3});};
+ return '<div class="advonly rkq"><h4>Qualidade do modelo</h4><dl><dt>Modelo</dt><dd>'+esc(m.rotulo||k)+'</dd><dt>Teste</dt><dd>'+esc((M.divisao&&M.divisao.teste)||'')+(M.n&&M.n.teste?' · '+nf(M.n.teste)+' casos':'')+'</dd><dt>ROC-AUC</dt><dd>'+f(m.teste.roc_auc)+(c&&c.teste?' <span class="muted">(climatologia '+f(c.teste.roc_auc)+')</span>':'')+'</dd><dt>PR-AUC</dt><dd>'+f(m.teste.pr_auc)+(c&&c.teste?' <span class="muted">('+f(c.teste.pr_auc)+')</span>':'')+'</dd><dt>Brier</dt><dd>'+f(m.teste.brier)+(c&&c.teste?' <span class="muted">('+f(c.teste.brier)+')</span>':'')+'</dd></dl><p class="muted">Menor Brier e maior AUC = melhor. <a href="/metodo#risco">Como o modelo foi feito e validado</a></p></div>';}
+function fmtLL(a,b){return Math.abs(a).toFixed(2)+'°'+(a<0?'S':'N')+', '+Math.abs(b).toFixed(2)+'°'+(b<0?'O':'L');}
+function baixar(nome,txt,tipo){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:tipo}));a.download=nome;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);}
+function csvDe(L){return L.map(function(r){return r.map(function(x){x=String(x==null?'':x);return /[",;\n]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x;}).join(',');}).join('\n');}
+function origemVista(){var o={focos_e_deteccoes:origem(NRT.on?'nrt':'firms')};if(S.fix)o.fontes_fixas=origem('firms');if(S.scar)o.cicatrizes=origem('inpe');if(RK.on)o.risco=origem('est');if(RK.seca||RK.umid)o.clima=origem('power');if(LC.on)o.cobertura_do_solo=origem('solo');if(LIM.on)o.limites=origem('lim');return o;}
+function exportar(fmt,o,nome){if(fmt==='json')baixar(nome+'.json',JSON.stringify(o,null,2),'application/json');else{var L=[['campo','valor']];Object.keys(o).forEach(function(k){var v=o[k];if(Array.isArray(v))v.forEach(function(r){L.push(Array.isArray(r)?r:[k,JSON.stringify(r)]);});else if(v&&typeof v==='object')L.push([k,JSON.stringify(v)]);else L.push([k,v]);});baixar(nome+'.csv',csvDe(L),'text/csv');}say('Arquivo '+nome+' baixado.');}
+function setAdv(on,save){document.body.classList.toggle('adv',on);var b=$('btAdv');if(b)b.setAttribute('aria-pressed',on);if(on)[].forEach.call(document.querySelectorAll('#hcard details,#inAdv'),function(d){d.open=true;});if(save){lsSet('avancado',on);say(on?'Modo avançado ligado: números completos e exportação.':'Modo avançado desligado.');}}
+document.addEventListener('click',function(e){var t=e.target.closest('[data-ct]');if(t&&t.closest('#hcard')){CTAB=t.dataset.ct;var hc=$('hcard');[].forEach.call(hc.querySelectorAll('[data-ct]'),function(b){b.setAttribute('aria-selected',b===t);});var hi=hc.querySelector('.hist'),ri=hc.querySelector('.risk');if(hi)hi.hidden=CTAB!=='hist';if(ri)ri.hidden=CTAB!=='risco';return;}
+ var x=e.target.closest('[data-exp]');if(!x)return;
+ if(x.closest('#hcard')&&CARD){var o=JSON.parse(JSON.stringify(CARD));o.risco_e_tempo=RK.cardTxt||'';o.fonte='De Olho no Fogo (NASA FIRMS MODIS C6.1 + VIIRS S-NPP; risco: estimativa própria; tempo: NASA POWER)';if(RK.cardExtra)Object.keys(RK.cardExtra).forEach(function(k){o[k]=RK.cardExtra[k];});o.origem_dos_blocos={vegetacao_do_lugar:origem('wc'),historico_focos:origem(NRT.on?'nrt':'firms'),risco:origem('est'),tempo_do_lugar:origem('power')};exportar(x.dataset.exp,o,'dof-lugar');}
+ else if(x.closest('#insight')){var n=nums();var rg=null;if(REG){rg={nome:REG.nome,frases:(function(){try{return regFrases(TELA);}catch(e){return [];}})()};if(REGC)Object.keys(REGC).forEach(function(k){var v=REGC[k];if(typeof v==='number'||typeof v==='string'||typeof v==='boolean')rg[k]=v;});}
+ exportar(x.dataset.exp,{periodo:quando(),regiao_marcada:rg,onde:REG?REG.nome:n.onde,focos_harmonizados:n.focos,deteccoes_modis:n.brutoM,deteccoes_viirs:n.brutoV,vistos_pelos_dois:n.ambos,so_modis:n.soM,so_viirs:n.soV,fonte:'De Olho no Fogo (NASA FIRMS)',origem_dos_blocos:origemVista()},'dof-vista');}});
+var ORIG={firms:['desafio','NASA FIRMS'],nrt:['desafio','NASA FIRMS · API de área'],power:['extra','NASA POWER'],est:['extra','estimativa do time · FIRMS + NASA POWER'],inpe:['extra','INPE AQ1km'],solo:['extra','NASA MODIS MCD12Q1 · GIBS'],lim:['extra','IBGE · Natural Earth'],wc:['extra','ESA WorldCover'],om:['extra','Open-Meteo']};
+function selo(k){var o=ORIG[k]||ORIG.firms;return o[0]==='desafio'?'<span class="dsf" title="Recurso do desafio NASA Space Apps">desafio · '+o[1]+'</span>':'<span class="ext" title="Fora do recurso do desafio (NASA FIRMS). Fonte: '+o[1]+'">extra · fora do desafio</span><span class="exf">'+o[1]+'</span>';}
+function origem(k){var o=ORIG[k]||ORIG.firms;return (o[0]==='desafio'?'desafio NASA Space Apps':'extra do time, fora do desafio')+' · '+o[1];}
+function ico(k,c){return ICO[k]?'<svg class="ico" width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="'+(c||'currentColor')+'" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ICO[k]+'</svg>':'';}
+/* ícone pelo texto da frase: só apresentação; o dado continua o mesmo */
+function icoDe(t){t=String(t).toLowerCase();return /risco/.test(t)?'risco':/sem chuva|seca|sol/.test(t)?'sol':/umidade|ar mais seco|chuva/.test(t)?'gota':/temperatura|frio|quente|calor/.test(t)?'term':/vento/.test(t)?'vento':/sat[ée]lite|sensor/.test(t)?'sat':/pesa|motivo/.test(t)?'motivo':/não é ao vivo|atraso/.test(t)?'aviso':/recente|hora/.test(t)?'motivo':/foco/.test(t)?'fogo':'';}
+function insCard(big,txt,cor,frac,org){var k=icoDe(txt),m=frac!=null&&isFinite(frac)?'<span class="meter" role="img" aria-label="'+Math.round(100*frac)+'%"><i style="width:'+Math.max(2,Math.min(100,100*frac))+'%;background:'+(cor||'var(--brand)')+'"></i></span>':'';
+ return '<div class="insc"'+(cor?' style="border-left-color:'+cor+'"':'')+'>'+(k?'<span class="insi">'+ico(k,cor)+'</span>':'')+'<span class="inst">'+(big?'<b>'+big+'</b> ':'')+txt+m+(org?'<span class="insor">'+selo(org)+'</span>':'')+'</span></div>';}
+/* desempenho: risco e tempo das frases somam ~9 MB (gzip); só baixa depois que o mapa abriu e o navegador ficou ocioso,
+   ou na hora se a camada de risco/tempo já pediu esses dados */
+function insGate(){if(rkModel.p||RK.norP)return Promise.resolve();if(insGate.p)return insGate.p;
+ insGate.p=new Promise(function(res){var ric=window.requestIdleCallback||function(f){setTimeout(f,1);};
+  var t0=Date.now();(function w(){if((MAPOK&&document.readyState==='complete')||Date.now()-t0>15000)setTimeout(function(){ric(res,{timeout:4000});},2500);else setTimeout(w,400);})();});
+ return insGate.p;}
+function insRender(o){
+ var sq=++INS.seq,el=$('inIns');if(!el)return;
+ if(NRT.on){el.innerHTML=agInsights();return;}
+ var out=[],onde=REG?'em '+esc(REG.nome):(o.onde==='mundo'?'no mundo':'no Brasil');
+ /* 1. focos no período (+ comparação com a média do mesmo mês, quando o período é o mês inteiro) */
+ if(!o.aprox&&!REG){var t=o.focos,txt=(t===1?'foco':'focos')+' '+onde+' em '+quando()+(o.medido?'':' (só MODIS)')+'.';
+  var a=SEL.ea,b=SEL.b;
+  if(o.onde==='Brasil'&&o.medido&&a.d===1&&a.y===b.y&&a.m===b.m&&b.d===dim(b.y,b.m)){var B=ST.brasil.mensal,sm=0,nn=0;
+   for(var y=2012;y<=2025;y++){if(y===a.y)continue;var i=y-2000;if(B.completo_medido[i]&&B.completo_medido[i][a.m-1]){sm+=B.completo[i][a.m-1];nn++;}}
+   if(nn>=3&&sm>0){var md=sm/nn,df=Math.round(100*(t-md)/md);txt+=' '+(Math.abs(df)<5?'Perto da média de '+MES[a.m-1]+' dos outros anos (2012–2025).':(Math.abs(df)+'% '+(df>0?'acima':'abaixo')+' da média de '+MES[a.m-1]+' dos outros anos (2012–2025, ~'+nf(md)+').'));}}
+  out.push(insCard(nf(t),txt,C.ambos,null,'firms'));var hs=$('inSum');if(hs)hs.textContent=nf(t)+' focos';
+  if(o.medido&&o.focos){var tt=o.ambos+o.soM+o.soV;if(tt)out.push(insCard(Math.round(100*o.ambos/tt)+'%','dos focos foram vistos pelos dois satélites ao mesmo tempo; o resto, por um só. Por isso juntamos MODIS e VIIRS sem contar o mesmo fogo duas vezes.',C.modis,null,'firms'));}}
+ if(REG&&REGC&&REGC.ok!==false){var rf=null;try{rf=regFrases(TELA);}catch(e){rf=null;}if(rf&&rf.length)out.push(insCard('',esc(rf[0]),C.ambos,null,'firms'));}
+ el.innerHTML=out.join('');
+ if(REG&&!REG.br)return;
+ /* 2. risco e 3. tempo vs. normal (Brasil ou região no Brasil) */
+ var d=S.d0,yy=ymd(d).y;
+ insGate().then(function(){if(sq!==INS.seq)return;return Promise.all([rkModel(),clNor(),clYear(yy)]);}).then(function(r){if(!r||sq!==INS.seq)return;var ex=[];
+  var e=rkWeek();if(e>=0){var R=rkResumo(e);if(R){var cs=rkCols('risco'),w3=R.w[3],w23=R.w[2]+R.w[3];
+   if(w3>=.05)ex.push(insCard(pctF(w3,TELA),'da área '+(REG?'de '+esc(REG.nome):'do Brasil')+' está em <b>risco muito alto</b> de fogo '+esc(rkSemTxt(e,TELA))+'.',cs[3],w3,'est'));
+   else if(w23>=.02)ex.push(insCard(pctF(w23,TELA),'da área '+(REG?'de '+esc(REG.nome):'do Brasil')+' está em risco alto ou muito alto '+esc(rkSemTxt(e,TELA))+'.',cs[2],w23,'est'));
+   else ex.push(insCard('','Risco de fogo baixo ou moderado em quase toda a área '+esc(rkSemTxt(e,TELA))+'.',cs[0],null,'est'));
+   if(R.mot.length)ex.push(insCard('','O que mais pesa: '+esc(juntar(R.mot))+'.',cs[2],null,'est'));}}
+  if(RK.yr[yy]&&RK.nor){var cs2=rkCellsReg(),c=RK.cel,sec=0,s30=0,tot=0;
+   cs2.forEach(function(i){var a=c.frac[i]*Math.cos(c.lat[i]*RAD),u=RK.yr[yy],ur=clVal(u,d,0,i),sc=clVal(u,d,1,i);if(ur==null)return;tot+=a;if(clCmp({ur:ur},i,d).ur==='ar mais seco que o normal')sec+=a;if(sc!=null&&sc>30)s30+=a;});
+   if(tot){if(sec/tot>=.1)ex.push(insCard(pctF(sec/tot,TELA),'da área tinha o <b>ar mais seco que o normal</b> para a época em '+d3(d)+'.',(UMID_COR[PALN]||UMID_COR.padrao)[0],sec/tot,'power'));
+    if(s30/tot>=.05)ex.push(insCard(pctF(s30/tot,TELA),'da área estava há mais de 30 dias sem chuva em '+d3(d)+'.',(SECA_COR[PALN]||SECA_COR.padrao)[3],s30/tot,'power'));}}
+  if(ex.length&&sq===INS.seq)el.insertAdjacentHTML('beforeend',ex.join(''));
+ }).catch(function(e){console.error(e);});
 }
 function passesHTML(){
  var h='<h3>Passagens dos satélites'+(winFull()?'':' na janela '+fmtWin())+'</h3><ul class="passes">';
@@ -1323,12 +1519,13 @@ function passesHTML(){
 /* ───────── legenda ───────── */
 function legend(){
  var h='',pts=modePts(),GL=gridLayer(),n=actL().length;
- if(!n)h+='<p style="margin:0"><b>Nenhuma camada de fogo ligada.</b> Ligue Harmonizado, MODIS ou VIIRS acima.</p>';
+ if(NRT.on)h+=agLegend();
+ else if(!n)h+='<p class="empty" style="margin:0">'+ico('fogo','var(--ink3)')+'<span><b>Nenhuma camada de fogo ligada.</b> Ligue Harmonizado, MODIS ou VIIRS acima.</span></p>';
  else if(!pts){
   var r=RAMP[GL],ms=gridMonths(),cap=gridCap(GL,ms.length);
   h+='<h3>'+(GL==='h'?'Focos harmonizados':(GL==='m'?'Detecções MODIS':'Detecções VIIRS'))+(S.grid?' por célula':': onde há fogo')+'</h3><p style="margin:0">'+(S.grid?'Células de 0,25° (cerca de 28 km).':'Cada ponto de luz resume uma área de 0,25° (cerca de 28 km); pontos vizinhos se fundem. Mais forte e mais vermelho = mais '+(GL==='h'?'focos':'detecções')+'.')+' Soma de '+(ms.length===1?MES[ms[0][1]-1]+' de '+ms[0][0]:MESC[ms[0][1]-1]+' de '+ms[0][0]+' a '+MESC[ms[ms.length-1][1]-1]+' de '+ms[ms.length-1][0])+' (meses inteiros).</p>'+
-   '<div class="ramp" style="background:linear-gradient(90deg,'+r.join(',')+')"></div><div class="rampl num"><span>1</span><span>'+nf(Math.sqrt(cap+1))+'</span><span>'+nf(cap)+' ou mais</span></div>';
-  if(n>1)h+='<p>Com várias camadas ligadas, a visão de longe mostra só a primeira nesta ordem: Harmonizado, VIIRS, MODIS. De perto (2025) aparecem todas juntas.</p>';
+   '<div class="ramp" style="background:linear-gradient(90deg,'+r.join(',')+')"></div><div class="rampl num"><span>poucos (1)</span><span>'+nf(Math.sqrt(cap+1))+'</span><span>muitos ('+nf(cap)+'+)</span></div><p class="unit">'+(GL==='h'?'focos':'detecções')+' por área de ~28 km</p>';
+  if(n>1)h+='<p class="unit">Com várias camadas ligadas, a visão de longe mostra só a primeira nesta ordem: Harmonizado, VIIRS, MODIS. De perto (2025) aparecem todas juntas.</p>';
   if(S.acum&&ms.length>1)h+='<p><b>Acumulando.</b> A cor soma todos os meses até o cursor. Mais opaco = queimou nos últimos 12 meses; mais apagado = faz mais tempo.</p>';
   if(SEL.w25&&ptsRange())h+='<p>Aproxime para ver cada foco.</p>';
   else if(SEL.w25)h+='<p>O detalhe ponto a ponto aparece para períodos de até 3 meses. Encurte o período e aproxime.</p>';
@@ -1374,8 +1571,25 @@ function legend(){
   h+='<p>Fonte: INPE, produto AQ1km (MODIS, 1 km). Só Brasil. Dado provisório: um pixel conta como todo queimado, então a área fica acima da de mapas mais finos.</p>';
  }
  h+=rkLegend();
- $('legend').innerHTML=h;
+ if(LC.on)h+='<h3>Cobertura do solo</h3><ul class="solul">'+$('soloUl').innerHTML+'</ul><p>Passe o mouse no globo para ver a classe do lugar. As cores são as oficiais do produto (não mudam com a paleta).</p>';
+ $('legend').innerHTML=h;lgCompact();
  $('layerNote').textContent=n===0?'Tudo desligado: só as outras camadas aparecem.':(n===1?(S.lay.h?'O produto principal: MODIS e VIIRS juntos, cada fogo contado uma vez.':(S.lay.m?'Detecções brutas do MODIS (Terra e Aqua), pixel de 1 km.':'Detecções brutas do VIIRS (S-NPP), pixel de 375 m. Não existe antes de 2012.')):'Várias camadas juntas: compare o dado bruto com o foco harmonizado.');
+}
+
+/* legenda compacta: um bloco por camada ligada; o que é explicação vai para "Mais sobre esta camada" */
+var LG_EXT=[[/^Cicatrizes/,'inpe','Fonte: INPE, produto AQ1km. Não faz parte do recurso do desafio.'],[/^Cobertura/,'solo','Fonte: NASA MODIS MCD12Q1, via NASA GIBS. Dado da NASA, mas fora do recurso do desafio.'],[/^Risco/,'est','Estimativa do time com focos do FIRMS e clima do NASA POWER. Fora do recurso do desafio.'],[/^(Dias seguidos|Umidade do ar)/,'power','Fonte: NASA POWER. Dado da NASA, mas fora do recurso do desafio.']],LG_OPEN={};
+function lgCompact(){
+ var el=$('legend'),kids=[].slice.call(el.childNodes),blk=null,out=document.createDocumentFragment();
+ kids.forEach(function(n){
+  if(n.nodeType===1&&n.tagName==='H3'){blk=document.createElement('div');blk.className='lgb';out.appendChild(blk);blk.appendChild(n);
+   var t=n.textContent,hit=false;LG_EXT.forEach(function(x){if(x[0].test(t)){hit=true;n.insertAdjacentHTML('beforeend',' '+selo(x[1]));var q=document.createElement('p');q.className='extn';q.textContent=x[2];blk.appendChild(q);}});if(!hit)n.insertAdjacentHTML('beforeend',selo(NRT.on?'nrt':'firms'));return;}
+  if(!blk){out.appendChild(n);return;}
+  var keep=n.nodeType!==1||n.tagName!=='P'||n.querySelector('button')||n.classList.contains('unit')||blk.childElementCount<2&&/^(Mostrando|Sem cicatrizes|Risco dispon|Tempo dispon)/.test(n.textContent)||/^na semana|^Na semana/.test(n.textContent);
+  if(keep){blk.appendChild(n);return;}
+  var d=blk.querySelector('details.lgm');if(!d){d=document.createElement('details');d.className='lgm';var k=blk.firstChild.firstChild.textContent;d.dataset.k=k;if(LG_OPEN[k])d.open=true;d.addEventListener('toggle',function(){LG_OPEN[k]=d.open;});d.innerHTML='<summary>Mais sobre esta camada</summary>';blk.appendChild(d);}
+  d.appendChild(n);});
+ [].forEach.call(out.querySelectorAll('details.lgm'),function(d){d.parentNode.appendChild(d);});
+ el.innerHTML='';el.appendChild(out);
 }
 
 /* ───────── status ───────── */
@@ -1399,7 +1613,8 @@ function status(){
   else h='<span><b>'+layTxt().replace(/^./,function(c){return c.toUpperCase();})+'</b>'+(S.lay.h&&modeBlob()&&det.over?' (focos demais para desenhar as formas: aproxime ou encurte o período)':'')+' · '+per+(wantCut?' · área grande demais: só os blocos mais próximos do centro':'')+'</span>';
  }else{
   var need=0,got=0;gridMonths().forEach(function(p,i,a){if(i&&a[i-1][0]===p[0])return;if(!MAN.anos[p[0]])return;need++;var g=grades.get(p[0]);if(g&&g.g)got++;});
-  if(!anyLay())h='<span><b>Nenhuma camada de fogo ligada.</b> '+(S.fix||S.scar?'Mostrando só as outras camadas.':'Ligue uma camada em “Camadas”.')+'</span>';
+  if(NRT.on)h='<span><b>Agora</b> · focos das últimas '+NRT.h+' h. Não é ao vivo: chegam com horas de atraso.</span>';
+  else if(!anyLay())h='<span><b>Nenhuma camada de fogo ligada.</b> '+(S.fix||S.scar?'Mostrando só as outras camadas.':'Ligue uma camada em “Camadas”.')+'</span>';
   else if(need>got)h='<span class="spin" aria-hidden="true"></span><span>Carregando a grade: <b>'+got+' de '+need+'</b> anos…</span>';
   else if(!SEL.w25)h='<span><b>'+per+' · só Brasil</b> · resumo de 0,25° por mês. Ponto a ponto só em 2025.</span>';
   else if(!ptsRange())h='<span><b>'+per+' · mundo</b> · período longo demais para o detalhe ponto a ponto (máximo: 3 meses). Mostrando o resumo de 0,25°.</span><button type="button" data-pre="mes">Ver 1 mês</button>';
@@ -1657,7 +1872,7 @@ function marcaPresets(){
   ano:a.y===b.y&&a.m===1&&a.d===1&&b.m===12&&b.d===31,tudo:S.d0===0&&S.d1===DMAX,diatodo:S.h0===0&&S.h1===1440,h1315:S.h0===780&&S.h1===900,noite:S.h0===1080&&S.h1===360};
  document.querySelectorAll('#tlF [data-pre]').forEach(function(x){x.setAttribute('aria-pressed',on[x.dataset.pre]?'true':'false');});
 }
-function apply(){marcaPresets();
+function apply(){marcaPresets();lcTip(null);
  calcSel();if(globe)alt=globe.pointOfView().altitude;
  if(!SEL.w25&&!BD)loadBD();
  setTimeU();U.fxF.value=S.fxF?1:0;U.fxE.value=S.fxE?1:0;
@@ -1684,11 +1899,18 @@ function onView(){
 /* ───────── clique: detalhe ───────── */
 function card(title,sub,rows,note,ll){
  var h='<div class="hh"><div><b>'+title+'</b><span class="muted">'+sub+'</span></div><button type="button" class="ib" id="hcX" aria-label="Fechar"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div><dl>';
- rows.forEach(function(r){h+='<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>';});
- h+='</dl>'+(note?'<p>'+note+'</p>':'');
- var el=$('hcard');el.innerHTML=h;el.hidden=false;$('hcX').onclick=hideCard;
+ var inBR=ll&&!(ll[0]<-34.5||ll[0]>6||ll[1]<-74.5||ll[1]>-28),tab=inBR?(CTAB||(rows.length?'hist':'risco')):'hist';
+ if(inBR)h=h.replace(/<dl>$/,'')+'<div class="ctabs" role="tablist" aria-label="O que ver neste lugar"><button type="button" role="tab" data-ct="risco" aria-selected="'+(tab==='risco')+'">'+ico('risco')+'Risco</button><button type="button" role="tab" data-ct="hist" aria-selected="'+(tab==='hist')+'">'+ico('cal')+'Histórico</button></div><dl>';
+ h=h.replace(/<dl>$/,'<div class="hist" role="tabpanel"'+(tab!=='hist'?' hidden':'')+'><p class="orl">'+selo(NRT.on?'nrt':'firms')+'</p>'+(rows.length?'':'<p class="empty">'+ico('cal','var(--ink3)')+'<span>Nenhum foco catalogado aqui em <b>'+esc(quando())+'</b>. Mude o período na linha do tempo, ou ligue Cicatrizes e Fontes fixas em Camadas.</span></p>')+'<dl>');
+ var more=rows.slice(3);rows.slice(0,3).forEach(function(r){var k=/data/i.test(r[0])?'cal':/hora/i.test(r[0])?'motivo':/sat/i.test(r[0])?'sat':/tamanho/i.test(r[0])?'tam':/centro|lugar/i.test(r[0])?'lugar':'fogo';h+='<dt>'+ico(k)+r[0]+'</dt><dd>'+r[1]+'</dd>';});
+ h+='</dl>';if(more.length||note){h+='<details class="more"><summary>Saiba mais</summary><dl>';more.forEach(function(r){h+='<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>';});h+='</dl>'+(note?'<p>'+note+'</p>':'')+'</details>';}
+ if(ll)h+='<div class="advonly serie" id="hcSerie"></div>';
+ h+='</div>'+(inBR?'<div class="risk" id="hcRisk" role="tabpanel"'+(tab!=='risco'?' hidden':'')+'><p class="orl">'+selo('est')+'</p></div>':'')+'<div class="advx"><span class="muted">Modo avançado · exportar este lugar</span><button type="button" class="abtn" data-exp="csv">CSV</button><button type="button" class="abtn" data-exp="json">JSON</button></div>';
+ CARD={titulo:title,sub:String(sub).replace(/<[^>]+>/g,''),lat:ll?ll[0]:null,lon:ll?ll[1]:null,periodo:quando(),linhas:rows.map(function(r){return [String(r[0]).replace(/<[^>]+>/g,''),String(r[1]).replace(/<[^>]+>/g,'').trim()];})};
+ if(window.matchMedia&&matchMedia('(max-width:900px)').matches&&$('side').classList.contains('open'))panSide(true,false);
+ var el=$('hcard');el.innerHTML=h;el.hidden=false;$('hcX').onclick=hideCard;if(document.body.classList.contains('adv'))[].forEach.call(el.querySelectorAll('details'),function(d){d.open=true;});
  if(ll){meshes.sel={attrs:{aLL:[new Float32Array([ll[1],ll[0]]),2],aTp:[new Float32Array([9]),1]},visible:true};render();}
- if(ll)rkCardAppend(ll[0],ll[1]);else RK.cardTxt='';
+ if(ll)rkCardAppend(ll[0],ll[1]);else RK.cardTxt='';if(ll)serieLocal(ll[0],ll[1]);
  say(title+'. '+sub);a11ySel();
 }
 function hideCard(){$('hcard').hidden=true;if(meshes.sel){meshes.sel.visible=false;render();}if(SELP){SELP=null;a11ySel();}}
@@ -1698,11 +1920,11 @@ function member(T,i,l,c){
  for(var k=0;k<n;k++,q+=st){var dl=wide?dv.getUint16(q,true):dv.getUint8(q),dc=wide?dv.getUint16(q+2,true):dv.getUint8(q+1),cp=(wide?dv.getUint16(q+4,true):dv.getUint8(q+2))+1;if(l0+dl===l&&c>=c0+dc&&c<c0+dc+cp)return true;}
  return false;
 }
-function pick(lat,lng){
+function pick(lat,lng,probe){
  var cam=globe.camera(),degPx=2*alt*Math.tan(cam.fov*RAD/2)/RAD/gEl.clientHeight,cs=Math.max(.15,Math.cos(lat*RAD)),best=null,bd=1e9,tol;
  if(S.fix&&fixList.length){tol=degPx*(U.pxFix.value/2+5);
   fixList.forEach(function(s){var dx=(s.lon-lng)*cs,dy=s.lat-lat;if(Math.abs(dx)>tol||Math.abs(dy)>tol)return;var d=Math.hypot(dx,dy);if(d<bd){bd=d;best=s;}});
-  if(best&&bd<tol){showFix(best);return;}}
+  if(best&&bd<tol){if(probe)return {fix:best};showFix(best);return;}}
  if(modePts()){
   var la=lat*RAD,cl=Math.floor(R_M*la/CEL),cc=Math.floor(R_M*lng*RAD*Math.cos(la)/CEL),order=['v','m','h'];
   for(var oi=0;oi<3;oi++){var L=order[oi];if(!S.lay[L])continue;var hit=null;bd=1e9;
@@ -1713,15 +1935,16 @@ function pick(lat,lng){
      var d=Math.hypot(dx,dy),rad=(L==='h'?Math.sqrt(sec.ncel[i])*.0052:(L==='m'?.0055:.0022))+degPx*(L==='h'?5:3);
      if(L==='h'&&(sec.t1[i]&2048)&&member(T,i,cl,cc))d=d*1e-3;else if(d>rad)continue;
      if(d<bd&&passT(T,L,i)){bd=d;hit=[T,i];}}});
-   if(hit){if(L==='h')showFoco(hit[0],hit[1]);else showRaw(hit[0],hit[1],L);return;}}
-  if(!rkCellCard(lat,lng))hideCard();return;
+   if(hit){if(probe)return {L:L,T:hit[0],i:hit[1]};if(L==='h')showFoco(hit[0],hit[1]);else showRaw(hit[0],hit[1],L);return;}}
+  if(probe)return null;placeCard(lat,lng);return;
  }
  var o=anyLay()?cellStats(lat,lng):null;
+ if(probe)return o&&(o.h||o.m||o.v)?{cel:o}:null;
  if(o&&(o.h||o.m||o.v)){
   var gl=Math.floor(lat*4)/4,gn=Math.floor(lng*4)/4,ms=gridCur.ms,noV=ms[ms.length-1][0]<2012;
   SELP={k:'cel',lat:gl+.125,lon:gn+.125,o:o,ms:ms};
-  card('Célula de 0,25° (cerca de 28 km)',(ms.length===1?MES[ms[0][1]-1]+' de '+ms[0][0]:MESC[ms[0][1]-1]+' de '+ms[0][0]+' a '+MESC[ms[ms.length-1][1]-1]+' de '+ms[ms.length-1][0])+' · '+(SEL.w25?'mundo':'Brasil'),[['Focos harmonizados','<b>'+nf(o.h)+'</b>'+(o.hm&&!noV?' ('+nf(o.hm)+' com MODIS)':'')],['Detecções MODIS',nf(o.m)],['Detecções VIIRS',noV?'sem VIIRS':nf(o.v)],['Maior FRP',(o.fm?'MODIS '+nf(frp(o.fm))+' MW':'')+(o.fm&&o.fv?' · ':'')+(o.fv?'VIIRS '+nf(frp(o.fv))+' MW':'')||'–'],['Canto sudoeste',gl.toFixed(2)+', '+gn.toFixed(2)]],'A grade soma meses inteiros.'+(SEL.w25&&ptsRange()?' Aproxime para ver cada foco desta célula.':''),[gl+.125,gn+.125]);
- }else if(!rkCellCard(lat,lng))hideCard();
+  card('Nesta área (quadrado de ~28 km)',(ms.length===1?MES[ms[0][1]-1]+' de '+ms[0][0]:MESC[ms[0][1]-1]+' de '+ms[0][0]+' a '+MESC[ms[ms.length-1][1]-1]+' de '+ms[ms.length-1][0])+' · '+(SEL.w25?'mundo':'Brasil'),[['Focos harmonizados','<b>'+nf(o.h)+'</b>'+(o.hm&&!noV?' ('+nf(o.hm)+' com MODIS)':'')],['Detecções MODIS',nf(o.m)],['Detecções VIIRS',noV?'sem VIIRS':nf(o.v)],['Maior FRP',(o.fm?'MODIS '+nf(frp(o.fm))+' MW':'')+(o.fm&&o.fv?' · ':'')+(o.fv?'VIIRS '+nf(frp(o.fv))+' MW':'')||'–'],['Canto sudoeste',gl.toFixed(2)+', '+gn.toFixed(2)]],'A grade soma meses inteiros.'+(SEL.w25&&ptsRange()?' Aproxime para ver cada foco desta célula.':''),[gl+.125,gn+.125]);
+ }else placeCard(lat,lng);
 }
 function showFoco(T,i){
  var H=T.H,lat=T.lat0+(H.y[i]+.5)*T.q,lon=T.lon0+(H.x[i]+.5)*T.q,t0=H.t0[i],t1=H.t1[i],d=dayOf(H,i),sat=[],nM=H.nM[i],nV=H.nV[i],nc=H.ncel[i];
@@ -1806,7 +2029,7 @@ function initGlobe(){
  map.on('move',onView);
  if(window.ResizeObserver)new ResizeObserver(function(){drawTL();}).observe($('tlPlot'));
  map.on('load',function(){
-  regInit();
+  regInit();MAPOK=true;try{rkLayer();}catch(e){console.error(e);}if(rkMode())rkApply();
   /* a classe Model do luma.gl não é exportada pelo pacote do deck: pega a de uma camada nativa (uma vez) */
   ovl.setProps({layers:[new deck.ScatterplotLayer({id:'boot',data:[]})]});
   var tries=0;(function wait(){
@@ -1851,12 +2074,18 @@ function lsSet(k,v){try{localStorage.setItem('dof.painel.'+k,v?'1':'0');}catch(e
 function panLeitura(min,save){$('insight').classList.toggle('min',min);var b=$('inMin');b.setAttribute('aria-expanded',!min);b.setAttribute('aria-label',min?'Abrir leitura':'Recolher leitura');if(save)lsSet('leitura',min);}
 function panSide(min,save){$('side').classList.toggle('open',!min);document.body.classList.toggle('has-side',!min);$('btnLayers').setAttribute('aria-expanded',!min);$('sideMin').setAttribute('aria-expanded',!min);if(save)lsSet('camadas',min);}
 function panTL(min,save){$('tl').classList.toggle('min',min);var b=$('tlMin');b.setAttribute('aria-expanded',!min);b.setAttribute('aria-label',min?'Abrir linha do tempo':'Recolher linha do tempo');b.title=b.getAttribute('aria-label');
- document.documentElement.style.setProperty('--tlh',min?'80px':'');if(save)lsSet('tempo',min);if(!min&&ST)drawTL();}
+ document.documentElement.style.setProperty('--tlh',min?'80px':'');if(save)lsSet('tempo',min);if(!min){tlFit();if(ST)drawTL();}}
 function panClean(on){document.body.classList.toggle('clean',on);var b=$('btClean');b.setAttribute('aria-pressed',on);b.setAttribute('aria-label',on?'Mostrar painéis':'Ocultar painéis');b.title=(on?'Mostrar painéis':'Ocultar painéis')+' (tecla H)';if(!on&&ST)drawTL();say(on?'Painéis ocultos. Tecla H mostra de novo.':'Painéis à mostra.');}
 $('inMin').onclick=function(e){e.stopPropagation();panLeitura(!$('insight').classList.contains('min'),true);};
 document.querySelector('.inh').onclick=function(){panLeitura(!$('insight').classList.contains('min'),true);};
 $('btnLayers').onclick=function(){panSide($('side').classList.contains('open'),true);};
 $('sideMin').onclick=function(){panSide(true,true);$('btnLayers').focus();};
+
+/* ajustes da linha do tempo: fechados por padrão para o mapa ter espaço; a altura real do painel vira --tlh */
+function panAdj(on,save){$('tl').classList.toggle('noadj',!on);$('tlAdj').setAttribute('aria-expanded',on);if(save)lsSet('ajustes',on?0:1);tlFit();if(ST)drawTL();}
+function tlFit(){var t=$('tl');if(!t||document.body.classList.contains('clean'))return;document.documentElement.style.setProperty('--tlh',(t.offsetHeight+24)+'px');}
+$('tlAdj').onclick=function(e){e.stopPropagation();panAdj($('tl').classList.contains('noadj'),true);};
+if(window.ResizeObserver)new ResizeObserver(tlFit).observe($('tl'));
 $('tlMin').onclick=function(){panTL(!$('tl').classList.contains('min'),true);};
 document.querySelector('.tlt').onclick=function(){panTL(!$('tl').classList.contains('min'),true);};
 $('btClean').onclick=function(){panClean(!document.body.classList.contains('clean'));};
@@ -1868,7 +2097,7 @@ gEl.addEventListener('keydown',function(e){if(!globe)return;var v=globe.pointOfV
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!DRW.on)hideCard();});
 document.addEventListener('keydown',function(e){if((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.repeat&&!/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)&&!e.target.isContentEditable&&!(DRW&&DRW.on)){var d=$('a11yDlg');if(d&&d.open)return;e.preventDefault();$('btA11y').click();}});
 (function(){var mob=window.innerWidth<=900,a=lsGet('camadas'),b=lsGet('leitura'),c=lsGet('tempo');
- panSide(a==null?mob:a==='1');panLeitura(b==null?mob:b==='1');panTL(c==='1');})();
+ panSide(mob?true:(a==null?false:a==='1'));panAdj(lsGet('ajustes')==='0');$('btAdv').onclick=function(){setAdv(!document.body.classList.contains('adv'),true);};setAdv(lsGet('avancado')==='1');panLeitura(b==null?mob:b==='1');panTL(c==='1');})();
 
 /* ───────── início ───────── */
 var HOME0=null;
@@ -2015,14 +2244,28 @@ $('soloOp').oninput=function(){lcOpacity(+this.value);schedURL();};
 lcOpacity(LC.op);
 /* tipo de cobertura sob o ponteiro: lê o pixel do ladrilho mais detalhado já carregado */
 function lcAt(lat,lng){for(var z=LC_ZMAX;z>=0;z--){var t=lcTileXY(lat,lng,z),c=LC.cache[z+'/'+t[1]+'/'+t[0]];if(c&&c.data){var px=Math.min(c.w-1,Math.floor((t[2]-t[0])*c.w)),py=Math.min(c.w-1,Math.floor((t[3]-t[1])*c.w)),o=(py*c.w+px)*4;if(c.data[o+3]<128)return {nada:1};return lcClass(c.data[o],c.data[o+1],c.data[o+2])||{nada:1};}}return null;}
+function tipRows(lat,lng){var R=[],q=null;
+ try{q=pick(lat,lng,true);}catch(err){q=null;}
+ if(q&&q.fix)R.push(['#fff',FIXT[q.fix.tp]+' (não é queimada)']);
+ else if(q&&q.L==='h'){var H=q.T.H,nM=H.nM[q.i],nV=H.nV[q.i];R.push(nM&&nV?[C.ambos,'Foco visto pelos dois sensores']:(nM?[C.modis,'Foco visto só pelo MODIS']:[C.viirs,'Foco visto só pelo VIIRS']));}
+ else if(q&&q.L)R.push([LCOL[q.L],q.L==='m'?'Detecção MODIS (pixel de ~1 km)':'Detecção VIIRS (pixel de ~375 m)']);
+ else if(q&&q.cel){var o=q.cel,GL=gridLayer();R.push([RAMP[GL][2],(GL==='h'?'Focos':(GL==='m'?'Detecções MODIS':'Detecções VIIRS'))+' nesta área de ~28 km: '+nf(GL==='h'?o.h:(GL==='m'?o.m:o.v))]);}
+ var m=rkMode();if(m&&RK.key){var i=rkCellAt(lat,lng);if(i>=0){var cs=rkCols(m);
+  if(m==='risco'&&RK.mod){var e=rkWeek();if(e>=0){var pp=rkP(e,i),L=rkLvl(pp);R.push([cs[L],'Risco '+RK_NIV[L]+' · '+Math.round(100*pp)+'%']);}}
+  else if(m!=='risco'){var u=RK.yr[ymd(S.d0).y],v=u?clVal(u,S.d0,m==='seca'?1:0,i):null;
+   if(v!=null){if(m==='seca'){var k=secoBin(v);R.push([cs[k],'Dias sem chuva: '+(v>=254?'mais de 250':v)+' ('+SECA_B[k][3]+')']);}
+    else{var k2=umidBin(v),cc=RK.nor?clCmp({ur:v},i,S.d0).ur:'';R.push([cs[k2],'Umidade do ar: '+Math.round(v)+'% ('+UMID_B[k2][3]+(cc&&cc!=='perto do normal'?', '+cc:'')+')']);}}}}}
+ if(NRT.on&&NRT.pts){var ag=agHit(lat,lng);if(ag)R.push([ag.c,ag.tip]);}
+ if(LC.on){var c=lcAt(lat,lng);if(c)R.push(c.nada?['transparent','Cobertura: sem dado']:['rgb('+c[1].join(',')+')','Cobertura: '+c[2]]);}
+ return R;}
 function lcTip(e){var el=$('lcTip');if(!e||!globe){el.hidden=true;return;}
  var r=gEl.getBoundingClientRect(),p=globe.toGlobeCoords(e.x-r.left,e.y-r.top);if(!p||!isFinite(p.lat)){el.hidden=true;return;}
- var c=lcAt(p.lat,p.lng);if(!c){el.hidden=true;return;}
- el.querySelector('i').style.background=c.nada?'transparent':'rgb('+c[1].join(',')+')';el.querySelector('span').textContent=c.nada?'Sem dado de cobertura':c[2];
- el.hidden=false;el.style.left=Math.max(0,Math.min(e.x,window.innerWidth-el.offsetWidth-24))+'px';el.style.top=Math.min(e.y,window.innerHeight-44)+'px';}
+ var R=tipRows(p.lat,((p.lng+540)%360)-180);if(!R.length){el.hidden=true;return;}
+ el.innerHTML=R.map(function(x){return '<div><i style="background:'+x[0]+'"></i><span>'+esc(x[1])+'</span></div>';}).join('');
+ el.hidden=false;el.style.left=Math.max(0,Math.min(e.x,window.innerWidth-el.offsetWidth-24))+'px';el.style.top=Math.min(e.y,window.innerHeight-el.offsetHeight-24)+'px';}
 (function(){var pend=null,rq=0,down=null,tt=0;
- function go(){rq=0;if(pend&&LC.on){LC.tipT=1;lcTip(pend);setTimeout(function(){LC.tipT=0;},0);}}
- gEl.addEventListener('pointermove',function(e){if(!LC.on||e.pointerType==='touch')return;pend={x:e.clientX,y:e.clientY};if(!rq)rq=requestAnimationFrame(go);},{passive:true});
+ function go(){rq=0;if(pend){LC.tipT=1;lcTip(pend);setTimeout(function(){LC.tipT=0;},0);}}
+ gEl.addEventListener('pointermove',function(e){if(e.pointerType==='touch')return;if(e.buttons){pend=null;lcTip(null);return;}pend={x:e.clientX,y:e.clientY};if(!rq)rq=requestAnimationFrame(go);},{passive:true});
  gEl.addEventListener('pointerleave',function(){pend=null;lcTip(null);});
  gEl.addEventListener('pointerdown',function(e){down={x:e.clientX,y:e.clientY};},{passive:true});
  gEl.addEventListener('pointerup',function(e){if(!LC.on||e.pointerType==='mouse'||!down)return;if(Math.abs(e.clientX-down.x)+Math.abs(e.clientY-down.y)>10)return;lcTip({x:e.clientX,y:e.clientY});clearTimeout(tt);tt=setTimeout(function(){lcTip(null);},3000);},{passive:true});
@@ -2139,7 +2382,7 @@ function setPal(n,save){
  if(save){try{localStorage.setItem('dof.paleta',n);}catch(e){}}
  if(ST&&MAN){legend();leitura();drawTL();if(!$('hcard').hidden&&SELP)reshowSel();}
  if(TB.open)tbRender();
- regStyle();limStyle();rkStyle();
+ regStyle();limStyle();rkStyle();agStyle();
  kick();
 }
 function reshowSel(){var s=SELP;if(!s)return;if(s.k==='foco')showFoco(s.T,s.i);else if(s.k==='raw')showRaw(s.T,s.i,s.L);}
@@ -2769,6 +3012,7 @@ function narrExtras(){
  t.push(RK.on?'Risco de fogo na próxima semana: ligado.':(RK.seca?'Dias sem chuva: ligado.':(RK.umid?'Umidade do ar: ligada.':'Risco, dias sem chuva e umidade do ar: desligados.')));
  t.push(LIM.on?'Limites ligados, até '+['','países','estados','municípios do Brasil'][LIM.niv]+'.':'Limites: desligados.');
  if(RS.busca)t.push('Contorno do lugar buscado no mapa: '+RS.busca.nome+'.');
+ if(NRT.on)t.unshift('Modo Agora ligado: focos das últimas '+NRT.h+' horas. '+AG_AVISO);
  var fb=document.querySelector('[data-base][aria-pressed="true"]');t.push('Fundo do mapa: '+(fb?fb.textContent.trim():S.base)+'. Cores: '+PALS[PALN].nome+'.');
  var st=$('status').textContent.replace(/\s+/g,' ').trim();if(st)t.push('Situação do mapa: '+st.replace(/[.…]*$/,'')+'.');
  return t.join(' ');
@@ -2848,24 +3092,29 @@ function soloTxt(v){return v<.3?'baixa':(v<.6?'média':'alta');}
 /* camadas do MapLibre (preenchimento colado no mapa, abaixo dos limites e da região) */
 function rkBefore(){var ls=map.getStyle().layers;for(var k=0;k<ls.length;k++)if(/^lim-|^reg-fill$/.test(ls[k].id))return ls[k].id;return undefined;}
 function rkPaint(cols){var m=['match',['get','k']];cols.forEach(function(c,k){m.push(k,c);});m.push('rgba(0,0,0,0)');return m;}
-function rkLayer(){if(!map||map.getSource('rk'))return;map.addSource('rk',{type:'geojson',data:GJ0});
- map.addLayer({id:'rk-fill',type:'fill',source:'rk',layout:{visibility:'none'},paint:{'fill-color':rkPaint(rkCol()),'fill-opacity':.62,'fill-outline-color':'rgba(255,255,255,0.35)'}},rkBefore());}
+var MAPOK=false;
+function rkLayer(){if(!map||!MAPOK||map.getSource('rk'))return;rkKey='';map.addSource('rk',{type:'geojson',data:GJ0});
+ map.addLayer({id:'rk-fill',type:'fill',source:'rk',layout:{visibility:'visible'},paint:{'fill-color':rkPaint(rkCol()),'fill-opacity':.62,'fill-outline-color':'rgba(255,255,255,0.35)'}},rkBefore());}
 function rkMode(){return RK.on?'risco':(RK.seca?'seca':(RK.umid?'umid':''));}
 function rkCols(m){m=m||rkMode();return m==='risco'?rkCol():(m==='seca'?(SECA_COR[PALN]||SECA_COR.padrao):(UMID_COR[PALN]||UMID_COR.padrao));}
-function rkStyle(){if(!map||!map.getLayer('rk-fill'))return;map.setPaintProperty('rk-fill','fill-color',rkPaint(rkCols()));map.setPaintProperty('rk-fill','fill-opacity',PALN==='ac'?.78:.62);
- map.setPaintProperty('rk-fill','fill-outline-color',PALN==='ac'?'rgba(0,0,0,0.6)':'rgba(255,255,255,0.35)');}
+function rkStyle(){if(!map||!map.getLayer('rk-fill'))return;try{map.setPaintProperty('rk-fill','fill-color',rkPaint(rkCols()));map.setPaintProperty('rk-fill','fill-opacity',PALN==='ac'?.78:.62);
+ map.setPaintProperty('rk-fill','fill-outline-color',PALN==='ac'?'rgba(0,0,0,0.6)':'rgba(255,255,255,0.35)');}catch(e){map.once('idle',rkStyle);}}
+var rkKey='';
 function rkDraw(){
- if(!map||!LM)return;rkLayer();var m=rkMode(),fs=[];
+ if(!map||!MAPOK){if(!RK.wait){RK.wait=1;setTimeout(function(){RK.wait=0;rkDraw();},500);}return;}rkLayer();var m=rkMode(),fs=[];
+ /* desempenho: não reenviar as 2.454 células ao MapLibre se modo, semana/dia e dados não mudaram */
+ var kk=m?m+'|'+(m==='risco'?(RK.mod?rkWeek():'x'):S.d0+'|'+!!RK.yr[ymd(S.d0).y])+'|'+!!RK.feat+'|'+RK.force:'';
+ if(kk===rkKey&&map.getSource('rk')){rkStyle();return;}rkKey=kk;
  if(m&&RK.feat){
   if(m==='risco'&&RK.mod){var e=rkWeek();if(e>=0)for(var i=0;i<RK.N;i++){var f=RK.feat[i];f.properties.k=rkLvl(rkP(e,i));fs.push(f);}}
   else if(m!=='risco'){var u=RK.yr[ymd(S.d0).y];if(u)for(var j=0;j<RK.N;j++){var v=clVal(u,S.d0,m==='seca'?1:0,j);if(v==null)continue;var g=RK.feat[j];g.properties.k=m==='seca'?secoBin(v):umidBin(v);fs.push(g);}}
  }
  var s=map.getSource('rk');if(s)s.setData({type:'FeatureCollection',features:fs});
- rkStyle();map.setLayoutProperty('rk-fill','visibility',m&&fs.length?'visible':'none');
+ rkStyle();
 }
 var rkLast='';
 function rkApply(){
- var m=rkMode();if(!m){if(map&&map.getLayer('rk-fill'))map.setLayoutProperty('rk-fill','visibility','none');return;}
+ var m=rkMode();if(!m){if(rkKey&&map&&map.getSource('rk')){map.getSource('rk').setData(GJ0);rkKey='';}return;}
  var ps=[rkCells()];if(m==='risco')ps.push(rkModel());else ps.push(clYear(ymd(S.d0).y));
  var k=m+S.d0+'_'+RK.force,ready=RK.feat&&(m==='risco'?RK.mod:(RK.yr[ymd(S.d0).y]||ymd(S.d0).y<2012||ymd(S.d0).y>2025));
  if(ready){rkDraw();return;}
@@ -2885,43 +3134,61 @@ function rkGoAlt(){var a=ymd(S.d0),y=a.y<2024?2024:2025,d=dn(y,a.m,Math.min(a.d,
 function rkGo26(){rkModel().then(function(){stopPlay();S.d0=RK.ed[RK.E-2];S.d1=DMAX;RK.force=RK.E-1;RK.fd0=S.d0;hideCard();apply();say('Mostrando a estimativa para '+fPer(RK.ed[RK.E-1],RK.ed[RK.E-1]+6)+'.');});}
 function rkAltTxt(){var a=ymd(S.d0),y=a.y<2024?2024:2025;return 'Ver o risco em '+p2(Math.min(a.d,dim(y,a.m)))+'/'+p2(a.m)+'/'+y;}
 /* frase com as 3 maiores contribuições de uma célula */
-function rkMotivos(e,i,c){var o=[],vs=RK.mod.variaveis;for(var k=0;k<3;k++){var v=vs[RK.top[(e*RK.N+i)*3+k]],t=RK_TXT[v];if(!t)continue;t=typeof t==='function'?t(c):t;if(o.indexOf(t)<0)o.push(t);}return o;}
+/* dados extras por célula (modo avançado/export): WorldCover (ESA) e cicatrizes do INPE por ano */
+function rkExtraCel(i){var c=RK.cel;if(!c||i<0)return null;var o={};
+ if(c.cob_wc&&c.grupos_wc&&c.cob_wc[i]){var w={};c.grupos_wc.forEach(function(g,k){w[g.nome]=c.cob_wc[i][k];});o.cobertura_worldcover_pct=w;o.cobertura_worldcover_origem=origem('wc');}
+ if(c.cic_ano&&c.anos&&c.cic_ano[i]){var a={};c.anos.forEach(function(y,k){a[y]=c.cic_ano[i][k];});o.cicatrizes_inpe_por_ano=a;o.cicatrizes_origem=origem('inpe');}
+ return o;}
+function rkExtraHTML(o){if(!o)return '';var h='';if(o.cobertura_worldcover_pct){h+='<p><b>Cobertura (WorldCover 2021, % da área):</b> '+Object.keys(o.cobertura_worldcover_pct).map(function(k){return esc(k.replace(/ \(WorldCover 2021\)/,''))+' '+o.cobertura_worldcover_pct[k]+'%';}).join(' · ')+'</p><p class="orl">'+selo('wc')+'</p>';}
+ if(o.cicatrizes_inpe_por_ano){var ks=Object.keys(o.cicatrizes_inpe_por_ano);h+='<p><b>Cicatrizes de queimada por ano (células de 1 km):</b> '+ks.map(function(y){return y+': '+o.cicatrizes_inpe_por_ano[y];}).join(' · ')+'</p><p class="orl">'+selo('inpe')+'</p>';}
+ return h?'<div class="advonly">'+h+'</div>':'';}
+function rkMotivos(e,i,c){var o=[],vs=RK.mod.variaveis;for(var k=0;k<3;k++){var v=vs[RK.top[(e*RK.N+i)*3+k]],t=RK_TXT[v],F=RK.mod.frases;if(typeof t!=='function'&&F&&F[v])t=F[v].charAt(0).toLowerCase()+F[v].slice(1);if(!t)continue;t=typeof t==='function'?t(c):t;if(o.indexOf(t)<0)o.push(t);}return o;}
 function rkFrase(e,i,c){var L=rkLvl(rkP(e,i)),m=rkMotivos(e,i,c);if(!m.length)return '';return (L>=2?cap(juntar(m)):'Mesmo assim, pesa a favor do fogo: '+juntar(m))+'.';}
 var RK_AVISO='É uma estimativa: não diz onde nem quando um incêndio vai acontecer.';
 /* card do clique */
 function rkCellCard(lat,lng){
- if(!rkMode()||!RK.cel)return false;var i=rkCellAt(lat,lng);if(i<0)return false;
+ if(!RK.cel)return false;var i=rkCellAt(lat,lng);if(i<0)return false;
  var la=RK.cel.lat[i],lo=RK.cel.lon[i],uf=RK.cel.ufs[RK.cel.uf[i]];
  SELP={k:'rk',lat:la,lon:lo,i:i};
  card('Área de cerca de 55 km',(UFN[uf]||uf||'Brasil')+(uf?' ('+uf+')':''),[],'',[la,lo]);return true;
 }
+function placeCard(lat,lng){
+ if(NRT.on){var ag=agHit(lat,lng);if(ag){agCard(ag);return;}}
+ if(lat<-34.5||lat>6||lng<-74.5||lng>-28){SELP=null;card('Lugar clicado',fmtLL(lat,lng)+' · fora do Brasil',[],'A previsão de risco e o tempo do lugar existem só para o Brasil. Os focos de 2025 cobrem o mundo todo: aproxime para ver cada um.',null);return;}
+ var sq=++placeCard.n;rkCells().then(function(){if(sq!==placeCard.n)return;
+  var i=rkCellAt(lat,lng);if(i<0){SELP=null;card('Lugar clicado',fmtLL(lat,lng),[],'Sem previsão de risco para este ponto (fora da grade do Brasil ou no mar).',null);return;}
+  var la=RK.cel.lat[i],lo=RK.cel.lon[i],uf=RK.cel.ufs[RK.cel.uf[i]];SELP={k:'rk',lat:la,lon:lo,i:i};
+  card('Lugar clicado',(UFN[uf]||uf||'Brasil')+(uf?' ('+uf+')':'')+' · área de cerca de 55 km',[],'',[la,lo]);}).catch(function(err){console.error(err);hideCard();});}
+placeCard.n=0;
 function rkCardAppend(lat,lon){
  RK.cardTxt='';RK.cardLL=null;
  if(lat<-34.5||lat>6||lon<-74.5||lon>-28)return;
  var seq=++RK.seq,box=document.createElement('div');box.className='rkbox';box.id='rkBox';box.setAttribute('aria-live','polite');box.innerHTML='<p class="muted">Carregando o tempo neste lugar…</p>';
- var hc=$('hcard');hc.appendChild(box);
- var d=S.d0,y=ymd(d).y,ps=[rkCells(),clNor()];
+ var hc=$('hcRisk')||$('hcard');hc.appendChild(box);
+ var d=NRT.on?DMAX:S.d0,y=ymd(d).y,ps=[rkCells(),clNor()];
  rkCells().then(function(){var i=rkCellAt(lat,lon);if(i<0){if(seq===RK.seq)box.remove();return;}
-  var e0=RK.on?rkModel():null;
+  var e0=rkModel();
   return Promise.all([clNor(),clYear(y),e0]).then(function(){if(seq!==RK.seq)return;
-   var e=RK.on&&RK.mod?rkWeek():-1;
+   var e=RK.mod?(NRT.on?RK.E-1:rkWeek()):-1;
    var pre=e>=0?RK.ed[e]-1:null;return Promise.all([pre!=null?clYear(ymd(pre).y):null]).then(function(){if(seq!==RK.seq)return;box.innerHTML=rkCardHTML(i,d,e);RK.cardLL=[lat,lon];
     var b=box.querySelector('[data-om]');if(b)b.onclick=function(){omGo(RK.cel.lat[i],RK.cel.lon[i],box.querySelector('.om'));};});});
  }).catch(function(err){console.error(err);if(seq===RK.seq)box.innerHTML='<p class="muted">Não foi possível carregar o tempo deste lugar.</p>';});
 }
 function rkCardHTML(i,d,e){
  var h='',T=[];
- if(RK.on){
+ var more='';
+ if(RK.mod){
   if(e>=0){var p=rkP(e,i),L=rkLvl(p),c=clDia(RK.ed[e]-1,i),fr=rkFrase(e,i,c),dt=RK.det[e*RK.N+i];
    var t1='Risco '+RK_NIV[L]+' ('+Math.round(100*p)+'%) '+rkSemTxt(e,TELA);
-   h+='<div class="rkr" style="border-left-color:'+rkCol()[L]+'"><b>'+esc(t1)+'</b>'+(fr?'<p>'+esc(fr)+'</p>':'')+
-    (dt===255?'<p>Ainda não dá para conferir: os focos de 2026 não estão no site.</p>':'<p>Conferindo: nessa semana, os satélites <b>'+(dt?'viram fogo':'não viram fogo')+'</b> nesta área.</p>')+
-    '<p class="muted">'+RK_AVISO+' <a href="/metodo#risco">Saiba mais</a></p></div>';
+   h+='<h4>Previsão de risco'+(NRT.on?' (a mais recente que temos)':'')+'</h4><div class="rkr" style="border-left-color:'+rkCol()[L]+'"><span class="rklv" aria-hidden="true">'+[0,1,2,3].map(function(q){return '<i style="background:'+(q<=L?rkCol()[L]:'var(--line)')+';height:'+(5+q*3)+'px"></i>';}).join('')+'</span><b>'+esc(t1)+'</b>'+(fr?'<p>Por quê: '+esc(fr.charAt(0).toLowerCase()+fr.slice(1))+'</p>':'')+'</div>';
+   var vg=RK.cel&&RK.cel.vegetacao&&RK.cel.vegetacao[i];if(vg){h+='<p class="rkveg">'+esc(vg)+'.</p><p class="orl">'+selo('wc')+'</p>';T.push(vg+'.');}
+   more+=(dt===255?'<p>Ainda não dá para conferir: os focos de 2026 não estão no site.</p>':'<p>Conferindo: nessa semana, os satélites <b>'+(dt?'viram fogo':'não viram fogo')+'</b> nesta área.</p>')+'<p class="muted">'+RK_AVISO+' <a href="/metodo#risco">Como a estimativa é feita</a></p>';
    T.push(t1+'.',fr,dt===255?'':'Nessa semana, os satélites '+(dt?'viram':'não viram')+' fogo nesta área.',RK_AVISO);
-  }else{h+='<div class="rkr"><b>Risco disponível de jan/2024 a jan/2026.</b><p><button type="button" class="abtn" data-rkgo>'+rkAltTxt()+'</button></p></div>';T.push('Risco disponível de janeiro de 2024 a janeiro de 2026.');}
+  }else{h+='<h4>Previsão de risco</h4><div class="rkr"><b>Risco disponível de jan/2024 a jan/2026.</b><p><button type="button" class="abtn" data-rkgo>'+rkAltTxt()+'</button></p></div>';T.push('Risco disponível de janeiro de 2024 a janeiro de 2026.');}
  }
  var y=ymd(d).y;
- h+='<h4>Tempo neste lugar em '+d3(d)+'</h4>';
+ if(NRT.on)d=Math.min(d,DMAX);
+ h+='<h4>Tempo no lugar '+(NRT.on?'no último dia com dado ('+d3(d)+')':'em '+d3(d))+' vs. o normal</h4><p class="orl">'+selo('power')+'</p>';
  if(y<2012||y>2025){h+='<p class="muted">Tempo disponível de 2012 a 2025.</p>';T.push('Tempo disponível de 2012 a 2025.');}
  else{var o=clDia(d,i),C=o.cmp||{},rows=[],sp=[];
   function row(n,v,w){rows.push('<dt>'+n+'</dt><dd><b>'+v+'</b>'+(w?' · '+w:'')+'</dd>');sp.push(n+': '+v+(w?', '+w:'')+'.');}
@@ -2931,9 +3198,15 @@ function rkCardHTML(i,d,e){
   if(o.seco!=null)row('Dias seguidos sem chuva',o.seco>=254?'mais de 250':String(o.seco),SECA_B[secoBin(o.seco)][3]);
   if(o.vento!=null)row('Vento máximo',Math.round(o.vento*3.6)+' km/h',C.vento);
   if(o.solo!=null)row('Umidade do solo',soloTxt(o.solo),C.solo);
-  h+='<dl>'+rows.join('')+'</dl><p class="muted">Média da área de cerca de 55 km (NASA POWER). “Normal” = como costuma ser nesta época do ano (2001–2020).</p>';
+  var dif=[C.ur,C.tmax,C.chuva7,C.vento,C.solo].filter(function(x){return x&&x!=='perto do normal';});
+  if(o.seco!=null&&o.seco>15)dif.push((o.seco>=254?'mais de 250':o.seco)+' dias seguidos sem chuva');
+  h+='<p class="sum">'+(dif.length?esc(cap(juntar(dif)))+'.':'Tudo perto do normal para a época.')+'</p>';if(dif.length)h+='<ul class="tchips" aria-hidden="true">'+dif.map(function(x){return '<li>'+ico(icoDe(x)||'term')+esc(x)+'</li>';}).join('')+'</ul>';
+  more='<dl>'+rows.join('')+'</dl><p class="muted">Média da área de cerca de 55 km (NASA POWER). “Normal” = como costuma ser nesta época do ano (2001–2020).</p>'+more;
   T.push('Tempo neste lugar em '+fData(d)+'. '+sp.join(' ').replace(/ °C/g,' graus').replace(/%/g,' por cento').replace(/ mm/g,' milímetros').replace(/ km\/h/g,' quilômetros por hora'));}
- h+='<div class="om"><button type="button" class="abtn" data-om>Ver o tempo de agora e dos próximos dias</button></div>';
+ RK.cardExtra=rkExtraCel(i);more+=rkExtraHTML(RK.cardExtra);
+ if(more)h+='<details class="more"><summary>Saiba mais</summary>'+more+'</details>';
+ h+='<div class="om"><button type="button" class="abtn" data-om>Ver o tempo de agora e dos próximos dias</button><p class="muted" style="margin:4px 0 0;font-size:11.5px">Opcional · serviço externo (Open-Meteo): envia só a posição aproximada.</p><p class="orl">'+selo('om')+'</p></div>';
+ h+=rkQual();
  RK.cardTxt=T.filter(Boolean).join(' ');
  return h;
 }
@@ -3040,10 +3313,108 @@ function rkTab(){return RK.on&&RK.mod&&rkWeek()>=0&&RK.key;}
 function rkTabFill(rows){if(!rkTab())return;var e=rkWeek();rows.forEach(function(r){var i=rkCellAt(r.lat,r.lon);r.rk=i<0?null:rkP(e,i);});}
 function rkCap(){if(rkTab())return 'coluna Risco: estimativa '+rkSemTxt(rkWeek(),TELA)+' (só Brasil; não diz onde nem quando vai pegar fogo)';return 'para ver a coluna de risco, ligue “Risco de fogo na próxima semana” (só Brasil, jan/2024 a jan/2026)';}
 
+/* ───────── Agora: focos quase em tempo real (FIRMS NRT, via /api/agora) ───────── */
+var AG_AVISO='Não é ao vivo: os satélites passam algumas vezes por dia e os dados chegam com horas de atraso. Nuvens, fumaça densa e fogo pequeno ou rápido podem não aparecer. Sem foco no mapa não quer dizer sem fogo.';
+var AG_SAT=['MODIS (Terra/Aqua)','VIIRS S-NPP','VIIRS NOAA-20'];
+function agHora(min){var t=new Date(min*60000);return t.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+function agDia(min){var t=new Date(min*60000);return t.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});}
+function agHa(min){var h=(Date.now()/60000-min)/60;return h<1?'há menos de 1 h':'há '+Math.round(h)+' h';}
+function agUI(){
+ var b=$('btAgora');b.setAttribute('aria-pressed',NRT.on);$('agOpt').hidden=!NRT.on;
+ $('agSub').textContent='Focos das últimas '+NRT.h+' h · chegam com cerca de 3 h de atraso';
+ document.querySelectorAll('[data-agh]').forEach(function(x){x.setAttribute('aria-pressed',+x.dataset.agh===NRT.h);});
+ var st=$('agSt');
+ if(NRT.st==='load')st.innerHTML='<span class="spin" aria-hidden="true"></span> Buscando os focos de agora…';
+ else if(NRT.st==='err')st.innerHTML='<b>Não foi possível buscar os focos de agora.</b> Tente de novo em alguns minutos. <button type="button" class="abtn" id="agRetry">Tentar de novo</button>';
+ else if(NRT.st==='ok'&&NRT.data){var D=NRT.data,at=Date.parse(D.atualizado)/60000;st.innerHTML='Atualizado às <b>'+agHora(at)+'</b>'+(D.recente?' · detecção mais recente às <b>'+agHora(Date.parse(D.recente)/60000)+'</b> ('+agHa(Date.parse(D.recente)/60000)+')':'')+'.';}
+ else st.textContent='';
+ var r=$('agRetry');if(r)r.onclick=agFetch;
+}
+function agFetch(){var sq=++NRT.seq;NRT.st='load';agUI();
+ agGet(NRT.h).then(function(g){if(sq!==NRT.seq)return;NRT.data=g.data;NRT.pts=g.pts;agDraw();NRT.st='ok';agUI();legend();leitura();status();say('Focos de agora carregados: '+nf(NRT.pts.length)+' focos. Não é ao vivo.');})
+ .catch(function(){if(sq!==NRT.seq)return;NRT.st='err';NRT.pts=null;agDraw();agUI();say('Não foi possível buscar os focos de agora. Tente de novo em alguns minutos.');});}
+/* harmonização simples: detecções na mesma célula de 1 km (grade do MODIS) ou em células vizinhas viram um foco */
+function agCluster(P,RAD,R_M,CEL){
+ var cel=new Map();
+ P.forEach(function(p){var la=p[0]*RAD,cl=Math.floor(R_M*la/CEL),cc=Math.floor(R_M*p[1]*RAD*Math.cos(la)/CEL),k=cl+'_'+cc,c=cel.get(k);
+  if(!c){c={cl:cl,cc:cc,ps:[]};cel.set(k,c);}c.ps.push(p);});
+ var par=new Map();function f(k){while(par.get(k)!==k){par.set(k,par.get(par.get(k)));k=par.get(k);}return k;}
+ cel.forEach(function(c,k){par.set(k,k);});
+ cel.forEach(function(c,k){for(var a=-1;a<=1;a++)for(var b=-1;b<=1;b++){if(!a&&!b)continue;var n=(c.cl+a)+'_'+(c.cc+b);if(cel.has(n)){var x=f(k),y=f(n);if(x!==y)par.set(x,y);}}});
+ var g=new Map();cel.forEach(function(c,k){var r=f(k),o=g.get(r);if(!o){o={ps:[],n:0};g.set(r,o);}o.n++;Array.prototype.push.apply(o.ps,c.ps);});
+ var out=[];g.forEach(function(o){var la=0,lo=0,m=0,v=0,t=0,fr=0,sat={};o.ps.forEach(function(p){la+=p[0];lo+=p[1];if(p[2])v++;else m++;if(p[3]>t)t=p[3];if(p[4]>fr)fr=p[4];sat[p[2]]=1;});
+  out.push({lat:la/o.ps.length,lon:lo/o.ps.length,m:m,v:v,t:t,frp:fr,ncel:o.n,sat:Object.keys(sat).map(Number),k:m&&v?0:(m?1:2)});});
+ return out;}
+function agBuild(){NRT.pts=agCluster(NRT.data.pts,RAD,R_M,CEL);agDraw();}
+/* desempenho: baixar, ler o JSON (~1,5–3 MB) e agrupar as detecções num worker; o main thread só recebe os focos prontos.
+   Guarda o resultado por janela (24/48 h) por 5 min: religar o modo Agora não refaz nada. */
+var AGW=null;
+function agWorker(){if(AGW!==null)return AGW;try{AGW=new Worker(URL.createObjectURL(new Blob([agCluster.toString()+
+ ';self.onmessage=function(e){fetch(e.data.url).then(function(r){return r.json().then(function(j){if(!r.ok||j.erro)throw new Error("agora");var P=j.pts;delete j.pts;self.postMessage({id:e.data.id,meta:j,out:agCluster(P,'+RAD+','+R_M+','+CEL+')});});}).catch(function(){self.postMessage({id:e.data.id,err:1});});};'],{type:'text/javascript'})));}catch(e){AGW=false;}return AGW;}
+function agGet(h){var c=NRT.cache||(NRT.cache={}),o=c[h];if(o&&Date.now()-o.t<300000)return o.p;
+ var w=agWorker(),url=location.origin+'/api/agora?h='+h,p;
+ if(w)p=new Promise(function(res,rej){var id=Math.random();function f(e){if(e.data.id!==id)return;w.removeEventListener('message',f);if(e.data.err)rej(new Error('agora'));else{e.data.meta.pts=null;res({data:e.data.meta,pts:e.data.out});}}w.addEventListener('message',f);w.postMessage({id:id,url:url});});
+ else p=fetch(url).then(function(r){return r.json().then(function(j){if(!r.ok||j.erro)throw new Error('agora');return {data:j,pts:agCluster(j.pts,RAD,R_M,CEL)};});});
+ c[h]={t:Date.now(),p:p};p.catch(function(){if(c[h]&&c[h].p===p)delete c[h];});return p;}
+
+function agCols(){return [C.ambos,C.modis,C.viirs];}
+function agStyle(){if(!map||!map.getLayer('ag-pt'))return;var c=agCols();
+ map.setPaintProperty('ag-pt','circle-color',['match',['get','k'],0,c[0],1,c[1],c[2]]);
+ map.setPaintProperty('ag-pt','circle-stroke-color',['match',['get','k'],0,C.ambosLn,'#ffffff']);}
+function agDraw(){if(!map)return;try{agDraw0();}catch(e){clearTimeout(agDraw.t);agDraw.t=setTimeout(agDraw,300);}}
+function agDraw0(){
+ if(!map.getSource('ag')){agDraw0.last=undefined;map.addSource('ag',{type:'geojson',data:GJ0});
+  map.addLayer({id:'ag-pt',type:'circle',source:'ag',paint:{'circle-radius':['interpolate',['linear'],['zoom'],1,2.2,5,4,9,7],'circle-opacity':.92,'circle-stroke-width':['interpolate',['linear'],['zoom'],1,.3,6,1.2],'circle-color':'#f00','circle-stroke-color':'#fff'}});agStyle();}
+ /* desempenho: só remonta e reenvia os focos quando a lista muda (ligar/desligar mexe só na visibilidade) */
+ var want=NRT.pts||null;
+ if(want!==agDraw0.last){agDraw0.last=want;var fs=[];if(want)want.forEach(function(q,i){fs.push({type:'Feature',properties:{k:q.k,i:i},geometry:{type:'Point',coordinates:[q.lon,q.lat]}});});
+  map.getSource('ag').setData({type:'FeatureCollection',features:fs});}map.setLayoutProperty('ag-pt','visibility',NRT.on?'visible':'none');}
+function agCls(q){return q.k===0?'Foco visto pelos dois sensores':(q.k===1?'Foco visto só pelo MODIS':'Foco visto só pelo VIIRS');}
+function agHit(lat,lng){if(!NRT.on||!NRT.pts||!map)return null;
+ var z=map.getZoom(),tol=12*360/(512*Math.pow(2,z)),cs=Math.max(.15,Math.cos(lat*RAD)),best=null,bd=1e9,p0=map.project([lng,lat]);
+ NRT.pts.forEach(function(q){if(Math.abs(q.lat-lat)>tol||Math.abs(q.lon-lng)*cs>tol)return;var p=map.project([q.lon,q.lat]),d=Math.hypot(p.x-p0.x,p.y-p0.y);if(d<bd){bd=d;best=q;}});
+ if(!best||bd>10)return null;
+ return {q:best,c:agCols()[best.k],tip:'Agora · '+agCls(best).replace('Foco ','foco ')+' · detectado às '+agHora(best.t)+' ('+agHa(best.t)+')'};}
+function agCard(ag){var q=ag.q;SELP={k:'ag',lat:q.lat,lon:q.lon};
+ card('Foco de agora (quase em tempo real)','<span class="sq" style="background:'+ag.c+';vertical-align:-1px"></span> '+agCls(q),[
+  ['Detectado','às <b>'+agHora(q.t)+'</b> de '+agDia(q.t)+' ('+agHa(q.t)+')'],
+  ['Satélites',q.sat.map(function(x){return AG_SAT[x];}).join(', ')],
+  ['Tamanho',nf(q.ncel)+(q.ncel===1?' célula':' células')+' de 1 km'],
+  ['Detecções','MODIS '+q.m+' · VIIRS '+q.v],
+  ['Maior FRP',q.frp?q.frp.toLocaleString('pt-BR',{maximumFractionDigits:1})+' MW':'–'],
+  ['Posição',q.lat.toFixed(4)+', '+q.lon.toFixed(4)]],
+  'Hora no seu relógio. Dado preliminar do FIRMS (NRT), juntado na grade de 1 km como os focos históricos. '+AG_AVISO,[q.lat,q.lon]);}
+function agLegend(){var c=agCols(),h='<h3>Focos de agora (últimas '+NRT.h+' h)</h3><ul>';
+ [['os dois sensores viram',c[0]],['só o MODIS viu',c[1]],['só o VIIRS viu',c[2]]].forEach(function(x){h+='<li><svg width="18" height="18" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="'+x[1]+'" stroke="#fff" stroke-width="1.4"/></svg>'+x[0]+'</li>';});
+ h+='</ul>';
+ if(NRT.st==='ok'&&NRT.data&&NRT.data.recente)h+='<p class="unit">Detecção mais recente às '+agHora(Date.parse(NRT.data.recente)/60000)+' ('+agHa(Date.parse(NRT.data.recente)/60000)+').</p>';
+ h+='<p class="unit agnote">'+AG_AVISO+'</p><p>Dado preliminar (NRT) do NASA FIRMS: MODIS, VIIRS S-NPP e VIIRS NOAA-20. Detecções na mesma célula de 1 km ou em células vizinhas viram um foco. Passe o mouse ou clique num foco.</p>';
+ return h;}
+function agInsights(){var out=[];
+ if(NRT.st==='load')return insCard('','Buscando os focos de agora…');
+ if(NRT.st==='err')return insCard('','Não foi possível buscar os focos de agora. Tente de novo em alguns minutos.');
+ if(!NRT.pts)return '';
+ var P=NRT.pts,inR=REG?P.filter(function(q){return REG.pip(q.lon,q.lat);}):P,amb=inR.filter(function(q){return q.k===0;}).length;
+ out.push(insCard(nf(inR.length),(inR.length===1?'foco':'focos')+' detectados nas últimas '+NRT.h+' h '+(REG?'em '+esc(REG.nome):'no mundo')+'.',C.ambos));
+ if(inR.length)out.push(insCard(Math.round(100*amb/inR.length)+'%','deles foram vistos pelos dois sensores (MODIS e VIIRS).',C.modis));
+ if(NRT.data&&NRT.data.recente){var m=Date.parse(NRT.data.recente)/60000;out.push(insCard('','Detecção mais recente às <b>'+agHora(m)+'</b> ('+agHa(m)+').'));}
+ out.push(insCard('',AG_AVISO,'#8A5A00'));
+ return out.join('');}
+function agSet(on){
+ if(on===NRT.on)return;NRT.on=on;document.body.classList.toggle('agora',on);
+ if(on){NRT.prev={h:S.lay.h,m:S.lay.m,v:S.lay.v};stopPlay();S.lay.h=S.lay.m=S.lay.v=false;document.documentElement.style.setProperty('--tlh','16px');hideCard();}
+ else{if(NRT.prev){S.lay.h=NRT.prev.h;S.lay.m=NRT.prev.m;S.lay.v=NRT.prev.v;}panTL($('tl').classList.contains('min'),false);hideCard();}
+ agUI();apply();agDraw();if(on)agFetch();else{NRT.seq++;NRT.st='';}
+ say(on?'Modo Agora ligado. '+AG_AVISO:'Modo Agora desligado: de volta à linha do tempo.');}
+$('btAgora').onclick=function(){agSet(!NRT.on);};
+document.querySelectorAll('[data-agh]').forEach(function(b){b.onclick=function(){NRT.h=+b.dataset.agh;agUI();if(NRT.on)agFetch();};});
+$('segLayer').addEventListener('click',function(){if(NRT.on)agSet(false);},true);
+agUI();
+
 setPal(PALN,false);
 var A11Y={PALS:PALS,PAL_FUTURO:PAL_FUTURO,setPal:setPal,pal:function(){return PALN;},narrar:narrar,narrSel:narrSel,narrPer:narrPer,explicar:explicar,falar:falar,calar:calar,TTS:TTS,TB:TB,tbSync:tbSync,abrir:abrir,fechar:fechar,fNum:fNum,sel:function(){return SELP;}};
 
-window.__dof={a11y:A11Y,S:S,SEL:function(){return SEL;},PL:PL,apply:apply,build:buildDetail,buildScar:buildScar,tiles:tiles,det:det,SB:SB,SC:SC,VC:VC,meshes:meshes,U:U,T3:T3,FR:FR,fps:fpsInfo,dn:dn,ymd:ymd,model:function(){return tlM;},grid:function(){return gridCur;},wanted:function(){return wanted;},setBase:setBase,play:togglePlay,count:countView,nums:nums,modes:function(){return {pts:modePts(),blob:modeBlob(),detail:!!detailOn(),scarBlob:!!(scarBlobMode()&&SB.ok),alt:alt,loop:FR.on};},globe:function(){return globe;},LC:LC,lcSet:lcSet,lcAt:lcAt,parseCoord:parseCoord,geoAlt:geoAlt,GEO:GEO,reg:{get:function(){return REG;},res:function(){return REGC;},set:regSet,clear:regClear,useView:regUseView,markOSM:regMarkOSM,lookup:regLookup,frases:regFrases,resumo:regResumo,narrarTela:narrarTela,tbRows:regTbRows,compute:regCompute,draw:drawStart,finish:drawFinish,secOf:secOf,tiles:RT,offer:function(){return RS.offer;},busca:function(){return RS.busca;}},LIM:LIM,limSet:limSet,map:function(){return map;},ovl:function(){return ovl;},render:renderNow,z2alt:z2alt,alt2z:alt2z,decodeTile:decodeTile,KINDS:KINDS,DofLayer:DofLayer};
+window.__dof={a11y:A11Y,nrt:{st:NRT,hit:function(a,b){return agHit(a,b);},set:function(v){agSet(v);}},S:S,SEL:function(){return SEL;},PL:PL,apply:apply,build:buildDetail,buildScar:buildScar,tiles:tiles,det:det,SB:SB,SC:SC,VC:VC,meshes:meshes,U:U,T3:T3,FR:FR,fps:fpsInfo,dn:dn,ymd:ymd,model:function(){return tlM;},grid:function(){return gridCur;},wanted:function(){return wanted;},setBase:setBase,play:togglePlay,count:countView,nums:nums,modes:function(){return {pts:modePts(),blob:modeBlob(),detail:!!detailOn(),scarBlob:!!(scarBlobMode()&&SB.ok),alt:alt,loop:FR.on};},globe:function(){return globe;},LC:LC,lcSet:lcSet,lcAt:lcAt,parseCoord:parseCoord,geoAlt:geoAlt,GEO:GEO,reg:{get:function(){return REG;},res:function(){return REGC;},set:regSet,clear:regClear,useView:regUseView,markOSM:regMarkOSM,lookup:regLookup,frases:regFrases,resumo:regResumo,narrarTela:narrarTela,tbRows:regTbRows,compute:regCompute,draw:drawStart,finish:drawFinish,secOf:secOf,tiles:RT,offer:function(){return RS.offer;},busca:function(){return RS.busca;}},LIM:LIM,limSet:limSet,map:function(){return map;},ovl:function(){return ovl;},render:renderNow,z2alt:z2alt,alt2z:alt2z,decodeTile:decodeTile,KINDS:KINDS,DofLayer:DofLayer};
 })();
 </script>
 <dialog id="extDlg" aria-labelledby="extT"><div class="eb"><h2 id="extT"></h2><div id="extB"></div></div><div class="ea"><button type="button" id="extNo">Cancelar</button><button type="button" class="pri" id="extYes">Ativar camada</button></div></dialog>
@@ -3054,7 +3425,8 @@ var EXT_OK={},EXT_TXT={
  clima:{t:'Dias sem chuva e umidade do ar: dado de outra fonte',f:'NASA POWER (MERRA-2): clima diário por área de cerca de 55 km no Brasil, de 2012 a 2025. É um modelo do clima, não uma estação no chão.'},
  om:{t:'Tempo de agora: serviço externo',i:'O tempo de agora não faz parte dos dados do desafio. Ele vem de um serviço externo, só quando você pede:',f:'Open-Meteo (open-meteo.com), previsão do tempo gratuita para uso não comercial. O site envia ao Open-Meteo só a posição aproximada do lugar clicado.',b:'Buscar o tempo'},
  solo:{t:'Cobertura do solo: dado de outra fonte',f:'NASA MODIS MCD12Q1 v061 (Friedl e Sulla-Menashe, 2022): classe de cobertura do solo do sistema IGBP a 500 m, ano de 2024, servida em ladrilhos pelo NASA GIBS. Desenhada por cima do fundo do mapa, com opacidade ajustável.'}};
-function extConfirm(k,ok){var d=document.getElementById('extDlg'),x=EXT_TXT[k];
+function extConfirm(k,ok){EXT_OK[k]=true;ok();}
+function extConfirmModal(k,ok){var d=document.getElementById('extDlg'),x=EXT_TXT[k];
  document.getElementById('extT').textContent=x.t;
  document.getElementById('extB').innerHTML='<p>'+(x.i||'Esta camada não faz parte dos dados do desafio. Ela vem de outra fonte e é um adicional para dar contexto:')+'</p><p><b>'+x.f+'</b></p><p>A base do projeto continua sendo a harmonização dos focos MODIS e VIIRS (NASA FIRMS) e a sua visualização. '+(x.b?'Isto':'Esta camada')+' só se soma a ela.</p>';
  var y=document.getElementById('extYes'),n=document.getElementById('extNo');y.textContent=x.b||'Ativar camada';

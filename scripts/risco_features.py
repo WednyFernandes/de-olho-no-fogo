@@ -2,7 +2,8 @@
 
 Uso: python scripts/risco_features.py
 
-Entrada: dados/risco/tabela_brasil.npz (scripts/tabela_risco_brasil.py), public/data/harm/cobertura-2020.png
+Entrada: dados/risco/tabela_brasil.npz (scripts/tabela_risco_brasil.py), dados/risco/cobertura_worldcover.npz
+(scripts/cobertura_worldcover.py), dados/risco/cicatrizes_celula.npz (scripts/risco_cicatrizes.py), public/data/harm/cobertura-2020.png
 (MODIS MCD12C1 2020, IGBP, gravado por scripts/ee_brasil.py) e cache/power-brasil/focos_{ano}.npz (centroides dos focos).
 
 Unidade: célula nativa do NASA POWER (0,5° × 0,625°) × semana. Cada ano tem 52 semanas fixas: semana w (0..51) começa no
@@ -38,6 +39,17 @@ GRUPOS = [("floresta", "Vegetação nativa florestal", [1, 2, 3, 4, 5]),
           ("urbano", "Urbano", [13]),
           ("agua", "Água (e sem classe)", [0, 17]),
           ("outros", "Outros (área úmida, solo exposto)", [11, 15, 16])]
+# ESA WorldCover 2021 (scripts/cobertura_worldcover.py), agrupado. Água (80) fica de fora, como no IGBP.
+WC_GRUPOS = [("wc_floresta", "Árvores e mangue (WorldCover 2021)", [10, 95]),
+             ("wc_arbustal", "Arbustos, inclui cerrado aberto (WorldCover 2021)", [20]),
+             ("wc_campo", "Campo e pastagem (WorldCover 2021)", [30]),
+             ("wc_agricultura", "Agricultura (WorldCover 2021)", [40]),
+             ("wc_outras", "Urbano, solo exposto e área úmida (WorldCover 2021)", [50, 60, 70, 90, 100])]
+WC_NPZ = os.path.join(ROOT, "dados", "risco", "cobertura_worldcover.npz")
+CIC_NPZ = os.path.join(ROOT, "dados", "risco", "cicatrizes_celula.npz")
+CIC_ATRASO_MESES = 1  # o mês anterior à emissão não entra (o AQ1km do INPE sai com atraso)
+NOVAS = [g[0] for g in WC_GRUPOS] + ["cic_12m", "cic_media_anual"]
+
 IGBP_CORES = {1: "#05450A", 2: "#086A10", 3: "#54A708", 4: "#78D203", 5: "#009900", 6: "#C6B044", 7: "#DCD159", 8: "#DADE48",
               9: "#FBFF13", 10: "#B6FF05", 11: "#27FF87", 12: "#C24F44", 13: "#A5A5A5", 14: "#FF6D4C", 15: "#69FFF8", 16: "#F9FFA4"}
 
@@ -115,6 +127,15 @@ def main():
         lcls[c] = np.bincount(np.where(k == 17, 0, k), minlength=17)[:17] / len(k)
         lc[c] = np.bincount(G[k], minlength=len(GRUPOS)) / len(k)
 
+    # ---------- WorldCover 2021 e cicatrizes INPE por célula ----------
+    zw = np.load(WC_NPZ)
+    wcls = list(zw["classes"])
+    wc = np.stack([zw["frac"][:, [wcls.index(k) for k in ks]].sum(1) for _, _, ks in WC_GRUPOS], 1).astype(np.float32)
+    zc = np.load(CIC_NPZ)
+    cic_cs = np.concatenate([np.zeros((NC, 1)), np.cumsum(zc["px"], axis=1, dtype=np.float64)], axis=1)
+    cic_tot = zc["px_tot"].astype(np.float64)
+    cic_m0 = int(str(zc["mes0"])[:4]) * 12
+
     # ---------- séries diárias auxiliares ----------
     P = V["PRECTOTCORR"]
     seco = P < SECO_MM
@@ -146,7 +167,7 @@ def main():
 
     nomes = ["focos_7d", "focos_30d", "focos_365d", "dias_fogo_30d", "clim_semana", "clim_semana_pm1", "recorrencia_anos",
              "tmax_7d", "ur_7d", "ur_30d", "chuva_7d", "chuva_30d", "dias_secos", "vento_max_7d", "umid_solo_sup", "umid_solo_raiz_30d",
-             "radiacao_7d", "sazon_sin", "sazon_cos"] + [f"cob_{g[0]}" for g in GRUPOS if g[0] != "agua"] + ["lat", "lon"] + \
+             "radiacao_7d", "sazon_sin", "sazon_cos"] + [f"cob_{g[0]}" for g in GRUPOS if g[0] != "agua"] + NOVAS + ["lat", "lon"] + \
             ["prev_tmax", "prev_ur", "prev_chuva", "prev_vento"]
     emis = [(a, w) for a in ANOS for w in range(52)] + [(2026, 0)]
     NE = len(emis)
@@ -168,7 +189,15 @@ def main():
              clim, pm1, rec, win("T", t - 7, t) / 7, win("RH", t - 7, t) / 7, win("RH", t - 30, t) / 30, win("P", t - 7, t),
              win("P", t - 30, t), streak[:, t - 1], ws7, V["GWETTOP"][:, t - 1], win("GR", t - 30, t) / 30, win("RAD", t - 7, t) / 7,
              np.full(NC, np.sin(2 * np.pi * (w + 0.5) / 52)), np.full(NC, np.cos(2 * np.pi * (w + 0.5) / 52))]
-        f += [lc[:, i] for i, g in enumerate(GRUPOS) if g[0] != "agua"] + [lat, lon]
+        f += [lc[:, i] for i, g in enumerate(GRUPOS) if g[0] != "agua"]
+        f += [wc[:, i] for i in range(len(WC_GRUPOS))]
+        # cicatrizes: meses completos antes de (mês da emissão − atraso); média anual desde 2003
+        dt = datas[0] + np.timedelta64(t, "D")
+        fimc = int(dt.astype("datetime64[M]").astype(int)) + 1970 * 12 - cic_m0 - CIC_ATRASO_MESES  # exclusivo
+        h0 = 2003 * 12 - cic_m0
+        f += [(cic_cs[:, fimc] - cic_cs[:, fimc - 12]) / cic_tot,
+              (cic_cs[:, fimc] - cic_cs[:, h0]) / cic_tot / ((fimc - h0) / 12)]
+        f += [lat, lon]
         if fim is None:
             f += [np.full(NC, np.nan)] * 4
         else:

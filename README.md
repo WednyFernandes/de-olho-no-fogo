@@ -28,6 +28,7 @@ O que **não** está no git (por tamanho ou por ser segredo) e só é preciso pa
 | INPE AQ1km Coleção 2, mensal, set/2002 em diante | cicatrizes | baixado sozinho por `python scripts/cicatrizes_brasil.py` | ~190 MB | `cache/inpe-aq1km/` |
 | NASA POWER diário, 2.454 células nativas (0,5°×0,625°) do Brasil, 2000–2025, 8 variáveis | tabela clima × focos do modelo de risco do Brasil | `python scripts/power_brasil.py` (retoma se cair; ~1,7 h, sequencial; progresso em `cache/power-brasil/progresso.log`) | ~405 MB (CSV em gzip) | `cache/power-brasil/` |
 | Tabela célula × dia (clima + focos harmonizados) | treino do modelo de risco do Brasil | `python scripts/tabela_risco_brasil.py` (depois do POWER e de `cache/harm/`; ver `docs/dados-clima.md`) | ~290 MB | `dados/risco/tabela_brasil.npz` |
+| ESA WorldCover 2021 (visões gerais de ~133 m, 116 blocos de 3°) | variáveis de cobertura do solo do modelo de risco | `python -I scripts/cobertura_worldcover.py` (sem login; ~10 min) e depois `python scripts/risco_cicatrizes.py` | ~550 MB | `cache/cobertura/worldcover/` → `dados/risco/cobertura_worldcover.npz` |
 | Cache da harmonização | só acelera a regeração | recriado por `python scripts/harmonizar_global.py` | ~2,1 GB | `cache/harm/` |
 | `.env.local` | variáveis locais | criar à mão (ver abaixo) | — | raiz do projeto |
 | Credencial do Earth Engine | camada de cobertura do solo (em construção) | `earthengine authenticate` com a conta que tem acesso ao projeto | — | `~/.config/earthengine/` |
@@ -40,7 +41,7 @@ EE_PROJECT=spaceuai          # projeto do Google Cloud registrado no Earth Engin
 
 NASA POWER (clima): não precisa baixar. O site atual não usa; só os scripts do protótipo regional (`clima_power.py`, `clima_diario_power.py`, `modelo_risco.py`) usavam, e o download deles já está no git em `cache/power/`, `cache/power-diario/` e `cache/power-risco/`. Se rodar algum desses scripts, ele baixa sozinho o que faltar, sem chave.
 
-`FIRMS_MAP_KEY` só era usada pelas páginas regionais retiradas e por `scripts/atualizar_2026.py`.
+`FIRMS_MAP_KEY` é **necessária no servidor** para o modo "Agora" do globo: a rota `GET /api/agora?h=24|48` (`src/app/api/agora/route.js`) busca no servidor a API de área do FIRMS (MODIS_NRT, VIIRS_SNPP_NRT e VIIRS_NOAA20_NRT, mundo inteiro), guarda a resposta em memória por 15 minutos e devolve só os focos das últimas 24 ou 48 h. A chave fica em `process.env` (`.env.local` no desenvolvimento, variável de ambiente na hospedagem), nunca vai para o navegador nem para os logs. Sem a chave, ou se o FIRMS falhar, a rota responde 503 e o globo mostra "Não foi possível buscar os focos de agora. Tente de novo em alguns minutos." Ela também é usada por `scripts/atualizar_2026.py`.
 
 Ordem para regerar tudo do zero:
 

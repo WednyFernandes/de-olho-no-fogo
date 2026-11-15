@@ -8,6 +8,17 @@ export const metadata = {
 
 const externo = (url) => /^https?:/.test(url);
 const Elo = ({ href, children }) => (externo(href) ? <a href={href} target="_blank" rel="noopener">{children}</a> : <a href={href}>{children}</a>);
+// Origem de cada fonte de dado: o recurso do desafio (NASA FIRMS) ou extra do time.
+const DADOS = ['fogo', 'territorio', 'apis', 'risco'];
+const DESAFIO = /FIRMS|MCD14ML|VNP14IMG|VIIRS NOAA-20|Grade senoidal/;
+const NASA_EXTRA = /NASA POWER|MCD12|Blue Marble|GIBS/;
+const BLOCOS = [
+  { id: 'dados-desafio', selo: 'desafio', classe: 'dsf', titulo: 'Dados do desafio · NASA FIRMS', nota: 'A aba Resources do desafio lista um único recurso, o NASA FIRMS. Tudo o que é harmonização (focos harmonizados, só MODIS, só VIIRS, série do Brasil, fontes fixas) e o modo "Agora" saem só daqui.' },
+  { id: 'extra-nasa', selo: 'extra · fora do desafio', classe: 'ext', titulo: 'Extras do time · dados da NASA', nota: 'Dados da NASA que não estão nos recursos do desafio. No globo ficam desligados por padrão, com selo de extra.' },
+  { id: 'extra-outras', selo: 'extra · fora do desafio', classe: 'ext', titulo: 'Extras do time · outras fontes', nota: 'Fontes que não são da NASA: cicatrizes, cobertura do solo, limites, mapas de base, busca e tempo.' },
+];
+const FERRAMENTA = /Google Fonts|scikit-learn/;
+const blocoDe = (r) => (FERRAMENTA.test(r.nome) ? null : DESAFIO.test(r.nome) ? 'dados-desafio' : NASA_EXTRA.test(r.nome) ? 'extra-nasa' : 'extra-outras');
 const curto = (url) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 
 function Item({ r }) {
@@ -32,7 +43,15 @@ function Item({ r }) {
 }
 
 export default function Referencias() {
-  const total = SECOES.reduce((n, s) => n + (s.id === 'anterior' ? 0 : s.itens.length), 0);
+  const anterior = SECOES.find((s) => s.id === 'anterior');
+  const viva = (r) => r.acesso !== 'Retirado';
+  const dados = SECOES.filter((s) => DADOS.includes(s.id)).flatMap((s) => s.itens)
+    .concat((anterior?.itens || []).filter((r) => /API de área/.test(r.nome) && viva(r)));
+  const blocos = BLOCOS.map((b) => ({ ...b, itens: dados.filter((r) => blocoDe(r) === b.id) }));
+  const resto = SECOES.filter((s) => !DADOS.includes(s.id)).map((s) => (s.id === 'anterior' ? { ...s, itens: s.itens.filter((r) => !dados.includes(r)) }
+    : s.id === 'bibliotecas' ? { ...s, itens: [...s.itens, ...dados.filter((r) => FERRAMENTA.test(r.nome))] } : s));
+  const secoes = [...blocos, ...resto];
+  const total = secoes.reduce((n, s) => n + (s.id === 'anterior' ? 0 : s.itens.length), 0);
   return (
     <Casca aqui="/referencias">
       <div className="wrap doc refs">
@@ -42,14 +61,14 @@ export default function Referencias() {
 
         <nav className="refs-indice" aria-label="Seções desta página">
           <ul>
-            {SECOES.map((s) => <li key={s.id}><a href={`#${s.id}`}>{s.titulo}</a></li>)}
+            {secoes.map((s) => <li key={s.id}><a href={`#${s.id}`}>{s.titulo}</a></li>)}
             <li><a href="#ia">Uso de IA</a></li>
           </ul>
         </nav>
 
-        {SECOES.map((s) => (
+        {secoes.map((s) => (
           <section key={s.id} aria-labelledby={s.id}>
-            <h2 id={s.id}>{s.titulo}</h2>
+            <h2 id={s.id}>{s.titulo}{s.selo && <> <span className={s.classe}>{s.selo}</span></>}</h2>
             {s.nota && <p className="refs-nota">{s.nota}</p>}
             <ul className="refs-lista">{s.itens.map((r) => <Item key={r.nome} r={r} />)}</ul>
           </section>
