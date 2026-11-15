@@ -62,13 +62,14 @@ const fmt = n => n.toLocaleString('en-US');
     altText: 'Screenshot of the De Olho no Fogo globe: harmonized fire hotspots over South America, August 2025, glowing orange on a dark globe.' });
   s.addImage({ path: IMG('logo.png'), x: M, y: 0.6, w: 0.5, h: 0.5, objectName: 'Project logo', altText: 'De Olho no Fogo logo: a white flame on an ember square' });
   T(s, 'De Olho no Fogo', { x: M + 0.65, y: 0.6, w: 4.5, h: 0.5, fontSize: 22, bold: true, color: K.darkText, valign: 'middle' });
-  T(s, 'The same fire, counted only once.', { x: M, y: 1.75, w: 6.4, h: 2.4, fontFace: THEME.headFontFace, fontSize: 50, color: K.darkText, objectName: 'Title' });
+  T(s, 'The same fire, counted only once.', { x: M, y: 1.45, w: 6.4, h: 1.95, fontFace: THEME.headFontFace, fontSize: 50, color: K.darkText, objectName: 'Title' });
+  T(s, 'An open globe that merges NASA\'s MODIS and VIIRS fire records into one count, for fire managers, brigades and researchers.', { x: M, y: 3.55, w: 5.9, h: 0.9, fontSize: 17, color: K.darkText });
   T(s, 'Team Space Uai', { x: M, y: 4.75, w: 5.6, h: 0.45, fontSize: 22, bold: true, color: K.darkText });
   T(s, 'NASA Space Apps Challenge 2026\nHarmonization of MODIS and VIIRS Hot Spots', { x: M, y: 5.25, w: 5.6, h: 0.8, fontSize: 16, color: K.darkMuted });
   T(s, 'deolhonofogo.estudiocrivy.com.br', { x: M, y: 6.15, w: 5.6, h: 0.35, fontSize: 16, bold: true, color: K.ember,
     hyperlink: { url: 'https://deolhonofogo.estudiocrivy.com.br' } });
   s.addText('Screenshot of our globe: harmonized hotspots, August 2025 · NASA FIRMS, MODIS C6.1 + VIIRS S-NPP', { placeholder: 'src' });
-  s.addNotes('De Olho no Fogo, by team Space Uai, for the challenge "Harmonization of MODIS and VIIRS Hot Spots". Our one-line answer: the same fire, counted only once. Behind me is our live globe: every glowing point is a real 2025 harmonized hotspot from NASA FIRMS.');
+  s.addNotes('De Olho no Fogo, by team Space Uai, for the challenge "Harmonization of MODIS and VIIRS Hot Spots". Our one-line answer: the same fire, counted only once. It is an open globe that merges NASA\'s MODIS and VIIRS fire records into one count, built for fire managers, brigades, protected-area managers and researchers. Behind me is our live globe: every glowing point is a real 2025 harmonized hotspot from NASA FIRMS.');
 }
 
 // =====================================================================
