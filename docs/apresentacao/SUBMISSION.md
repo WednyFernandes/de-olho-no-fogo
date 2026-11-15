@@ -3,9 +3,9 @@
 Team **Space Uai** · Challenge **Harmonization of MODIS and VIIRS Hot Spots**
 Site: https://deolhonofogo.estudiocrivy.com.br
 
-Deck (7 slides, English):
-- PDF: `/apresentacao/de-olho-no-fogo-space-apps-2026.pdf`
-- PPTX: `/apresentacao/de-olho-no-fogo-space-apps-2026.pptx`
+Deck (7 slides), English (for submission) and Portuguese:
+- EN — PDF: `/apresentacao/de-olho-no-fogo-space-apps-2026-en.pdf` · PPTX: `/apresentacao/de-olho-no-fogo-space-apps-2026-en.pptx`
+- PT — PDF: `/apresentacao/de-olho-no-fogo-space-apps-2026-pt.pdf` · PPTX: `/apresentacao/de-olho-no-fogo-space-apps-2026-pt.pptx`
 
 (Both are served by the site from `public/apresentacao/` once the branch is deployed.)
 
