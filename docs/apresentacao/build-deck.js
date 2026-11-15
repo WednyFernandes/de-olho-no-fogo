@@ -89,24 +89,24 @@ const CHAIN = t([
   ['2 satellites, 2 data', "MODIS and VIIRS don't match"],
   ['Harmonize', 'one precise count of each fire'],
   ['+ other data', 'weather, vegetation, people nearby'],
-  ['Predict', 'where fire may spread'],
-  ['Less impact', 'act before it grows'],
+  ['Alert', 'where fire may grow, before it does'],
+  ['Less impact', 'for people, nature and wildlife'],
 ], [
   ['Queimadas', 'atingem pessoas, natureza e animais'],
   ['Onde está o fogo?', 'só satélites veem tudo, todo dia'],
   ['2 satélites, 2 dados', 'MODIS e VIIRS não batem'],
   ['Harmonizar', 'uma contagem precisa de cada fogo'],
   ['+ outros dados', 'tempo, vegetação, pessoas perto'],
-  ['Prever', 'para onde o fogo pode ir'],
-  ['Menos impacto', 'agir antes de crescer'],
+  ['Alertar', 'onde o fogo pode crescer, antes'],
+  ['Menos impacto', 'para pessoas, natureza e animais'],
 ]);
 const ICON = ['ic-forest.png', 'ic-sat.png', 'ic-sat.png', 'ic-globe.png', 'ic-cloud.png', 'ic-chart.png', 'ic-people.png'];
 // node: style 'p' = problem (dark ink), 's' = solution (ember), 'g' = greyed
-const node = (s, i, x, y, w, h, style, big) => {
+const node = (s, i, x, y, w, h, style, big, ts) => {
   const fill = style === 'p' ? K.ink : style === 's' ? K.brand : K.soft;
   const txt = style === 'g' ? K.ink2 : K.white;
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.16, fill: { color: fill }, line: { color: style === 'g' ? K.line : fill, width: 0.75 }, objectName: 'Step ' + (i + 1) });
-  T(s, [{ text: CHAIN[i][0], options: { bold: true, fontSize: big ? 20 : 15, color: txt, breakLine: true } }, { text: CHAIN[i][1], options: { fontSize: big ? 15 : 12, color: style === 'g' ? K.ink2 : 'F4F6F9' } }],
+  T(s, [{ text: CHAIN[i][0], options: { bold: true, fontSize: ts ? ts[0] : big ? 20 : 15, color: txt, breakLine: true } }, { text: CHAIN[i][1], options: { fontSize: ts ? ts[1] : big ? 15 : 12, color: style === 'g' ? K.ink2 : 'F4F6F9' } }],
     { x: x + 0.22, y: y + 0.1, w: w - 0.44, h: h - 0.2, valign: 'middle' });
 };
 const arrow = (s, x, y, w, h, color, dir) => s.addShape(dir === 'down' ? pres.shapes.DOWN_ARROW : pres.shapes.RIGHT_ARROW, { x, y, w, h, fill: { color }, line: { type: 'none' } });
@@ -115,14 +115,26 @@ const arrow = (s, x, y, w, h, color, dir) => s.addShape(dir === 'down' ? pres.sh
   const s = slide(t('Problem', 'Problema'), 'LIGHT');
   s.addText(t('The problem: locating fire with two satellites that disagree', 'O problema: localizar o fogo com satélites que discordam'), { placeholder: 'title', fontSize: 26 });
   // problem part of the chain
-  const nw = 3.65, nh = 1.15, ny = 1.4, ag = (W - 2 * M - 3 * nw) / 2;
-  [0, 1, 2].forEach(i => {
-    const x = M + i * (nw + ag);
-    node(s, i, x, ny, nw, nh, 'p', true);
-    if (i < 2) arrow(s, x + nw + 0.08, ny + nh / 2 - 0.18, ag - 0.16, 0.36, K.ink2);
+  // fire impacts, shown as a picture: three icon + number blocks
+  const cwI = 6.35, nh = 1.6, ny = 1.3, ag = 0.45, nw = (W - 2 * M - cwI - 2 * ag) / 2;
+  box(s, M, ny, cwI, nh, K.brandTint, 'Fire impacts');
+  const imp = t([['ic-people.png', '+26–34%', 'hospital visits for breathing, dry season'], ['ic-forest.png', '12,700,000', 'hectares burned in Brazil, 2025'], ['ic-paw.png', '~17,000,000', 'animals killed, Pantanal 2020']],
+                [['ic-people.png', '+26–34%', 'internações respiratórias na seca'], ['ic-forest.png', '12.700.000', 'hectares queimados no Brasil, 2025'], ['ic-paw.png', '~17.000.000', 'animais mortos, Pantanal 2020']]);
+  const bw = cwI / 3;
+  imp.forEach(([ic, n, l], i) => {
+    const x = M + i * bw;
+    s.addImage({ path: IMG(ic), x: x + bw / 2 - 0.27, y: ny + 0.12, w: 0.54, h: 0.54, altText: l });
+    T(s, n, { x: x + 0.1, y: ny + 0.7, w: bw - 0.2, h: 0.4, fontSize: 17, bold: true, color: K.brandInk, align: 'center', valign: 'middle' });
+    T(s, l, { x: x + 0.1, y: ny + 1.08, w: bw - 0.2, h: 0.48, fontSize: 12, color: K.ink2, align: 'center' });
+  });
+  arrow(s, M + cwI + 0.08, ny + nh / 2 - 0.18, ag - 0.16, 0.36, K.ink2);
+  [1, 2].forEach((i, k) => {
+    const x = M + cwI + ag + k * (nw + ag);
+    node(s, i, x, ny, nw, nh, 'p', true, [17, 13]);
+    if (k < 1) arrow(s, x + nw + 0.08, ny + nh / 2 - 0.18, ag - 0.16, 0.36, K.ink2);
   });
   // evidence: MODIS vs VIIRS, same place and day
-  const iw = 4.1, ih = iw * 1228 / 1843, iy = 2.85, ix1 = M + 0.9, ix2 = W - M - 0.9 - iw;
+  const iw = 3.75, ih = iw * 1228 / 1843, iy = 3.1, ix1 = M + 1.2, ix2 = W - M - 1.2 - iw;
   pic(s, 'L-mod.png', ix1, iy, iw, ih, t('MODIS detections only (purple squares).', 'Só as detecções do MODIS (quadrados roxos).'));
   pic(s, 'L-vii.png', ix2, iy, iw, ih, t('VIIRS detections only (teal squares).', 'Só as detecções do VIIRS (quadrados verde-azulados).'));
   T(s, t('Same place,\nsame day', 'Mesmo lugar,\nmesmo dia'), { x: ix1 + iw, y: iy + ih / 2 - 0.5, w: ix2 - ix1 - iw, h: 1.0, fontSize: 16, bold: true, color: K.ink2, align: 'center', valign: 'middle' });
@@ -142,7 +154,7 @@ const arrow = (s, x, y, w, h, color, dir) => s.addShape(dir === 'down' ? pres.sh
 // =====================================================================
 {
   const s = slide(t('Solution', 'Solução'), 'LIGHT');
-  s.addText(t('The solution: harmonize for precision, then predict', 'A solução: harmonizar para ter precisão, e então prever'), { placeholder: 'title', fontSize: 28 });
+  s.addText(t('The solution: harmonize for precision, then alert', 'A solução: harmonizar para ter precisão, e então alertar'), { placeholder: 'title', fontSize: 28 });
   // row 1: problem (greyed), row 2: solution (ember)
   const g1 = 0.4, w1 = (W - 2 * M - 2 * g1) / 3, h1 = 0.85, y1 = 1.35;
   [0, 1, 2].forEach(i => {
@@ -177,10 +189,10 @@ const arrow = (s, x, y, w, h, color, dir) => s.addShape(dir === 'down' ? pres.sh
   T(s, [{ text: t('How we harmonize', 'Como harmonizamos'), options: { bold: true, color: K.brandInk, breakLine: true } },
     { text: t('Same local day · same 1 km map square · touching squares = 1 fire, and we note who saw it.', 'Mesmo dia local · mesmo quadrado de 1 km · quadrados encostados = 1 fogo, e marcamos quem viu.') }],
     { x: rx + 0.3, y: iy + 0.1, w: rw - 0.6, h: ih + 0.14, fontSize: 15, valign: 'middle' });
-  s.addText(t(`Harmonization is built (world 2025, Brazil 2000–2025). Prediction is in development (prototype in Minas Gerais). Example: ${EX.m} MODIS + ${EX.v} VIIRS detections → ${EX.f} harmonized hotspots, 2 September 2025.`,
-    `A harmonização está pronta (mundo 2025, Brasil 2000–2025). A previsão está em desenvolvimento (protótipo em Minas Gerais). Exemplo: ${EX.m} detecções do MODIS + ${EX.v} do VIIRS → ${EX.f} focos harmonizados, 2 de setembro de 2025.`), { placeholder: 'src' });
-  s.addNotes(t(`Our solution follows this chain. For precision, we harmonize the two satellites: each fire counted once, with who saw it — here ${EX.m + EX.v} detections become ${EX.f} fires. That precise record is the base for prediction: we cross the harmonized fires with other data — weather, vegetation, people nearby — to estimate where fire may spread, so agencies can act before it grows and reduce the impact.`,
-    `Nossa solução segue esta cadeia. Para ter precisão, harmonizamos os dois satélites: cada fogo contado uma vez, com quem viu — aqui ${EX.m + EX.v} detecções viram ${EX.f} fogos. Esse registro preciso é a base da previsão: cruzamos os fogos harmonizados com outros dados — tempo, vegetação, pessoas perto — para estimar para onde o fogo pode ir, e os órgãos poderem agir antes de ele crescer e diminuir o impacto.`));
+  s.addText(t(`Harmonization is built (world 2025, Brazil 2000–2025). The alert is in development (risk prototype in Minas Gerais). Example: ${EX.m} MODIS + ${EX.v} VIIRS detections → ${EX.f} harmonized hotspots, 2 September 2025.`,
+    `A harmonização está pronta (mundo 2025, Brasil 2000–2025). O alerta está em desenvolvimento (protótipo de risco em Minas Gerais). Exemplo: ${EX.m} detecções do MODIS + ${EX.v} do VIIRS → ${EX.f} focos harmonizados, 2 de setembro de 2025.`), { placeholder: 'src' });
+  s.addNotes(t(`Our solution follows this chain. For precision, we harmonize the two satellites: each fire counted once, with who saw it — here ${EX.m + EX.v} detections become ${EX.f} fires. That precise record is the base for the alert: we cross the harmonized fires with other data — weather, vegetation, people nearby — to warn where fire may grow, so agencies and people can act before it does and reduce the impact.`,
+    `Nossa solução segue esta cadeia. Para ter precisão, harmonizamos os dois satélites: cada fogo contado uma vez, com quem viu — aqui ${EX.m + EX.v} detecções viram ${EX.f} fogos. Esse registro preciso é a base do alerta: cruzamos os fogos harmonizados com outros dados — tempo, vegetação, pessoas perto — para avisar onde o fogo pode crescer, e órgãos e moradores poderem agir antes e diminuir o impacto.`));
 }
 
 // =====================================================================
@@ -213,7 +225,7 @@ const arrow = (s, x, y, w, h, color, dir) => s.addShape(dir === 'down' ? pres.sh
     ['NASA FIRMS', t('MODIS (Terra, Aqua) and VIIRS (S-NPP)', 'MODIS (Terra, Aqua) e VIIRS (S-NPP)'), t('every fire detection, the base of the harmonization', 'cada detecção de fogo, a base da harmonização'), 1],
     ['INPE', t('burn scars (AQ1km)', 'cicatrizes de queimada (AQ1km)'), t('the area that really burned in Brazil, month by month', 'a área que de fato queimou no Brasil, mês a mês'), 0],
     ['IBGE', t('state borders', 'limites dos estados'), t('the map of Brazil and its states', 'o mapa do Brasil e dos estados'), 0],
-    ['NASA POWER', t('daily weather', 'tempo diário'), t('extra: rain, humidity, wind, temperature for the forecast', 'extra: chuva, umidade, vento e temperatura para a previsão'), 2],
+    ['NASA POWER', t('daily weather', 'tempo diário'), t('extra: rain, humidity, wind, temperature for the alert', 'extra: chuva, umidade, vento e temperatura para o alerta'), 2],
     ['NASA MODIS', t('land cover (MCD12C1)', 'cobertura do solo (MCD12C1)'), t('extra: forest, savanna, farmland where it burns', 'extra: floresta, cerrado, lavoura onde queima'), 2],
   ];
   const rh = 0.92, y0 = 1.45;
@@ -224,10 +236,10 @@ const arrow = (s, x, y, w, h, color, dir) => s.addShape(dir === 'down' ? pres.sh
     T(s, what, { x: M + 2.9, y, w: 4.3, h: rh, fontSize: 16, bold: true, valign: 'middle' });
     T(s, use, { x: M + 7.3, y, w: W - 2 * M - 7.6, h: rh, fontSize: 16, color: K.ink2, valign: 'middle' });
   });
-  s.addText(t('NASA FIRMS: MODIS Collection 6.1 (1 km) and VIIRS S-NPP (375 m), vegetation fires only, 2000–2025; harmonized on the MODIS sinusoidal 1 km grid. INPE AQ1km Collection 2 (2002–2026). “Extra” = used only in the forecast prototype.',
-    'NASA FIRMS: MODIS Coleção 6.1 (1 km) e VIIRS S-NPP (375 m), só fogo em vegetação, 2000–2025; harmonizados na grade senoidal de 1 km do MODIS. INPE AQ1km Coleção 2 (2002–2026). “Extra” = usado só no protótipo de previsão.'), { placeholder: 'src' });
-  s.addNotes(t('The base is NASA FIRMS: every fire detection from MODIS and VIIRS, harmonized on the MODIS 1 km grid. From partner agencies: INPE burn scars show the area that really burned in Brazil, and IBGE gives the map. As extras, for the forecast, we use NASA POWER weather and NASA MODIS land cover.',
-    'A base é o NASA FIRMS: cada detecção de fogo do MODIS e do VIIRS, harmonizada na grade de 1 km do MODIS. Das agências parceiras: as cicatrizes do INPE mostram a área que de fato queimou no Brasil, e o IBGE dá o mapa. Como extra, para a previsão, usamos o tempo do NASA POWER e a cobertura do solo do MODIS.'));
+  s.addText(t('NASA FIRMS: MODIS Collection 6.1 (1 km) and VIIRS S-NPP (375 m), vegetation fires only, 2000–2025; harmonized on the MODIS sinusoidal 1 km grid. INPE AQ1km Collection 2 (2002–2026). “Extra” = used only in the alert prototype.',
+    'NASA FIRMS: MODIS Coleção 6.1 (1 km) e VIIRS S-NPP (375 m), só fogo em vegetação, 2000–2025; harmonizados na grade senoidal de 1 km do MODIS. INPE AQ1km Coleção 2 (2002–2026). “Extra” = usado só no protótipo de alerta.'), { placeholder: 'src' });
+  s.addNotes(t('The base is NASA FIRMS: every fire detection from MODIS and VIIRS, harmonized on the MODIS 1 km grid. From partner agencies: INPE burn scars show the area that really burned in Brazil, and IBGE gives the map. As extras, for the alert, we use NASA POWER weather and NASA MODIS land cover.',
+    'A base é o NASA FIRMS: cada detecção de fogo do MODIS e do VIIRS, harmonizada na grade de 1 km do MODIS. Das agências parceiras: as cicatrizes do INPE mostram a área que de fato queimou no Brasil, e o IBGE dá o mapa. Como extra, para o alerta, usamos o tempo do NASA POWER e a cobertura do solo do MODIS.'));
 }
 
 // =====================================================================
@@ -264,19 +276,19 @@ const arrow = (s, x, y, w, h, color, dir) => s.addShape(dir === 'down' ? pres.sh
 // =====================================================================
 {
   const s = slide(t('Extra and next steps', 'Extra e próximos passos'), 'DARK');
-  s.addText(t('Extra: fire forecast · Next steps', 'Extra: previsão de queimadas · Próximos passos'), { placeholder: 'title', fontSize: 30 });
+  s.addText(t('Extra: fire risk alert · Next steps', 'Extra: alerta de risco de fogo · Próximos passos'), { placeholder: 'title', fontSize: 30 });
   const F = RISK.teste.faixas, hiF = Math.round((F[2].parte_dos_focos + F[3].parte_dos_focos) * 100), hiD = Math.round((F[2].parte_dos_dias + F[3].parte_dos_dias) * 100);
   const cw = (W - 2 * M - 0.4) / 2;
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: 1.45, w: cw, h: 3.75, rectRadius: 0.18, fill: { color: K.brand, transparency: 80 }, line: { color: '5A2A16', width: 0.75 }, objectName: 'Extra card' });
-  dT(s, t('Extra: fire forecast', 'Extra: previsão de queimadas'), { x: M + 0.35, y: 1.6, w: cw - 0.7, h: 0.45, fontSize: 19, bold: true, color: K.ember });
+  dT(s, t('Extra: fire risk alert', 'Extra: alerta de risco de fogo'), { x: M + 0.35, y: 1.6, w: cw - 0.7, h: 0.45, fontSize: 19, bold: true, color: K.ember });
   dT(s, `${hiF}%`, { x: M + 0.35, y: 2.1, w: cw - 0.7, h: 0.95, fontFace: THEME.headFontFace, fontSize: 48, color: K.ember });
   dT(s, t(`of the fires fell on the ${hiD}% of days our model marked high risk (Minas Gerais prototype, history + NASA POWER weather).`,
     `dos focos caíram nos ${hiD}% dos dias que nosso modelo marcou de risco alto (protótipo de Minas Gerais, histórico + tempo do NASA POWER).`), { x: M + 0.35, y: 3.05, w: cw - 0.7, h: 1.2, fontSize: 16 });
   dT(s, t('A chance, not a certainty.', 'É uma chance, não uma certeza.'), { x: M + 0.35, y: 4.4, w: cw - 0.7, h: 0.5, fontSize: 17, bold: true });
   const nx = M + cw + 0.4;
   dT(s, t('Next steps', 'Próximos passos'), { x: nx, y: 1.6, w: cw, h: 0.45, fontSize: 19, bold: true, color: K.ember });
-  t([['ic-w-bell.png', 'Alert for agencies and people nearby'], ['ic-w-globe.png', 'Whole world, many years, plus NOAA-20'], ['ic-w-people.png', 'Easier for everyone: narration, color-blind colors']],
-    [['ic-w-bell.png', 'Alerta para órgãos e para quem mora perto'], ['ic-w-globe.png', 'Mundo inteiro, vários anos, e o NOAA-20'], ['ic-w-people.png', 'Mais fácil para todos: narração, cores para daltônicos']])
+  t([['ic-w-bell.png', 'Send the alert to agencies and people nearby'], ['ic-w-globe.png', 'Whole world, many years, plus NOAA-20'], ['ic-w-people.png', 'Easier for everyone: narration, color-blind colors']],
+    [['ic-w-bell.png', 'Enviar o alerta para órgãos e moradores'], ['ic-w-globe.png', 'Mundo inteiro, vários anos, e o NOAA-20'], ['ic-w-people.png', 'Mais fácil para todos: narração, cores para daltônicos']])
     .forEach(([ic, a], i) => {
       const y = 2.2 + i * 0.95;
       s.addShape(pres.shapes.OVAL, { x: nx, y, w: 0.7, h: 0.7, fill: { color: K.brand }, line: { type: 'none' } });
@@ -285,10 +297,10 @@ const arrow = (s, x, y, w, h, color, dir) => s.addShape(dir === 'down' ? pres.sh
     });
   dT(s, [{ text: t('Two satellites, one honest count — ', 'Dois satélites, uma contagem honesta — ') }, { text: t('next, an alert before the wildfire.', 'agora, um alerta antes do incêndio.'), options: { color: K.ember } }],
     { x: M, y: 5.4, w: W - 2 * M, h: 1.2, fontFace: THEME.headFontFace, fontSize: 32, valign: 'middle' });
-  s.addText(t('Forecast: logistic regression on NASA POWER daily weather at 15 points in Minas Gerais, trained 2012–2021, tested 2022–2025 (years it never saw). Not on the site yet. deolhonofogo.estudiocrivy.com.br',
-    'Previsão: regressão logística com o tempo diário do NASA POWER em 15 pontos de Minas Gerais, treinada em 2012–2021 e testada em 2022–2025 (anos que ela não viu). Ainda não está no site. deolhonofogo.estudiocrivy.com.br'), { placeholder: 'src' });
-  s.addNotes(t(`As an extra, we tested a fire forecast in Minas Gerais: with the fire history and NASA POWER weather, a model gave each day a chance of fire. On years it never saw, the days it marked high risk were ${hiD}% of the days but held ${hiF}% of the fires. It is a chance, not a certainty. Next: an alert for agencies and people nearby, the whole world over many years with NOAA-20, and a site easier for everyone. Two satellites, one honest count — next, an alert before the wildfire.`,
-    `Como extra, testamos uma previsão de queimadas em Minas Gerais: com o histórico de fogo e o tempo do NASA POWER, um modelo deu a cada dia uma chance de fogo. Em anos que ele não viu, os dias que ele marcou de risco alto foram ${hiD}% dos dias, mas tiveram ${hiF}% dos focos. É uma chance, não uma certeza. Próximos passos: um alerta para os órgãos e para quem mora perto, o mundo inteiro em vários anos com o NOAA-20, e um site mais fácil para todos. Dois satélites, uma contagem honesta — agora, um alerta antes do incêndio.`));
+  s.addText(t('Risk alert: logistic regression on NASA POWER daily weather at 15 points in Minas Gerais, trained 2012–2021, tested 2022–2025 (years it never saw). Not on the site yet. deolhonofogo.estudiocrivy.com.br',
+    'Alerta de risco: regressão logística com o tempo diário do NASA POWER em 15 pontos de Minas Gerais, treinada em 2012–2021 e testada em 2022–2025 (anos que ela não viu). Ainda não está no site. deolhonofogo.estudiocrivy.com.br'), { placeholder: 'src' });
+  s.addNotes(t(`As an extra, we tested a fire risk alert in Minas Gerais: with the fire history and NASA POWER weather, a model gives each day a risk level. On years it never saw, the days it marked high risk were ${hiD}% of the days but held ${hiF}% of the fires. It is a chance, not a certainty. Next: send the alert to agencies and people nearby, the whole world over many years with NOAA-20, and a site easier for everyone. Two satellites, one honest count — next, an alert before the wildfire.`,
+    `Como extra, testamos um alerta de risco de fogo em Minas Gerais: com o histórico de fogo e o tempo do NASA POWER, um modelo dá a cada dia um nível de risco. Em anos que ele não viu, os dias que ele marcou de risco alto foram ${hiD}% dos dias, mas tiveram ${hiF}% dos focos. É uma chance, não uma certeza. Próximos passos: enviar o alerta para os órgãos e para quem mora perto, o mundo inteiro em vários anos com o NOAA-20, e um site mais fácil para todos. Dois satélites, uma contagem honesta — agora, um alerta antes do incêndio.`));
 }
 
 (async () => {
