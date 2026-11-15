@@ -70,3 +70,46 @@ footer{border-top:1px solid var(--line2);margin-top:96px;padding:32px 0 48px;col
 .time-info dt{color:var(--ink3);font-weight:600}
 .time-info dd{margin:0}
 @media (max-width:760px){.time-lista{grid-template-columns:1fr}.time-info{grid-template-columns:1fr;gap:2px}.time-info dd{margin-bottom:12px}}
+
+/* /risco — Análise e Risco de Queimadas */
+.rk{padding-top:32px;padding-bottom:64px}
+.rk h1{font-size:clamp(36px,4.2vw,60px);line-height:1.02;font-weight:900;letter-spacing:-.03em;margin:16px 0 12px}
+.rk h2{font-size:clamp(24px,2.4vw,32px);font-weight:900;letter-spacing:-.02em;margin:64px 0 8px;scroll-margin-top:96px}
+.rk h3{font-size:20px;font-weight:800;line-height:1.25;margin:32px 0 8px}
+.rk-lede{font-size:20px;line-height:1.5;color:var(--ink2);max-width:66ch}
+.rk-aviso{background:#FFF3D6;color:#5C3D00;border-radius:14px;padding:14px 18px;font-size:16px;max-width:80ch}
+.rk-nota{color:var(--ink2);font-size:15px;max-width:90ch}
+.rk-barra{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 20px;background:var(--soft);border-radius:16px;padding:14px 18px;margin:16px 0}
+.rk-barra .rk-reg{flex-basis:100%;margin:0;font-size:16px}
+.rk-campo{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--ink3)}
+.rk-campo select{font:inherit;font-size:16px;font-weight:500;color:var(--ink);padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;max-width:100%}
+.rk-check{display:flex;align-items:center;gap:8px;font-size:15px}
+.rk-check input{width:18px;height:18px;accent-color:var(--brand)}
+.rk-btn{font:inherit;font-size:15px;font-weight:600;padding:9px 16px;border-radius:999px;border:0;background:#fff;color:var(--ink);cursor:pointer}
+.rk-btn:hover{background:var(--line2)}
+.rk-range{flex:1 1 220px;accent-color:var(--brand);min-width:0}
+.rk-duas{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:24px;align-items:start}
+.rk-duas-t{grid-template-columns:1fr 1fr}
+.rk-grade{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.rk-mapa{height:min(560px,80vw);min-height:300px;border-radius:16px;overflow:hidden;background:#E4E9EC}
+.rk-tab{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums;margin:12px 0}
+.rk-larga{display:block;overflow-x:auto}
+.rk-tab caption{text-align:left;font-weight:700;font-size:15px;padding:0 0 8px;color:var(--ink)}
+.rk-tab th,.rk-tab td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.rk-tab thead th{font-size:13px;color:var(--ink3)}
+.rk-tab tbody th{font-weight:600}
+.rk-tab small{color:var(--ink3);font-weight:400}
+.rk-dest{background:#FFEDE3}
+.rk-bar{display:inline-block;height:10px;background:var(--brand);border-radius:3px;vertical-align:middle}
+.rk-fig{margin:8px 0}
+.rk-fig svg{width:100%;height:auto;display:block}
+.rk-eixo{font-size:13px;fill:#575F66}
+.rk-leg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--ink2);margin:6px 0}
+.rk-leg span{display:inline-flex;align-items:center;gap:6px}
+.rk-leg i{display:inline-block;width:14px;height:14px;border-radius:4px}
+.rk-dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;font-size:15px;margin:12px 0}
+.rk-dl dt{color:var(--ink3);font-weight:600}
+.rk-dl dd{margin:0}
+.rk-caixa{background:var(--soft);border-radius:16px;padding:4px 20px 12px;margin-top:20px}
+.rk-lista{font-size:16px;max-width:80ch}
+@media (max-width:860px){.rk-duas,.rk-duas-t,.rk-grade{grid-template-columns:minmax(0,1fr)}.rk-dl{grid-template-columns:1fr}.rk-dl dd{margin-bottom:6px}}

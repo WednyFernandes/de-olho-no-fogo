@@ -1,0 +1,362 @@
+{
+ "versao": 1,
+ "periodo": "2012-01-01 a 2025-12-31",
+ "dtype": "uint16 little-endian",
+ "forma": [
+  2454,
+  1680
+ ],
+ "ordem": "célula, variável (deslocamento), mês 0–11, classe (0 = sem foco, 1 = com foco), faixa",
+ "dia_seco_mm": 1.0,
+ "variaveis": [
+  {
+   "id": "tmax",
+   "nome": "Temperatura máxima do ar (T2M_MAX)",
+   "unidade": "°C",
+   "bordas": [
+    null,
+    14.0,
+    16.0,
+    18.0,
+    20.0,
+    22.0,
+    24.0,
+    26.0,
+    28.0,
+    30.0,
+    32.0,
+    34.0,
+    36.0,
+    38.0,
+    40.0,
+    42.0,
+    null
+   ],
+   "n_faixas": 16,
+   "deslocamento": 0,
+   "categorias": [
+    {
+     "rotulo": "< 28 °C",
+     "faixas": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ]
+    },
+    {
+     "rotulo": "28–32 °C",
+     "faixas": [
+      8,
+      9
+     ]
+    },
+    {
+     "rotulo": "32–36 °C",
+     "faixas": [
+      10,
+      11
+     ]
+    },
+    {
+     "rotulo": "≥ 36 °C",
+     "faixas": [
+      12,
+      13,
+      14,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ur",
+   "nome": "Umidade relativa do ar (RH2M)",
+   "unidade": "%",
+   "bordas": [
+    0.0,
+    20.0,
+    30.0,
+    40.0,
+    50.0,
+    60.0,
+    70.0,
+    80.0,
+    90.0,
+    101.0
+   ],
+   "n_faixas": 9,
+   "deslocamento": 384,
+   "categorias": [
+    {
+     "rotulo": "< 30%",
+     "faixas": [
+      0,
+      1
+     ]
+    },
+    {
+     "rotulo": "30–50%",
+     "faixas": [
+      2,
+      3
+     ]
+    },
+    {
+     "rotulo": "> 50%",
+     "faixas": [
+      4,
+      5,
+      6,
+      7,
+      8
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuva7",
+   "nome": "Chuva acumulada nos 7 dias anteriores",
+   "unidade": "mm",
+   "bordas": [
+    0.0,
+    1.0,
+    5.0,
+    10.0,
+    20.0,
+    40.0,
+    80.0,
+    null
+   ],
+   "n_faixas": 7,
+   "deslocamento": 600,
+   "categorias": [
+    {
+     "rotulo": "< 1 mm",
+     "faixas": [
+      0
+     ]
+    },
+    {
+     "rotulo": "1–10 mm",
+     "faixas": [
+      1,
+      2
+     ]
+    },
+    {
+     "rotulo": "> 10 mm",
+     "faixas": [
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuva30",
+   "nome": "Chuva acumulada nos 30 dias anteriores",
+   "unidade": "mm",
+   "bordas": [
+    0.0,
+    5.0,
+    10.0,
+    25.0,
+    50.0,
+    100.0,
+    200.0,
+    null
+   ],
+   "n_faixas": 7,
+   "deslocamento": 768,
+   "categorias": [
+    {
+     "rotulo": "< 10 mm",
+     "faixas": [
+      0,
+      1
+     ]
+    },
+    {
+     "rotulo": "10–50 mm",
+     "faixas": [
+      2,
+      3
+     ]
+    },
+    {
+     "rotulo": "50–100 mm",
+     "faixas": [
+      4
+     ]
+    },
+    {
+     "rotulo": "> 100 mm",
+     "faixas": [
+      5,
+      6
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dias_secos",
+   "nome": "Dias secos seguidos antes do dia (chuva < 1 mm)",
+   "unidade": "dias",
+   "bordas": [
+    0.0,
+    1.0,
+    4.0,
+    6.0,
+    11.0,
+    16.0,
+    21.0,
+    31.0,
+    46.0,
+    61.0,
+    91.0,
+    null
+   ],
+   "n_faixas": 11,
+   "deslocamento": 936,
+   "categorias": [
+    {
+     "rotulo": "0",
+     "faixas": [
+      0
+     ]
+    },
+    {
+     "rotulo": "1–10",
+     "faixas": [
+      1,
+      2,
+      3
+     ]
+    },
+    {
+     "rotulo": "11–30",
+     "faixas": [
+      4,
+      5,
+      6
+     ]
+    },
+    {
+     "rotulo": "> 30",
+     "faixas": [
+      7,
+      8,
+      9,
+      10
+     ]
+    }
+   ]
+  },
+  {
+   "id": "vento",
+   "nome": "Vento máximo a 10 m (WS10M_MAX)",
+   "unidade": "m/s",
+   "bordas": [
+    0.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    7.0,
+    8.0,
+    10.0,
+    12.0,
+    null
+   ],
+   "n_faixas": 10,
+   "deslocamento": 1200,
+   "categorias": [
+    {
+     "rotulo": "< 4 m/s",
+     "faixas": [
+      0,
+      1,
+      2
+     ]
+    },
+    {
+     "rotulo": "4–6 m/s",
+     "faixas": [
+      3,
+      4
+     ]
+    },
+    {
+     "rotulo": "6–8 m/s",
+     "faixas": [
+      5,
+      6
+     ]
+    },
+    {
+     "rotulo": "≥ 8 m/s",
+     "faixas": [
+      7,
+      8,
+      9
+     ]
+    }
+   ]
+  },
+  {
+   "id": "umid_solo",
+   "nome": "Umidade do solo superficial (modelo MERRA-2, GWETTOP)",
+   "unidade": "0–1",
+   "bordas": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.01
+   ],
+   "n_faixas": 10,
+   "deslocamento": 1440,
+   "categorias": [
+    {
+     "rotulo": "< 0,3",
+     "faixas": [
+      0,
+      1,
+      2
+     ]
+    },
+    {
+     "rotulo": "0,3–0,5",
+     "faixas": [
+      3,
+      4
+     ]
+    },
+    {
+     "rotulo": "> 0,5",
+     "faixas": [
+      5,
+      6,
+      7,
+      8,
+      9
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -231,3 +231,36 @@ Run by `scripts/ee_brasil.py` (project registered for non-commercial use), `scri
 | **2026 to date** (FIRMS area API, Brazil, 1 Jan–14 Nov) | Same method; standard product until July/August, NRT after. Months without full S-NPP use MODIS ∪ NOAA-20 × the bridge factor. August–October 2026 at 51–72 % of the 2012–2025 median; November (14 days) at 102 % of the median of the same days. |
 
 Still not done: global burn scars from GWIS (GlobFire perimeters); the GWIS server certificate had expired and the download was blocked.
+
+<a id="weekly-fire-risk-model"></a>
+
+## Weekly fire-risk model and historical fire analysis (Brazil, 2012–2025)
+
+Page: `/risco`. Scripts: `scripts/risco_features.py`, `scripts/risco_modelo.py`, `scripts/risco_exportar.py`. Data formats: `docs/dados-risco.md`.
+
+**Unit and target.** Native NASA POWER/MERRA-2 cell (0.5° × 0.625°, ~55 × 69 km; 2,454 cells touching Brazil) × week. Each year has 52 fixed weeks (week *w* starts on day-of-year 1 + 7*w*; week 51 runs to 31 Dec, 8–9 days). Issue date *t* = first day of the week; target = at least one harmonized MODIS ∪ VIIRS S-NPP focus (`n_focos`) in the cell during that week (horizon 7 days). Base rate: 47% of cell-weeks (train), 46% (test). *Absence of detection is not proven absence of fire* (clouds, overpass timing, small or short fires).
+
+**Features (only data before *t*).** Fire history: log foci in the previous 7/30/365 days, fire days in the previous 30 days, fraction of previous years (2003…year−1) with fire in the same week and in weeks *w*±1, fraction of previous years with any focus. Weather (POWER): mean T2M_MAX and RH2M over 7 days, RH2M over 30 days, accumulated PRECTOTCORR over 7 and 30 days, consecutive dry days (PRECTOTCORR < 1 mm) ending the day before *t*, max WS10M_MAX over 7 days, GWETTOP on *t*−1, mean GWETROOT over 30 days, mean ALLSKY_SFC_SW_DWN over 7 days (soil wetness is MERRA-2 model output). Seasonality: sin/cos of week. Static: IGBP land-cover group shares (MODIS MCD12C1, 2020). Variants: + lat/lon; + observed weather of the target week ("perfect weather forecast", an upper bound only). Before 2012 fire history is MODIS-only.
+
+**Split.** Chronological by issue year: train 2012–2021 (1,276,080 cell-weeks), validation 2022–2023 (255,216; hyperparameters, isotonic calibration, F1-optimal threshold), test 2024–2025 (255,216; evaluated once).
+
+**Models.** Logistic regression (standardized features, C chosen on validation) and scikit-learn `HistGradientBoostingClassifier` (300 iterations, learning rate 0.05, 31 leaves, min 200 samples per leaf, L2 = 1). Naive baselines: climatology (fraction of previous years with fire in the same week) and persistence (any focus in the previous 7 days).
+
+**Test results (2024–2025, calibrated).**
+
+| Model | PR-AUC | ROC-AUC | Brier raw | Brier calibrated | Precision / recall at validation threshold |
+|---|---|---|---|---|---|
+| Climatology | 0.834 | 0.867 | 0.153 | 0.149 | 0.67 / 0.91 |
+| Persistence | 0.673 | 0.766 | 0.232 | 0.178 | 0.75 / 0.75 |
+| Logistic regression | 0.878 | 0.895 | 0.133 | 0.132 | 0.72 / 0.88 |
+| Gradient boosting (map model) | 0.882 | 0.898 | 0.131 | 0.130 | 0.74 / 0.86 |
+| Gradient boosting + lat/lon | 0.883 | 0.898 | 0.131 | 0.130 | 0.72 / 0.89 |
+| Gradient boosting + perfect weather (upper bound) | 0.900 | 0.912 | 0.122 | 0.121 | 0.76 / 0.88 |
+
+The ML models beat climatology by ~0.05 PR-AUC and ~0.02 Brier; gradient boosting barely beats logistic regression; lat/lon add nothing. Knowing the target-week weather would add ~0.02 PR-AUC. Raw gradient-boosting probabilities were already close to reliable (slightly over-confident in the middle bins, e.g. predicted 0.65 → observed 0.61); isotonic calibration on validation reduces this only marginally (reliability tables in `public/data/risco/modelo.json`).
+
+**Explanations.** Permutation importance (drop in validation PR-AUC) for gradient boosting: fire days in the previous 30 days, fire in the same week ±1 in previous years, dry-day streak, foci in previous 30 and 7 days, foci in previous 365 days. Largest standardized logistic coefficients: surface soil wetness (−), same-week ±1 history (+), long-term recurrence (+), recent fire days (+). Per-cell top-3: gradient-boosting occlusion (change in log-odds when each feature is set to its validation median). These are associations, not causes.
+
+**Historical analysis.** Recurrence = years (of 14) with ≥1 focus. Fire vs no-fire conditions: cell-days with a focus vs cell-days without, the latter re-weighted month by month to the month distribution of fire days; medians/p10–p90 interpolated from binned histograms.
+
+**Limitations.** Large cells (high base rate; in fire-prone regions nearly every dry-season week has a focus); detection-based target; no weather forecast integrated; land cover from a single year (2020), MODIS IGBP at 0.05° read from the project's 0.1° map — not MapBiomas (pending Earth Engine access), and silviculture is not separable in IGBP; no soil-property base (SoilGrids/ISRIC or Embrapa are future candidates); no terrain, roads or land-use variables.

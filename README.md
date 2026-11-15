@@ -82,6 +82,7 @@ python scripts/harmonizar_global.py    # ~4 min; grava public/data/harm/ (cache 
 python scripts/cicatrizes_brasil.py    # baixa do INPE o que faltar; grava public/data/harm/cicatrizes/
 ```
 
+- Análise e risco de queimadas (`/risco`), depois de `tabela_risco_brasil.py`: `python scripts/risco_features.py`, `python scripts/risco_modelo.py` (scikit-learn; ~15–30 min) e `python scripts/risco_exportar.py` → `public/data/risco/`. Formatos e definições em `docs/dados-risco.md`. A navegação dos arquivos `src/legacy/globo*.html` ainda não tem o link para `/risco` (atualizar quando o novo globo estiver pronto).
 - `harmonizar_global.py` precisa do NumPy, de `dados/modis_2025_all_countries.zip` e `dados/viirs-snpp_2025_all_countries.zip` (arquivos anuais "all countries" do FIRMS) e de `dados/firms/brasil/*.csv.gz`. Opções: `--so-brasil`, `--so-global`, `--refazer`, `--proc N`.
 - `celulas_dia_5km.py` confere a segunda régua da equipe (células-dia de 5 km, Brasil 2012–2025, CSVs em `public/data/harm/celulas-dia-5km/`) contra os arquivos FIRMS.
 - `cicatrizes_brasil.py` usa o AQ1km (Coleção 2) do INPE e a malha das UFs do IBGE; `--sem-rede` usa só o cache.

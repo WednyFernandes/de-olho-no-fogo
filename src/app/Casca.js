@@ -1,4 +1,4 @@
-const LINKS = [['/', 'Início'], ['/globo', 'Globo'], ['/metodo', 'Método'], ['/referencias', 'Referências'], ['/time', 'Time']];
+const LINKS = [['/', 'Início'], ['/globo', 'Globo'], ['/risco', 'Risco'], ['/metodo', 'Método'], ['/referencias', 'Referências'], ['/time', 'Time']];
 
 export default function Casca({ aqui, children }) {
   return (
