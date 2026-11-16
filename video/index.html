@@ -9,187 +9,220 @@
 @font-face { font-family: 'Figtree'; font-weight: 400; src: url(assets/fonts/figtree-400.woff2) format('woff2'); }
 @font-face { font-family: 'Figtree'; font-weight: 700; src: url(assets/fonts/figtree-700.woff2) format('woff2'); }
 @font-face { font-family: 'Figtree'; font-weight: 900; src: url(assets/fonts/figtree-900.woff2) format('woff2'); }
-body { margin: 0; background: #14110F; color: #FBF7F4; font-family: 'Figtree', sans-serif; }
-#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #14110F; }
+body { margin: 0; background: #FFF6F1; color: #22262A; font-family: 'Figtree', sans-serif; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #FFF6F1; }
 .clip { position: absolute; inset: 0; overflow: hidden; }
-.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.veu { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,17,15,.92) 0%, rgba(20,17,15,.7) 45%, rgba(20,17,15,.25) 100%); }
-.olho { font-size: 30px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; color: #FF8A4C; margin: 0; }
-.h1 { font-size: 96px; font-weight: 900; line-height: 1.02; letter-spacing: -2px; margin: 0; }
-.h2 { font-size: 72px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin: 0; }
-.brasa { color: #FF8A4C; }
-.leve { font-size: 36px; font-weight: 400; color: #E4DCD6; line-height: 1.3; margin: 0; }
-.sat { border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,.5); object-fit: cover; display: block; }
-.selo { display: inline-block; font-size: 30px; font-weight: 900; color: #FBF7F4; background: #D4410B; padding: 10px 26px; border-radius: 40px; }
+.creme { background: #FFF6F1; color: #22262A; }
+.brasaBg { background: #D4410B; color: #FFFFFF; }
+.escuro { background: #14110F; color: #FBF7F4; }
+.olho { font-size: 28px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; color: #D4410B; margin: 0; }
+.escuro .olho { color: #FF8A4C; }
+.brasaBg .olho { color: #FFE2D3; }
+.h1 { font-size: 92px; font-weight: 900; line-height: 1.02; letter-spacing: -2px; margin: 0; }
+.h2 { font-size: 68px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin: 0; }
+.leve { font-size: 36px; font-weight: 700; line-height: 1.3; margin: 0; }
+.ink { color: #9C2C05; }
+.laranja { color: #FF8A4C; }
 
-/* cena 1 */
-#c1-txt { position: absolute; left: 128px; top: 250px; width: 820px; }
-#c1-num { font-size: 260px; font-weight: 900; line-height: .9; letter-spacing: -6px; color: #FF8A4C; margin: 0; }
-#c1-img { position: absolute; left: 1010px; top: 150px; width: 780px; height: 700px; }
-#c1-fim { position: absolute; left: 128px; top: 760px; width: 860px; }
+/* A · how a satellite sees fire */
+#a-tit { position: absolute; left: 128px; top: 120px; width: 1664px; }
+#a-cap { position: absolute; left: 128px; top: 860px; width: 1664px; }
+#vigia { position: absolute; left: 610px; top: 300px; width: 700px; height: 540px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+#vigia i { display: block; border-radius: 18px; background: #EADDD5; }
+#vigia i.morno { background: #F6C9AE; }
+#varre { position: absolute; left: 590px; top: 280px; width: 260px; height: 580px; border-radius: 24px; background: linear-gradient(90deg, rgba(255,192,46,0), rgba(255,192,46,.45) 70%, rgba(255,255,255,.8)); mix-blend-mode: multiply; opacity: 0; }
+#quente { position: absolute; left: 0; top: 0; width: 100%; height: 100%; border-radius: 18px; background: #D4410B; box-shadow: 0 0 0 14px rgba(212,65,11,.22), 0 0 60px rgba(247,128,30,.6); opacity: 0; }
+#vigia .hot { position: relative; }
 
-/* cena 2 */
-#c2-tit { position: absolute; left: 128px; top: 110px; width: 1664px; }
-.par { position: absolute; top: 300px; width: 780px; }
-#c2-a { left: 128px; }
-#c2-b { left: 1012px; }
-.par img { width: 780px; height: 500px; }
-.par p { margin: 22px 0 0; font-size: 44px; font-weight: 900; }
-#c2-fala { position: absolute; left: 128px; top: 930px; width: 1664px; }
+/* B · two eyes */
+#b-tit { position: absolute; left: 128px; top: 100px; width: 1664px; }
+.olhoSat { position: absolute; top: 260px; width: 560px; }
+#b-1 { left: 300px; }
+#b-2 { left: 1060px; }
+.olhoSat svg { width: 560px; height: 560px; display: block; border-radius: 28px; box-shadow: 0 20px 50px rgba(110,31,3,.15); }
+.olhoSat p { margin: 22px 0 0; font-size: 38px; font-weight: 900; }
+#b-cap { position: absolute; left: 128px; top: 950px; width: 1664px; }
 
-/* cena 3 */
-#c3-txt { position: absolute; left: 128px; top: 300px; width: 760px; }
-#c3-pilha { position: absolute; left: 1000px; top: 120px; width: 800px; height: 718px; }
-#c3-pilha img { position: absolute; inset: 0; width: 800px; height: 718px; }
-#c3-selo { position: absolute; left: 1030px; top: 870px; }
+/* C · logged again and again */
+#c-tit { position: absolute; left: 128px; top: 150px; width: 1664px; }
+#c-linha { position: absolute; left: 128px; top: 420px; width: 1664px; height: 360px; }
+.chip { position: absolute; left: 0; display: flex; align-items: center; gap: 18px; padding: 22px 36px; border-radius: 999px; background: rgba(0,0,0,.2); font-size: 42px; font-weight: 700; }
+.chip i { display: block; width: 24px; height: 24px; border-radius: 50%; }
+#ch1 { top: 0; } #ch2 { top: 125px; } #ch3 { top: 250px; }
+#seta { position: absolute; left: 660px; top: 140px; width: 140px; height: 80px; }
+#fogo1 { position: absolute; left: 860px; top: 105px; display: flex; align-items: center; gap: 24px; padding: 30px 50px; border-radius: 40px; background: #FFFFFF; color: #9C2C05; box-shadow: 0 0 0 18px rgba(255,255,255,.18), 0 30px 60px rgba(110,31,3,.35); }
+#fogo1 b { font-size: 64px; font-weight: 900; }
+#c-cap { position: absolute; left: 128px; top: 880px; width: 1664px; }
 
-/* cena 4 */
-#c4-terra { position: absolute; left: 980px; top: 40px; width: 1000px; height: 1000px; object-fit: contain; }
-#c4-txt { position: absolute; left: 128px; top: 200px; width: 900px; }
-.linha { margin: 0; }
-.grande { font-size: 132px; font-weight: 900; line-height: 1; letter-spacing: -3px; margin: 0; }
-#c4-de .grande { color: #C9BFB8; }
-#c4-para .grande { color: #FF8A4C; }
-.seta { font-size: 64px; font-weight: 900; color: #D4410B; margin: 14px 0; }
+/* D · numbers */
+#d-terra { position: absolute; left: 1080px; top: 100px; width: 880px; height: 880px; object-fit: contain; }
+#d-txt { position: absolute; left: 128px; top: 130px; width: 1000px; }
+.grande { font-size: 128px; font-weight: 900; line-height: 1; letter-spacing: -3px; margin: 0; }
+#d-de .grande { color: #C9BFB8; }
+#d-para .grande { color: #FF8A4C; }
+.seta2 { font-size: 56px; font-weight: 900; color: #D4410B; margin: 8px 0; }
+#d-stats { position: absolute; left: 128px; top: 800px; width: 1664px; display: flex; gap: 24px; }
+.stat { padding: 20px 30px; border-radius: 22px; background: #22262A; font-size: 32px; font-weight: 700; color: #FBF7F4; }
+.stat b { color: #FF8A4C; font-weight: 900; }
 
-/* cena 5 */
-#c5-tit { position: absolute; left: 128px; top: 90px; width: 1664px; }
-#c5-moldura { position: absolute; left: 128px; top: 300px; width: 1280px; height: 720px; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
-#c5-ui { width: 1280px; height: 720px; object-fit: cover; display: block; }
-#c5-ins { position: absolute; left: 1290px; top: 520px; width: 520px; height: 393px; border-radius: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.55); }
+/* E · app */
+#e-tit { position: absolute; left: 128px; top: 80px; width: 1664px; }
+#e-moldura { position: absolute; left: 128px; top: 250px; width: 1180px; height: 664px; border-radius: 26px; overflow: hidden; box-shadow: 0 24px 60px rgba(110,31,3,.25); }
+#e-app { width: 1180px; height: 664px; object-fit: cover; display: block; }
+#e-ins { position: absolute; left: 1250px; top: 330px; width: 560px; height: 446px; border-radius: 22px; box-shadow: 0 24px 60px rgba(0,0,0,.25); }
+#e-cap { position: absolute; left: 128px; top: 960px; width: 1664px; }
 
-/* cena 6 */
-#c6 { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; text-align: center; }
-#c6-logo { width: 150px; height: 150px; }
-#c6-url { font-size: 64px; font-weight: 900; color: #FF8A4C; margin: 0; }
-#c6-rod { font-size: 34px; color: #C9BFB8; margin: 0; }
+/* F · end */
+#f { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; text-align: center; }
+#f-logo { width: 150px; height: 150px; }
+#f-url { font-size: 60px; font-weight: 900; color: #FF8A4C; margin: 0; }
+#f-rod { font-size: 34px; color: #C9BFB8; margin: 0; }
 </style>
 </head>
 <body>
 <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="30">
 
-  <!-- 1 · gancho -->
-  <section id="c1" class="clip" data-start="0" data-duration="4.6" data-track-index="0">
-    <img class="bg" id="c1-bg" src="assets/img/cidade.jpg" alt="" />
-    <div class="veu"></div>
-    <img class="sat" id="c1-img" src="assets/img/antes.jpg" alt="" />
-    <div id="c1-txt">
-      <p class="olho" id="c1-olho">Paranã, Brazil · Sep 2, 2025</p>
-      <p id="c1-num">26</p>
-      <p class="h2" id="c1-lbl">fire alerts</p>
+  <!-- A · 0.5–3.8 "NASA satellites scan the planet for spots hotter than their neighbors." -->
+  <section id="a" class="clip creme" data-start="0" data-duration="4.1" data-track-index="0">
+    <div id="a-tit"><p class="olho" id="a-o">How a satellite sees fire</p><p class="h2" id="a-h">It looks for a spot <span class="ink">much hotter</span> than its neighbors.</p></div>
+    <div id="vigia">
+      <i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i class="morno"></i><i></i><i></i>
+      <i></i><i class="morno"></i><i class="hot"><span id="quente"></span></i><i class="morno"></i><i></i>
+      <i></i><i></i><i class="morno"></i><i></i><i></i>
     </div>
-    <div id="c1-fim"><p class="h2 brasa" id="c1-so">It was one fire.</p></div>
+    <span id="varre"></span>
+    <div id="a-cap"><p class="leve" id="a-c">Each one becomes an alert.</p></div>
   </section>
 
-  <!-- 2 · o problema -->
-  <section id="c2" class="clip" data-start="4.6" data-duration="5.6" data-track-index="0">
-    <div id="c2-tit"><p class="h2" id="c2-h">Two NASA satellites saw the same fire.</p></div>
-    <div class="par" id="c2-a"><img class="sat" src="assets/img/antigo.jpg" alt="" /><p><span style="color:#B9A3E8">MODIS</span> flagged 7</p></div>
-    <div class="par" id="c2-b"><img class="sat" src="assets/img/novo.jpg" alt="" /><p><span style="color:#5FD0C9">VIIRS</span> flagged 19</p></div>
-    <div id="c2-fala"><p class="leve" id="c2-l">Like two calls to 911 about the same blaze.</p></div>
-  </section>
-
-  <!-- 3 · a solução -->
-  <section id="c3" class="clip" data-start="10.2" data-duration="5.2" data-track-index="0">
-    <div id="c3-txt">
-      <p class="olho" id="c3-o">De Olho no Fogo</p>
-      <p class="h1" id="c3-h">We merge them.</p>
-      <p class="h1 brasa" id="c3-h2">26 become 1.</p>
+  <!-- B · 4.3–9.2 "But MODIS sees one-kilometer squares, and VIIRS sees far finer, catching small fires." -->
+  <section id="b" class="clip creme" data-start="4.1" data-duration="5.4" data-track-index="0">
+    <div id="b-tit"><p class="h2" id="b-h">Two satellites, two ways of seeing.</p></div>
+    <div class="olhoSat" id="b-1">
+      <svg viewBox="0 0 300 300"><rect width="300" height="300" rx="16" fill="#fff"/><rect x="100" y="100" width="100" height="100" fill="#6B4FA0" fill-opacity=".85"/><g stroke="#6B4FA0" stroke-opacity=".35" stroke-width="2"><path d="M100 0v300M200 0v300M0 100h300M0 200h300"/></g><circle cx="150" cy="150" r="26" fill="#F7801E"/><circle cx="150" cy="150" r="40" fill="#F7801E" fill-opacity=".25"/><circle cx="250" cy="248" r="7" fill="#F7801E" fill-opacity=".9"/></svg>
+      <p><span style="color:#6B4FA0">MODIS</span> · 1 km squares</p>
     </div>
-    <div id="c3-pilha">
-      <img class="sat" id="c3-antes" src="assets/img/antes.jpg" alt="" />
-      <img class="sat" id="c3-depois" src="assets/img/depois.jpg" alt="" />
+    <div class="olhoSat" id="b-2">
+      <svg viewBox="0 0 300 300"><rect width="300" height="300" rx="16" fill="#fff"/><g fill="#00727F" fill-opacity=".85"><rect x="112.5" y="112.5" width="37.5" height="37.5"/><rect x="150" y="112.5" width="37.5" height="37.5"/><rect x="112.5" y="150" width="37.5" height="37.5"/><rect x="150" y="150" width="37.5" height="37.5"/><rect id="b-peq" x="225" y="225" width="37.5" height="37.5"/></g><g stroke="#00727F" stroke-opacity=".3" stroke-width="1.5"><path d="M37.5 0v300M75 0v300M112.5 0v300M150 0v300M187.5 0v300M225 0v300M262.5 0v300M0 37.5h300M0 75h300M0 112.5h300M0 150h300M0 187.5h300M0 225h300M0 262.5h300"/></g><circle cx="150" cy="150" r="26" fill="#F7801E"/><circle cx="150" cy="150" r="40" fill="#F7801E" fill-opacity=".25"/><circle cx="250" cy="248" r="7" fill="#F7801E"/><circle id="b-anel" cx="250" cy="248" r="22" fill="none" stroke="#D4410B" stroke-width="4"/></svg>
+      <p><span style="color:#00727F">VIIRS</span> · 375 m squares</p>
     </div>
-    <div id="c3-selo"><span class="selo" id="c3-s">1 fire, counted once</span></div>
+    <div id="b-cap"><p class="leve" id="b-c">Small fires slip past the old eye.</p></div>
   </section>
 
-  <!-- 4 · escala -->
-  <section id="c4" class="clip" data-start="15.4" data-duration="5.4" data-track-index="0">
-    <img id="c4-terra" src="assets/img/terra.png" alt="" />
-    <div id="c4-txt">
-      <p class="olho" id="c4-o">2025, worldwide</p>
-      <div id="c4-de"><p class="grande"><span id="c4-n1">20.5</span> M</p><p class="leve">alerts from both satellites</p></div>
-      <p class="seta" id="c4-seta">↓</p>
-      <div id="c4-para"><p class="grande"><span id="c4-n2">7.26</span> M</p><p class="leve">harmonized fires, each counted once</p></div>
+  <!-- C · 9.65–13.9 "So the same fire gets logged again and again. We merge it, and count it once." -->
+  <section id="c" class="clip brasaBg" data-start="9.5" data-duration="4.7" data-track-index="0">
+    <div id="c-tit"><p class="h2" id="c-h">The same fire, logged again and again.</p></div>
+    <div id="c-linha">
+      <span class="chip" id="ch1"><i style="background:#CDBDF0"></i>MODIS, 10:30</span>
+      <span class="chip" id="ch2"><i style="background:#8FE0E8"></i>VIIRS, 13:30</span>
+      <span class="chip" id="ch3"><i style="background:#8FE0E8"></i>VIIRS, again</span>
+      <svg id="seta" viewBox="0 0 56 32" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16h44M36 5l12 11-12 11"/></svg>
+      <div id="fogo1"><svg width="64" height="64" viewBox="0 0 32 32"><path d="M16 3C17.8 8 24 11 24 18.6 24 23.6 20.4 28 16 28S8 23.6 8 19C8 15 10.2 12.8 12 10.8 12.2 13.5 13.4 15 15 15.4 14.2 11.4 14.6 7 16 3Z" fill="#D4410B"/><path d="M16 15c1 2.4 3.6 3.6 3.6 7A3.6 3.6 0 0 1 12.4 22c0-2.2 1.6-3.6 3.6-7z" fill="#FFC02E"/></svg><b>1 fire</b></div>
+    </div>
+    <div id="c-cap"><p class="leve" id="c-c">Paranã, Brazil: 26 alerts, 1 fire.</p></div>
+  </section>
+
+  <!-- D · 14.4–20.0 "In 2025, 20.5 million detections became 7.26 million fires." -->
+  <section id="d" class="clip escuro" data-start="14.2" data-duration="6.1" data-track-index="0">
+    <img id="d-terra" src="assets/img/terra.png" alt="" />
+    <div id="d-txt">
+      <p class="olho" id="d-o">2025, worldwide</p>
+      <div id="d-de"><p class="grande"><span id="d-n1">20.5</span> M</p><p class="leve">detections from both satellites</p></div>
+      <p class="seta2" id="d-seta">↓</p>
+      <div id="d-para"><p class="grande"><span id="d-n2">7.26</span> M</p><p class="leve">harmonized fires</p></div>
+    </div>
+    <div id="d-stats">
+      <span class="stat" id="d-s1"><b>12.4%</b> seen by both</span>
+      <span class="stat" id="d-s2"><b>75.6%</b> VIIRS only</span>
+      <span class="stat" id="d-s3">Brazil: one comparable series, <b>2000–2025</b></span>
     </div>
   </section>
 
-  <!-- 5 · o app -->
-  <section id="c5" class="clip" data-start="20.8" data-duration="5.2" data-track-index="0">
-    <div id="c5-tit"><p class="h2" id="c5-h">An open globe, <span class="brasa">from year to hour.</span></p></div>
-    <div id="c5-moldura"><img id="c5-ui" src="assets/img/globo-sub.jpg" alt="" /></div>
-    <img id="c5-ins" src="assets/img/insight.png" alt="" />
+  <!-- E · 20.5–24.1 "Checked against NASA burned area, on an open globe, from year to hour." -->
+  <section id="e" class="clip creme" data-start="20.3" data-duration="4.1" data-track-index="0">
+    <div id="e-tit"><p class="h2" id="e-h">Checked against NASA burned area <span class="ink">(r = 0.84)</span></p></div>
+    <div id="e-moldura"><img id="e-app" src="assets/img/parana_app.jpg" alt="" /></div>
+    <img id="e-ins" src="assets/img/ins_conta.png" alt="" />
+    <div id="e-cap"><p class="leve" id="e-c">From year to hour. Tap any fire.</p></div>
   </section>
 
-  <!-- 6 · fecho -->
-  <section id="c6" class="clip" data-start="26" data-duration="4" data-track-index="0">
-    <img id="c6-logo" src="assets/img/favicon.svg" alt="" />
-    <p class="h1" id="c6-nome">De Olho no Fogo</p>
-    <p id="c6-url">deolhonofogo.estudiocrivy.com.br</p>
-    <p id="c6-rod">NASA Space Apps Challenge 2026 · Team Space Uai</p>
+  <!-- F · 24.6–27.3 "De Olho no Fogo. Eye on the fire." -->
+  <section id="f" class="clip escuro" data-start="24.4" data-duration="5.6" data-track-index="0">
+    <img id="f-logo" src="assets/img/favicon.svg" alt="" />
+    <p class="h1" id="f-nome">De Olho no Fogo</p>
+    <p class="leve laranja" id="f-sub">Eye on the fire</p>
+    <p id="f-url">deolhonofogo.estudiocrivy.com.br</p>
+    <p id="f-rod">NASA Space Apps Challenge 2026 · Team Space Uai</p>
   </section>
-  <audio id="sfx1" src="assets/sfx/drop_002.ogg" data-start="2.6" data-duration="1" data-track-index="3" data-volume="0.6"></audio>
-  <audio id="sfx2" src="assets/sfx/click_002.ogg" data-start="5.6" data-duration="1" data-track-index="3" data-volume="0.5"></audio>
-  <audio id="sfx3" src="assets/sfx/click_002.ogg" data-start="6.3" data-duration="1" data-track-index="4" data-volume="0.5"></audio>
-  <audio id="sfx4" src="assets/sfx/bong_001.ogg" data-start="12.0" data-duration="2" data-track-index="3" data-volume="0.5"></audio>
-  <audio id="sfx5" src="assets/sfx/select_008.ogg" data-start="21.0" data-duration="1" data-track-index="3" data-volume="0.45"></audio>
-  <audio id="sfx6" src="assets/sfx/bong_001.ogg" data-start="26.3" data-duration="2" data-track-index="3" data-volume="0.5"></audio>
+
+  <audio id="voz" src="assets/vo/voice.wav" data-start="0.5" data-duration="26.8" data-track-index="2" data-volume="1"></audio>
+  <audio id="sfx1" src="assets/sfx/drop_002.ogg" data-start="2.0" data-duration="0.19" data-track-index="3" data-volume="0.35"></audio>
+  <audio id="sfx2" src="assets/sfx/bong_001.ogg" data-start="12.5" data-duration="0.12" data-track-index="3" data-volume="0.35"></audio>
+  <audio id="sfx3" src="assets/sfx/bong_001.ogg" data-start="24.6" data-duration="0.12" data-track-index="3" data-volume="0.35"></audio>
 </div>
 <script>
 const tl = gsap.timeline({ paused: true });
 const E = "power3.out";
-const br = (v, d) => v.toFixed(d);
+const up = (sel, t, d = 0.5, y = 30) => tl.fromTo(sel, { opacity: 0, y }, { opacity: 1, y: 0, duration: d, ease: E }, t);
 
-// 1 · gancho
-tl.fromTo("#c1-bg", { scale: 1.12 }, { scale: 1, duration: 4.6, ease: "none" }, 0);
-tl.fromTo("#c1-img", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.6, ease: E }, 0.1);
-tl.fromTo("#c1-olho", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 0.15);
-const c1 = { v: 0 };
-tl.to(c1, { v: 26, duration: 1.2, ease: "power2.out", onUpdate: () => { document.getElementById("c1-num").textContent = Math.round(c1.v); } }, 0.2);
-tl.fromTo("#c1-lbl", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 0.4);
-tl.fromTo("#c1-so", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 2.6);
-tl.to("#c1-txt, #c1-fim, #c1-img", { opacity: 0, duration: 0.3 }, 4.3);
+// A
+tl.fromTo("#vigia", { scale: 0.97 }, { scale: 1, duration: 0.6, ease: E }, 0);
+tl.fromTo("#varre", { opacity: 0, x: 0 }, { opacity: 1, x: 500, duration: 1.3, ease: "power1.inOut" }, 0.7);
+tl.to("#varre", { opacity: 0, duration: 0.3 }, 2.0);
+tl.fromTo("#quente", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 2.0);
+up("#a-c", 1.9, 0.4, 20);
+tl.to("#a-tit, #vigia, #a-cap", { opacity: 0, duration: 0.25 }, 3.85);
 
-// 2 · problema
-tl.fromTo("#c2-h", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 4.7);
-tl.fromTo("#c2-a", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: E }, 5.5);
-tl.fromTo("#c2-b", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: E }, 6.2);
-tl.fromTo("#c2-l", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 7.2);
-tl.to("#c2-h, #c2-a, #c2-b, #c2-l", { opacity: 0, duration: 0.3 }, 9.9);
+// B
+up("#b-h", 4.2);
+up("#b-1", 4.5, 0.6, 50);
+up("#b-2", 6.0, 0.6, 50);
+tl.fromTo("#b-peq", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.6);
+tl.fromTo("#b-anel", { opacity: 0, scale: 1.8, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 6.7);
+up("#b-c", 6.5, 0.4, 20);
+tl.to("#b-tit, #b-1, #b-2, #b-cap", { opacity: 0, duration: 0.25 }, 9.25);
 
-// 3 · solução
-tl.fromTo("#c3-pilha", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.6, ease: E }, 10.3);
-tl.fromTo("#c3-o", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 10.4);
-tl.fromTo("#c3-h", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 10.5);
-tl.fromTo("#c3-depois", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power1.inOut" }, 11.8);
-tl.fromTo("#c3-h2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 12.0);
-tl.fromTo("#c3-s", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 12.4);
-tl.to("#c3-txt, #c3-pilha, #c3-selo", { opacity: 0, duration: 0.3 }, 15.1);
+// C
+up("#c-h", 9.6);
+tl.fromTo("#ch1", { opacity: 0, x: -60, rotation: -2 }, { opacity: 1, x: 0, rotation: -2, duration: 0.4, ease: E }, 10.0);
+tl.fromTo("#ch2", { opacity: 0, x: -60, rotation: 1.5 }, { opacity: 1, x: 0, rotation: 1.5, duration: 0.4, ease: E }, 10.4);
+tl.fromTo("#ch3", { opacity: 0, x: -60, rotation: -1 }, { opacity: 1, x: 0, rotation: -1, duration: 0.4, ease: E }, 10.8);
+tl.fromTo("#seta", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 11.4);
+tl.fromTo("#fogo1", { opacity: 0.4, scale: 0.9 }, { opacity: 0.4, scale: 0.9, duration: 0.1 }, 11.4);
+tl.to("#ch1, #ch2, #ch3", { x: 700, scale: 0.35, opacity: 0, duration: 0.55, ease: "power2.in", stagger: 0.08 }, 12.2);
+tl.to("#fogo1", { opacity: 1, scale: 1.08, duration: 0.45, ease: "back.out(2)" }, 12.5);
+up("#c-c", 10.6, 0.4, 20);
+tl.to("#c-tit, #c-linha, #c-cap", { opacity: 0, duration: 0.25 }, 13.95);
 
-// 4 · escala
-tl.fromTo("#c4-terra", { opacity: 0, scale: 0.9, rotation: -6 }, { opacity: 1, scale: 1, rotation: 4, duration: 5.4, ease: "power1.out" }, 15.4);
-tl.fromTo("#c4-o", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 15.5);
-tl.fromTo("#c4-de", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 15.6);
+// D
+tl.fromTo("#d-terra", { opacity: 0, scale: 0.9, rotation: -6 }, { opacity: 1, scale: 1, rotation: 4, duration: 6.1, ease: "power1.out" }, 14.2);
+up("#d-o", 14.3, 0.4, 20);
+up("#d-de", 14.5);
 const n1 = { v: 0 };
-tl.to(n1, { v: 20.5, duration: 1.1, ease: "power2.out", onUpdate: () => { document.getElementById("c4-n1").textContent = br(n1.v, 1); } }, 15.6);
-tl.fromTo("#c4-seta", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.4, ease: E }, 17.2);
-tl.fromTo("#c4-para", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 17.5);
+tl.to(n1, { v: 20.5, duration: 1.1, ease: "power2.out", onUpdate: () => { document.getElementById("d-n1").textContent = n1.v.toFixed(1); } }, 14.5);
+up("#d-seta", 16.2, 0.4, -20);
+up("#d-para", 16.6);
 const n2 = { v: 20.5 };
-tl.to(n2, { v: 7.26, duration: 1.1, ease: "power2.out", onUpdate: () => { document.getElementById("c4-n2").textContent = br(n2.v, 2); } }, 17.5);
-tl.to("#c4-txt, #c4-terra", { opacity: 0, duration: 0.3 }, 20.5);
+tl.to(n2, { v: 7.26, duration: 1.1, ease: "power2.out", onUpdate: () => { document.getElementById("d-n2").textContent = n2.v.toFixed(2); } }, 16.6);
+up("#d-s1", 17.5, 0.4, 20);
+up("#d-s2", 17.8, 0.4, 20);
+up("#d-s3", 18.1, 0.4, 20);
+tl.to("#d-txt, #d-terra, #d-stats", { opacity: 0, duration: 0.25 }, 20.05);
 
-// 5 · app  // beat-locked: 20.74s (strong cue) na entrada da cena
-tl.fromTo("#c5-h", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 20.85);
-tl.fromTo("#c5-moldura", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: E }, 20.95);
-tl.fromTo("#c5-ui", { scale: 1 }, { scale: 1.12, duration: 5, ease: "none", transformOrigin: "60% 45%" }, 20.95);
-tl.fromTo("#c5-ins", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.6)" }, 22.0);
-tl.to("#c5-h, #c5-moldura, #c5-ins", { opacity: 0, duration: 0.3 }, 25.7);
+// E
+up("#e-h", 20.4);
+up("#e-moldura", 20.5, 0.6, 40);
+tl.fromTo("#e-app", { scale: 1 }, { scale: 1.1, duration: 3.9, ease: "none", transformOrigin: "40% 75%" }, 20.5);
+tl.fromTo("#e-ins", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.6)" }, 21.6);
+up("#e-c", 21.1, 0.4, 20);
+tl.to("#e-tit, #e-moldura, #e-ins, #e-cap", { opacity: 0, duration: 0.25 }, 24.15);
 
-// 6 · fecho
-tl.fromTo("#c6-logo", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, 26.1);
-tl.fromTo("#c6-nome", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 26.3);
-tl.fromTo("#c6-url", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 26.6);
-tl.fromTo("#c6-rod", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 27.0);
+// F
+tl.fromTo("#f-logo", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, 24.5);
+up("#f-nome", 24.6);
+up("#f-sub", 25.4, 0.5, 20);
+up("#f-url", 26.0, 0.5, 20);
+tl.fromTo("#f-rod", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 26.5);
 
 window.__timelines["main"] = tl;
 </script>

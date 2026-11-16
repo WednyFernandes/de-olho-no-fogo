@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "756cdd18-56a3-43a2-ae0f-4856e44b28df",
-  "currentRevision": "338bd863-3d64-4dde-a122-a8bc5a25a50f",
+  "currentRevision": "f939c5c3-709c-4540-837e-42a8eaa91241",
   "pendingChanges": false,
   "files": {
     "assets/fonts/figtree-400.woff2": {
@@ -60,10 +60,6 @@
       "hash": "d22b23bc5c63ce3cf3e12fcd7cf1f430853b3761ebe56f06618d0be59f516b91",
       "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\d2\\d22b23bc5c63ce3cf3e12fcd7cf1f430853b3761ebe56f06618d0be59f516b91"
     },
-    "assets/music/bed30.mp3": {
-      "hash": "6cde60dc3afa5261c320c6aaa228610b8de25bd5f186dde281b2c1a7ed6ca0dd",
-      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\6c\\6cde60dc3afa5261c320c6aaa228610b8de25bd5f186dde281b2c1a7ed6ca0dd"
-    },
     "assets/sfx/bong_001.ogg": {
       "hash": "d21d0f0b782445db579d11e2506b24cd1ac9d664ee33aeaf807761aa7b6fd710",
       "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\d2\\d21d0f0b782445db579d11e2506b24cd1ac9d664ee33aeaf807761aa7b6fd710"
@@ -81,8 +77,24 @@
       "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\f7\\f703b6b1c62dae1c246a46d5c2442802588f68be2df4d17e0d65cf7e0dbfc826"
     },
     "index.html": {
-      "hash": "2478e3dd7794d9bb621597a0e055b4241f339cc73ced61648f1a20a87817d038",
-      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\24\\2478e3dd7794d9bb621597a0e055b4241f339cc73ced61648f1a20a87817d038"
+      "hash": "1b17384e66894d9f6db2487438d278bfceb7dfc1064f32bcd43e75536d4d6baf",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\1b\\1b17384e66894d9f6db2487438d278bfceb7dfc1064f32bcd43e75536d4d6baf"
+    },
+    "assets/img/ins_conta.png": {
+      "hash": "6c515524d073dcc51f9cb746c704c561e5eba9ef3d6bdd701f404079424517e8",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\6c\\6c515524d073dcc51f9cb746c704c561e5eba9ef3d6bdd701f404079424517e8"
+    },
+    "assets/img/ins_risco.png": {
+      "hash": "e9b520d32c5382036f052188cd68783db555f27836e3c6a27e411e7bfe33caec",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\e9\\e9b520d32c5382036f052188cd68783db555f27836e3c6a27e411e7bfe33caec"
+    },
+    "assets/img/parana_app.jpg": {
+      "hash": "7e8b105b0105b6b66683dd4332940193bb6ad3546f119f277ba10f65550a5fc6",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\7e\\7e8b105b0105b6b66683dd4332940193bb6ad3546f119f277ba10f65550a5fc6"
+    },
+    "assets/vo/voice.wav": {
+      "hash": "c8c508f1352f51d1a29aef60daf64ec3d49a93916f58f361553c63448054ff60",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\c8\\c8c508f1352f51d1a29aef60daf64ec3d49a93916f58f361553c63448054ff60"
     }
   },
   "revisions": {
@@ -115,12 +127,62 @@
           "after": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\24\\2478e3dd7794d9bb621597a0e055b4241f339cc73ced61648f1a20a87817d038"
         }
       }
+    },
+    "5b32b780-c170-41f1-a265-a400c0debce2": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794790177794,
+      "endedAt": 1794790177821,
+      "files": {
+        "assets/img/ins_conta.png": {
+          "before": null,
+          "after": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\6c\\6c515524d073dcc51f9cb746c704c561e5eba9ef3d6bdd701f404079424517e8"
+        },
+        "assets/img/ins_risco.png": {
+          "before": null,
+          "after": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\e9\\e9b520d32c5382036f052188cd68783db555f27836e3c6a27e411e7bfe33caec"
+        },
+        "assets/img/parana_app.jpg": {
+          "before": null,
+          "after": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\7e\\7e8b105b0105b6b66683dd4332940193bb6ad3546f119f277ba10f65550a5fc6"
+        },
+        "assets/music/bed30.mp3": {
+          "before": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\6c\\6cde60dc3afa5261c320c6aaa228610b8de25bd5f186dde281b2c1a7ed6ca0dd",
+          "after": null
+        },
+        "assets/vo/voice.wav": {
+          "before": null,
+          "after": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\c8\\c8c508f1352f51d1a29aef60daf64ec3d49a93916f58f361553c63448054ff60"
+        },
+        "index.html": {
+          "before": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\24\\2478e3dd7794d9bb621597a0e055b4241f339cc73ced61648f1a20a87817d038",
+          "after": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\33\\33bff0a929996ef8bbe4cb2b653ca7e5300ed7c141eba751f020c8e8acf065ab"
+        }
+      }
+    },
+    "f939c5c3-709c-4540-837e-42a8eaa91241": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794790206434,
+      "endedAt": 1794790206436,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\33\\33bff0a929996ef8bbe4cb2b653ca7e5300ed7c141eba751f020c8e8acf065ab",
+          "after": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\1b\\1b17384e66894d9f6db2487438d278bfceb7dfc1064f32bcd43e75536d4d6baf"
+        }
+      }
     }
   },
   "checks": {
     "latest": {
-      "revision": "338bd863-3d64-4dde-a122-a8bc5a25a50f",
-      "id": "0b1a9265-4461-48cb-a3a1-28f1aa796fb3"
+      "revision": "f939c5c3-709c-4540-837e-42a8eaa91241",
+      "id": "9677ba22-cae7-4700-b670-5299c40a09e7"
     },
     "revisions": {
       "338bd863-3d64-4dde-a122-a8bc5a25a50f": [
@@ -156,6 +218,81 @@
           "contentHash": "a40c99d3b9780a28c264892e789853f77fe11e5b98648238ed41bd5cdd982077",
           "revision": "338bd863-3d64-4dde-a122-a8bc5a25a50f",
           "inputFingerprint": "48a89c01af40f8bf063651c5c07dd3bc4ec1f70b7210c5c1d7abce15676c2ae4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ],
+      "5b32b780-c170-41f1-a265-a400c0debce2": [
+        {
+          "id": "cccf98d7-8010-4c43-be63-0d9acdc71d86",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 45000,
+              "cache": true,
+              "contrast": true,
+              "craft": true,
+              "strict": false,
+              "snapshots": false,
+              "safeZones": [
+                "tiktok",
+                "reels",
+                "shorts"
+              ],
+              "browserGpuMode": "auto",
+              "includeUnmounted": false
+            }
+          },
+          "createdAt": 1794790185478,
+          "contentHash": "70d732fb93843ff63456cc859840a9bfe6dc2d4250c302223b37b414107c3b4f",
+          "revision": "5b32b780-c170-41f1-a265-a400c0debce2",
+          "inputFingerprint": "5466687385b6cee630e1d103ce24dab4c07dd67cf74a132d67b4ceb1c5de56ea",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "56ed095c-91dd-4481-b782-35582b33bd7c"
+        }
+      ],
+      "f939c5c3-709c-4540-837e-42a8eaa91241": [
+        {
+          "id": "9677ba22-cae7-4700-b670-5299c40a09e7",
+          "scope": "project",
+          "report": "G:\\Wedny\\Dev\\nasaspaceapps\\video\\.hyperframes\\artifacts\\checks\\9677ba22-cae7-4700-b670-5299c40a09e7.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 45000,
+              "cache": true,
+              "contrast": true,
+              "craft": true,
+              "strict": false,
+              "snapshots": false,
+              "safeZones": [
+                "tiktok",
+                "reels",
+                "shorts"
+              ],
+              "browserGpuMode": "auto",
+              "includeUnmounted": false
+            }
+          },
+          "createdAt": 1794790213334,
+          "contentHash": "ae6230fb9045b48a4f1024a47522dd79bd97fb6621dd2a9c7a0e6dd06f9ca8cd",
+          "revision": "f939c5c3-709c-4540-837e-42a8eaa91241",
+          "inputFingerprint": "21709bafda4ef805fafbe8fefaacef049e8d24d3b475f1644149a21d2e16ee91",
           "inputScope": "local-project-files",
           "attribution": "recorded-revision"
         }
@@ -206,15 +343,15 @@
   },
   "renders": {
     "latest": {
-      "id": "808914ac-e27f-4917-a1d9-b51a9666bccb",
-      "completedAt": 1794788719166,
+      "id": "56ed095c-91dd-4481-b782-35582b33bd7c",
+      "completedAt": 1794790259740,
       "output": "G:\\Wedny\\Dev\\nasaspaceapps\\submissao\\De-Olho-no-Fogo-30s.mp4",
       "status": "completed",
-      "revision": "338bd863-3d64-4dde-a122-a8bc5a25a50f"
+      "revision": "f939c5c3-709c-4540-837e-42a8eaa91241"
     },
     "retainedRevisions": [
-      "338bd863-3d64-4dde-a122-a8bc5a25a50f",
-      "6d69be7b-042c-4d5e-b99d-d994bee5af80"
+      "f939c5c3-709c-4540-837e-42a8eaa91241",
+      "338bd863-3d64-4dde-a122-a8bc5a25a50f"
     ]
   },
   "pendingArtifactCleanup": []
