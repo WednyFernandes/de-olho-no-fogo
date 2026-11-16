@@ -4,7 +4,7 @@
     {
       "name": "olho-do-fogo",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8765", "--bind", "127.0.0.1"],
+      "runtimeArgs": ["-m", "http.server", "8765", "--bind", "127.0.0.1", "--directory", "public"],
       "port": 8765
     },
     {

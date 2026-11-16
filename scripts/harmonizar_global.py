@@ -629,6 +629,8 @@ def rodar_global(pool, refazer):
     print(f"  global: 12 meses agrupados ({time.time() - t0:.0f} s)", flush=True)
     # grade
     ncel, smax = gravar_grade(ANO_G, 0, True, [r["G"] | {"idx": r["G"]["idx"] % (360 * QG * 180 * QG)} for r in res])
+    from dividir_grade import dividir  # grade/AAAA-MM.bin: um mês por arquivo, o globo baixa só o que mostra
+    dividir(ANO_G)
     # fontes fixas
     fx = np.concatenate([r["fixas"]["d"] for r in res])
     fdoy = np.concatenate([r["fixas"]["doy"] for r in res])
