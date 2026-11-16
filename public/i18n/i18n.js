@@ -10,6 +10,7 @@
   if (coletar) L = 'en'; // coletar = inglês + lista do que faltou
   // botão PT/EN em todas as páginas; entra depois do load para não brigar com a hidratação do React
   function troca() {
+    if (self !== top) return; // dentro do quadro do /pitch o botão fica só na página de fora
     var a = document.createElement('a'), u = new URL(location.href);
     u.searchParams.set('lang', L === 'en' ? 'pt' : 'en');
     a.href = u.pathname + u.search + u.hash; a.id = 'doof-lang'; a.textContent = L === 'en' ? 'PT' : 'EN';

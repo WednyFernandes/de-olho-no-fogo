@@ -10,9 +10,9 @@ export const metadata = {
 // Links mandados no grupo do time no WhatsApp em 15/11/2026; papéis passados pelo Wedny no mesmo dia.
 const MEMBROS = [
   ['Wedny Lucas Fernandes', 'designer e vibe coder · responsável pela inscrição do time', 'https://www.linkedin.com/in/wednyfernandes'],
-  ['João Pedro Nepomuceno Horta Ribeiro', 'estudante de estatística', 'https://www.linkedin.com/in/jo%C3%A3o-pedro-nepomuceno-horta-ribeiro190'],
-  ['Mila Cristian de Paiva Martins', 'estudante de engenharia ambiental', 'https://www.linkedin.com/in/mila-paiva-28716824b'],
-  ['Kevilin Brites', 'estudante de ciência da computação', 'https://www.linkedin.com/in/kevilin-brites-744b4535b/'],
+  ['João Pedro Nepomuceno Horta Ribeiro', 'graduando em estatística', 'https://www.linkedin.com/in/jo%C3%A3o-pedro-nepomuceno-horta-ribeiro190'],
+  ['Mila Cristian de Paiva Martins', 'graduanda em engenharia ambiental', 'https://www.linkedin.com/in/mila-paiva-28716824b'],
+  ['Kevilin Brites', 'graduanda em ciência da computação', 'https://www.linkedin.com/in/kevilin-brites-744b4535b/'],
   ['Maria Heduarda Rosa Morais', 'médica veterinária', 'https://www.linkedin.com/in/maria-heduarda-rosa-morais-6069a6375'],
   ['Wander Marcos Fernandes', 'audiovisual e jogos · Estúdio Crivy', 'https://www.linkedin.com/in/wander-fernandes-4211b2266'],
 ];
