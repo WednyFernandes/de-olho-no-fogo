@@ -8,6 +8,16 @@
   try { if (q === 'pt' || q === 'en') localStorage.setItem('doof-lang', q); L = localStorage.getItem('doof-lang'); } catch (e) {}
   if (!L) L = /^pt\b/i.test((navigator.languages && navigator.languages[0]) || navigator.language || 'pt') ? 'pt' : 'en';
   if (coletar) L = 'en'; // coletar = inglês + lista do que faltou
+  // botão PT/EN em todas as páginas; entra depois do load para não brigar com a hidratação do React
+  function troca() {
+    var a = document.createElement('a'), u = new URL(location.href);
+    u.searchParams.set('lang', L === 'en' ? 'pt' : 'en');
+    a.href = u.pathname + u.search + u.hash; a.id = 'doof-lang'; a.textContent = L === 'en' ? 'PT' : 'EN';
+    a.setAttribute('aria-label', L === 'en' ? 'Ver em português' : 'View in English'); a.setAttribute('translate', 'no'); a.lang = L === 'en' ? 'pt' : 'en';
+    a.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:2147483000;font:700 13px/1 Figtree,Arial,sans-serif;letter-spacing:.5px;color:#FBF7F4;background:rgba(20,17,15,.85);border:1px solid rgba(255,255,255,.25);padding:9px 12px;border-radius:999px;text-decoration:none';
+    document.body.appendChild(a);
+  }
+  if (document.readyState === 'complete') setTimeout(troca, 0); else addEventListener('load', function () { setTimeout(troca, 300); });
   if (L === 'pt') return;
 
   var de = document.documentElement, D = null, faltam = window.__faltam = new Map(), feitos = new Set();
@@ -52,7 +62,7 @@
   }
   function passa(raiz) {
     if (raiz.nodeType === 3) { if (raiz.parentNode && !PULA.test(raiz.parentNode.nodeName)) texto(raiz); return; }
-    if (raiz.nodeType !== 1 || PULA.test(raiz.nodeName)) return;
+    if (raiz.nodeType !== 1 || PULA.test(raiz.nodeName) || raiz.id === 'doof-lang') return;
     atributos(raiz);
     if (raiz.childElementCount && misto(raiz) && soInline(raiz)) {
       var t = traduz(raiz.innerHTML);

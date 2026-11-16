@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "historyId": "756cdd18-56a3-43a2-ae0f-4856e44b28df",
+  "currentRevision": "338bd863-3d64-4dde-a122-a8bc5a25a50f",
+  "pendingChanges": false,
+  "files": {
+    "assets/fonts/figtree-400.woff2": {
+      "hash": "cb2880eb4d03a4e6b3e5c3b2812772b6922694d333c4ed8aa529d774ff346e25",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\cb\\cb2880eb4d03a4e6b3e5c3b2812772b6922694d333c4ed8aa529d774ff346e25"
+    },
+    "assets/fonts/figtree-700.woff2": {
+      "hash": "5b4140c829a3808a35c730c7070215f3357d845f2b8c443a6446069c56978fdc",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\5b\\5b4140c829a3808a35c730c7070215f3357d845f2b8c443a6446069c56978fdc"
+    },
+    "assets/fonts/figtree-900.woff2": {
+      "hash": "a03c18c270b22a91f994cd2fc359f153fc3c59a6a9ca84a9bb1da150b76ff1aa",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\a0\\a03c18c270b22a91f994cd2fc359f153fc3c59a6a9ca84a9bb1da150b76ff1aa"
+    },
+    "assets/gsap.min.js": {
+      "hash": "c174bfce53a729418d57a8ad8625e7247c793a22fef8e2851e3cfa3de9cd8280",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\c1\\c174bfce53a729418d57a8ad8625e7247c793a22fef8e2851e3cfa3de9cd8280"
+    },
+    "assets/img/antes.jpg": {
+      "hash": "bcd231e6300af802b99a0c7d1cf22b74cc7db5513937c08f1ac0737ca5370e93",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\bc\\bcd231e6300af802b99a0c7d1cf22b74cc7db5513937c08f1ac0737ca5370e93"
+    },
+    "assets/img/antigo.jpg": {
+      "hash": "24aef0204d76652024ce1c98e136b9109803b586b102ea319ece63d38e026170",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\24\\24aef0204d76652024ce1c98e136b9109803b586b102ea319ece63d38e026170"
+    },
+    "assets/img/cidade.jpg": {
+      "hash": "15babad5b05364bdd37ed97be5efbe42fdf8402db078683b32e1fcc9052b420f",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\15\\15babad5b05364bdd37ed97be5efbe42fdf8402db078683b32e1fcc9052b420f"
+    },
+    "assets/img/depois.jpg": {
+      "hash": "c820ccdbcbdb441164df1e6a88b9df5154431c2d22c4687f5c2829944f6d2987",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\c8\\c820ccdbcbdb441164df1e6a88b9df5154431c2d22c4687f5c2829944f6d2987"
+    },
+    "assets/img/favicon.svg": {
+      "hash": "9bc3522c552e00c5dbc4a99721083cea45c9a81100b7834bbd9f971048d3df28",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\9b\\9bc3522c552e00c5dbc4a99721083cea45c9a81100b7834bbd9f971048d3df28"
+    },
+    "assets/img/globo-sub.jpg": {
+      "hash": "69cb1cff67d357e241c3ec4d01d515eb3ecbf1f500ea3987750813ab30033e04",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\69\\69cb1cff67d357e241c3ec4d01d515eb3ecbf1f500ea3987750813ab30033e04"
+    },
+    "assets/img/globo.jpg": {
+      "hash": "a8aa19f4cabc443ae45a5254ce22787827701eca8aa3fa9c154bab2e0bdb9946",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\a8\\a8aa19f4cabc443ae45a5254ce22787827701eca8aa3fa9c154bab2e0bdb9946"
+    },
+    "assets/img/insight.png": {
+      "hash": "28fb335a26a6f54babcc091aee7f21858526ac0847303de36bfd1f7c67eb88a3",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\28\\28fb335a26a6f54babcc091aee7f21858526ac0847303de36bfd1f7c67eb88a3"
+    },
+    "assets/img/novo.jpg": {
+      "hash": "ac36036089dcd240e5d94fd3f98c86e29a0fec0d5370f8a556e3cd249128232b",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\ac\\ac36036089dcd240e5d94fd3f98c86e29a0fec0d5370f8a556e3cd249128232b"
+    },
+    "assets/img/terra.png": {
+      "hash": "d22b23bc5c63ce3cf3e12fcd7cf1f430853b3761ebe56f06618d0be59f516b91",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\d2\\d22b23bc5c63ce3cf3e12fcd7cf1f430853b3761ebe56f06618d0be59f516b91"
+    },
+    "assets/music/bed30.mp3": {
+      "hash": "6cde60dc3afa5261c320c6aaa228610b8de25bd5f186dde281b2c1a7ed6ca0dd",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\6c\\6cde60dc3afa5261c320c6aaa228610b8de25bd5f186dde281b2c1a7ed6ca0dd"
+    },
+    "assets/sfx/bong_001.ogg": {
+      "hash": "d21d0f0b782445db579d11e2506b24cd1ac9d664ee33aeaf807761aa7b6fd710",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\d2\\d21d0f0b782445db579d11e2506b24cd1ac9d664ee33aeaf807761aa7b6fd710"
+    },
+    "assets/sfx/click_002.ogg": {
+      "hash": "adcd1f4adc35f1b41bc1b5bbefeff7aa44f2f3f0d96d3199b544140c7c1e761c",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\ad\\adcd1f4adc35f1b41bc1b5bbefeff7aa44f2f3f0d96d3199b544140c7c1e761c"
+    },
+    "assets/sfx/drop_002.ogg": {
+      "hash": "4ac4d1cef7e936965cbf795852ca2020300b9e2ba7daa59f2bf4f1f7bf416218",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\4a\\4ac4d1cef7e936965cbf795852ca2020300b9e2ba7daa59f2bf4f1f7bf416218"
+    },
+    "assets/sfx/select_008.ogg": {
+      "hash": "f703b6b1c62dae1c246a46d5c2442802588f68be2df4d17e0d65cf7e0dbfc826",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\f7\\f703b6b1c62dae1c246a46d5c2442802588f68be2df4d17e0d65cf7e0dbfc826"
+    },
+    "index.html": {
+      "hash": "2478e3dd7794d9bb621597a0e055b4241f339cc73ced61648f1a20a87817d038",
+      "content": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\24\\2478e3dd7794d9bb621597a0e055b4241f339cc73ced61648f1a20a87817d038"
+    }
+  },
+  "revisions": {
+    "6d69be7b-042c-4d5e-b99d-d994bee5af80": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794788132712,
+      "endedAt": 1794788132714,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\fd\\fd878a01ba83f8e53addc8683d201a43c2196c8b80c17faeb29869f2d9d10b91",
+          "after": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\0b\\0b707ab5ea68b6955d6a6bc5c2cc61c684baeecf185070a3c7579f9f36fc908d"
+        }
+      }
+    },
+    "338bd863-3d64-4dde-a122-a8bc5a25a50f": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794788664589,
+      "endedAt": 1794788664594,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\0b\\0b707ab5ea68b6955d6a6bc5c2cc61c684baeecf185070a3c7579f9f36fc908d",
+          "after": "C:\\Users\\wedny\\.cache\\hyperframes\\history\\756cdd18-56a3-43a2-ae0f-4856e44b28df\\blobs\\24\\2478e3dd7794d9bb621597a0e055b4241f339cc73ced61648f1a20a87817d038"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": "338bd863-3d64-4dde-a122-a8bc5a25a50f",
+      "id": "0b1a9265-4461-48cb-a3a1-28f1aa796fb3"
+    },
+    "revisions": {
+      "338bd863-3d64-4dde-a122-a8bc5a25a50f": [
+        {
+          "id": "0b1a9265-4461-48cb-a3a1-28f1aa796fb3",
+          "scope": "project",
+          "report": "G:\\Wedny\\Dev\\nasaspaceapps\\video\\.hyperframes\\artifacts\\checks\\0b1a9265-4461-48cb-a3a1-28f1aa796fb3.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 45000,
+              "cache": true,
+              "contrast": true,
+              "craft": true,
+              "strict": false,
+              "snapshots": false,
+              "safeZones": [
+                "tiktok",
+                "reels",
+                "shorts"
+              ],
+              "browserGpuMode": "auto",
+              "includeUnmounted": false
+            }
+          },
+          "createdAt": 1794788672856,
+          "contentHash": "a40c99d3b9780a28c264892e789853f77fe11e5b98648238ed41bd5cdd982077",
+          "revision": "338bd863-3d64-4dde-a122-a8bc5a25a50f",
+          "inputFingerprint": "48a89c01af40f8bf063651c5c07dd3bc4ec1f70b7210c5c1d7abce15676c2ae4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "654ca8f3-0311-406e-916c-e86d9678ebd9",
+        "scope": "project",
+        "report": "G:\\Wedny\\Dev\\nasaspaceapps\\video\\.hyperframes\\artifacts\\checks\\654ca8f3-0311-406e-916c-e86d9678ebd9.json",
+        "metadata": {
+          "ok": true,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 45000,
+            "cache": true,
+            "contrast": true,
+            "craft": true,
+            "strict": false,
+            "snapshots": false,
+            "safeZones": [
+              "tiktok",
+              "reels",
+              "shorts"
+            ],
+            "browserGpuMode": "auto",
+            "includeUnmounted": false
+          }
+        },
+        "createdAt": 1794788027038,
+        "contentHash": "a40c99d3b9780a28c264892e789853f77fe11e5b98648238ed41bd5cdd982077",
+        "revision": null,
+        "inputFingerprint": "da563c808e0586c30e71eee584fab175872a927821b9a2f19baeaf47a7b07ac3",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "808914ac-e27f-4917-a1d9-b51a9666bccb",
+      "completedAt": 1794788719166,
+      "output": "G:\\Wedny\\Dev\\nasaspaceapps\\submissao\\De-Olho-no-Fogo-30s.mp4",
+      "status": "completed",
+      "revision": "338bd863-3d64-4dde-a122-a8bc5a25a50f"
+    },
+    "retainedRevisions": [
+      "338bd863-3d64-4dde-a122-a8bc5a25a50f",
+      "6d69be7b-042c-4d5e-b99d-d994bee5af80"
+    ]
+  },
+  "pendingArtifactCleanup": []
+}

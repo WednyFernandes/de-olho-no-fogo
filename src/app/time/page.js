@@ -7,17 +7,17 @@ export const metadata = {
 
 // Integrantes como estão na página do time no site do Space Apps (aba Members), conferido em 14/11/2026.
 // Terceiro campo: URL do LinkedIn (vazio = sem link; o botão aparece só quando há URL).
-// Links mandados no grupo do time no WhatsApp em 15/11/2026.
+// Links mandados no grupo do time no WhatsApp em 15/11/2026; papéis passados pelo Wedny no mesmo dia.
 const MEMBROS = [
-  ['Wedny Lucas Fernandes', 'responsável pela inscrição do time', 'https://www.linkedin.com/in/wednyfernandes'],
-  ['João Pedro Nepomuceno Horta Ribeiro', '', 'https://www.linkedin.com/in/jo%C3%A3o-pedro-nepomuceno-horta-ribeiro190'],
-  ['Mila Cristian de Paiva Martins', '', 'https://www.linkedin.com/in/mila-paiva-28716824b'],
-  ['Kevilin Brites', '', ''],
-  ['Maria Heduarda Rosa Morais', '', 'https://www.linkedin.com/in/maria-heduarda-rosa-morais-6069a6375'],
-  ['Wander Marcos Fernandes', '', 'https://www.linkedin.com/in/wander-fernandes-4211b2266'],
+  ['Wedny Lucas Fernandes', 'designer e vibe coder · responsável pela inscrição do time', 'https://www.linkedin.com/in/wednyfernandes'],
+  ['João Pedro Nepomuceno Horta Ribeiro', 'estudante de estatística', 'https://www.linkedin.com/in/jo%C3%A3o-pedro-nepomuceno-horta-ribeiro190'],
+  ['Mila Cristian de Paiva Martins', 'estudante de engenharia ambiental', 'https://www.linkedin.com/in/mila-paiva-28716824b'],
+  ['Kevilin Brites', 'estudante de ciência da computação', 'https://www.linkedin.com/in/kevilin-brites-744b4535b/'],
+  ['Maria Heduarda Rosa Morais', 'médica veterinária', 'https://www.linkedin.com/in/maria-heduarda-rosa-morais-6069a6375'],
+  ['Wander Marcos Fernandes', 'audiovisual e jogos · Estúdio Crivy', 'https://www.linkedin.com/in/wander-fernandes-4211b2266'],
 ];
 const CORES = ['#D4410B', '#9C2C05', '#6B4FA0', '#00727F', '#B5530E', '#4A3326'];
-const AREAS = ['estatística', 'design', 'código', 'veterinária', 'produção de conteúdo'];
+const AREAS = ['estatística', 'design', 'código', 'engenharia ambiental', 'veterinária', 'audiovisual'];
 
 const iniciais = (nome) => nome.split(' ').filter((_, i, a) => i === 0 || i === a.length - 1).map((p) => p[0]).join('');
 

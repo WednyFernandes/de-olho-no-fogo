@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>De Olho no Fogo · 30 s</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face { font-family: 'Figtree'; font-weight: 400; src: url(assets/fonts/figtree-400.woff2) format('woff2'); }
+@font-face { font-family: 'Figtree'; font-weight: 700; src: url(assets/fonts/figtree-700.woff2) format('woff2'); }
+@font-face { font-family: 'Figtree'; font-weight: 900; src: url(assets/fonts/figtree-900.woff2) format('woff2'); }
+body { margin: 0; background: #14110F; color: #FBF7F4; font-family: 'Figtree', sans-serif; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #14110F; }
+.clip { position: absolute; inset: 0; overflow: hidden; }
+.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.veu { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,17,15,.92) 0%, rgba(20,17,15,.7) 45%, rgba(20,17,15,.25) 100%); }
+.olho { font-size: 30px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; color: #FF8A4C; margin: 0; }
+.h1 { font-size: 96px; font-weight: 900; line-height: 1.02; letter-spacing: -2px; margin: 0; }
+.h2 { font-size: 72px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin: 0; }
+.brasa { color: #FF8A4C; }
+.leve { font-size: 36px; font-weight: 400; color: #E4DCD6; line-height: 1.3; margin: 0; }
+.sat { border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,.5); object-fit: cover; display: block; }
+.selo { display: inline-block; font-size: 30px; font-weight: 900; color: #FBF7F4; background: #D4410B; padding: 10px 26px; border-radius: 40px; }
+
+/* cena 1 */
+#c1-txt { position: absolute; left: 128px; top: 250px; width: 820px; }
+#c1-num { font-size: 260px; font-weight: 900; line-height: .9; letter-spacing: -6px; color: #FF8A4C; margin: 0; }
+#c1-img { position: absolute; left: 1010px; top: 150px; width: 780px; height: 700px; }
+#c1-fim { position: absolute; left: 128px; top: 760px; width: 860px; }
+
+/* cena 2 */
+#c2-tit { position: absolute; left: 128px; top: 110px; width: 1664px; }
+.par { position: absolute; top: 300px; width: 780px; }
+#c2-a { left: 128px; }
+#c2-b { left: 1012px; }
+.par img { width: 780px; height: 500px; }
+.par p { margin: 22px 0 0; font-size: 44px; font-weight: 900; }
+#c2-fala { position: absolute; left: 128px; top: 930px; width: 1664px; }
+
+/* cena 3 */
+#c3-txt { position: absolute; left: 128px; top: 300px; width: 760px; }
+#c3-pilha { position: absolute; left: 1000px; top: 120px; width: 800px; height: 718px; }
+#c3-pilha img { position: absolute; inset: 0; width: 800px; height: 718px; }
+#c3-selo { position: absolute; left: 1030px; top: 870px; }
+
+/* cena 4 */
+#c4-terra { position: absolute; left: 980px; top: 40px; width: 1000px; height: 1000px; object-fit: contain; }
+#c4-txt { position: absolute; left: 128px; top: 200px; width: 900px; }
+.linha { margin: 0; }
+.grande { font-size: 132px; font-weight: 900; line-height: 1; letter-spacing: -3px; margin: 0; }
+#c4-de .grande { color: #C9BFB8; }
+#c4-para .grande { color: #FF8A4C; }
+.seta { font-size: 64px; font-weight: 900; color: #D4410B; margin: 14px 0; }
+
+/* cena 5 */
+#c5-tit { position: absolute; left: 128px; top: 90px; width: 1664px; }
+#c5-moldura { position: absolute; left: 128px; top: 300px; width: 1280px; height: 720px; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+#c5-ui { width: 1280px; height: 720px; object-fit: cover; display: block; }
+#c5-ins { position: absolute; left: 1290px; top: 520px; width: 520px; height: 393px; border-radius: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.55); }
+
+/* cena 6 */
+#c6 { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; text-align: center; }
+#c6-logo { width: 150px; height: 150px; }
+#c6-url { font-size: 64px; font-weight: 900; color: #FF8A4C; margin: 0; }
+#c6-rod { font-size: 34px; color: #C9BFB8; margin: 0; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="30">
+
+  <!-- 1 · gancho -->
+  <section id="c1" class="clip" data-start="0" data-duration="4.6" data-track-index="0">
+    <img class="bg" id="c1-bg" src="assets/img/cidade.jpg" alt="" />
+    <div class="veu"></div>
+    <img class="sat" id="c1-img" src="assets/img/antes.jpg" alt="" />
+    <div id="c1-txt">
+      <p class="olho" id="c1-olho">Paranã, Brazil · Sep 2, 2025</p>
+      <p id="c1-num">26</p>
+      <p class="h2" id="c1-lbl">fire alerts</p>
+    </div>
+    <div id="c1-fim"><p class="h2 brasa" id="c1-so">It was one fire.</p></div>
+  </section>
+
+  <!-- 2 · o problema -->
+  <section id="c2" class="clip" data-start="4.6" data-duration="5.6" data-track-index="0">
+    <div id="c2-tit"><p class="h2" id="c2-h">Two NASA satellites saw the same fire.</p></div>
+    <div class="par" id="c2-a"><img class="sat" src="assets/img/antigo.jpg" alt="" /><p><span style="color:#B9A3E8">MODIS</span> flagged 7</p></div>
+    <div class="par" id="c2-b"><img class="sat" src="assets/img/novo.jpg" alt="" /><p><span style="color:#5FD0C9">VIIRS</span> flagged 19</p></div>
+    <div id="c2-fala"><p class="leve" id="c2-l">Like two calls to 911 about the same blaze.</p></div>
+  </section>
+
+  <!-- 3 · a solução -->
+  <section id="c3" class="clip" data-start="10.2" data-duration="5.2" data-track-index="0">
+    <div id="c3-txt">
+      <p class="olho" id="c3-o">De Olho no Fogo</p>
+      <p class="h1" id="c3-h">We merge them.</p>
+      <p class="h1 brasa" id="c3-h2">26 become 1.</p>
+    </div>
+    <div id="c3-pilha">
+      <img class="sat" id="c3-antes" src="assets/img/antes.jpg" alt="" />
+      <img class="sat" id="c3-depois" src="assets/img/depois.jpg" alt="" />
+    </div>
+    <div id="c3-selo"><span class="selo" id="c3-s">1 fire, counted once</span></div>
+  </section>
+
+  <!-- 4 · escala -->
+  <section id="c4" class="clip" data-start="15.4" data-duration="5.4" data-track-index="0">
+    <img id="c4-terra" src="assets/img/terra.png" alt="" />
+    <div id="c4-txt">
+      <p class="olho" id="c4-o">2025, worldwide</p>
+      <div id="c4-de"><p class="grande"><span id="c4-n1">20.5</span> M</p><p class="leve">alerts from both satellites</p></div>
+      <p class="seta" id="c4-seta">↓</p>
+      <div id="c4-para"><p class="grande"><span id="c4-n2">7.26</span> M</p><p class="leve">harmonized fires, each counted once</p></div>
+    </div>
+  </section>
+
+  <!-- 5 · o app -->
+  <section id="c5" class="clip" data-start="20.8" data-duration="5.2" data-track-index="0">
+    <div id="c5-tit"><p class="h2" id="c5-h">An open globe, <span class="brasa">from year to hour.</span></p></div>
+    <div id="c5-moldura"><img id="c5-ui" src="assets/img/globo-sub.jpg" alt="" /></div>
+    <img id="c5-ins" src="assets/img/insight.png" alt="" />
+  </section>
+
+  <!-- 6 · fecho -->
+  <section id="c6" class="clip" data-start="26" data-duration="4" data-track-index="0">
+    <img id="c6-logo" src="assets/img/favicon.svg" alt="" />
+    <p class="h1" id="c6-nome">De Olho no Fogo</p>
+    <p id="c6-url">deolhonofogo.estudiocrivy.com.br</p>
+    <p id="c6-rod">NASA Space Apps Challenge 2026 · Team Space Uai</p>
+  </section>
+  <audio id="sfx1" src="assets/sfx/drop_002.ogg" data-start="2.6" data-duration="1" data-track-index="3" data-volume="0.6"></audio>
+  <audio id="sfx2" src="assets/sfx/click_002.ogg" data-start="5.6" data-duration="1" data-track-index="3" data-volume="0.5"></audio>
+  <audio id="sfx3" src="assets/sfx/click_002.ogg" data-start="6.3" data-duration="1" data-track-index="4" data-volume="0.5"></audio>
+  <audio id="sfx4" src="assets/sfx/bong_001.ogg" data-start="12.0" data-duration="2" data-track-index="3" data-volume="0.5"></audio>
+  <audio id="sfx5" src="assets/sfx/select_008.ogg" data-start="21.0" data-duration="1" data-track-index="3" data-volume="0.45"></audio>
+  <audio id="sfx6" src="assets/sfx/bong_001.ogg" data-start="26.3" data-duration="2" data-track-index="3" data-volume="0.5"></audio>
+</div>
+<script>
+const tl = gsap.timeline({ paused: true });
+const E = "power3.out";
+const br = (v, d) => v.toFixed(d);
+
+// 1 · gancho
+tl.fromTo("#c1-bg", { scale: 1.12 }, { scale: 1, duration: 4.6, ease: "none" }, 0);
+tl.fromTo("#c1-img", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.6, ease: E }, 0.1);
+tl.fromTo("#c1-olho", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 0.15);
+const c1 = { v: 0 };
+tl.to(c1, { v: 26, duration: 1.2, ease: "power2.out", onUpdate: () => { document.getElementById("c1-num").textContent = Math.round(c1.v); } }, 0.2);
+tl.fromTo("#c1-lbl", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 0.4);
+tl.fromTo("#c1-so", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 2.6);
+tl.to("#c1-txt, #c1-fim, #c1-img", { opacity: 0, duration: 0.3 }, 4.3);
+
+// 2 · problema
+tl.fromTo("#c2-h", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 4.7);
+tl.fromTo("#c2-a", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: E }, 5.5);
+tl.fromTo("#c2-b", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: E }, 6.2);
+tl.fromTo("#c2-l", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 7.2);
+tl.to("#c2-h, #c2-a, #c2-b, #c2-l", { opacity: 0, duration: 0.3 }, 9.9);
+
+// 3 · solução
+tl.fromTo("#c3-pilha", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.6, ease: E }, 10.3);
+tl.fromTo("#c3-o", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 10.4);
+tl.fromTo("#c3-h", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 10.5);
+tl.fromTo("#c3-depois", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power1.inOut" }, 11.8);
+tl.fromTo("#c3-h2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 12.0);
+tl.fromTo("#c3-s", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 12.4);
+tl.to("#c3-txt, #c3-pilha, #c3-selo", { opacity: 0, duration: 0.3 }, 15.1);
+
+// 4 · escala
+tl.fromTo("#c4-terra", { opacity: 0, scale: 0.9, rotation: -6 }, { opacity: 1, scale: 1, rotation: 4, duration: 5.4, ease: "power1.out" }, 15.4);
+tl.fromTo("#c4-o", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 15.5);
+tl.fromTo("#c4-de", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 15.6);
+const n1 = { v: 0 };
+tl.to(n1, { v: 20.5, duration: 1.1, ease: "power2.out", onUpdate: () => { document.getElementById("c4-n1").textContent = br(n1.v, 1); } }, 15.6);
+tl.fromTo("#c4-seta", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.4, ease: E }, 17.2);
+tl.fromTo("#c4-para", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 17.5);
+const n2 = { v: 20.5 };
+tl.to(n2, { v: 7.26, duration: 1.1, ease: "power2.out", onUpdate: () => { document.getElementById("c4-n2").textContent = br(n2.v, 2); } }, 17.5);
+tl.to("#c4-txt, #c4-terra", { opacity: 0, duration: 0.3 }, 20.5);
+
+// 5 · app  // beat-locked: 20.74s (strong cue) na entrada da cena
+tl.fromTo("#c5-h", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 20.85);
+tl.fromTo("#c5-moldura", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: E }, 20.95);
+tl.fromTo("#c5-ui", { scale: 1 }, { scale: 1.12, duration: 5, ease: "none", transformOrigin: "60% 45%" }, 20.95);
+tl.fromTo("#c5-ins", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.6)" }, 22.0);
+tl.to("#c5-h, #c5-moldura, #c5-ins", { opacity: 0, duration: 0.3 }, 25.7);
+
+// 6 · fecho
+tl.fromTo("#c6-logo", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, 26.1);
+tl.fromTo("#c6-nome", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 26.3);
+tl.fromTo("#c6-url", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 26.6);
+tl.fromTo("#c6-rod", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 27.0);
+
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

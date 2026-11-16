@@ -1,4 +1,4 @@
-const LINKS = [['/', 'Início'], ['/globo', 'Globo'], ['/metodo', 'Método'], ['/referencias', 'Referências'], ['/time', 'Time']];
+const LINKS = [['/', 'Início'], ['/globo', 'Globo'], ['/metodo', 'Método'], ['/referencias', 'Referências'], ['/time', 'Time'], ['/pitch', 'Pitch']];
 
 // escuro: nav preta, para páginas que abrem com faixa escura (o /time).
 export default function Casca({ aqui, escuro, children }) {

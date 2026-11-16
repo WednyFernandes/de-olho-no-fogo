@@ -84,6 +84,17 @@ x-shape, x-icon { display: block } x-icon svg { width: 100%; height: 100%; displ
 #conta { position: fixed; right: 16px; bottom: 12px; font: 600 14px/1 'Figtree', Arial, sans-serif; color: #A9B0B8; z-index: 5; opacity: .7 }
 #dica { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); font: 500 14px/1.3 'Figtree', Arial, sans-serif; color: #FBF7F4; background: rgba(20,17,15,.8); padding: 8px 14px; border-radius: 999px; z-index: 5; transition: opacity .6s }
 .sem-dica #dica { opacity: 0; pointer-events: none }
+#opcoes { position: fixed; top: 14px; right: 14px; z-index: 6; font: 600 15px/1.3 'Figtree', Arial, sans-serif }
+#opcoes summary { list-style: none; cursor: pointer; background: rgba(20,17,15,.82); color: #FBF7F4; padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.18) }
+#opcoes summary::-webkit-details-marker { display: none }
+#opcoes[open] summary { background: #D4410B; border-color: #D4410B }
+#opcoes .painel { margin-top: 8px; width: 310px; background: #FBF7F4; color: #22262A; border-radius: 16px; padding: 10px; box-shadow: 0 12px 40px rgba(0,0,0,.4); display: grid; gap: 4px }
+#opcoes a { display: block; padding: 10px 12px; border-radius: 10px; color: #22262A; text-decoration: none }
+#opcoes a:hover, #opcoes a:focus-visible { background: #FFEDE6; outline: none }
+#opcoes small { display: block; font-weight: 500; font-size: 13px; color: #6A7178 }
+#opcoes .rec { color: #9C2C05 }
+:fullscreen #opcoes { display: none }
+@media print { #opcoes, #barra, #conta, #dica { display: none } }
 @media (prefers-reduced-motion: reduce) { #palco * { animation: none !important; transition: none !important } }
 </style>
 </head>
@@ -92,7 +103,7 @@ x-shape, x-icon { display: block } x-icon svg { width: 100%; height: 100%; displ
 <section id="capa" class="escuro" data-transition="fade" style="gap:36px">
 <img src="/pitch/terra.png" alt="A Terra com os focos de calor de 2025 acesos em laranja" class="f" style="position:absolute; left:900px; top:20px; width:1000px; height:1000px; object-fit:contain; --i:0">
 <p class="selo p" style="position:absolute; left:1264px; top:494px; --i:7">direto do app</p>
-<img src="/pitch/insight.png" alt="Recorte do app: 1.696.416 focos no mundo em agosto e setembro de 2025; 15% vistos pelos dois satélites ao mesmo tempo" class="moldura p" style="position:absolute; left:1264px; top:548px; width:528px; height:400px; object-fit:contain; --i:8">
+<img src="/pitch/insight.png" alt="Recorte do app: 919.972 focos no mundo em agosto de 2025; 16% vistos pelos dois satélites ao mesmo tempo" class="moldura p" style="position:absolute; left:1264px; top:548px; width:528px; height:400px; object-fit:contain; --i:8">
 <div class="a" style="display:flex; align-items:center; gap:20px; --i:1">
 <img src="/favicon.svg" alt="Logo do De Olho no Fogo" style="width:72px; height:72px; object-fit:contain">
 <p style="font-size:40px; font-weight:800; color:#FBF7F4">De Olho no Fogo</p>
@@ -116,17 +127,21 @@ x-shape, x-icon { display: block } x-icon svg { width: 100%; height: 100%; displ
 
 <section id="problema" class="escuro" data-transition="fade" style="gap:40px">
 <img src="/pitch/cidade.jpg" alt="Imagem de satélite do município de Paranã, no Tocantins, com o contorno da cidade em laranja" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px; object-fit:cover">
-<svg aria-label="Linhas ligando o fogo em Paranã aos dois recortes de satélite" class="f" width="425" height="340" viewBox="0 0 425 340" style="position:absolute; left:1063px; top:300px; --i:6"><line x1="0" y1="160" x2="425" y2="15" stroke="#FBF7F4" stroke-width="3" stroke-dasharray="12 10"/><line x1="0" y1="160" x2="425" y2="315" stroke="#FBF7F4" stroke-width="3" stroke-dasharray="12 10"/></svg>
+<svg aria-label="Linhas ligando o fogo em Paranã aos dois recortes de satélite" class="f" width="425" height="340" viewBox="0 -20 425 340" style="position:absolute; left:1063px; top:280px; --i:6"><line x1="0" y1="160" x2="425" y2="-18" stroke="#FBF7F4" stroke-width="3" stroke-dasharray="12 10"/><line x1="0" y1="160" x2="425" y2="296" stroke="#FBF7F4" stroke-width="3" stroke-dasharray="12 10"/></svg>
 <div class="alvo" style="left:1011px; top:434px"></div>
 <div class="a" style="position:absolute; left:1071px; top:582px; width:300px; display:flex; flex-direction:column; gap:2px; --i:5">
 <p style="font-size:32px; font-weight:800; color:#FBF7F4">Paranã (TO)</p>
 <p style="font-size:24px; color:#C9CFD6">2 set 2025</p>
 </div>
-<img src="/pitch/antigo.jpg" alt="O fogo de perto: 7 avisos do satélite antigo, quadrados roxos de 1 km" class="sat moldura p" style="position:absolute; left:1488px; top:200px; width:317px; height:230px; --i:6">
-<p class="a" style="position:absolute; left:1488px; top:440px; width:320px; font-size:30px; font-weight:800; color:#FBF7F4; --i:7"><span style="color:#B9A6E6">Antigo</span> 7 avisos</p>
-<img src="/pitch/novo.jpg" alt="O mesmo fogo: 19 avisos do satélite novo, quadradinhos azul-petróleo de 375 m" class="sat moldura p" style="position:absolute; left:1488px; top:500px; width:317px; height:230px; --i:8">
-<p class="a" style="position:absolute; left:1488px; top:740px; width:320px; font-size:30px; font-weight:800; color:#FBF7F4; --i:9"><span style="color:#7FD3DB">Novo</span> 19 avisos</p>
-<div class="a" style="position:absolute; left:941px; top:800px; width:851px; box-sizing:border-box; background:#D4410B; border-radius:24px; padding:20px 28px; display:flex; align-items:center; gap:22px; --i:10">
+<img src="/pitch/antigo.jpg" alt="O fogo de perto: 7 avisos do satélite antigo, quadrados roxos de 1 km" class="sat moldura p" style="position:absolute; left:1488px; top:176px; width:317px; height:212px; --i:6">
+<svg viewBox="0 0 300 300" width="64" height="64" aria-hidden="true" style="position:absolute; left:1500px; top:188px; border-radius:10px; box-shadow:0 4px 14px rgba(0,0,0,.4)" class="p"><rect width="300" height="300" rx="16" fill="#fff"/><rect x="100" y="100" width="100" height="100" fill="#6B4FA0" fill-opacity=".85"/><g stroke="#6B4FA0" stroke-opacity=".5" stroke-width="6"><path d="M100 0v300M200 0v300M0 100h300M0 200h300"/></g><circle cx="150" cy="150" r="26" fill="#F7801E"/><circle cx="250" cy="248" r="9" fill="#F7801E"/></svg>
+<p class="a" style="position:absolute; left:1488px; top:394px; width:360px; font-size:30px; font-weight:800; color:#FBF7F4; --i:7"><span style="color:#B9A6E6">Antigo</span> 7 avisos</p>
+<p class="a" style="position:absolute; left:1488px; top:434px; width:380px; font-size:20px; line-height:1.25; color:#C9CFD6; --i:7">1 km: vê o fogo grande, o pequeno escapa</p>
+<img src="/pitch/novo.jpg" alt="O mesmo fogo: 19 avisos do satélite novo, quadradinhos azul-petróleo de 375 m" class="sat moldura p" style="position:absolute; left:1488px; top:490px; width:317px; height:212px; --i:8">
+<svg viewBox="0 0 300 300" width="64" height="64" aria-hidden="true" style="position:absolute; left:1500px; top:502px; border-radius:10px; box-shadow:0 4px 14px rgba(0,0,0,.4)" class="p"><rect width="300" height="300" rx="16" fill="#fff"/><g fill="#00727F" fill-opacity=".85"><rect x="112.5" y="112.5" width="37.5" height="37.5"/><rect x="150" y="112.5" width="37.5" height="37.5"/><rect x="112.5" y="150" width="37.5" height="37.5"/><rect x="150" y="150" width="37.5" height="37.5"/><rect x="225" y="225" width="37.5" height="37.5"/></g><g stroke="#00727F" stroke-opacity=".4" stroke-width="4"><path d="M37.5 0v300M75 0v300M112.5 0v300M150 0v300M187.5 0v300M225 0v300M262.5 0v300M0 37.5h300M0 75h300M0 112.5h300M0 150h300M0 187.5h300M0 225h300M0 262.5h300"/></g><circle cx="150" cy="150" r="26" fill="#F7801E"/><circle cx="250" cy="248" r="9" fill="#F7801E"/></svg>
+<p class="a" style="position:absolute; left:1488px; top:708px; width:360px; font-size:30px; font-weight:800; color:#FBF7F4; --i:9"><span style="color:#7FD3DB">Novo</span> 19 avisos</p>
+<p class="a" style="position:absolute; left:1488px; top:744px; width:400px; font-size:20px; line-height:1.25; color:#C9CFD6; --i:9">375 m: pega até fogo pequeno. Em 2025, <b style="color:#7FD3DB">3 de cada 4 fogos</b> só ele viu</p>
+<div class="a" style="position:absolute; left:941px; top:836px; width:851px; box-sizing:border-box; background:#D4410B; border-radius:24px; padding:20px 28px; display:flex; align-items:center; gap:22px; --i:10">
 <x-icon style="width:48px; height:48px; color:#FBF7F4" aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 640 512" color="currentColor" style="color:currentColor" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M208 352c114.9 0 208-78.8 208-176S322.9 0 208 0S0 78.8 0 176c0 38.6 14.7 74.3 39.6 103.4c-3.5 9.4-8.7 17.7-14.2 24.7c-4.8 6.2-9.7 11-13.3 14.3c-1.8 1.6-3.3 2.9-4.3 3.7c-.5 .4-.9 .7-1.1 .8l-.2 .2s0 0 0 0s0 0 0 0C1 327.2-1.4 334.4 .8 340.9S9.1 352 16 352c21.8 0 43.8-5.6 62.1-12.5c9.2-3.5 17.8-7.4 25.2-11.4C134.1 343.3 169.8 352 208 352zM448 176c0 112.3-99.1 196.9-216.5 207C255.8 457.4 336.4 512 432 512c38.2 0 73.9-8.7 104.7-23.9c7.5 4 16 7.9 25.2 11.4c18.3 6.9 40.3 12.5 62.1 12.5c6.9 0 13.1-4.5 15.2-11.1c2.1-6.6-.2-13.8-5.8-17.9c0 0 0 0 0 0s0 0 0 0l-.2-.2c-.2-.2-.6-.4-1.1-.8c-1-.8-2.5-2-4.3-3.7c-3.6-3.3-8.5-8.1-13.3-14.3c-5.5-7-10.7-15.4-14.2-24.7c24.9-29 39.6-64.7 39.6-103.4c0-92.8-84.9-168.9-192.6-175.5c.4 5.1 .6 10.3 .6 15.5z"></path></svg></x-icon>
 <p style="font-size:24px; line-height:1.3; color:#FBF7F4; width:730px"><b>Como 2 ligações pro 193:</b> uma diz “tem fogo no bairro”, a outra liga a cada quarteirão. <b>É um fogo só. Qual conta está certa?</b></p>
 </div>
@@ -174,7 +189,8 @@ x-shape, x-icon { display: block } x-icon svg { width: 100%; height: 100%; displ
 <h2 class="titulo a" style="--i:0">Demonstração: quem usa e para quê</h2>
 <div style="display:flex; gap:40px">
 <div style="width:860px; display:flex; flex-direction:column; gap:28px">
-<img src="/pitch/globo.jpg" alt="O globo do De Olho no Fogo com imagem de satélite e o Brasil no centro, agosto e setembro de 2025" class="moldura p" style="width:860px; height:484px; object-fit:cover; --i:1">
+<div class="p" style="position:relative; width:860px; height:484px; --i:1"><img src="/pitch/parana_app.jpg" alt="O app aberto sobre Paranã (TO) em 2 de setembro de 2025: um clique no fogo mostra que ele foi visto pelos dois satélites, das 00h39 às 21h36" class="moldura" style="width:860px; height:484px; object-fit:cover; display:block">
+<p style="position:absolute; left:16px; bottom:16px; max-width:560px; font-size:22px; font-weight:700; line-height:1.3; color:#FBF7F4; background:rgba(20,17,15,0.82); padding:10px 16px; border-radius:14px">Paranã (TO), 2 set 2025: um clique e o app conta que o fogo foi visto pelos <span style="color:#FF8A4C">dois satélites</span>, das 00h39 às 21h36</p></div>
 <div class="cartao-escuro a" style="gap:6px; padding:28px 36px; --i:2">
 <p class="olho">Já está no ar</p>
 <p style="font-size:40px; font-weight:900; color:#FBF7F4">deolhonofogo.estudiocrivy.com.br</p>
@@ -235,6 +251,7 @@ x-shape, x-icon { display: block } x-icon svg { width: 100%; height: 100%; displ
 </div>
 </div>
 
+<div class="a" style="position:absolute; left:1560px; top:262px; width:236px; display:flex; flex-direction:column; align-items:flex-start; gap:10px; --i:6"><p style="font-size:19px; font-weight:800; color:#9C2C05; letter-spacing:1px; text-transform:uppercase">O mesmo fogo, anotado 3 vezes</p><span style="display:inline-flex; align-items:center; gap:8px; background:#fff; border-radius:999px; padding:6px 14px; font-size:19px; font-weight:700; color:#22262A; box-shadow:0 2px 8px rgba(0,0,0,.12); transform:rotate(-2deg)"><i style="width:12px; height:12px; border-radius:6px; background:#B9A6E6"></i>antigo, 10h30</span><span style="display:inline-flex; align-items:center; gap:8px; background:#fff; border-radius:999px; padding:6px 14px; font-size:19px; font-weight:700; color:#22262A; box-shadow:0 2px 8px rgba(0,0,0,.12); transform:rotate(1.5deg)"><i style="width:12px; height:12px; border-radius:6px; background:#7FD3DB"></i>novo, 13h30</span><span style="display:inline-flex; align-items:center; gap:8px; background:#fff; border-radius:999px; padding:6px 14px; font-size:19px; font-weight:700; color:#22262A; box-shadow:0 2px 8px rgba(0,0,0,.12); transform:rotate(-1deg)"><i style="width:12px; height:12px; border-radius:6px; background:#7FD3DB"></i>novo, de novo</span><p style="font-size:22px; font-weight:900; color:#D4410B">= 1 fogo, contado uma vez</p></div>
 </section>
 
 <section id="impacto" class="claro" data-transition="fade" style="gap:28px">
@@ -306,6 +323,17 @@ x-shape, x-icon { display: block } x-icon svg { width: 100%; height: 100%; displ
 </section>
 
 </main>
+<details id="opcoes">
+<summary>Baixar · outras opções</summary>
+<div class="painel">
+<a href="/pitch/De-Olho-no-Fogo-apresentacao.pdf" download><span class="rec">Baixar em PDF (recomendado)</span><small>7 slides, fica igual em qualquer computador</small></a>
+<a href="/pitch/De-Olho-no-Fogo-apresentacao.pdf" target="_blank" rel="noopener">Ver o PDF no navegador<small>abre numa aba nova, sem baixar</small></a>
+<a href="/pitch/De-Olho-no-Fogo-apresentacao.pptx" download>Baixar em PowerPoint (PPTX)<small>pode desconfigurar fontes e posições; prefira o PDF</small></a>
+<a href="/pitch/De-Olho-no-Fogo-30s.mp4" target="_blank" rel="noopener">Ver o vídeo de 30 segundos<small>em inglês, MP4</small></a>
+<a href="https://github.com/WednyFernandes/de-olho-no-fogo" target="_blank" rel="noopener">Código no GitHub<small>dados, scripts e site, abertos</small></a>
+<a href="/">Voltar ao site<small>deolhonofogo.estudiocrivy.com.br</small></a>
+</div>
+</details>
 <div id="barra"></div><div id="conta"></div>
 <div id="dica">→ ou clique para avançar · F tela cheia</div>
 <script>
@@ -320,9 +348,10 @@ x-shape, x-icon { display: block } x-icon svg { width: 100%; height: 100%; displ
     var k = Math.min(innerWidth / 1920, innerHeight / 1080);
     palco.style.transform = 'scale(' + k + ') translate(-50%, -50%)';
   }
+  function loc(t) { return document.documentElement.lang === 'en' ? t.replace(/[.,]/g, function (c) { return c === '.' ? ',' : '.'; }) : t; }
   function contar(el) {
     var fim = el.dataset.fim, m = fim.match(/^(\D*)([\d.,]+)(.*)$/);
-    if (!m || calmo) { el.textContent = fim; return; }
+    if (!m || calmo) { el.textContent = loc(fim); return; }
     var pre = m[1], num = m[2], pos = m[3];
     var dec = num.indexOf(',') >= 0 ? num.split(',')[1].length : 0;
     var alvo = parseFloat(num.replace(/\./g, '').replace(',', '.'));
@@ -331,12 +360,12 @@ x-shape, x-icon { display: block } x-icon svg { width: 100%; height: 100%; displ
     function fmt(v) {
       var s = v.toFixed(dec).replace('.', ',');
       if (mil) { var p = s.split(','); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.'); s = p.join(','); }
-      return pre + s + pos;
+      return loc(pre + s + pos);
     }
     (function passo(t) {
       var f = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - f, 3);
       el.textContent = fmt(alvo * e);
-      if (f < 1) requestAnimationFrame(passo); else el.textContent = fim;
+      if (f < 1) requestAnimationFrame(passo); else el.textContent = loc(fim);
     })(t0);
   }
   function mostrar(i) {
@@ -364,16 +393,18 @@ x-shape, x-icon { display: block } x-icon svg { width: 100%; height: 100%; displ
   function dica() { document.body.classList.add('sem-dica'); }
 
   addEventListener('keydown', function (e) {
+    if (e.target.closest && e.target.closest('#opcoes')) return;
     if (['ArrowRight', 'PageDown', ' ', 'Enter'].indexOf(e.key) >= 0) { e.preventDefault(); frente(); dica(); }
     else if (['ArrowLeft', 'PageUp', 'Backspace'].indexOf(e.key) >= 0) { e.preventDefault(); tras(); dica(); }
     else if (e.key === 'Home') mostrar(0);
     else if (e.key === 'End') mostrar(slides.length - 1);
     else if (e.key === 'f' || e.key === 'F') { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
   });
-  addEventListener('click', function (e) { if (e.clientX > innerWidth / 3) frente(); else tras(); dica(); });
+  addEventListener('click', function (e) { if (e.target.closest('#opcoes, #doof-lang')) return; if (e.clientX > innerWidth / 3) frente(); else tras(); dica(); });
   var x0 = null;
   addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
   addEventListener('touchend', function (e) {
+    if (e.target.closest('#opcoes')) { x0 = null; return; }
     if (x0 === null) return;
     var dx = e.changedTouches[0].clientX - x0; x0 = null;
     if (Math.abs(dx) > 40) { if (dx < 0) frente(); else tras(); dica(); }
