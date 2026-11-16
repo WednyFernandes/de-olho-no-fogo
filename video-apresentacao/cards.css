@@ -1,0 +1,18 @@
+@font-face{font-family:F;src:url(fonts/figtree-400.ttf);font-weight:400}
+@font-face{font-family:F;src:url(fonts/figtree-700.ttf);font-weight:700}
+@font-face{font-family:F;src:url(fonts/figtree-900.ttf);font-weight:900}
+html,body{margin:0;width:720px;height:1280px;background:#14110F;color:#FBF7F4;font-family:F,sans-serif;overflow:hidden}
+body{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative}
+body:before{content:"";position:absolute;inset:0;background:radial-gradient(60% 40% at 50% 42%,rgba(212,65,11,.28),transparent 70%)}
+*{position:relative}
+.logo{width:150px;height:150px;border-radius:40px;box-shadow:0 0 80px rgba(212,65,11,.55)}
+h1{font-weight:900;font-size:84px;line-height:.98;margin:44px 40px 0;letter-spacing:-1.5px}
+h1 em{font-style:normal;color:#FF6A2B}
+.k{font-weight:700;font-size:27px;line-height:1.45;color:#E8DCD3;margin:34px 60px 0}
+.k b{color:#FFC02E;font-weight:700}
+.bar{width:70px;height:6px;border-radius:3px;background:#D4410B;margin:44px 0 0}
+.team{font-weight:900;font-size:40px;margin-top:30px}
+.url{font-weight:900;font-size:31px;color:#FBF7F4;background:#D4410B;padding:16px 26px;border-radius:18px;margin-top:40px}
+.p{font-weight:700;font-size:28px;line-height:1.5;color:#E8DCD3;margin:44px 64px 0}
+.p b{color:#FBF7F4;font-weight:900}
+.thx{font-weight:900;font-size:96px;margin-top:56px;color:#FF6A2B}

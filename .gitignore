@@ -26,3 +26,10 @@ cache/ee/
 cache/power-brasil/
 dados/risco/
 cache/cobertura/
+
+# trabalho do vídeo da apresentação (pesado)
+video-apresentacao/src.mp4
+video-apresentacao/base.mp4
+video-apresentacao/transforms.trf
+video-apresentacao/audio16k.wav
+video-apresentacao/frames/

@@ -1,0 +1,590 @@
+1
+00:00:04,040 --> 00:00:05,330
+Good evening, everyone.
+
+2
+00:00:05,460 --> 00:00:06,750
+Good evening, judges.
+
+3
+00:00:07,300 --> 00:00:10,400
+I'm Wedny, a designer and developer.
+
+4
+00:00:10,420 --> 00:00:13,160
+This is Wander, and this is Mila.
+
+5
+00:00:13,180 --> 00:00:16,360
+Our team is Space Uai.
+
+6
+00:00:16,380 --> 00:00:19,440
+Our challenge is harmonizing
+
+7
+00:00:19,460 --> 00:00:22,680
+the satellites that detect
+
+8
+00:00:22,700 --> 00:00:25,910
+heat spots: MODIS and VIIRS.
+
+9
+00:00:25,960 --> 00:00:29,020
+At first it may seem like a rather
+
+10
+00:00:29,040 --> 00:00:32,140
+complex topic, with lots of data, but we'll
+
+11
+00:00:32,160 --> 00:00:34,740
+show you there's an easier way
+
+12
+00:00:34,760 --> 00:00:36,540
+to understand all of it.
+
+13
+00:00:36,560 --> 00:00:39,180
+When we talk about heat spots,
+
+14
+00:00:39,200 --> 00:00:42,380
+the main topic that comes up is wildfires,
+
+15
+00:00:42,400 --> 00:00:44,910
+which hit Brazil hard.
+
+16
+00:00:46,980 --> 00:00:49,860
+Many people may sometimes
+
+17
+00:00:49,880 --> 00:00:52,980
+wonder how these fires could affect
+
+18
+00:00:53,000 --> 00:00:53,980
+their own lives.
+
+19
+00:00:54,000 --> 00:00:56,560
+Today climate change
+
+20
+00:00:56,580 --> 00:00:59,900
+is a topic being widely discussed, and
+
+21
+00:00:59,920 --> 00:01:02,600
+wildfires can be a driver of it.
+
+22
+00:01:02,620 --> 00:01:04,520
+For example, we see that
+
+23
+00:01:04,540 --> 00:01:07,600
+the number of people with
+
+24
+00:01:07,620 --> 00:01:10,320
+respiratory diseases keeps rising over time,
+
+25
+00:01:10,340 --> 00:01:12,620
+all of it tied to changes in the climate.
+
+26
+00:01:12,640 --> 00:01:15,320
+We also saw that in the Pantanal,
+
+27
+00:01:15,340 --> 00:01:18,520
+in 2020, 17 million animals
+
+28
+00:01:18,540 --> 00:01:20,720
+were killed by the fires.
+
+29
+00:01:20,740 --> 00:01:26,580
+So, beyond knowing and discussing
+
+30
+00:01:26,600 --> 00:01:29,560
+why this happens, we first need
+
+31
+00:01:29,580 --> 00:01:32,320
+to track how
+
+32
+00:01:32,340 --> 00:01:36,090
+and where these fires are, right?
+
+33
+00:01:36,860 --> 00:01:39,980
+To deal with wildfires, it's crucial
+
+34
+00:01:40,000 --> 00:01:41,460
+to locate them. Locate them, right?
+
+35
+00:01:41,480 --> 00:01:42,840
+So we can deal with them.
+
+36
+00:01:42,860 --> 00:01:46,160
+For that, we use satellites.
+
+37
+00:01:46,180 --> 00:01:49,350
+We took data from two different satellites.
+
+38
+00:01:49,580 --> 00:01:52,740
+The MODIS satellite and the VIIRS satellite.
+
+39
+00:01:52,760 --> 00:01:55,030
+Their scales are very different.
+
+40
+00:01:55,480 --> 00:01:58,800
+One has a 1 km scale, while the other
+
+41
+00:01:58,820 --> 00:02:01,030
+has a 375-meter scale.
+
+42
+00:02:01,220 --> 00:02:03,960
+To give you an easier example,
+
+43
+00:02:03,980 --> 00:02:07,040
+it's as if one could see
+
+44
+00:02:07,060 --> 00:02:10,260
+the flames in a neighborhood, and the other
+
+45
+00:02:10,280 --> 00:02:12,670
+the exact block, with more precision.
+
+46
+00:02:13,060 --> 00:02:16,220
+And that is exactly our challenge:
+
+47
+00:02:16,240 --> 00:02:19,500
+reconciling the data
+
+48
+00:02:19,520 --> 00:02:22,360
+from one with the other, so that
+
+49
+00:02:22,380 --> 00:02:25,690
+their readings match.
+
+50
+00:02:26,000 --> 00:02:29,170
+With this data, we built a website.
+
+51
+00:02:30,400 --> 00:02:33,660
+Our solution is an open platform,
+
+52
+00:02:33,680 --> 00:02:36,680
+for broad use, from people who are
+
+53
+00:02:36,700 --> 00:02:43,900
+curious about the topic
+to academia and science.
+
+54
+00:02:43,920 --> 00:02:46,680
+On this site, we combine the data
+
+55
+00:02:46,700 --> 00:02:47,760
+from these two satellites.
+
+56
+00:02:47,780 --> 00:02:51,020
+Its main purpose is to keep
+
+57
+00:02:51,040 --> 00:02:53,440
+a history of all this, and also
+
+58
+00:02:53,460 --> 00:02:57,070
+to use an algorithm we created,
+
+59
+00:02:57,460 --> 00:03:00,040
+based on NASA data and some other data
+
+60
+00:03:00,060 --> 00:03:01,680
+we got from other sources,
+
+61
+00:03:01,700 --> 00:03:04,400
+to predict areas with
+
+62
+00:03:04,420 --> 00:03:07,320
+conditions favorable
+
+63
+00:03:07,340 --> 00:03:10,770
+to wildfires and burns.
+
+64
+00:03:11,600 --> 00:03:14,100
+Here on screen we have some examples
+
+65
+00:03:14,120 --> 00:03:17,380
+of the site's views and some insights
+
+66
+00:03:17,400 --> 00:03:18,340
+it gives us.
+
+67
+00:03:18,360 --> 00:03:21,700
+We tried to make it so that people
+
+68
+00:03:21,720 --> 00:03:23,940
+outside the field, who aren't academics,
+
+69
+00:03:23,960 --> 00:03:26,570
+can also use and understand the site.
+
+70
+00:03:27,340 --> 00:03:29,580
+So we ask a question,
+
+71
+00:03:29,600 --> 00:03:31,140
+right? Who uses it, and what for?
+
+72
+00:03:31,160 --> 00:03:34,420
+As he said, many people can
+
+73
+00:03:34,440 --> 00:03:37,980
+use this site: fire brigades, civil defense,
+
+74
+00:03:37,000 --> 00:03:41,600
+city halls, schools,
+newspapers. And what for?
+
+75
+00:03:41,620 --> 00:03:44,260
+To act ahead of time.
+
+76
+00:03:44,280 --> 00:03:46,720
+Because we were able to map lots of data,
+
+77
+00:03:46,740 --> 00:03:48,860
+like temperature, wind speed,
+
+78
+00:03:48,880 --> 00:03:54,540
+wind direction, so we can really
+
+79
+00:03:54,560 --> 00:03:55,350
+get ahead of it, right?
+
+80
+00:03:57,120 --> 00:03:59,000
+So basically, the harmonization:
+
+81
+00:03:59,020 --> 00:04:01,320
+we took the two different datasets,
+
+82
+00:04:01,340 --> 00:04:04,060
+put them on the same scale, sorted,
+
+83
+00:04:04,080 --> 00:04:07,160
+cataloged them, and merged them for
+
+84
+00:04:07,180 --> 00:04:08,320
+better precision.
+
+85
+00:04:08,340 --> 00:04:10,900
+Then we cross-checked this data with others,
+
+86
+00:04:10,920 --> 00:04:14,800
+because not every heat source is a wildfire.
+
+87
+00:04:14,820 --> 00:04:17,320
+So we cross-checked it with burn scar data
+
+88
+00:04:17,340 --> 00:04:19,800
+and other data, right?
+
+89
+00:04:19,820 --> 00:04:20,560
+The ones she mentioned.
+
+90
+00:04:20,580 --> 00:04:23,520
+And we aim to
+
+91
+00:04:23,540 --> 00:04:26,640
+forecast which
+
+92
+00:04:26,660 --> 00:04:29,860
+areas are prone to fire spread,
+
+93
+00:04:29,880 --> 00:04:32,420
+so we can
+
+94
+00:04:32,440 --> 00:04:35,480
+alert the agencies that will deal with
+
+95
+00:04:35,500 --> 00:04:38,600
+it and act earlier, which means
+
+96
+00:04:38,620 --> 00:04:41,500
+spending less money, producing less
+
+97
+00:04:41,520 --> 00:04:44,550
+smoke, and fewer consequences.
+
+98
+00:04:47,250 --> 00:04:50,090
+We couldn't show on the slides
+
+99
+00:04:50,110 --> 00:04:53,070
+every part of our explanation,
+
+100
+00:04:53,090 --> 00:04:54,930
+but we invite you to check it out.
+
+101
+00:04:54,950 --> 00:04:57,340
+It's already online, for phone and computer.
+
+102
+00:04:59,170 --> 00:05:01,780
+Is this data real-time?
+
+103
+00:05:04,330 --> 00:05:07,530
+No, it's not real-time, because
+
+104
+00:05:07,550 --> 00:05:10,550
+of how these satellites work,
+
+105
+00:05:10,570 --> 00:05:13,890
+there's a three-hour delay in transferring
+
+106
+00:05:13,910 --> 00:05:17,170
+the data, plus another limitation we have:
+
+107
+00:05:17,190 --> 00:05:20,450
+they don't pass over at fixed times.
+
+108
+00:05:20,470 --> 00:05:23,710
+There are some times when they pass more
+
+109
+00:05:23,730 --> 00:05:26,030
+often, but it's not
+
+110
+00:05:26,050 --> 00:05:28,650
+100% certain.
+
+111
+00:05:28,670 --> 00:05:31,670
+In fact, some of these satellites
+
+112
+00:05:31,690 --> 00:05:33,180
+don't collect data every day.
+
+113
+00:05:34,370 --> 00:05:37,590
+Another question: you said
+
+114
+00:05:37,610 --> 00:05:40,310
+you used NASA data and others.
+
+115
+00:05:40,330 --> 00:05:41,550
+What are those others?
+
+116
+00:05:41,570 --> 00:05:42,800
+That's important to mention.
+
+117
+00:05:43,660 --> 00:05:47,100
+We also used MapBiomas as support,
+
+118
+00:05:47,120 --> 00:05:49,460
+because on the site we also included
+
+119
+00:05:49,480 --> 00:05:52,760
+land cover and land use, so we know
+
+120
+00:05:52,780 --> 00:05:55,080
+what the fire is burning,
+whether it's vegetation
+
+121
+00:05:55,100 --> 00:05:56,260
+or an urban area.
+
+122
+00:05:56,280 --> 00:05:59,620
+We also used data from INPE
+
+123
+00:05:59,640 --> 00:06:02,320
+and NASA POWER, which gives us weather data,
+
+124
+00:06:02,340 --> 00:06:04,420
+like rain, precipitation,
+
+125
+00:06:04,440 --> 00:06:05,110
+temperature.
+
+126
+00:06:06,560 --> 00:06:09,680
+Another thing I wanted to ask is about
+
+127
+00:06:09,700 --> 00:06:10,730
+the target audience.
+
+128
+00:06:10,900 --> 00:06:14,390
+What did you put? City halls?
+
+129
+00:06:14,700 --> 00:06:18,000
+And I saw, maybe you mentioned it
+
+130
+00:06:18,020 --> 00:06:19,590
+and I missed it, society at large.
+
+131
+00:06:20,180 --> 00:06:23,380
+Alerting society at a few key points,
+
+132
+00:06:23,400 --> 00:06:25,580
+especially people close to these
+
+133
+00:06:25,600 --> 00:06:26,960
+fires and so on.
+
+134
+00:06:26,980 --> 00:06:28,720
+Is that planned?
+
+135
+00:06:28,740 --> 00:06:31,760
+And how would you do it?
+
+136
+00:06:31,780 --> 00:06:34,460
+We did think about it: today, civil defense,
+
+137
+00:06:34,480 --> 00:06:36,820
+when a very heavy rain is coming,
+
+138
+00:06:36,840 --> 00:06:39,800
+sends a warning to our phones
+
+139
+00:06:39,820 --> 00:06:42,500
+so we can protect ourselves and prepare.
+
+140
+00:06:42,520 --> 00:06:44,870
+So we thought about helping with that,
+
+141
+00:06:45,280 --> 00:06:47,560
+being a complement to civil defense.
+
+142
+00:06:47,580 --> 00:06:50,800
+Besides weather, fire would also trigger an
+
+143
+00:06:50,820 --> 00:06:53,900
+alert on the phone of everyone who may be
+
+144
+00:06:53,920 --> 00:06:55,340
+near the fire.
+
+145
+00:06:55,360 --> 00:06:56,880
+Then people can take care of themselves,
+
+146
+00:06:56,900 --> 00:06:59,100
+drink more water, wear a mask, or even leave
+
+147
+00:06:59,120 --> 00:06:59,900
+the area.

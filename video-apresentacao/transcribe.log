@@ -1,0 +1,113 @@
+[  10.52-  22.29] Cuidado com o fio aí. Ótimo. Tudo pronto para vocês?
+[  23.03-  44.51] Banca, tudo certinho? Tudo certo, banca? Ok.
+[  45.27-  48.07] Bom, então vocês têm cinco minutos a partir de agora.
+[  51.54-  54.00] Boa noite, pessoal. Boa noite, banca.
+[  54.80-  60.68] Sou o Edwin, sou designer, sou desenvolvedor. Esse é o Ander, essa aqui é a Mila.
+[  60.68-  63.62] Nossa equipe é a equipe Space Uai.
+[  63.88-  73.16] E o nosso desafio é a harmonização dos satélites de reconhecimento de pontos de calor, MODIS e VIIRS.
+[  73.46-  78.58] A princípio pode parecer um tema meio complexo e com bastante dados,
+[  78.78-  83.90] mas a gente vai mostrar que tem uma maneira mais fácil de entender tudo isso.
+[  84.06-  89.90] E quando a gente fala de pontos de calor, o principal assunto que vem são as queimadas,
+[  89.90-  92.16] que acometem bastante aqui no Brasil.
+[  94.48- 101.32] E aí muitas pessoas, às vezes, podem se perguntar o que essas queimadas podem impactar na minha vida.
+[ 101.50- 106.88] Hoje a gente vê que o tema de mudanças climáticas está sendo um tema que vem sendo bastante discutido
+[ 106.88- 109.90] e as queimadas podem ser um potencial para isso.
+[ 110.12- 115.94] Então a gente vê que, por exemplo, os números de pessoas com doenças respiratórias
+[ 115.94- 120.14] vem aumentando ao longo do tempo, tudo isso baseado nas mudanças do clima.
+[ 120.14- 128.00] E a gente viu também que lá no Pantanal, em 2020, 17 milhões de animais foram mortos por causa da queimada.
+[ 128.24- 135.88] Então, para além da gente saber, discutir o porquê disso,
+[ 136.20- 143.34] a gente precisa primeiro rastrear como, onde que essas queimadas estão, né?
+[ 149.96- 153.64] Lidar com as queimadas é muito importante saber localizar.
+[ 153.66- 155.82] Localizá-las, né? Para poder lidar com elas.
+[ 155.96- 159.04] Então, para isso, a gente usa os satélites.
+[ 159.28- 162.20] A gente pegou os dados de dois satélites diferentes.
+[ 162.68- 165.64] O satélite MOBIS e o satélite VIIRS.
+[ 165.86- 167.88] Eles têm escalas muito diferentes.
+[ 168.58- 173.88] Um deles tem a escala de 1 km, enquanto o outro tem a escala de 375 metros.
+[ 174.32- 176.96] Para dar um exemplo mais fácil de vocês entenderem,
+[ 177.08- 182.08] é como se um prevesse as chamas de um bairro
+[ 182.08- 185.52] e o outro consegue saber o quarteirão com mais precisão.
+[ 186.16- 189.20] E o nosso desafio é justamente esse.
+[ 189.34- 194.22] É conseguir conciliar o dado de um com o outro,
+[ 194.34- 198.54] sendo que a leitura combine uma com a outra.
+[ 199.10- 202.02] E com esses dados, a gente criou um site.
+[ 203.50- 206.78] E aí, a nossa solução é uma plataforma aberta,
+[ 206.78- 211.30] de amplo uso, desde pessoas que são curiosas do assunto,
+[ 211.30- 216.86] até o âmbito acadêmico e científico.
+[ 217.02- 220.68] Então, nesse site, a gente junta esses dados desses dois satélites.
+[ 220.88- 225.60] E a função principal dele é ter um histórico de tudo isso,
+[ 225.70- 229.92] e também usar de um algoritmo que a gente criou,
+[ 230.56- 233.16] baseado nesses dados da NASA e em alguns outros dados
+[ 233.16- 234.72] que a gente conseguiu de outras fontes,
+[ 234.80- 240.18] para poder prever áreas com situações favoráveis
+[ 240.18- 243.62] para acontecimentos de incêndios ou queimadas.
+[ 244.70- 248.92] Aqui na tela, a gente tem alguns exemplos da visualização do site
+[ 248.92- 251.30] e de alguns insights que ele gera para a gente.
+[ 251.46- 255.98] A gente tentou manter de forma que pessoas que não sejam da área,
+[ 256.06- 259.42] não sejam acadêmicos, consigam também usar e entender bem esse site.
+[ 263.24- 265.60] E aí, a gente faz uma pergunta, né?
+[ 265.66- 266.92] Quem usa e para quê?
+[ 267.06- 271.88] Então, como ele falou, várias pessoas podem fazer o uso desse site,
+[ 271.88- 276.52] como brigada, defesa civil, prefeitura, escola, jornal.
+[ 276.58- 280.00] E para quê? É para a gente antecipar a intervenção.
+[ 280.18- 282.54] Porque aí a gente conseguiu traçar vários dados,
+[ 282.64- 285.70] como temperatura, velocidade do vento, direção do vento,
+[ 285.72- 291.00] e aí a gente consegue antecipar mesmo, né?
+[ 293.02- 296.98] Então, basicamente, a harmonização, a gente pegou os dois dados diferentes,
+[ 297.24- 301.06] colocou eles na mesma régua, separou, catalogou eles,
+[ 301.06- 304.08] e unificou para ter uma melhor precisão.
+[ 304.24- 306.72] Aí a gente cruzou esses dados com outros,
+[ 306.82- 310.70] porque nem toda fonte de calor é uma queimada.
+[ 310.72- 314.00] Então, a gente cruzou com dados de cicatrizes de queimadas
+[ 314.00- 316.28] e com outros dados, né? Que ela falou.
+[ 316.48- 322.90] E a gente busca tentar ver uma previsão para essas áreas
+[ 322.90- 326.82] que têm propensão a espalhamento de queimadas,
+[ 326.96- 330.64] para poder alertar os órgãos,
+[ 330.64- 333.86] que vão lidar com isso e antecipar mais cedo,
+[ 333.90- 336.66] e aí acaba gastando menos dinheiro,
+[ 336.88- 340.20] gerando menos fumaça e tendo menos consequências.
+[ 343.15- 346.01] A gente não conseguiu demonstrar no slide
+[ 346.01- 348.89] todas as partes da nossa explicação,
+[ 348.99- 350.75] mas a gente convida vocês a acessarem.
+[ 350.85- 352.99] Já estão online, para celular e computador.
+[ 368.87- 371.23] Esses dados aí são em tempo real?
+[ 374.03- 376.35] Então, não são em tempo real,
+[ 376.35- 380.17] mas devido ao próprio funcionamento desses satélites,
+[ 380.27- 384.73] eles têm um delay de três horas de transferência desses dados,
+[ 384.95- 387.17] além de um outro limite que a gente tem,
+[ 387.23- 390.05] que eles não passam em horários fixos.
+[ 390.17- 394.23] Eles têm alguns horários que eles passam mais vezes,
+[ 394.61- 398.27] mas não é algo 100% certeiro.
+[ 398.37- 400.63] Inclusive, tem alguns desses satélites
+[ 400.63- 402.63] que eles não coletam todos os dias.
+[ 404.07- 405.51] Outra pergunta seria,
+[ 405.51- 409.91] você disse que usou os dados da NASA e outros.
+[ 410.03- 412.25] Que outros são esses? Isso é importante falar.
+[ 415.46- 418.78] A gente também usou como apoio o MapPiomas,
+[ 418.92- 422.92] porque dentro desse site a gente colocou também cobertura e uso do sol,
+[ 423.10- 425.70] para a gente saber o que o fogo está queimando,
+[ 425.76- 427.88] se é uma vegetação, se é uma área urbana.
+[ 428.08- 432.16] Então, a gente usou também os dados do INPE e do NASA Power,
+[ 432.30- 434.36] que dá dados meteorológicos para a gente,
+[ 434.38- 436.66] como chuva, precipitação, temperatura.
+[ 438.36- 439.92] Outra pergunta que eu queria saber
+[ 439.92- 442.28] é em relação ao público alto.
+[ 442.70- 445.94] O que vocês colocaram? Prefeitura?
+[ 446.50- 449.74] E aí eu vi, pode ser que vocês falaram,
+[ 449.82- 451.14] eu não percebi, que é a sociedade.
+[ 451.98- 455.96] Questão de alerta à sociedade em alguns pontos principais,
+[ 455.96- 458.54] principalmente quem está próximo dessas queimadas e tudo mais.
+[ 458.78- 460.30] Tem previsão para isso?
+[ 460.54- 463.40] E como que vai ser feito isso no caso de vocês?
+[ 463.58- 466.28] A gente até pensou, porque a defesa civil hoje,
+[ 466.28- 468.42] quando vai ter uma chuva muito forte,
+[ 468.64- 471.60] elas enviam para a gente um aviso no nosso telefone,
+[ 471.62- 474.16] para a gente se proteger e se precaver.
+[ 474.32- 476.42] Então, a gente pensou nisso, ajudar,
+[ 477.08- 479.28] ser um complemento para a defesa civil.
+[ 479.38- 484.32] Além do clima, o fogo também gerar um alerta no telefone de cada um,
+[ 484.42- 487.16] que possa estar próximo do fogo.
+[ 487.16- 489.46] Aí a pessoa consegue se cuidar, tomar mais água,
+[ 489.54- 491.30] usar uma máscara ou até mesmo sair do local.
+[ 503.36- 505.20] Próxima equipe na tela, por favor.
+[ 514.81- 515.15] Próxima equipe na tela.

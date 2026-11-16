@@ -62,8 +62,8 @@ export default function Time() {
             <figcaption style={{ marginTop: 12, color: '#4F575E' }}>Da esquerda para a direita: Wander, Mila e Wedny, que apresentaram em Ouro Preto. O resto do time participou a distância.</figcaption>
           </figure>
           <h3 className="v-h3" style={{ marginTop: 40 }}>A apresentação no evento</h3>
-          <video src="/img/time-apresentacao.mp4" poster="/img/time-apresentacao.jpg" controls preload="none" playsInline style={{ display: 'block', width: '100%', maxWidth: 380, aspectRatio: '480 / 854', borderRadius: 18, background: '#14110F', marginTop: 12 }} />
-          <p style={{ marginTop: 10, color: '#4F575E' }}>Gravada da plateia, em Ouro Preto, 15 de novembro de 2026 (8 min, em português).</p>
+          <video src="/img/time-apresentacao.mp4" poster="/img/time-apresentacao.jpg" controls preload="metadata" playsInline style={{ display: 'block', width: '100%', maxWidth: 380, aspectRatio: '480 / 854', borderRadius: 18, background: '#14110F', marginTop: 12 }} />
+          <p style={{ marginTop: 10, color: '#4F575E' }}>Gravada da plateia, em Ouro Preto, 15 de novembro de 2026 (7 min, em português, com legendas em português e inglês).</p>
         </div>
       </section>
 

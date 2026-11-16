@@ -1,0 +1,147 @@
+0|Boa noite, pessoal.
+1|Boa noite, banca.
+2|Sou o Wedny, sou designer, sou desenvolvedor.
+3|Esse é o Wander, essa aqui é a Mila.
+4|Nossa equipe é a equipe Space Uai.
+5|E o nosso desafio é a harmonização
+6|dos satélites de reconhecimento
+7|de pontos de calor, MODIS e VIIRS.
+8|A princípio pode parecer um tema meio
+9|complexo e com bastante dados, mas a gente vai
+10|mostrar que tem uma maneira mais fácil de
+11|entender tudo isso.
+12|E quando a gente fala de pontos de calor,
+13|o principal assunto que vem são as queimadas,
+14|que acometem bastante aqui no Brasil.
+15|E aí muitas pessoas, às vezes, podem se
+16|perguntar o que essas queimadas podem impactar
+17|na minha vida.
+18|Hoje a gente vê que o tema de mudanças climáticas
+19|está sendo um tema que vem sendo bastante discutido e
+20|as queimadas podem ser um potencial para isso.
+21|Então a gente vê que, por exemplo,
+22|os números de pessoas com doenças
+23|respiratórias vem aumentando ao longo do tempo,
+24|tudo isso baseado nas mudanças do clima.
+25|E a gente viu também que lá no Pantanal,
+26|em 2020, 17 milhões de animais
+27|foram mortos por causa da queimada.
+28|Então, para além da gente saber, discutir
+29|o porquê disso, a gente precisa
+30|primeiro rastrear como,
+31|onde que essas queimadas estão, né?
+32|Lidar com as queimadas é muito importante saber
+33|localizar. Localizá-las, né?
+34|Para poder lidar com elas.
+35|Então, para isso, a gente usa os satélites.
+36|A gente pegou os dados de dois satélites diferentes.
+37|O satélite MODIS e o satélite VIIRS.
+38|Eles têm escalas muito diferentes.
+39|Um deles tem a escala de 1 km, enquanto o outro tem
+40|a escala de 375 metros.
+41|Para dar um exemplo mais fácil de vocês entenderem,
+42|é como se um visse as
+43|chamas de um bairro e o outro consegue saber
+44|o quarteirão com mais precisão.
+45|E o nosso desafio é justamente esse.
+46|É conseguir conciliar o dado
+47|de um com o outro, sendo que a leitura
+48|combine uma com a outra.
+49|E com esses dados, a gente criou um site.
+50|E aí, a nossa solução é uma plataforma aberta,
+51|de amplo uso, desde pessoas que são
+52|curiosas do assunto, até o âmbito acadêmico e científico.
+53|Então, nesse site, a gente junta esses dados desses
+54|dois satélites.
+55|E a função principal dele é ter um
+56|histórico de tudo isso, e também
+57|usar de um algoritmo que a gente criou,
+58|baseado nesses dados da NASA e em alguns outros dados
+59|que a gente conseguiu de outras fontes,
+60|para poder prever áreas com
+61|situações favoráveis para
+62|acontecimentos de incêndios ou queimadas.
+63|Aqui na tela, a gente tem alguns exemplos da
+64|visualização do site e de alguns insights que ele
+65|gera para a gente.
+66|A gente tentou manter de forma que pessoas
+67|que não sejam da área, não sejam acadêmicos,
+68|consigam também usar e entender bem esse site.
+69|E aí, a gente faz uma pergunta,
+70|né? Quem usa e para quê?
+71|Então, como ele falou, várias pessoas podem fazer o
+72|uso desse site, como brigada, defesa civil,
+73|prefeitura, escola, jornal. E para quê?
+74|É para a gente antecipar a intervenção.
+75|Porque aí a gente conseguiu traçar vários dados,
+76|como temperatura, velocidade do vento,
+77|direção do vento, e aí a gente consegue antecipar
+78|mesmo, né?
+79|Então, basicamente, a harmonização,
+80|a gente pegou os dois dados diferentes,
+81|colocou eles na mesma régua, separou,
+82|catalogou eles, e unificou para ter uma
+83|melhor precisão.
+84|Aí a gente cruzou esses dados com outros,
+85|porque nem toda fonte de calor é uma queimada.
+86|Então, a gente cruzou com dados de cicatrizes de
+87|queimadas e com outros dados, né?
+88|Que ela falou.
+89|E a gente busca tentar
+90|ver uma previsão para essas
+91|áreas que têm propensão a espalhamento de
+92|queimadas, para poder
+93|alertar os órgãos, que vão lidar com
+94|isso e antecipar mais cedo, e aí acaba
+95|gastando menos dinheiro, gerando menos
+96|fumaça e tendo menos consequências.
+97|A gente não conseguiu demonstrar no slide
+98|todas as partes da nossa explicação,
+99|mas a gente convida vocês a acessarem.
+100|Já estão online, para celular e computador.
+101|Esses dados aí são em tempo real?
+102|Então, não são em tempo real, mas devido ao
+103|próprio funcionamento desses satélites,
+104|eles têm um delay de três horas de transferência
+105|desses dados, além de um outro limite que a gente
+106|tem, que eles não passam em horários fixos.
+107|Eles têm alguns horários que eles passam mais
+108|vezes, mas não é algo
+109|100% certeiro.
+110|Inclusive, tem alguns desses satélites que eles não
+111|coletam todos os dias.
+112|Outra pergunta seria, você disse que
+113|usou os dados da NASA e outros.
+114|Que outros são esses?
+115|Isso é importante falar.
+116|A gente também usou como apoio o MapBiomas,
+117|porque dentro desse site a gente colocou também
+118|cobertura e uso do solo, para a gente saber o
+119|que o fogo está queimando, se é uma vegetação,
+120|se é uma área urbana.
+121|Então, a gente usou também os dados do INPE e
+122|do NASA POWER, que dá dados meteorológicos para a
+123|gente, como chuva, precipitação,
+124|temperatura.
+125|Outra pergunta que eu queria saber é em relação ao
+126|público-alvo.
+127|O que vocês colocaram? Prefeitura?
+128|E aí eu vi, pode ser que vocês falaram,
+129|eu não percebi, que é a sociedade.
+130|Questão de alerta à sociedade em alguns pontos
+131|principais, principalmente quem está próximo dessas
+132|queimadas e tudo mais.
+133|Tem previsão para isso?
+134|E como que vai ser feito isso no caso de vocês?
+135|A gente até pensou, porque a defesa civil hoje,
+136|quando vai ter uma chuva muito forte,
+137|elas enviam para a gente um aviso no nosso telefone,
+138|para a gente se proteger e se precaver.
+139|Então, a gente pensou nisso, ajudar,
+140|ser um complemento para a defesa civil.
+141|Além do clima, o fogo também gerar um
+142|alerta no telefone de cada um, que possa estar
+143|próximo do fogo.
+144|Aí a pessoa consegue se cuidar,
+145|tomar mais água, usar uma máscara ou até mesmo sair
+146|do local.

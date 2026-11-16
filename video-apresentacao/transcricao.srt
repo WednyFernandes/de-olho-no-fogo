@@ -1,0 +1,704 @@
+1
+00:00:04,040 --> 00:00:05,330
+Boa noite, pessoal.
+
+2
+00:00:05,460 --> 00:00:06,750
+Boa noite, banca.
+
+3
+00:00:07,300 --> 00:00:10,400
+Sou o Wedny, sou designer,
+sou desenvolvedor.
+
+4
+00:00:10,420 --> 00:00:13,160
+Esse é o Wander,
+essa aqui é a Mila.
+
+5
+00:00:13,180 --> 00:00:16,360
+Nossa equipe é a
+equipe Space Uai.
+
+6
+00:00:16,380 --> 00:00:19,440
+E o nosso desafio
+é a harmonização
+
+7
+00:00:19,460 --> 00:00:22,680
+dos satélites de
+reconhecimento
+
+8
+00:00:22,700 --> 00:00:25,910
+de pontos de calor,
+MODIS e VIIRS.
+
+9
+00:00:25,960 --> 00:00:29,020
+A princípio pode
+parecer um tema meio
+
+10
+00:00:29,040 --> 00:00:32,140
+complexo e com bastante
+dados, mas a gente vai
+
+11
+00:00:32,160 --> 00:00:34,740
+mostrar que tem uma
+maneira mais fácil de
+
+12
+00:00:34,760 --> 00:00:36,540
+entender tudo isso.
+
+13
+00:00:36,560 --> 00:00:39,180
+E quando a gente fala
+de pontos de calor,
+
+14
+00:00:39,200 --> 00:00:42,380
+o principal assunto que
+vem são as queimadas,
+
+15
+00:00:42,400 --> 00:00:44,910
+que acometem bastante
+aqui no Brasil.
+
+16
+00:00:46,980 --> 00:00:49,860
+E aí muitas pessoas,
+às vezes, podem se
+
+17
+00:00:49,880 --> 00:00:52,980
+perguntar o que essas
+queimadas podem impactar
+
+18
+00:00:53,000 --> 00:00:53,980
+na minha vida.
+
+19
+00:00:54,000 --> 00:00:56,560
+Hoje a gente vê que o tema
+de mudanças climáticas
+
+20
+00:00:56,580 --> 00:00:59,900
+está sendo um tema que vem
+sendo bastante discutido e
+
+21
+00:00:59,920 --> 00:01:02,600
+as queimadas podem ser
+um potencial para isso.
+
+22
+00:01:02,620 --> 00:01:04,520
+Então a gente vê
+que, por exemplo,
+
+23
+00:01:04,540 --> 00:01:07,600
+os números de
+pessoas com doenças
+
+24
+00:01:07,620 --> 00:01:10,320
+respiratórias vem aumentando
+ao longo do tempo,
+
+25
+00:01:10,340 --> 00:01:12,620
+tudo isso baseado nas
+mudanças do clima.
+
+26
+00:01:12,640 --> 00:01:15,320
+E a gente viu também
+que lá no Pantanal,
+
+27
+00:01:15,340 --> 00:01:18,520
+em 2020, 17
+milhões de animais
+
+28
+00:01:18,540 --> 00:01:20,720
+foram mortos por
+causa da queimada.
+
+29
+00:01:20,740 --> 00:01:26,580
+Então, para além da
+gente saber, discutir
+
+30
+00:01:26,600 --> 00:01:29,560
+o porquê disso,
+a gente precisa
+
+31
+00:01:29,580 --> 00:01:32,320
+primeiro rastrear como,
+
+32
+00:01:32,340 --> 00:01:36,090
+onde que essas
+queimadas estão, né?
+
+33
+00:01:36,860 --> 00:01:39,980
+Lidar com as queimadas
+é muito importante saber
+
+34
+00:01:40,000 --> 00:01:41,460
+localizar.
+Localizá-las, né?
+
+35
+00:01:41,480 --> 00:01:42,840
+Para poder lidar com elas.
+
+36
+00:01:42,860 --> 00:01:46,160
+Então, para isso, a
+gente usa os satélites.
+
+37
+00:01:46,180 --> 00:01:49,350
+A gente pegou os dados de
+dois satélites diferentes.
+
+38
+00:01:49,580 --> 00:01:52,740
+O satélite MODIS e
+o satélite VIIRS.
+
+39
+00:01:52,760 --> 00:01:55,030
+Eles têm escalas
+muito diferentes.
+
+40
+00:01:55,480 --> 00:01:58,800
+Um deles tem a escala de
+1 km, enquanto o outro tem
+
+41
+00:01:58,820 --> 00:02:01,030
+a escala de 375 metros.
+
+42
+00:02:01,220 --> 00:02:03,960
+Para dar um exemplo mais
+fácil de vocês entenderem,
+
+43
+00:02:03,980 --> 00:02:07,040
+é como se um visse as
+
+44
+00:02:07,060 --> 00:02:10,260
+chamas de um bairro e
+o outro consegue saber
+
+45
+00:02:10,280 --> 00:02:12,670
+o quarteirão com
+mais precisão.
+
+46
+00:02:13,060 --> 00:02:16,220
+E o nosso desafio
+é justamente esse.
+
+47
+00:02:16,240 --> 00:02:19,500
+É conseguir
+conciliar o dado
+
+48
+00:02:19,520 --> 00:02:22,360
+de um com o outro,
+sendo que a leitura
+
+49
+00:02:22,380 --> 00:02:25,690
+combine uma com a outra.
+
+50
+00:02:26,000 --> 00:02:29,170
+E com esses dados, a
+gente criou um site.
+
+51
+00:02:30,400 --> 00:02:33,660
+E aí, a nossa solução é
+uma plataforma aberta,
+
+52
+00:02:33,680 --> 00:02:36,680
+de amplo uso, desde
+pessoas que são
+
+53
+00:02:36,700 --> 00:02:43,900
+curiosas do assunto, até o
+âmbito acadêmico e científico.
+
+54
+00:02:43,920 --> 00:02:46,680
+Então, nesse site, a gente
+junta esses dados desses
+
+55
+00:02:46,700 --> 00:02:47,760
+dois satélites.
+
+56
+00:02:47,780 --> 00:02:51,020
+E a função principal
+dele é ter um
+
+57
+00:02:51,040 --> 00:02:53,440
+histórico de tudo
+isso, e também
+
+58
+00:02:53,460 --> 00:02:57,070
+usar de um algoritmo
+que a gente criou,
+
+59
+00:02:57,460 --> 00:03:00,040
+baseado nesses dados da NASA
+e em alguns outros dados
+
+60
+00:03:00,060 --> 00:03:01,680
+que a gente conseguiu
+de outras fontes,
+
+61
+00:03:01,700 --> 00:03:04,400
+para poder
+prever áreas com
+
+62
+00:03:04,420 --> 00:03:07,320
+situações favoráveis para
+
+63
+00:03:07,340 --> 00:03:10,770
+acontecimentos de
+incêndios ou queimadas.
+
+64
+00:03:11,600 --> 00:03:14,100
+Aqui na tela, a gente
+tem alguns exemplos da
+
+65
+00:03:14,120 --> 00:03:17,380
+visualização do site e de
+alguns insights que ele
+
+66
+00:03:17,400 --> 00:03:18,340
+gera para a gente.
+
+67
+00:03:18,360 --> 00:03:21,700
+A gente tentou manter
+de forma que pessoas
+
+68
+00:03:21,720 --> 00:03:23,940
+que não sejam da área,
+não sejam acadêmicos,
+
+69
+00:03:23,960 --> 00:03:26,570
+consigam também usar e
+entender bem esse site.
+
+70
+00:03:27,340 --> 00:03:29,580
+E aí, a gente
+faz uma pergunta,
+
+71
+00:03:29,600 --> 00:03:31,140
+né? Quem usa e para quê?
+
+72
+00:03:31,160 --> 00:03:34,420
+Então, como ele falou,
+várias pessoas podem fazer o
+
+73
+00:03:34,440 --> 00:03:37,980
+uso desse site, como
+brigada, defesa civil,
+
+74
+00:03:37,000 --> 00:03:41,600
+prefeitura, escola,
+jornal. E para quê?
+
+75
+00:03:41,620 --> 00:03:44,260
+É para a gente
+antecipar a intervenção.
+
+76
+00:03:44,280 --> 00:03:46,720
+Porque aí a gente conseguiu
+traçar vários dados,
+
+77
+00:03:46,740 --> 00:03:48,860
+como temperatura,
+velocidade do vento,
+
+78
+00:03:48,880 --> 00:03:54,540
+direção do vento, e aí a
+gente consegue antecipar
+
+79
+00:03:54,560 --> 00:03:55,350
+mesmo, né?
+
+80
+00:03:57,120 --> 00:03:59,000
+Então, basicamente,
+a harmonização,
+
+81
+00:03:59,020 --> 00:04:01,320
+a gente pegou os dois
+dados diferentes,
+
+82
+00:04:01,340 --> 00:04:04,060
+colocou eles na
+mesma régua, separou,
+
+83
+00:04:04,080 --> 00:04:07,160
+catalogou eles, e
+unificou para ter uma
+
+84
+00:04:07,180 --> 00:04:08,320
+melhor precisão.
+
+85
+00:04:08,340 --> 00:04:10,900
+Aí a gente cruzou
+esses dados com outros,
+
+86
+00:04:10,920 --> 00:04:14,800
+porque nem toda fonte
+de calor é uma queimada.
+
+87
+00:04:14,820 --> 00:04:17,320
+Então, a gente cruzou com
+dados de cicatrizes de
+
+88
+00:04:17,340 --> 00:04:19,800
+queimadas e com
+outros dados, né?
+
+89
+00:04:19,820 --> 00:04:20,560
+Que ela falou.
+
+90
+00:04:20,580 --> 00:04:23,520
+E a gente busca tentar
+
+91
+00:04:23,540 --> 00:04:26,640
+ver uma previsão
+para essas
+
+92
+00:04:26,660 --> 00:04:29,860
+áreas que têm propensão
+a espalhamento de
+
+93
+00:04:29,880 --> 00:04:32,420
+queimadas, para poder
+
+94
+00:04:32,440 --> 00:04:35,480
+alertar os órgãos,
+que vão lidar com
+
+95
+00:04:35,500 --> 00:04:38,600
+isso e antecipar
+mais cedo, e aí acaba
+
+96
+00:04:38,620 --> 00:04:41,500
+gastando menos
+dinheiro, gerando menos
+
+97
+00:04:41,520 --> 00:04:44,550
+fumaça e tendo
+menos consequências.
+
+98
+00:04:47,250 --> 00:04:50,090
+A gente não conseguiu
+demonstrar no slide
+
+99
+00:04:50,110 --> 00:04:53,070
+todas as partes da
+nossa explicação,
+
+100
+00:04:53,090 --> 00:04:54,930
+mas a gente convida
+vocês a acessarem.
+
+101
+00:04:54,950 --> 00:04:57,340
+Já estão online, para
+celular e computador.
+
+102
+00:04:59,170 --> 00:05:01,780
+Esses dados aí
+são em tempo real?
+
+103
+00:05:04,330 --> 00:05:07,530
+Então, não são em tempo
+real, mas devido ao
+
+104
+00:05:07,550 --> 00:05:10,550
+próprio funcionamento
+desses satélites,
+
+105
+00:05:10,570 --> 00:05:13,890
+eles têm um delay de três
+horas de transferência
+
+106
+00:05:13,910 --> 00:05:17,170
+desses dados, além de um
+outro limite que a gente
+
+107
+00:05:17,190 --> 00:05:20,450
+tem, que eles não passam
+em horários fixos.
+
+108
+00:05:20,470 --> 00:05:23,710
+Eles têm alguns horários
+que eles passam mais
+
+109
+00:05:23,730 --> 00:05:26,030
+vezes, mas não é algo
+
+110
+00:05:26,050 --> 00:05:28,650
+100% certeiro.
+
+111
+00:05:28,670 --> 00:05:31,670
+Inclusive, tem alguns desses
+satélites que eles não
+
+112
+00:05:31,690 --> 00:05:33,180
+coletam todos os dias.
+
+113
+00:05:34,370 --> 00:05:37,590
+Outra pergunta
+seria, você disse que
+
+114
+00:05:37,610 --> 00:05:40,310
+usou os dados da
+NASA e outros.
+
+115
+00:05:40,330 --> 00:05:41,550
+Que outros são esses?
+
+116
+00:05:41,570 --> 00:05:42,800
+Isso é importante falar.
+
+117
+00:05:43,660 --> 00:05:47,100
+A gente também usou
+como apoio o MapBiomas,
+
+118
+00:05:47,120 --> 00:05:49,460
+porque dentro desse site
+a gente colocou também
+
+119
+00:05:49,480 --> 00:05:52,760
+cobertura e uso do solo,
+para a gente saber o
+
+120
+00:05:52,780 --> 00:05:55,080
+que o fogo está queimando,
+se é uma vegetação,
+
+121
+00:05:55,100 --> 00:05:56,260
+se é uma área urbana.
+
+122
+00:05:56,280 --> 00:05:59,620
+Então, a gente usou
+também os dados do INPE e
+
+123
+00:05:59,640 --> 00:06:02,320
+do NASA POWER, que dá
+dados meteorológicos para a
+
+124
+00:06:02,340 --> 00:06:04,420
+gente, como chuva,
+precipitação,
+
+125
+00:06:04,440 --> 00:06:05,110
+temperatura.
+
+126
+00:06:06,560 --> 00:06:09,680
+Outra pergunta que eu
+queria saber é em relação ao
+
+127
+00:06:09,700 --> 00:06:10,730
+público-alvo.
+
+128
+00:06:10,900 --> 00:06:14,390
+O que vocês
+colocaram? Prefeitura?
+
+129
+00:06:14,700 --> 00:06:18,000
+E aí eu vi, pode ser
+que vocês falaram,
+
+130
+00:06:18,020 --> 00:06:19,590
+eu não percebi,
+que é a sociedade.
+
+131
+00:06:20,180 --> 00:06:23,380
+Questão de alerta à
+sociedade em alguns pontos
+
+132
+00:06:23,400 --> 00:06:25,580
+principais, principalmente
+quem está próximo dessas
+
+133
+00:06:25,600 --> 00:06:26,960
+queimadas e tudo mais.
+
+134
+00:06:26,980 --> 00:06:28,720
+Tem previsão para isso?
+
+135
+00:06:28,740 --> 00:06:31,760
+E como que vai ser feito
+isso no caso de vocês?
+
+136
+00:06:31,780 --> 00:06:34,460
+A gente até pensou, porque
+a defesa civil hoje,
+
+137
+00:06:34,480 --> 00:06:36,820
+quando vai ter uma
+chuva muito forte,
+
+138
+00:06:36,840 --> 00:06:39,800
+elas enviam para a gente
+um aviso no nosso telefone,
+
+139
+00:06:39,820 --> 00:06:42,500
+para a gente se
+proteger e se precaver.
+
+140
+00:06:42,520 --> 00:06:44,870
+Então, a gente
+pensou nisso, ajudar,
+
+141
+00:06:45,280 --> 00:06:47,560
+ser um complemento
+para a defesa civil.
+
+142
+00:06:47,580 --> 00:06:50,800
+Além do clima, o
+fogo também gerar um
+
+143
+00:06:50,820 --> 00:06:53,900
+alerta no telefone de
+cada um, que possa estar
+
+144
+00:06:53,920 --> 00:06:55,340
+próximo do fogo.
+
+145
+00:06:55,360 --> 00:06:56,880
+Aí a pessoa
+consegue se cuidar,
+
+146
+00:06:56,900 --> 00:06:59,100
+tomar mais água, usar uma
+máscara ou até mesmo sair
+
+147
+00:06:59,120 --> 00:06:59,900
+do local.
