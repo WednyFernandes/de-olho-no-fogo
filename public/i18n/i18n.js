@@ -15,6 +15,8 @@
     u.searchParams.set('lang', L === 'en' ? 'pt' : 'en');
     a.href = u.pathname + u.search + u.hash; a.id = 'doof-lang'; a.textContent = L === 'en' ? 'PT' : 'EN';
     a.setAttribute('aria-label', L === 'en' ? 'Ver em português' : 'View in English'); a.setAttribute('translate', 'no'); a.lang = L === 'en' ? 'pt' : 'en';
+    var nav = document.querySelector('header nav, nav.nav, nav[aria-label="Páginas"]');
+    if (nav) { a.style.cssText = 'box-shadow:inset 0 0 0 1.5px currentColor;letter-spacing:.5px'; nav.appendChild(a); return; } // entra no menu de cima, com o estilo dos outros links
     a.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:2147483000;font:700 13px/1 Figtree,Arial,sans-serif;letter-spacing:.5px;color:#FBF7F4;background:rgba(20,17,15,.85);border:1px solid rgba(255,255,255,.25);padding:9px 12px;border-radius:999px;text-decoration:none';
     document.body.appendChild(a);
   }

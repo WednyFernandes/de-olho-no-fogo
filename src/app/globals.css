@@ -160,7 +160,7 @@ main{overflow-x:clip}
 .v-btn:active{transform:scale(.97)}
 /* abas */
 .v-abas{position:sticky;top:72px;z-index:4;background:rgba(255,246,241,.96);border-bottom:1px solid #F3DCCF}
-.v-abas .v-wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px}
+.v-abas .v-wrap{display:flex;flex-wrap:wrap;gap:6px;padding-top:10px;padding-bottom:10px}
 .v-aba{flex:none;display:inline-flex;align-items:center;gap:10px;border:0;border-radius:999px;padding:12px 18px;min-height:48px;cursor:pointer;font:700 16px Figtree,sans-serif;background:#fff;color:var(--ink);transition:background-color .2s,color .2s}
 .v-aba[aria-selected="true"]{background:var(--brand);color:#fff}
 .v-aba small{padding:3px 8px;border-radius:999px;font-size:12px;font-weight:800;background:#FFF3D6;color:#8A5A00}
@@ -296,3 +296,4 @@ main{overflow-x:clip}
 .pitch-acoes small{font-weight:500;font-size:13px;opacity:.8}
 .pitch-aviso{margin-top:14px;font-size:15px;color:#6A7178;max-width:70ch}
 .pitch-video{aspect-ratio:16/9;height:auto;border-radius:18px;background:#14110F}
+@media (max-width:760px){.v-aba{padding:8px 12px;min-height:40px;font-size:14px;gap:6px}}

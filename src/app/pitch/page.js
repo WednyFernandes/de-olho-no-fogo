@@ -35,7 +35,8 @@ export default function Pitch() {
           <h2 className="v-h2">Vídeo de 30 segundos</h2>
           <video className="pitch-video" src={VIDEO} controls preload="metadata" playsInline />
           <div className="pitch-acoes">
-            <a className="v-btn" href={VIDEO} download>Baixar o vídeo (MP4)</a>
+            <a className="v-btn" href={VIDEO} download>Baixar o vídeo (MP4, inglês)</a>
+            <a className="v-btn" href="/pitch/De-Olho-no-Fogo-30s-pt.mp4" target="_blank" rel="noopener noreferrer">Versão em português</a>
           </div>
         </div>
       </section>

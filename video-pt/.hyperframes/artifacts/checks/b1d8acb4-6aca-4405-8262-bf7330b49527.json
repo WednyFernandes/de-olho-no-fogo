@@ -1,0 +1,305 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 7,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "timeline_track_too_dense",
+        "severity": "warning",
+        "message": "Track 0 has 6 timed elements in this HTML file. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "G:\\Wedny\\Dev\\nasaspaceapps\\video-pt\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move coherent scene groups into separate .html files under compositions/ and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"a\"> is a timeline element that contains nested <div id=\"a-tit\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#a",
+        "dataAttributes": {},
+        "sourceFile": "G:\\Wedny\\Dev\\nasaspaceapps\\video-pt\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"a\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"b\"> is a timeline element that contains nested <div id=\"b-tit\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#b",
+        "dataAttributes": {},
+        "sourceFile": "G:\\Wedny\\Dev\\nasaspaceapps\\video-pt\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"b\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"c\"> is a timeline element that contains nested <div id=\"c-tit\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#c",
+        "dataAttributes": {},
+        "sourceFile": "G:\\Wedny\\Dev\\nasaspaceapps\\video-pt\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"c\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"d\"> is a timeline element that contains nested <img id=\"d-terra\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#d",
+        "dataAttributes": {},
+        "sourceFile": "G:\\Wedny\\Dev\\nasaspaceapps\\video-pt\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"d\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"e\"> is a timeline element that contains nested <div id=\"e-tit\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#e",
+        "dataAttributes": {},
+        "sourceFile": "G:\\Wedny\\Dev\\nasaspaceapps\\video-pt\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"e\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"f\"> is a timeline element that contains nested <img id=\"f-logo\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#f",
+        "dataAttributes": {},
+        "sourceFile": "G:\\Wedny\\Dev\\nasaspaceapps\\video-pt\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"f\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 2,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 15,
+        "selector": "#d-terra",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 1089.4,
+          "top": 109.4,
+          "right": 1950.6,
+          "bottom": 970.6,
+          "width": 861.2,
+          "height": 861.2
+        },
+        "containerSelector": "#d",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "right": 30.6
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "d-terra",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1089.4,
+          "y": 109.4,
+          "width": 861.2,
+          "height": 861.2
+        },
+        "firstSeen": 15,
+        "lastSeen": 18.333,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          15,
+          18.333
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 21.667,
+        "selector": "#e-app",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 126.49,
+          "top": 263.9,
+          "right": 1310.27,
+          "bottom": 930.02,
+          "width": 1183.78,
+          "height": 666.12
+        },
+        "containerSelector": "#e-moldura",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 128,
+          "top": 265.49,
+          "right": 1308,
+          "bottom": 929.49,
+          "width": 1180,
+          "height": 664
+        },
+        "overflow": {
+          "right": 2.27
+        },
+        "dataAttributes": {
+          "data-hf-render-id": "e-app",
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 126.49,
+          "y": 263.9,
+          "width": 1183.78,
+          "height": 666.12
+        },
+        "firstSeen": 21.667,
+        "lastSeen": 25,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          21.667,
+          25
+        ]
+      }
+    ],
+    "duration": 30,
+    "samples": [
+      1.667,
+      5,
+      8.333,
+      11.667,
+      15,
+      18.333,
+      21.667,
+      25,
+      28.333
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 2,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.667,
+      8.333,
+      15,
+      21.667,
+      28.333
+    ],
+    "checked": 18,
+    "passed": 18
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 240
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}
