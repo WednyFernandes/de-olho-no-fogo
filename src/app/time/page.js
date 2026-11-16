@@ -54,6 +54,16 @@ export default function Time() {
         </div>
       </section>
 
+      <section className="v-sec v-creme">
+        <div className="v-wrap">
+          <h2 className="v-h2">No dia da apresentação</h2>
+          <figure style={{ margin: 0, maxWidth: 720 }}>
+            <img src="/img/time-evento.jpg" width="720" height="768" alt="Três integrantes do Space Uai, de camiseta azul, em frente ao painel do NASA Space Apps Ouro Preto" style={{ width: '100%', height: 'auto', borderRadius: 18 }} />
+            <figcaption style={{ marginTop: 12, color: '#4F575E' }}>Wedny, Mila e Wander apresentaram em Ouro Preto. O resto do time participou a distância.</figcaption>
+          </figure>
+        </div>
+      </section>
+
       <section className="v-sec v-brasa time2-faixa">
         <div className="v-wrap">
           <dl className="time2-info">

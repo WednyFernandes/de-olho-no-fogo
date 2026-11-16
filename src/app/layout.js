@@ -5,7 +5,10 @@ import './globals.css';
 // Padrão das páginas em React; /metodo e /referencias definem o próprio título.
 export const metadata = {
   title: 'De Olho no Fogo',
+  metadataBase: new URL('https://deolhonofogo.estudiocrivy.com.br'),
   icons: { icon: '/favicon.svg' },
+  openGraph: { siteName: 'De Olho no Fogo', type: 'website', images: [{ url: '/img/og.jpg', width: 1200, height: 630, alt: 'De Olho no Fogo: beyond hotspots, an integrated view of fire' }] },
+  twitter: { card: 'summary_large_image', images: ['/img/og.jpg'] },
   description: 'Focos de calor do MODIS e do VIIRS (NASA FIRMS) harmonizados ponto a ponto na grade de 1 km do MODIS: o mundo em 2025 e o Brasil de 2000 a 2025.',
 };
 
